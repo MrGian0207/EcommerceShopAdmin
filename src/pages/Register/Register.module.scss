@@ -1,0 +1,23 @@
+.wrapper {
+    position: relative;
+    max-width: 100%;
+    background: var(--main-color);
+    border-radius: 0px 0px var(--big-boder-radius) var(--big-boder-radius);
+    padding: var(--content-padding-horizontal) var(--content-padding-horizontal)
+        128px;
+}
+
+.content {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: var(--content-padding-horizontal) auto 0px;
+    padding: 0px 24px;
+    width: fit-content;
+    max-width: 100%;
+    background-color: var(--white-color);
+    border-radius: var(--small-border-radius);
+    box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
+        rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
+}

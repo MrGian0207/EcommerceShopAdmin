@@ -1,0 +1,118 @@
+@import 'normalize.css';
+
+:root {
+    --font-family: 'Poppins', sans-serif;
+    --main-color: rgb(82, 95, 225);
+    --white-color: rgb(255, 255, 255);
+    --black-color: #000000;
+    --boder-active-color: #39429b;
+    --text-color: rgb(33, 43, 54);
+    --sub-title-color: rgb(99, 115, 129);
+    --icon-label-color: rgb(145, 158, 171);
+    --content-padding-horizontal: 48px;
+    --margin-vertical: 24px;
+    --margin-small: 8px;
+    --padding-form: 24px;
+
+    --font-size-small: 0.875rem;
+    --font-size-extra-small: 0.9375rem;
+    --font-size-medium: 1rem;
+    --font-size-extra-medium: 1.3rem;
+    --font-size-large: 1.5rem;
+    --font-size-extra-large: 2rem;
+    --font-size-biggest: 3rem;
+
+    --mini-border-radius: 3px;
+    --small-border-radius: 8px;
+    --big-boder-radius: 40px;
+
+    --form-with: 440px;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    // src: url('./assets/Fonts/Poppins-ExtraLight.ttf');
+    src: url(../../assets/Font/Poppins-ExtraLight.ttf);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(../../assets/Font/Poppins-Medium.ttf);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(../../assets/Font/Poppins-SemiBold.ttf);
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(../../assets/Font/Poppins-Thin.ttf);
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(../../assets/Font/Poppins-Black.ttf);
+    font-weight: 900;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+    color: rgb(33, 43, 54);
+    font-weight: 400;
+    background-color: rgb(243, 244, 248);
+    height: 990px;
+}
+
+button,
+input,
+[tabindex] {
+    outline: none;
+    border: none;
+}
+
+a {
+    // color: var(--text-color);
+    text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+    padding: 0;
+}
+
+// // Scrollbar CSS
+// html *::-webkit-scrollbar {
+//     border-radius: 0;
+// }
+
+// html *::-webkit-scrollbar-thumb {
+//     border-radius: 4px;
+//     background-color: rgba(49, 52, 68, 0.3);
+// }
+
+// html *::-webkit-scrollbar-track {
+//     border-radius: 0;
+//     background-color: rgba(0, 0, 0, 0);
+// }
