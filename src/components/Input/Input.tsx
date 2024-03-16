@@ -51,7 +51,7 @@ function Input({
 
             if (popper && !popper.contains(event.target as Node)) {
                 setHaveOption(false);
-                setGenderOptionToggle(Option.Down);
+                setGenderOptionToggle(Option.Up);
                 inputRef.current?.blur();
             }
         };
@@ -117,7 +117,7 @@ function Input({
                             onClick={() => {
                                 setGendeOption(true);
                                 setHaveOption(false);
-                                setGenderOptionToggle(Option.Down);
+                                setGenderOptionToggle(Option.Up);
                             }}
                         >
                             Male
@@ -126,7 +126,7 @@ function Input({
                             onClick={() => {
                                 setGendeOption(false);
                                 setHaveOption(false);
-                                setGenderOptionToggle(Option.Down);
+                                setGenderOptionToggle(Option.Up);
                             }}
                         >
                             Female
