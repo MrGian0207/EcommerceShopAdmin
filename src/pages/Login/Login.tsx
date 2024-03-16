@@ -12,10 +12,15 @@ const inputs = [
     <Input
         index={'Email Adress'}
         label={'Email Adress'}
-        icon={faEnvelope}
+        iconLeft={faEnvelope}
         type={'text'}
     />,
-    <Input index={'Password'} label={'Password'} icon={faLock} type={'text'} />,
+    <Input
+        index={'Password'}
+        label={'Password'}
+        iconLeft={faLock}
+        type={'text'}
+    />,
 ];
 
 const cx = classNames.bind(styles);
@@ -31,7 +36,7 @@ function Login(): JSX.Element {
             <div className={cx('content')}>
                 <FormAuth
                     title="Login"
-                    nameSubmit='Login'
+                    nameSubmit="Login"
                     subtitle="Login to your account to continue"
                     suggestion="Don't have an account?"
                     navigator="Get started"

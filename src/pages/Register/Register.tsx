@@ -5,20 +5,20 @@ import styles from './Register.module.scss';
 import FormAuth from '~/components/FormAuth';
 import Input from '~/components/Input';
 import {
+    faAngleDown,
     faEnvelope,
-    faFemale,
     faLock,
     faPhone,
     faUser,
+    faVenus,
 } from '@fortawesome/free-solid-svg-icons';
 
 import api from '~/api/api';
-
 const inputs = [
     <Input
         index={'Full Name'}
         label={'Full Name'}
-        icon={faUser}
+        iconLeft={faUser}
         type={'text'}
     />,
     <div
@@ -31,19 +31,31 @@ const inputs = [
             space="space"
             index={'Gender'}
             label={'Gender'}
-            icon={faFemale}
+            iconLeft={faVenus}
+            iconRight={faAngleDown}
+            onclick={true}
+            disabled={true}
+        />
+        <Input
+            index={'Phone'}
+            label={'Phone'}
+            iconLeft={faPhone}
             type={'text'}
         />
-        <Input index={'Phone'} label={'Phone'} icon={faPhone} type={'text'} />
     </div>,
 
     <Input
         index={'Email Adress'}
         label={'Email Adress'}
-        icon={faEnvelope}
+        iconLeft={faEnvelope}
         type={'text'}
     />,
-    <Input index={'Password'} label={'Password'} icon={faLock} type={'text'} />,
+    <Input
+        index={'Password'}
+        label={'Password'}
+        iconLeft={faLock}
+        type={'text'}
+    />,
 ];
 
 const cx = classNames.bind(styles);

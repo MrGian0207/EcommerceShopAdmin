@@ -2,6 +2,7 @@
     position: relative;
     display: inline-flex;
     width: 100%;
+    // justify-content: space-between;
     align-items: center;
     height: fit-content;
     margin-bottom: var(--margin-vertical);
@@ -13,6 +14,10 @@
 
     &:focus-within {
         border: 2px solid var(--boder-active-color);
+
+        & .label {
+            color: var(--main-color);
+        }
     }
 
     & > * {
@@ -22,12 +27,13 @@
     & input {
         width: 100%;
         color: currentColor;
+        font-weight: 400;
         font-size: var(--font-size-medium);
         flex: 1;
         padding-right: 14px;
     }
 
-    & > .icon {
+    & > .iconLeft {
         display: inline-flex;
         align-items: center;
         font-size: 1.3rem;
@@ -36,9 +42,41 @@
         color: var(--icon-label-color);
     }
 
+    & > .iconRight {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+        font-size: 1.3rem;
+        padding-right: 17px;
+        margin-left: 8px;
+        color: var(--icon-label-color);
+    }
+
     &:hover:not(:focus-within) {
         border: 1px solid var(--black-color);
     }
+
+    &.active {
+        border: 2px solid var(--boder-active-color);
+
+        &:hover {
+            border: 2px solid var(--boder-active-color);
+        }
+
+        & .label {
+            color: var(--main-color);
+        }
+    }
+}
+
+.gender {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px 10px 15px;
+    font-size: var(--font-size-medium);
+    font-weight: 400;
 }
 
 .space {
@@ -63,4 +101,39 @@
     transform: translate(14px, -9px) scale(0.75);
     pointer-events: auto;
     user-select: none;
+}
+
+.Popper {
+    display: block;
+    height: 72px;
+    width: 100%;
+    padding: 8px 0px;
+    position: absolute;
+    top: 57px;
+    left: 0;
+    background-color: white;
+    color: rgb(33, 43, 54);
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: rgba(145, 158, 171, 0.24) 0px 0px 2px 0px,
+        rgba(145, 158, 171, 0.24) 0px 12px 24px 0px;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+    padding-left: 0;
+    height: 100%;
+}
+
+li {
+    list-style: none;
+    padding: 6px 16px;
+    font-weight: 400;
+
+    &:hover {
+        background-color: rgba(145, 158, 171, 0.08);
+    }
 }

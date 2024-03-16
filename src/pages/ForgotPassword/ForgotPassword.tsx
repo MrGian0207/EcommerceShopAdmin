@@ -12,7 +12,7 @@ const inputs = [
     <Input
         index={'Email Address'}
         label={'Email Address'}
-        icon={faEnvelope}
+        iconLeft={faEnvelope}
         type={'text'}
     />,
 ];

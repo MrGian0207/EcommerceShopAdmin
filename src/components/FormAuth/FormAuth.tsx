@@ -1,6 +1,8 @@
 import styles from './FormAuth.module.scss';
 import classNames from 'classnames/bind';
 import Button from '../Button';
+import { memo } from 'react';
+
 const cx = classNames.bind(styles);
 
 type FormAuthProps = {
@@ -33,8 +35,8 @@ function FormAuth({
             <h4 className={cx('title')}>{title}</h4>
             <p className={cx('subtitle')}>{subtitle}</p>
             <form className={cx('formData')}>
-                {inputs.map((input) => (
-                    <>{input}</>
+                {inputs.map((input, index) => (
+                    <div key={index}>{input}</div>
                 ))}
             </form>
             {!!optionName && (
@@ -70,4 +72,4 @@ function FormAuth({
     );
 }
 
-export default FormAuth;
+export default memo(FormAuth);
