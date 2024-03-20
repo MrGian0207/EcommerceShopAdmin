@@ -15,6 +15,9 @@ const Option = {
 };
 
 type InputType = {
+    name: string;
+    value?: string | number;
+    setValue?: React.Dispatch<React.SetStateAction<string | number>>;
     space?: string;
     index: string | number;
     label: string;
@@ -22,22 +25,26 @@ type InputType = {
     iconRight?: IconDefinition;
     type?: string;
     onclick?: boolean;
-    disabled?: boolean;
+    autocomplete?: string;
 };
 
 function Input({
+    name,
+    value,
+    setValue,
     space,
     index,
     label,
     iconLeft,
     iconRight,
     type,
-    onclick,
-    disabled,
+    onclick = false,
+    autocomplete,
 }: InputType): JSX.Element {
     const [genderOptionToggle, setGenderOptionToggle] = useState(iconRight);
     const [haveOption, setHaveOption] = useState(false);
-    const [genderOption, setGendeOption] = useState(true);
+    const [genderOption, setGenderOption] = useState(true);
+
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleBlur = () => {
@@ -86,12 +93,25 @@ function Input({
             <span className={cx('iconLeft')}>
                 <FontAwesomeIcon icon={iconLeft} />
             </span>
-            {!onclick && (
+            {!onclick ? (
                 <input
+                    name={name}
+                    autoComplete={autocomplete}
                     ref={inputRef}
                     id={`input_${index}`}
                     type={type}
-                    disabled={disabled}
+                    value={value}
+                    onChange={(e) => setValue && setValue(e.target.value)}
+                />
+            ) : (
+                <input
+                    name={name}
+                    ref={inputRef}
+                    id={`input_${index}`}
+                    type={type}
+                    value={genderOption ? 'Male' : 'Female'}
+                    readOnly
+                    hidden={onclick ? true : false}
                 />
             )}
             {onclick && (
@@ -115,7 +135,8 @@ function Input({
                     <ul>
                         <li
                             onClick={() => {
-                                setGendeOption(true);
+                                setValue && setValue('Male');
+                                setGenderOption(true);
                                 setHaveOption(false);
                                 setGenderOptionToggle(Option.Up);
                             }}
@@ -124,7 +145,8 @@ function Input({
                         </li>
                         <li
                             onClick={() => {
-                                setGendeOption(false);
+                                setValue && setValue('Female');
+                                setGenderOption(false);
                                 setHaveOption(false);
                                 setGenderOptionToggle(Option.Up);
                             }}

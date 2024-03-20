@@ -6,6 +6,7 @@ import styles from './Button.module.scss';
 const cx = classNames.bind(styles);
 
 type ButtonProps = {
+    type?: string;
     to?: string | null | undefined;
     href?: string;
     className?: string;
@@ -23,6 +24,7 @@ type ButtonProps = {
 };
 
 const Button: React.FC<ButtonProps> = ({
+    type,
     to,
     href,
     primary = false,
@@ -80,7 +82,7 @@ const Button: React.FC<ButtonProps> = ({
     });
 
     return (
-        <Comp className={classes} {...props}>
+        <Comp type={type} className={classes} {...props}>
             {leftIcon && <span className={cx('icon')}>{leftIcon}</span>}
             {children}
             {rightIcon && <span className={cx('icon')}>{rightIcon}</span>}

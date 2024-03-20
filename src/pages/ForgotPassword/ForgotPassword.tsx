@@ -8,15 +8,6 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 import api from '~/api/api';
 
-const inputs = [
-    <Input
-        index={'Email Address'}
-        label={'Email Address'}
-        iconLeft={faEnvelope}
-        type={'text'}
-    />,
-];
-
 const cx = classNames.bind(styles);
 function ForgotPassword() {
     return (
@@ -29,12 +20,21 @@ function ForgotPassword() {
             <div className={cx('content')}>
                 <FormAuth
                     title="Forgot your password?"
-                    nameSubmit="Register"
                     subtitle="Please enter the email address associated with your account and We will email you a link to reset your password."
-                    back={"Back"}
+                    back={'Back'}
                     navigatorLink={api.login}
-                    inputs={inputs}
-                />
+                >
+                    <Input
+                        name="emailAdress"
+                        index="Email Address"
+                        label="Email Address"
+                        iconLeft={faEnvelope}
+                        type={'text'}
+                    />
+                    <button type="submit" className={cx('auth-button')}>
+                        Forgot Password
+                    </button>
+                </FormAuth>
             </div>
         </div>
     );

@@ -21,67 +21,6 @@
     text-align: center;
 }
 
-.formData {
-    width: 100%;
-}
-
-.option {
-    width: 100%;
-    display: inline-flex;
-    justify-content: space-between;
-}
-
-.remember-me {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    width: fit-content;
-
-    & .remember-input {
-        height: 100%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        border-radius: 50%;
-
-        &:hover {
-            background-color: rgba(241, 242, 253, 1);
-        }
-
-        & input {
-            height: 30px;
-            width: 16px;
-        }
-    }
-
-    & label {
-        text-align: center;
-        font-size: 0.875rem;
-    }
-}
-
-.forgot-password {
-    display: inline-flex;
-    align-items: center;
-    font-size: var(--font-size-small);
-    font-weight: 600;
-
-    & a {
-        color: var(--main-color);
-    }
-
-    & button {
-        color: var(--main-color);
-    }
-
-    & Link {
-        color: var(--main-color);
-    }
-}
-
-.auth-button,
 .back-button {
     user-select: none;
     width: 100%;
