@@ -5,7 +5,7 @@ import Button from '~/components/Button';
 import FormAuth from '~/components/FormAuth';
 import Input from '~/components/Input';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 
 import api from '~/api/api';
 import { useNavigate } from 'react-router-dom';
@@ -36,6 +36,8 @@ function Login(): JSX.Element {
                     emailAddress,
                     password,
                 }),
+                credentials: 'include',
+                mode: 'cors',
             })
                 .then((res) => {
                     setIsSubmitted(false);
@@ -46,25 +48,10 @@ function Login(): JSX.Element {
                     }
                 })
                 .then((data) => {
-                    const { accessToken, refreshToken } = data;
-                    login(accessToken, refreshToken);
-                    fetch('http://localhost:8000/dashboard', {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    })
-                        .then((res) => {
-                            return res.json();
-                        })
-                        .then((data) => {
-                            if (!!data?.status) {
-                                navigate('/dashboard');
-                            } else {
-                                navigate('/auth/login');
-                            }
-                        });
+                    const { accessToken } = data;
+                    localStorage.setItem('access_token', accessToken);
+                    login(accessToken);
+                    navigate('/dashboard');
                 })
                 .catch((err) => {
                     console.log(err);
@@ -140,4 +127,4 @@ function Login(): JSX.Element {
     );
 }
 
-export default Login;
+export default memo(Login);

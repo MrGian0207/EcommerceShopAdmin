@@ -3,14 +3,13 @@ import React, {
     createContext,
     useContext,
     useState,
-    useEffect,
+    memo,
 } from 'react';
 
 // Define the type for your context value
 interface AuthContextType {
     accessToken: string | null;
-    refreshToken: string | null;
-    login: (accessToken: string, refreshToken: string) => void;
+    login: (accessToken: string) => void;
     logout: () => void;
 }
 
@@ -23,77 +22,50 @@ export const useAuth = () => {
 };
 
 // AuthProvider component
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({
-    children,
-}) => {
-    const [accessToken, setAccessToken] = useState<string | null>(null);
-    const [refreshToken, setRefreshToken] = useState<string | null>(null);
-    const [isRefresh, setIsRefesh] = useState<boolean>(false);
+export const AuthProvider: React.FC<{ children: ReactNode }> = memo(
+    ({ children }) => {
+        const [accessToken, setAccessToken] = useState<string | null>(
+            localStorage.getItem('access_token')
+                ? localStorage.getItem('access_token')
+                : null,
+        );
 
-    const login = (accessToken: string, refreshToken: string) => {
-        setAccessToken(accessToken);
-        setRefreshToken(refreshToken);
-    };
+        const login = (accessToken: string) => {
+            setAccessToken(accessToken);
+        };
 
-    const logout = () => {
-        setAccessToken(null);
-        setRefreshToken(null);
-        fetch('http://localhost:8000/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                refreshToken: refreshToken,
-            }),
-        })
-            .then((res) => {
-                return res.json;
-            })
-            .then((data) => {
-                console.log(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
-    setTimeout(() => {
-        setIsRefesh(!isRefresh);
-    }, 30000);
-
-    useEffect(() => {
-        if (isRefresh) {
-            fetch('http://localhost:8000/refreshToken', {
+        const logout = async () => {
+            await fetch('http://localhost:8000/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    refreshToken: refreshToken,
-                }),
+                credentials: 'include',
+                mode: 'cors',
             })
-                .then((res) => res.json())
+                .then((res) => {
+                    return res.json();
+                })
                 .then((data) => {
-                    try {
-                        const { status, accessToken } = data;
-                        if (status === 'success') {
-                            setAccessToken(accessToken);
-                        }
-                    } catch (e) {
-                        console.log(e);
-                    }
+                    console.log(data.status);
+                    localStorage.removeItem('access_token');
+                    setAccessToken(null);
+                })
+                .catch((err) => {
+                    console.log(err);
                 });
-        }
+        };
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isRefresh]);
-
-    return (
-        <AuthContext.Provider
-            value={{ accessToken, refreshToken, login, logout }}
-        >
-            {children}
-        </AuthContext.Provider>
-    );
-};
+        return (
+            <AuthContext.Provider
+                value={{
+                    accessToken,
+                    login,
+                    logout,
+                }}
+            >
+                {children}
+            </AuthContext.Provider>
+        );
+    },
+);
