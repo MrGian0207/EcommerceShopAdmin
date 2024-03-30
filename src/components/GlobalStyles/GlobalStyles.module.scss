@@ -36,8 +36,7 @@ html {
 
 @font-face {
     font-family: 'Poppins';
-    // src: url('./assets/Fonts/Poppins-ExtraLight.ttf');
-    src: url(../../assets/Font/Poppins-ExtraLight.ttf);
+    src: url(../../assets/Font/Poppins-Light.ttf);
     font-weight: 300;
 }
 
@@ -45,6 +44,12 @@ html {
     font-family: 'Poppins';
     src: url(../../assets/Font/Poppins-Medium.ttf);
     font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(../../assets/Font/Poppins-Regular.ttf);
+    font-weight: 500;
 }
 
 @font-face {
