@@ -37,12 +37,15 @@
                 background-color: rgb(145, 158, 171);
                 right: -14px;
             }
+
+            & a:hover {
+                text-decoration: underline;
+            }
         }
 
         & .page-title-item-middle {
             position: relative;
             margin-right: 24px;
-            color: rgb(145, 158, 171);
 
             &::after {
                 content: '';
@@ -54,6 +57,10 @@
                 border-radius: 50%;
                 background-color: rgb(145, 158, 171);
                 right: -14px;
+            }
+
+            & a:hover {
+                text-decoration: underline;
             }
         }
 

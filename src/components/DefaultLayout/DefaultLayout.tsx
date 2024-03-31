@@ -257,7 +257,9 @@ function DefaultLayout({ active, page }: DefaultLayoutType): JSX.Element {
                                         key={index}
                                         className={cx('page-title-item-first')}
                                     >
-                                        {value}
+                                        <Link to={`/${value.toLowerCase()}`}>
+                                            {value}
+                                        </Link>
                                     </span>
                                 );
                             } else if (index > 0 && index < page.length - 1) {
@@ -266,7 +268,9 @@ function DefaultLayout({ active, page }: DefaultLayoutType): JSX.Element {
                                         key={index}
                                         className={cx('page-title-item-middle')}
                                     >
-                                        {value}
+                                        <Link to={`/${value.toLowerCase()}`}>
+                                            {value}
+                                        </Link>
                                     </span>
                                 );
                             } else if (index === page.length - 1) {

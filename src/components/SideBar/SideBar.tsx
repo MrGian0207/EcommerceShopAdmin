@@ -35,7 +35,11 @@ function SideBar({ active }: SideBarType): JSX.Element {
                 />
                 <SideBarItems
                     iconLeft={faLayerGroup}
-                    children={['Categories']}
+                    children={[
+                        'Categories',
+                        'Main Categories',
+                        'Sub Categories',
+                    ]}
                     iconRight={true}
                     active={active === 'categories' && true}
                     title={'categories'}

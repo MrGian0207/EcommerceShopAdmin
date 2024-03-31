@@ -2,10 +2,14 @@ import styles from './SideBarItems.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+    faChevronDown,
     faChevronRight,
+    faCircle,
     IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
 const cx = classNames.bind(styles);
 
 type SideBarItemsType = {
@@ -23,26 +27,60 @@ function SideBarItems({
     active = false,
     title,
 }: SideBarItemsType): JSX.Element {
+    let Button = children.length === 1 ? Link : 'div';
+    const [subNavigator, setSubNavigator] = useState(false);
     return (
-        <Link
-            to={`/${title}`}
-            className={cx('items', {
-                active: active,
-            })}
-        >
-            <div className={cx('left')}>
-                <FontAwesomeIcon className={cx('iconLeft')} icon={iconLeft} />
-            </div>
-            <p className={cx('content')}>{children[0]}</p>
-            {iconRight && (
-                <div className={cx('right')}>
+        <>
+            <Button
+                onClick={() => {
+                    setSubNavigator((prevState) => !prevState);
+                }}
+                to={`/${title}`}
+                className={cx('items', {
+                    active: active,
+                })}
+            >
+                <div className={cx('left')}>
                     <FontAwesomeIcon
-                        className={cx('iconRight')}
-                        icon={faChevronRight}
+                        className={cx('iconLeft')}
+                        icon={iconLeft}
                     />
                 </div>
-            )}
-        </Link>
+                <p className={cx('content')}>{children[0]}</p>
+                {iconRight && (
+                    <div className={cx('right')}>
+                        <FontAwesomeIcon
+                            className={cx('iconRight')}
+                            icon={subNavigator ? faChevronDown : faChevronRight}
+                        />
+                    </div>
+                )}
+            </Button>
+            <>
+                {children.length > 1 && subNavigator && (
+                    <div className={cx('sub-navigator')}>
+                        {children.slice(1).map((item, index) => (
+                            <Link
+                                to={`/${title}/${item
+                                    .toLowerCase()
+                                    .trim()
+                                    .replace(' ', '-')}`}
+                                className={cx('items')}
+                                key={index}
+                            >
+                                <div className={cx('left')}>
+                                    <FontAwesomeIcon
+                                        className={cx('iconLeft')}
+                                        icon={faCircle}
+                                    />
+                                </div>
+                                <p className={cx('content')}>{item}</p>{' '}
+                            </Link>
+                        ))}
+                    </div>
+                )}
+            </>
+        </>
     );
 }
 

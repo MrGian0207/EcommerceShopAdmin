@@ -64,3 +64,24 @@
         background-color: rgb(82, 95, 225);
     }
 }
+
+.sub-navigator {
+    display: block;
+    width: 100%;
+    & .left {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 14px;
+        height: 14px;
+    }
+
+    & .iconLeft {
+        width: 5px;
+        height: 5px;
+    }
+
+    & p {
+        font-size: 0.875rem;
+    }
+}
