@@ -9,14 +9,19 @@ import {
     faHome,
     faMoon,
     faSun,
-    faSunPlantWilt,
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import SideBar from '../SideBar';
 const cx = classNames.bind(styles);
 
-function DefaultLayout(): JSX.Element {
+type DefaultLayoutType = {
+    active?: string;
+    page: string[];
+};
+
+function DefaultLayout({ active, page }: DefaultLayoutType): JSX.Element {
     const [languageToggle, setLanguageToggle] = useState(false);
     const [notificationToggle, setNotificationToggle] = useState(false);
     const [menuToggle, setMenuToggle] = useState(false);
@@ -58,12 +63,9 @@ function DefaultLayout(): JSX.Element {
     }, []);
 
     return (
-        <div className={cx('default')}>
-            <header className={cx('header')}>
-                <div className={cx('logo')}>
-                    <span className={cx('style-logo')}>Next</span>
-                    store
-                </div>
+        <header className={cx('header')}>
+            <SideBar active={active} />
+            <div className={cx('header-options')}>
                 <div className={cx('options')}>
                     {/* Language */}
                     <div
@@ -121,6 +123,8 @@ function DefaultLayout(): JSX.Element {
                             </ul>
                         </div>
                     </div>
+                    {/* END Language */}
+
                     {/* Notification */}
                     <div
                         ref={notificationIconRef}
@@ -129,7 +133,7 @@ function DefaultLayout(): JSX.Element {
                         }}
                         className={cx('notification')}
                     >
-                        <FontAwesomeIcon icon={faBell} />
+                        <FontAwesomeIcon className={cx('icon')} icon={faBell} />
                         <span className={cx('quantity-noti')}>2</span>
                         <div
                             ref={notificationRef}
@@ -171,6 +175,8 @@ function DefaultLayout(): JSX.Element {
                             </ul>
                         </div>
                     </div>
+                    {/* END Notification */}
+
                     {/* Theme Mode */}
                     <div
                         onClick={() => {
@@ -178,8 +184,13 @@ function DefaultLayout(): JSX.Element {
                         }}
                         className={cx('theme-mode')}
                     >
-                        <FontAwesomeIcon icon={changeTheme ? faSun : faMoon} />
+                        <FontAwesomeIcon
+                            className={cx('icon')}
+                            icon={changeTheme ? faSun : faMoon}
+                        />
                     </div>
+                    {/* END Theme Mode */}
+
                     {/* User Menu */}
                     <div
                         ref={imageMenuRef}
@@ -234,13 +245,45 @@ function DefaultLayout(): JSX.Element {
                             </div>
                         </div>
                     </div>
+                    {/* End User Menu */}
                 </div>
-            </header>
-            <div className={cx('body')}>
-                <div className={cx('sidebar')}>Sidebar</div>
-                <div className={cx('content')}>Content</div>
+
+                <div className={cx('page-title')}>
+                    {page.length > 0 &&
+                        page.map((value, index) => {
+                            if (index === 0 && page.length > 1) {
+                                return (
+                                    <span
+                                        key={index}
+                                        className={cx('page-title-item-first')}
+                                    >
+                                        {value}
+                                    </span>
+                                );
+                            } else if (index > 0 && index < page.length - 1) {
+                                return (
+                                    <span
+                                        key={index}
+                                        className={cx('page-title-item-middle')}
+                                    >
+                                        {value}
+                                    </span>
+                                );
+                            } else if (index === page.length - 1) {
+                                return (
+                                    <span
+                                        key={index}
+                                        className={cx('page-title-item-last')}
+                                    >
+                                        {value}
+                                    </span>
+                                );
+                            }
+                            return null;
+                        })}
+                </div>
             </div>
-        </div>
+        </header>
     );
 }
 

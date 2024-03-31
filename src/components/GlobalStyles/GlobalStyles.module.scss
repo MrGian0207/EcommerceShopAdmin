@@ -70,10 +70,14 @@ html {
     font-weight: 900;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     font-family: var(--font-family);
     font-size: 1rem;
     line-height: 1.5;
@@ -81,7 +85,7 @@ body {
     color: rgb(33, 43, 54);
     font-weight: 400;
     background-color: rgb(243, 244, 248);
-    height: 990px;
+    max-height: 100vh;
 }
 
 button,

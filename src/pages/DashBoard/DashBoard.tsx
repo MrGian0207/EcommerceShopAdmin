@@ -1,8 +1,12 @@
 import { memo } from 'react';
 import DefaultLayout from '~/components/DefaultLayout';
+import styles from './DashBoard.module.scss';
+import classNames from 'classnames/bind';
 // import Button from '~/components/Button';
 // import { useAuth } from '~/context/AuthContext';
 // import { useNavigate } from 'react-router-dom';
+
+const cx = classNames.bind(styles);
 
 function DashBoard(): JSX.Element {
     // const { accessToken, login, logout } = useAuth()!;
@@ -66,8 +70,13 @@ function DashBoard(): JSX.Element {
     //     // eslint-disable-next-line react-hooks/exhaustive-deps
     // }, [accessToken]);
 
-    return <>
-        <DefaultLayout />
-    </>;
+    return (
+        <div className={cx('dashboard')}>
+            <DefaultLayout active={'dashboard'} page={['Dashboard']} />
+            {/* <div className={cx('content')}>
+                <div className={cx('title-bar')}>Dashboard</div>
+            </div> */}
+        </div>
+    );
 }
 export default memo(DashBoard);

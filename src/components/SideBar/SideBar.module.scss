@@ -1,0 +1,31 @@
+.sidebar {
+    border-right: 1px solid rgb(196, 205, 213);
+    max-height: 100vw;
+    height: fit-content;
+    width: 260px;
+}
+.logo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-weight: 900;
+    padding: 12px 20px;
+    font-size: 1.5rem;
+
+    & .style-logo {
+        color: rgb(82, 95, 225);
+    }
+}
+
+.sidebar-navigator {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: fit-content;
+    width: 100%;
+    margin-top: 20px;
+    box-sizing: border-box;
+    font-weight: 900;
+    font-size: 1.5rem;
+}
