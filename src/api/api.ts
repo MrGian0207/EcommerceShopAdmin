@@ -4,6 +4,7 @@ const api = {
     forgetPassword: '/auth/forgot-password',
     dashboard: '/dashboard',
     brands: '/brands',
+    mainCategories: 'categories/main-categories',
 };
 
 export default api;

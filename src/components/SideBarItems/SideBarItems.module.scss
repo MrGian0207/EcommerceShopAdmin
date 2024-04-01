@@ -84,4 +84,15 @@
     & p {
         font-size: 0.875rem;
     }
+
+    & .subactive {
+        font-weight: 700;
+        color: var(--black-color);
+
+        & .iconLeft {
+            width: 8px;
+            height: 8px;
+            color: rgb(82, 95, 225);
+        }
+    }
 }

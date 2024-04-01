@@ -1,15 +1,17 @@
-.header {
+.default-layout {
     display: flex;
+
     height: 60px;
     width: 100%;
     border-bottom: 1px solid rgba(196, 205, 213, 1);
 }
 
-.header-options {
+.content-layout {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: fit-content;
+    border-left: 1px solid rgb(196, 205, 213);
 
     & .page-title {
         display: flex;
@@ -69,7 +71,7 @@
         }
     }
 
-    & .options {
+    & .header {
         display: flex;
         align-items: center;
         justify-content: flex-end;
@@ -450,5 +452,11 @@
                 }
             }
         }
+    }
+
+    & .content {
+        padding-left: 24px;
+        width: 100%;
+        height: fit-content;
     }
 }

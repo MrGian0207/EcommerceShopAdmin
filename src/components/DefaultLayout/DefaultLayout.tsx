@@ -11,7 +11,7 @@ import {
     faSun,
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SideBar from '../SideBar';
 const cx = classNames.bind(styles);
@@ -19,9 +19,14 @@ const cx = classNames.bind(styles);
 type DefaultLayoutType = {
     active?: string;
     page: string[];
+    children?: ReactNode;
 };
 
-function DefaultLayout({ active, page }: DefaultLayoutType): JSX.Element {
+function DefaultLayout({
+    active,
+    page,
+    children,
+}: DefaultLayoutType): JSX.Element {
     const [languageToggle, setLanguageToggle] = useState(false);
     const [notificationToggle, setNotificationToggle] = useState(false);
     const [menuToggle, setMenuToggle] = useState(false);
@@ -63,10 +68,10 @@ function DefaultLayout({ active, page }: DefaultLayoutType): JSX.Element {
     }, []);
 
     return (
-        <header className={cx('header')}>
+        <div className={cx('default-layout')}>
             <SideBar active={active} />
-            <div className={cx('header-options')}>
-                <div className={cx('options')}>
+            <div className={cx('content-layout')}>
+                <div className={cx('header')}>
                     {/* Language */}
                     <div
                         ref={languageTitleRef}
@@ -166,7 +171,11 @@ function DefaultLayout({ active, page }: DefaultLayoutType): JSX.Element {
                                         </p>
                                         <div className={cx('time')}>
                                             <FontAwesomeIcon icon={faClock} />
-                                            <span style={{ marginLeft: '5px' }}>
+                                            <span
+                                                style={{
+                                                    marginLeft: '5px',
+                                                }}
+                                            >
                                                 3 days
                                             </span>
                                         </div>
@@ -207,7 +216,9 @@ function DefaultLayout({ active, page }: DefaultLayoutType): JSX.Element {
                             onClick={(e) => {
                                 e.stopPropagation();
                             }}
-                            style={{ display: menuToggle ? 'block' : 'none' }}
+                            style={{
+                                display: menuToggle ? 'block' : 'none',
+                            }}
                             ref={menuRef}
                             className={cx('menu-popper')}
                         >
@@ -286,8 +297,9 @@ function DefaultLayout({ active, page }: DefaultLayoutType): JSX.Element {
                             return null;
                         })}
                 </div>
+                <div className={cx('content')}>{children}</div>
             </div>
-        </header>
+        </div>
     );
 }
 

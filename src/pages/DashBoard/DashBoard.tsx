@@ -2,6 +2,13 @@ import { memo } from 'react';
 import DefaultLayout from '~/components/DefaultLayout';
 import styles from './DashBoard.module.scss';
 import classNames from 'classnames/bind';
+import {
+    faFileInvoiceDollar,
+    faShop,
+    faUser,
+    faWallet,
+} from '@fortawesome/free-solid-svg-icons';
+import StatisticItems from '~/components/StatisticItems';
 // import Button from '~/components/Button';
 // import { useAuth } from '~/context/AuthContext';
 // import { useNavigate } from 'react-router-dom';
@@ -72,10 +79,52 @@ function DashBoard(): JSX.Element {
 
     return (
         <div className={cx('dashboard')}>
-            <DefaultLayout active={'dashboard'} page={['Dashboard']} />
-            {/* <div className={cx('content')}>
-                <div className={cx('title-bar')}>Dashboard</div>
-            </div> */}
+            <DefaultLayout active={'dashboard'} page={['Dashboard']}>
+                <div className={cx('row-statistics')}>
+                    <StatisticItems
+                        title="Daily Earning"
+                        quantity="$0.0"
+                        icon={faFileInvoiceDollar}
+                    />
+                    <StatisticItems
+                        title="Daily Orders"
+                        quantity="0"
+                        icon={faWallet}
+                    />
+                    <StatisticItems
+                        title="Signup Users"
+                        quantity="14"
+                        icon={faUser}
+                    />
+                    <StatisticItems
+                        title="Total Product"
+                        quantity="8"
+                        icon={faShop}
+                    />
+                </div>
+                <div className={cx('row-statistics')}>
+                    <div className={cx('sales-report')}>
+                        <div className={cx('title')}>
+                            <h3>Sales Report</h3>
+                        </div>
+                        <div className={cx('chart')}></div>
+                    </div>
+                    <div className={cx('order-report')}>
+                        <div className={cx('title')}>
+                            <h3>Order Report</h3>
+                        </div>
+                        <div className={cx('chart')}></div>
+                    </div>
+                </div>
+                <div className={cx('row-statistics')}>
+                    <div className={cx('income-report')}>
+                        <div className={cx('title')}>
+                            <h3>Income Report</h3>
+                        </div>
+                        <div className={cx('chart')}></div>
+                    </div>
+                </div>
+            </DefaultLayout>
         </div>
     );
 }

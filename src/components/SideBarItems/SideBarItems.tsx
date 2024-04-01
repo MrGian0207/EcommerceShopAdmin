@@ -7,7 +7,7 @@ import {
     faCircle,
     IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
 const cx = classNames.bind(styles);
@@ -29,6 +29,17 @@ function SideBarItems({
 }: SideBarItemsType): JSX.Element {
     let Button = children.length === 1 ? Link : 'div';
     const [subNavigator, setSubNavigator] = useState(false);
+
+    let childCategoriesIndex: number;
+    let childCategories: string = '';
+    const location = useLocation();
+    const path = location.pathname; // Lấy đường dẫn từ URL
+    const pathArray = path.split('/'); // Tách đường dẫn thành mảng các phần tử
+
+    if (pathArray.includes('categories')) {
+        childCategoriesIndex = pathArray.indexOf('categories') + 1;
+        childCategories = pathArray[childCategoriesIndex];
+    }
     return (
         <>
             <Button
@@ -57,7 +68,7 @@ function SideBarItems({
                 )}
             </Button>
             <>
-                {children.length > 1 && subNavigator && (
+                {(subNavigator || childCategories) && (
                     <div className={cx('sub-navigator')}>
                         {children.slice(1).map((item, index) => (
                             <Link
@@ -65,7 +76,16 @@ function SideBarItems({
                                     .toLowerCase()
                                     .trim()
                                     .replace(' ', '-')}`}
-                                className={cx('items')}
+                                className={cx('items', {
+                                    subactive:
+                                        item
+                                            .toLowerCase()
+                                            .trim()
+                                            .replace(' ', '-') ===
+                                        childCategories
+                                            ? true
+                                            : false,
+                                })}
                                 key={index}
                             >
                                 <div className={cx('left')}>
