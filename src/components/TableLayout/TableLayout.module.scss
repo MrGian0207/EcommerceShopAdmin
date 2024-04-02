@@ -1,0 +1,120 @@
+.table-layout {
+    display: block;
+    height: fit-content;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
+        rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
+    border-radius: 8px;
+    overflow: auto;
+
+    & table {
+        display: table;
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0px;
+        min-width: 800px;
+        overflow: auto;
+        outline: 0px;
+
+        & thead {
+            display: table-header-group;
+
+            & tr {
+                display: table-row;
+                vertical-align: middle;
+                background: rgb(82, 95, 225);
+
+                & :first-child {
+                    padding-left: 24px;
+                }
+
+                & :last-child {
+                    padding-right: 24px;
+                    display: flex;
+                    justify-content: flex-end;
+                }
+
+                & th {
+                    line-height: 1.5rem;
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    display: table-cell;
+                    vertical-align: inherit;
+                    text-align: left;
+                    padding: 16px;
+                    border-bottom: none;
+                    color: rgb(255, 255, 255);
+                    background-color: transparent;
+                }
+            }
+        }
+
+        & tbody {
+            display: table-row-group;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(145, 158, 171, 0.08);
+            }
+
+            & tr {
+                display: table-row;
+                vertical-align: middle;
+                border-bottom: 1px solid rgb(196, 205, 213);
+
+                & th {
+                    line-height: 1.57143;
+                    font-size: 0.875rem;
+                    font-weight: 400;
+                    display: table-cell;
+                    vertical-align: inherit;
+                    text-align: left;
+                    padding: 8px 24px;
+
+                    color: rgb(33, 43, 54);
+
+                    & .name-item {
+                        display: flex;
+                        align-items: center;
+
+                        & img {
+                            height: 48px;
+                            width: 48px;
+                            margin-right: 16px;
+                            border-radius: 8px;
+                            border: 1px solid rgb(196, 205, 213);
+                        }
+                    }
+                }
+
+                & td {
+                    display: table-cell;
+                    padding: 8px 16px;
+                    font-size: 0.875rem;
+                    color: rgb(33, 43, 54);
+                    font-weight: 500;
+
+                    &:first-of-type {
+                        padding-left: 24px;
+                    }
+
+                    &:last-of-type {
+                        padding-right: 24px;
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: center;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+    padding-right: 32px;
+    padding-bottom: 16px;
+}

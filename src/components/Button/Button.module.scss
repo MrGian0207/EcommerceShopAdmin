@@ -5,3 +5,108 @@
     height: 100%;
     width: 100%;
 }
+
+.button-add {
+    height: 34px;
+    width: fit-content;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    background-color: transparent;
+    outline: 0px;
+    margin: 0px;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: middle;
+    appearance: none;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.875rem;
+    text-transform: capitalize;
+    min-width: 64px;
+    padding: 5px 15px;
+    border-radius: 3px;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border: 1px solid rgba(82, 95, 225, 0.5);
+    color: rgb(82, 95, 225);
+
+    &:hover {
+        background-color: rgba(82, 95, 225, 0.08);
+        border: 1px solid rgb(82, 95, 225);
+    }
+}
+
+.edit-btn,
+.delete-btn {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 50%;
+    overflow: visible;
+    color: rgb(99, 115, 129);
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+    &:hover {
+        background-color: rgba(99, 115, 129, 0.08);
+    }
+}
+
+.prev-button,
+.page-number,
+.next-button {
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+    border: 1px solid rgba(145, 158, 171, 0.32);
+    padding: 0px 6px;
+    margin: 0px 3px;
+    color: rgb(33, 43, 54);
+    transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    font-weight: 500;
+    line-height: 1.57143;
+    border-radius: 3px;
+
+    & > * {
+        font-size: 10px;
+    }
+
+    &:hover {
+        color: var(--black-color);
+        background-color: rgba(145, 158, 171, 0.08);
+    }
+}
+
+.page-number {
+    color: rgb(33, 43, 54);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.inActive-navigation {
+    color: rgb(99, 115, 129);
+}
+
+.isActive-page {
+    color: rgb(82, 95, 225);
+    background-color: rgba(82, 95, 225, 0.08);
+    border: 1px solid rgba(82, 95, 225, 0.24);
+
+    &:hover {
+        background-color: rgba(82, 95, 225, 0.24);
+    }
+}

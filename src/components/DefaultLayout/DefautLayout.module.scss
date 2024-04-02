@@ -24,6 +24,18 @@
         font-weight: 500;
         color: rgb(33, 43, 54);
 
+        & .button {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 30px;
+            gap: 15px;
+        }
+
+        & .title {
+            flex: 1;
+        }
+
         & .page-title-item-first {
             margin-right: 24px;
             position: relative;
@@ -499,7 +511,7 @@
     }
 
     & .content {
-        padding-left: 24px;
+        padding: 20px 16px 0 16px;
         width: 100%;
         height: fit-content;
     }

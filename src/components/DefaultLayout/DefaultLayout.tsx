@@ -22,6 +22,7 @@ type DefaultLayoutType = {
     page: string[];
     children?: ReactNode;
     searchEngine?: boolean;
+    buttons?: JSX.Element[];
 };
 
 function DefaultLayout({
@@ -29,6 +30,7 @@ function DefaultLayout({
     page,
     children,
     searchEngine = false,
+    buttons,
 }: DefaultLayoutType): JSX.Element {
     const [languageToggle, setLanguageToggle] = useState(false);
     const [notificationToggle, setNotificationToggle] = useState(false);
@@ -292,42 +294,70 @@ function DefaultLayout({
                 </div>
 
                 <div className={cx('page-title')}>
-                    {page.length > 0 &&
-                        page.map((value, index) => {
-                            if (index === 0 && page.length > 1) {
-                                return (
-                                    <span
-                                        key={index}
-                                        className={cx('page-title-item-first')}
-                                    >
-                                        <Link to={`/${value.toLowerCase()}`}>
+                    <div className={cx('title')}>
+                        {page.length > 0 &&
+                            page.map((value, index) => {
+                                if (index === 0 && page.length > 1) {
+                                    return (
+                                        <span
+                                            key={index}
+                                            className={cx(
+                                                'page-title-item-first',
+                                            )}
+                                        >
+                                            <Link
+                                                to={`/${value.toLowerCase()}`}
+                                            >
+                                                {value}
+                                            </Link>
+                                        </span>
+                                    );
+                                } else if (
+                                    index > 0 &&
+                                    index < page.length - 1
+                                ) {
+                                    return (
+                                        <span
+                                            key={index}
+                                            className={cx(
+                                                'page-title-item-middle',
+                                            )}
+                                        >
+                                            <Link
+                                                to={`/${value.toLowerCase()}`}
+                                            >
+                                                {value}
+                                            </Link>
+                                        </span>
+                                    );
+                                } else if (index === page.length - 1) {
+                                    return (
+                                        <span
+                                            key={index}
+                                            className={cx(
+                                                'page-title-item-last',
+                                            )}
+                                        >
                                             {value}
-                                        </Link>
-                                    </span>
-                                );
-                            } else if (index > 0 && index < page.length - 1) {
-                                return (
-                                    <span
-                                        key={index}
-                                        className={cx('page-title-item-middle')}
-                                    >
-                                        <Link to={`/${value.toLowerCase()}`}>
-                                            {value}
-                                        </Link>
-                                    </span>
-                                );
-                            } else if (index === page.length - 1) {
-                                return (
-                                    <span
-                                        key={index}
-                                        className={cx('page-title-item-last')}
-                                    >
-                                        {value}
-                                    </span>
-                                );
-                            }
-                            return null;
-                        })}
+                                        </span>
+                                    );
+                                }
+                                return null;
+                            })}
+                    </div>
+                    <div className={cx('button')}>
+                        {buttons && (
+                            <>
+                                {buttons?.map((button, index) => {
+                                    return (
+                                        <div key={`${index}-button-edit`}>
+                                            {button}
+                                        </div>
+                                    );
+                                })}
+                            </>
+                        )}
+                    </div>
                 </div>
                 <div className={cx('content')}>{children}</div>
             </div>
