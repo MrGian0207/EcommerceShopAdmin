@@ -8,6 +8,7 @@ import {
     faClock,
     faHome,
     faMoon,
+    faSearch,
     faSun,
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
@@ -20,12 +21,14 @@ type DefaultLayoutType = {
     active?: string;
     page: string[];
     children?: ReactNode;
+    searchEngine?: boolean;
 };
 
 function DefaultLayout({
     active,
     page,
     children,
+    searchEngine = false,
 }: DefaultLayoutType): JSX.Element {
     const [languageToggle, setLanguageToggle] = useState(false);
     const [notificationToggle, setNotificationToggle] = useState(false);
@@ -37,7 +40,14 @@ function DefaultLayout({
     const notificationIconRef = useRef<HTMLDivElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
     const imageMenuRef = useRef<HTMLDivElement>(null);
+    const inputSearchRef = useRef<HTMLInputElement>(null);
 
+    const handleSearchButtonClick = () => {
+        // Kiểm tra inputRef có tồn tại trước khi focus
+        if (inputSearchRef.current) {
+            inputSearchRef.current.focus();
+        }
+    };
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (
@@ -72,6 +82,28 @@ function DefaultLayout({
             <SideBar active={active} />
             <div className={cx('content-layout')}>
                 <div className={cx('header')}>
+                    {/* SearchEngine */}
+                    {searchEngine && (
+                        <div className={cx('search-box')}>
+                            <div className={cx('search-engine')}>
+                                <div
+                                    onClick={handleSearchButtonClick}
+                                    className="icon-search"
+                                >
+                                    <FontAwesomeIcon icon={faSearch} />
+                                </div>
+                                <div className={cx('input-search')}>
+                                    <input
+                                        ref={inputSearchRef}
+                                        type="text"
+                                        placeholder="Search"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {/*End SearchEngine */}
+
                     {/* Language */}
                     <div
                         ref={languageTitleRef}

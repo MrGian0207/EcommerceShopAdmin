@@ -7,7 +7,11 @@ const cx = classNames.bind(styles);
 function Brands() {
     return (
         <div className={cx('brands')}>
-            <DefaultLayout active={'brands'} page={['Dashboard', 'Brands']} />
+            <DefaultLayout
+                active={'brands'}
+                page={['Dashboard', 'Brands']}
+                searchEngine={true}
+            />
         </div>
     );
 }

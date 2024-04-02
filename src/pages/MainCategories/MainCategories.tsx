@@ -10,6 +10,7 @@ function MainCategories() {
             <DefaultLayout
                 active={'categories'}
                 page={['Dashboard', 'Categories']}
+                searchEngine={true}
             ></DefaultLayout>
         </div>
     );

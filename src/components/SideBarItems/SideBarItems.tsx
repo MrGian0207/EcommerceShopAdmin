@@ -8,7 +8,7 @@ import {
     IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -29,7 +29,8 @@ function SideBarItems({
 }: SideBarItemsType): JSX.Element {
     let Button = children.length === 1 ? Link : 'div';
     const [subNavigator, setSubNavigator] = useState(false);
-
+    console.log('re-rendering');
+    console.log(subNavigator);
     let childCategoriesIndex: number;
     let childCategories: string = '';
     const location = useLocation();
@@ -62,13 +63,19 @@ function SideBarItems({
                     <div className={cx('right')}>
                         <FontAwesomeIcon
                             className={cx('iconRight')}
-                            icon={subNavigator ? faChevronDown : faChevronRight}
+                            icon={
+                                (subNavigator && !childCategories) ||
+                                (!subNavigator && childCategories)
+                                    ? faChevronDown
+                                    : faChevronRight
+                            }
                         />
                     </div>
                 )}
             </Button>
             <>
-                {(subNavigator || childCategories) && (
+                {((subNavigator && !childCategories) ||
+                    (!subNavigator && childCategories)) && (
                     <div className={cx('sub-navigator')}>
                         {children.slice(1).map((item, index) => (
                             <Link
@@ -104,4 +111,4 @@ function SideBarItems({
     );
 }
 
-export default SideBarItems;
+export default memo(SideBarItems);
