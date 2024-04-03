@@ -5,6 +5,9 @@ const api = {
     dashboard: '/dashboard',
     brands: '/brands',
     mainCategories: 'categories/main-categories',
+    mainCategoriesAdd: 'categories/main-categories/add',
+    subCategories: 'categories/sub-categories',
+    products: 'products',
 };
 
 export default api;

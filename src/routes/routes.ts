@@ -4,6 +4,7 @@ import ForgotPassword from '~/pages/ForgotPassword';
 import DashBoard from '~/pages/DashBoard';
 import Brands from '~/pages/Brands';
 import MainCategories from '~/pages/MainCategories';
+import Edit from '~/pages/MainCategories/MainCategoriesAdd';
 
 import api from '~/api/api';
 
@@ -15,7 +16,7 @@ const publicRoutes = [
     { path: api.dashboard, component: DashBoard },
     { path: api.brands, component: Brands },
     { path: api.mainCategories, component: MainCategories },
-
+    { path: api.mainCategoriesAdd, component: Edit },
 ];
 
 // Private Routes

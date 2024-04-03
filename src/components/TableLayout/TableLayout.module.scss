@@ -54,14 +54,14 @@
             display: table-row-group;
             cursor: pointer;
 
-            &:hover {
-                background-color: rgba(145, 158, 171, 0.08);
-            }
-
             & tr {
                 display: table-row;
                 vertical-align: middle;
                 border-bottom: 1px solid rgb(196, 205, 213);
+
+                &:hover {
+                    background-color: rgba(145, 158, 171, 0.08);
+                }
 
                 & th {
                     line-height: 1.57143;

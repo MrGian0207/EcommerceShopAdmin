@@ -15,7 +15,10 @@ function MainCategories() {
                 page={['Dashboard', 'Categories']}
                 searchEngine={true}
                 buttons={[
-                    <Button to={'/'} className="button-add">
+                    <Button
+                        to={'/categories/main-categories/add'}
+                        className="button-add"
+                    >
                         <FontAwesomeIcon icon={faPlus} />
                         Add Category
                     </Button>,
