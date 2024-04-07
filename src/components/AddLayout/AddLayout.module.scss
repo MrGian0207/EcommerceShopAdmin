@@ -6,7 +6,7 @@
     gap: 16px;
 }
 
-.add-info {
+.left-column {
     flex: 8;
     display: flex;
     flex-direction: column;
@@ -17,142 +17,40 @@
     box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
         rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
     transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-
-    & .category-name,
-    .meta-title,
-    .slug,
-    .description {
-        display: flex;
-        flex-direction: column;
-
-        & label {
-            color: rgb(99, 115, 129);
-            font-size: 0.875rem;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        & input {
-            width: 100%;
-            padding: 17px 14px;
-            border-radius: 3px;
-            color: rgb(33, 43, 54);
-            font-size: 1rem;
-            border: 2px solid rgba(145, 158, 171, 0.32);
-            transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-
-            &:focus {
-                border: 2px solid rgb(82 95 225) !important;
-            }
-
-            &:hover {
-                border: 2px solid var(--black-color);
-            }
-
-            &:focus:hover {
-                border: 2px solid rgb(82 95 225) !important;
-            }
-        }
-
-        & textarea {
-            padding: 17px 14px;
-            width: 100%;
-            height: 207px;
-            border: 2px solid rgba(145, 158, 171, 0.32);
-            border-radius: 3px;
-            resize: none;
-
-            &:focus {
-                outline: none;
-                border: 2px solid rgb(82 95 225);
-            }
-
-            &:hover {
-                border: 2px solid var(--black-color);
-            }
-
-            &:focus:hover {
-                outline: none;
-                border: 2px solid rgb(82 95 225);
-            }
-        }
-    }
 }
 
-.add-submit {
+.right-column {
     flex: 4;
     height: fit-content;
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+.button {
+    height: 48px;
+    width: 100%;
+    padding: 8px 22px;
+    font-size: 0.9375rem;
+    font-weight: 800;
+    text-align: center;
+    border-radius: 3px;
+    color: var(--white-color);
+    background-color: rgb(82, 95, 225);
+    box-shadow: rgba(82, 95, 225, 0.24) 0px 8px 16px 0px;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    user-select: none;
+    cursor: pointer;
 
-    & .image-container {
-        padding: 24px;
-        background-color: var(--white-color);
-        border-radius: 8px;
-        box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
-            rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
-
-        & .image {
-            display: flex;
-            flex-direction: column;
-
-            & label {
-                color: rgb(99, 115, 129);
-                font-size: 0.875rem;
-                margin-bottom: 8px;
-                font-weight: 600;
-            }
-
-            & input {
-                display: none;
-            }
-
-            & .image-custom {
-                display: flex;
-                width: 100%;
-                justify-content: center;
-                align-items: center;
-                transition: padding 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-                padding: 8px 0px;
-                border: 1px dashed rgba(145, 158, 171, 0.32);
-                background-color: rgb(243, 244, 248);
-                border-radius: 3px;
-                cursor: pointer;
-
-                & .box {
-                    display: flex;
-                    flex-direction: column;
-                    padding: 16px;
-
-                    & h4 {
-                        color: rgb(82 95 225);
-                    }
-                }
-            }
-        }
+    &:hover {
+        background-color: rgb(0, 100, 202);
+        box-shadow: none;
     }
+}
 
-    & .button {
-        height: 48px;
-        width: 100%;
-        padding: 8px 22px;
-        font-size: 0.9375rem;
-        font-weight: 800;
-        text-align: center;
-        border-radius: 3px;
-        color: var(--white-color);
-        background-color: rgb(82, 95, 225);
-        box-shadow: rgba(82, 95, 225, 0.24) 0px 8px 16px 0px;
-        transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-            box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-            border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-        user-select: none;
-        cursor: pointer;
-
-        &:hover {
-            background-color: rgb(0, 100, 202);
-            box-shadow: none;
-        }
-    }
+.disable_button {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
 }

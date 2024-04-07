@@ -1,70 +1,123 @@
-import style from './AddLayout.module.scss';
+import styles from './AddLayout.module.scss';
 import classNames from 'classnames/bind';
-import images from '~/assets/Image';
-import { useRef } from 'react';
-import Button from '../Button';
-const cx = classNames.bind(style);
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import * as Toastify from '~/services/Toastify';
+import { FormEventHandler, ReactNode, useRef } from 'react';
+const cx = classNames.bind(styles);
 
-function AddLayout() {
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
+type AddLayoutType = {
+    leftColumn: ReactNode;
+    rightColumn: ReactNode;
+    imageUrl?: string;
+    SetImageUrl?: React.Dispatch<React.SetStateAction<string>>;
+    name?: string;
+    SetName?: React.Dispatch<React.SetStateAction<string>>;
+    metaTitle?: string;
+    SetMetaTitle?: React.Dispatch<React.SetStateAction<string>>;
+    slug?: string;
+    SetSlug?: React.Dispatch<React.SetStateAction<string>>;
+    description?: string;
+    SetDescription?: React.Dispatch<React.SetStateAction<string>>;
+    ImageFile?: File | null;
+};
 
-    const handleFileSelect = () => {
-        if (fileInputRef.current !== null) {
-            fileInputRef.current.click();
+function AddLayout({
+    leftColumn,
+    rightColumn,
+    imageUrl,
+    SetImageUrl,
+    name,
+    SetName,
+    metaTitle,
+    SetMetaTitle,
+    slug,
+    SetSlug,
+    description,
+    SetDescription,
+    ImageFile,
+}: AddLayoutType) {
+    const submit_ButtonRef = useRef<HTMLButtonElement>(null);
+
+    const handleEmptyInput = () => {
+        if (SetName) SetName('');
+        if (SetMetaTitle) SetMetaTitle('');
+        if (SetSlug) SetSlug('');
+        if (SetDescription) SetDescription('');
+        if (SetImageUrl) SetImageUrl('');
+    };
+
+    const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault();
+
+        if (submit_ButtonRef.current) {
+            submit_ButtonRef.current.disabled = true;
+            submit_ButtonRef.current.classList.add(cx('disable_button'));
         }
+
+        Toastify.showToastMessagePending();
+        const formData = new FormData();
+
+        formData.append('name', name || '');
+        formData.append('title', metaTitle || '');
+        formData.append('slug', slug || '');
+        formData.append('description', description || '');
+        if (ImageFile) formData.append('category-image', ImageFile || null);
+
+        fetch('http://localhost:8000/categories/main-categories/add', {
+            method: 'POST',
+            body: formData,
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                if (data) {
+                    if (submit_ButtonRef.current) {
+                        submit_ButtonRef.current.disabled = false;
+                        submit_ButtonRef.current.classList.remove(
+                            cx('disable_button'),
+                        );
+                    }
+                    if (data.status === 'Success') {
+                        handleEmptyInput();
+                        Toastify.showToastMessageSuccessfully(data?.message);
+                    } else {
+                        Toastify.showToastMessageFailure(data?.message);
+                    }
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                if (submit_ButtonRef.current) {
+                    submit_ButtonRef.current.disabled = false;
+                    submit_ButtonRef.current.classList.remove(
+                        cx('disable_button'),
+                    );
+                }
+                Toastify.showToastMessageFailure(
+                    'Submit Failure !! Try it again',
+                );
+            });
     };
 
     return (
-        <form className={cx('add-layout')}>
-            <div className={cx('add-info')}>
-                <div className={cx('category-name')}>
-                    <label htmlFor="category-name">Category Name</label>
-                    <input
-                        name="category-name"
-                        id="category-name"
-                        type="text"
-                    />
+        <>
+            <form className={cx('add-layout')} onSubmit={handleFormSubmit}>
+                <div className={cx('left-column')}>{leftColumn}</div>
+                <div className={cx('right-column')}>
+                    {rightColumn}
+                    <button
+                        ref={submit_ButtonRef}
+                        type="submit"
+                        className={cx('button')}
+                    >
+                        Create Category
+                    </button>
                 </div>
-                <div className={cx('meta-title')}>
-                    <label htmlFor="meta-title">Meta Title</label>
-                    <input name="meta-title" id="meta-title" type="text" />
-                </div>
-                <div className={cx('slug')}>
-                    <label htmlFor="slug">Slug</label>
-                    <input name="slug" id="slug" type="text" />
-                </div>
-                <div className={cx('description')}>
-                    <label htmlFor="description">Description</label>
-                    <textarea
-                        name="description"
-                        id="description"
-                        rows={9}
-                    ></textarea>
-                </div>
-            </div>
-            <div onClick={handleFileSelect} className={cx('add-submit')}>
-                <div className={cx('image-container')}>
-                    <div className={cx('image')}>
-                        <label htmlFor="category-image">Image 512 * 512</label>
-                        <input
-                            ref={fileInputRef}
-                            name="category-image"
-                            id="category-image"
-                            type="file"
-                        />
-                        <div className={cx('image-custom')}>
-                            <div className="box">
-                                <h4>Drop or Select Images</h4>
-                                <img src={images.uploadImage} alt="" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button type="submit" className={cx('button')}>
-                    Create Category
-                </button>
-            </div>
-        </form>
+            </form>
+            <ToastContainer />
+        </>
     );
 }
 

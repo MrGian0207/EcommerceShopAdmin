@@ -29,8 +29,6 @@ function SideBarItems({
 }: SideBarItemsType): JSX.Element {
     let Button = children.length === 1 ? Link : 'div';
     const [subNavigator, setSubNavigator] = useState(false);
-    console.log('re-rendering');
-    console.log(subNavigator);
     let childCategoriesIndex: number;
     let childCategories: string = '';
     const location = useLocation();
