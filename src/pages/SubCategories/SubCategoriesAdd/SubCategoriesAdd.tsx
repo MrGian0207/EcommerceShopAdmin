@@ -1,7 +1,7 @@
 import styles from './SubCategoriesAdd.module.scss';
 import classNames from 'classnames/bind';
-import DefaultLayout from '~/components/DefaultLayout';
-import AddLayout from '~/components/AddLayout';
+import DefaultLayout from '~/layouts/DefaultLayout';
+import ActionLayout from '~/layouts/ActionLayout';
 import images from '~/assets/Image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -20,6 +20,8 @@ function SubCategoriesAdd() {
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [parentCategories, setParentCategories] = useState('');
     const nameImageFile = 'sub-category-image';
+
+    const nameButtonSubmit = 'Create Sub Category';
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
@@ -82,7 +84,7 @@ function SubCategoriesAdd() {
                 active={'categories'}
                 page={['Dashboard', 'Sub Categories', 'Add']}
             >
-                <AddLayout
+                <ActionLayout
                     leftColumn={
                         <>
                             <div className={cx('category-name')}>
@@ -214,6 +216,7 @@ function SubCategoriesAdd() {
                     SetParentCategories={setParentCategories}
                     ImageFile={imageFile}
                     NameImageFile={nameImageFile}
+                    nameButtonSubmit={nameButtonSubmit}
                 />
             </DefaultLayout>
         </div>

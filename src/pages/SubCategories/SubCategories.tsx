@@ -1,5 +1,5 @@
-import DefaultLayout from '~/components/DefaultLayout';
-import TableLayout from '~/components/TableLayout';
+import DefaultLayout from '~/layouts/DefaultLayout';
+import TableLayout from '~/layouts/TableLayout';
 import Button from '~/components/Button';
 import styles from './SubCategories.module.scss';
 import classNames from 'classnames/bind';

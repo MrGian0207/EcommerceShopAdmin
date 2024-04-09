@@ -1,10 +1,12 @@
-import DefaultLayout from '~/components/DefaultLayout';
+import DefaultLayout from '~/layouts/DefaultLayout';
 import Button from '~/components/Button';
-import TableLayout from '~/components/TableLayout';
+import TableLayout from '~/layouts/TableLayout';
 import styles from './MainCategories.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
+
 const cx = classNames.bind(styles);
 
 function MainCategories() {

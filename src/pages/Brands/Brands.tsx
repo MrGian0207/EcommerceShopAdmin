@@ -1,6 +1,6 @@
 import styles from './Brands.module.scss';
 import classNames from 'classnames/bind';
-import DefaultLayout from '~/components/DefaultLayout';
+import DefaultLayout from '~/layouts/DefaultLayout';
 
 const cx = classNames.bind(styles);
 

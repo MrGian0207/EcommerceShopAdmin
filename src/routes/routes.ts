@@ -6,6 +6,7 @@ import Brands from '~/pages/Brands';
 import MainCategories from '~/pages/MainCategories';
 import SubCategories from '~/pages/SubCategories';
 import MainCategoriesAdd from '~/pages/MainCategories/MainCategoriesAdd';
+import MainCategoriesEdit from '~/pages/MainCategories/MainCategoriesEdit';
 import SubCategoriesAdd from '~/pages/SubCategories/SubCategoriesAdd';
 
 import api from '~/api/api';
@@ -19,6 +20,7 @@ const publicRoutes = [
     { path: api.brands, component: Brands },
     { path: api.mainCategories, component: MainCategories },
     { path: api.mainCategoriesAdd, component: MainCategoriesAdd },
+    { path: api.mainCategoriesEdit, component: MainCategoriesEdit },
     { path: api.subCategories, component: SubCategories },
     { path: api.subCategoriesAdd, component: SubCategoriesAdd },
 ];

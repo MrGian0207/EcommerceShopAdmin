@@ -1,13 +1,17 @@
-import styles from './MainCategoriesAdd.module.scss';
+import styles from './MainCategoriesEdit.module.scss';
 import classNames from 'classnames/bind';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import ActionLayout from '~/layouts/ActionLayout';
 import images from '~/assets/Image';
-import { useRef, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import * as Toastify from '~/services/Toastify';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function MainCategoriesAdd(): JSX.Element {
+function MainCategoriesEdit(): JSX.Element {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [imageUrl, setImageUrl] = useState('');
     const [resizedImageUrl, setResizedImageUrl] = useState<string>('');
@@ -15,10 +19,13 @@ function MainCategoriesAdd(): JSX.Element {
     const [metaTitle, setMetaTitle] = useState<string>('');
     const [slug, setSlug] = useState<string>('');
     const [description, setDescription] = useState<string>('');
+    const [imageSource, setImageSource] = useState<string>('');
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const nameImageFile = 'category-image';
 
-    const nameButtonSubmit = 'Create Category';
+    const nameButtonSubmit: string = 'Edit Category';
+
+    const location = useLocation();
+    const path = location.pathname;
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
@@ -75,11 +82,50 @@ function MainCategoriesAdd(): JSX.Element {
         }
     };
 
+    useEffect(() => {
+        if (path) {
+            try {
+                fetch(`http://localhost:8000${path}`)
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((res) => {
+                        if (res?.status === 'Success') {
+                            const data: {
+                                name: string;
+                                title: string;
+                                slug: string;
+                                description: string;
+                                image: string;
+                            } = res?.data;
+
+                            setName(data?.name);
+                            setMetaTitle(data?.title);
+                            setSlug(data?.slug);
+                            setDescription(data?.description);
+                            setImageSource(data?.image);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            } catch (error) {
+                console.log(error);
+                Toastify.showToastMessageFailure(
+                    'Data Loaded Failure !! Try it again',
+                );
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const nameImageFile = 'category-image';
+
     return (
-        <div className={cx('add')}>
+        <div className={cx('edit')}>
             <DefaultLayout
                 active={'categories'}
-                page={['Dashboard', 'Categories', 'Add']}
+                page={['Dashboard', 'Categories', 'Edit']}
             >
                 <ActionLayout
                     leftColumn={
@@ -158,9 +204,13 @@ function MainCategoriesAdd(): JSX.Element {
                                             />
                                         </div>
                                         <div className={cx('preview-image')}>
-                                            {imageUrl && (
+                                            {(imageUrl || imageSource) && (
                                                 <img
-                                                    src={resizedImageUrl}
+                                                    src={
+                                                        resizedImageUrl
+                                                            ? resizedImageUrl
+                                                            : imageSource
+                                                    }
                                                     alt="preview"
                                                 />
                                             )}
@@ -184,8 +234,9 @@ function MainCategoriesAdd(): JSX.Element {
                     nameButtonSubmit={nameButtonSubmit}
                 />
             </DefaultLayout>
+            <ToastContainer />
         </div>
     );
 }
 
-export default MainCategoriesAdd;
+export default MainCategoriesEdit;

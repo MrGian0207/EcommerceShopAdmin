@@ -1,14 +1,14 @@
-import styles from './AddLayout.module.scss';
+import styles from './ActionLayout.module.scss';
 import classNames from 'classnames/bind';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Toastify from '~/services/Toastify';
-import { FormEventHandler, ReactNode, useRef } from 'react';
+import { FormEventHandler, ReactNode, useRef, memo } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-type AddLayoutType = {
+type ActionLayoutType = {
     leftColumn: ReactNode;
     rightColumn: ReactNode;
     SetImageUrl?: React.Dispatch<React.SetStateAction<string>>;
@@ -24,9 +24,10 @@ type AddLayoutType = {
     SetParentCategories?: React.Dispatch<React.SetStateAction<string>>;
     ImageFile?: File | null;
     NameImageFile?: string | null;
+    nameButtonSubmit?: string;
 };
 
-function AddLayout({
+function ActionLayout({
     leftColumn,
     rightColumn,
     SetImageUrl,
@@ -42,21 +43,20 @@ function AddLayout({
     SetParentCategories,
     ImageFile,
     NameImageFile = '',
-}: AddLayoutType) {
+    nameButtonSubmit = '',
+}: ActionLayoutType) {
     const location = useLocation();
     let path = location.pathname; // Lấy đường dẫn từ URL
-    console.log(path);
-
     const submit_ButtonRef = useRef<HTMLButtonElement>(null);
 
-    const handleEmptyInput = () => {
-        if (SetName) SetName('');
-        if (SetMetaTitle) SetMetaTitle('');
-        if (SetSlug) SetSlug('');
-        if (SetDescription) SetDescription('');
-        if (SetParentCategories) SetParentCategories('');
-        if (SetImageUrl) SetImageUrl('');
-    };
+    // const handleEmptyInput = () => {
+    //     if (SetName) SetName('');
+    //     if (SetMetaTitle) SetMetaTitle('');
+    //     if (SetSlug) SetSlug('');
+    //     if (SetDescription) SetDescription('');
+    //     if (SetParentCategories) SetParentCategories('');
+    //     if (SetImageUrl) SetImageUrl('');
+    // };
 
     const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
@@ -77,42 +77,51 @@ function AddLayout({
             formData.append('parentCategories', parentCategories);
         ImageFile &&
             formData.append(NameImageFile as string, ImageFile || null);
-
-        fetch(`http://localhost:8000${path}`, {
-            method: 'POST',
-            body: formData,
-        })
-            .then((res) => {
-                return res.json();
+            
+        try {
+            fetch(`http://localhost:8000${path}`, {
+                method: 'POST',
+                body: formData,
             })
-            .then((data) => {
-                if (data) {
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    if (data) {
+                        if (submit_ButtonRef.current) {
+                            submit_ButtonRef.current.disabled = false;
+                            submit_ButtonRef.current.classList.remove(
+                                cx('disable_button'),
+                            );
+                        }
+                        if (data.status === 'Success') {
+                            // handleEmptyInput();
+                            Toastify.showToastMessageSuccessfully(
+                                data?.message,
+                            );
+                        } else {
+                            Toastify.showToastMessageFailure(data?.message);
+                        }
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
                     if (submit_ButtonRef.current) {
                         submit_ButtonRef.current.disabled = false;
                         submit_ButtonRef.current.classList.remove(
                             cx('disable_button'),
                         );
                     }
-                    if (data.status === 'Success') {
-                        handleEmptyInput();
-                        Toastify.showToastMessageSuccessfully(data?.message);
-                    } else {
-                        Toastify.showToastMessageFailure(data?.message);
-                    }
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-                if (submit_ButtonRef.current) {
-                    submit_ButtonRef.current.disabled = false;
-                    submit_ButtonRef.current.classList.remove(
-                        cx('disable_button'),
+                    Toastify.showToastMessageFailure(
+                        'Submit Failure !! Try it again',
                     );
-                }
-                Toastify.showToastMessageFailure(
-                    'Submit Failure !! Try it again',
-                );
-            });
+                });
+        } catch (error) {
+            console.log(error);
+            Toastify.showToastMessageFailure(
+                'Data Loaded Failure !! Try it again',
+            );
+        }
     };
 
     return (
@@ -126,7 +135,7 @@ function AddLayout({
                         type="submit"
                         className={cx('button')}
                     >
-                        Create Category
+                        {nameButtonSubmit ? nameButtonSubmit : 'Submit'}
                     </button>
                 </div>
             </form>
@@ -135,4 +144,4 @@ function AddLayout({
     );
 }
 
-export default AddLayout;
+export default memo(ActionLayout);

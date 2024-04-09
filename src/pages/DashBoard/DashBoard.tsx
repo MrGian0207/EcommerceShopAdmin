@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import DefaultLayout from '~/components/DefaultLayout';
+import DefaultLayout from '~/layouts/DefaultLayout';
 import styles from './DashBoard.module.scss';
 import classNames from 'classnames/bind';
 import {

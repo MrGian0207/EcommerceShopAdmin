@@ -15,7 +15,7 @@ import {
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import SideBar from '../SideBar';
+import SideBar from '../../components/SideBar';
 const cx = classNames.bind(styles);
 
 type DefaultLayoutType = {
@@ -309,10 +309,7 @@ function DefaultLayout({
                                         i--
                                     ) {
                                         if (path[i] === '/') {
-                                            titleNavigator = path.slice(
-                                                0,
-                                                i,
-                                            );
+                                            titleNavigator = path.slice(0, i);
                                             path = titleNavigator;
                                             break;
                                         }

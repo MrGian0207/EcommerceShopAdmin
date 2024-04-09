@@ -23,6 +23,7 @@
             & tr {
                 display: table-row;
                 vertical-align: middle;
+                align-items: center;
                 background: rgb(82, 95, 225);
 
                 & :first-child {
@@ -31,8 +32,7 @@
 
                 & :last-child {
                     padding-right: 24px;
-                    display: flex;
-                    justify-content: flex-end;
+                    text-align: center;
                 }
 
                 & th {
@@ -55,6 +55,7 @@
             cursor: pointer;
 
             & tr {
+                height: fit-content;
                 display: table-row;
                 vertical-align: middle;
                 border-bottom: 1px solid rgb(196, 205, 213);
@@ -90,10 +91,23 @@
 
                 & td {
                     display: table-cell;
+                    height: 100%;
                     padding: 8px 16px;
                     font-size: 0.875rem;
                     color: rgb(33, 43, 54);
                     font-weight: 500;
+                    vertical-align: middle;
+
+                    & .description {
+                        max-width: 400px;
+                        text-align: justify;
+                    }
+
+                    & .actions {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
 
                     &:first-of-type {
                         padding-left: 24px;
@@ -101,9 +115,6 @@
 
                     &:last-of-type {
                         padding-right: 24px;
-                        display: flex;
-                        justify-content: flex-end;
-                        align-items: center;
                     }
                 }
             }
