@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import Button from '~/components/Button';
 import FormAuth from '~/components/FormAuth';
-import Input from '~/components/Input';
+import Input from '~/components/Gender';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState, memo } from 'react';
 

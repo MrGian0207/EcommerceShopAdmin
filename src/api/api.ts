@@ -7,6 +7,7 @@ const api = {
     mainCategories: 'categories/main-categories',
     mainCategoriesAdd: 'categories/main-categories/add',
     subCategories: 'categories/sub-categories',
+    subCategoriesAdd: 'categories/sub-categories/add',
     products: 'products',
 };
 

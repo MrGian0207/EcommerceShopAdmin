@@ -13,6 +13,7 @@ import {
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import SideBar from '../SideBar';
 const cx = classNames.bind(styles);
@@ -43,6 +44,10 @@ function DefaultLayout({
     const menuRef = useRef<HTMLDivElement>(null);
     const imageMenuRef = useRef<HTMLDivElement>(null);
     const inputSearchRef = useRef<HTMLInputElement>(null);
+
+    const location = useLocation();
+    let path = location.pathname; // Lấy đường dẫn từ URL
+    let titleNavigator: string = '';
 
     const handleSearchButtonClick = () => {
         // Kiểm tra inputRef có tồn tại trước khi focus
@@ -298,6 +303,20 @@ function DefaultLayout({
                         {page.length > 0 &&
                             page.map((value, index) => {
                                 if (index === 0 && page.length > 1) {
+                                    for (
+                                        let i: number = path.length - 1;
+                                        i >= 0;
+                                        i--
+                                    ) {
+                                        if (path[i] === '/') {
+                                            titleNavigator = path.slice(
+                                                0,
+                                                i,
+                                            );
+                                            path = titleNavigator;
+                                            break;
+                                        }
+                                    }
                                     return (
                                         <span
                                             key={index}
@@ -323,9 +342,7 @@ function DefaultLayout({
                                                 'page-title-item-middle',
                                             )}
                                         >
-                                            <Link
-                                                to={`/${value.toLowerCase()}`}
-                                            >
+                                            <Link to={titleNavigator}>
                                                 {value}
                                             </Link>
                                         </span>

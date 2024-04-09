@@ -1,4 +1,4 @@
-import styles from './Input.module.scss';
+import styles from './Gender.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -20,8 +20,8 @@ type InputType = {
     setValue?: React.Dispatch<React.SetStateAction<string | number>>;
     space?: string;
     index: string | number;
-    label: string;
-    iconLeft: IconDefinition;
+    label?: string;
+    iconLeft?: IconDefinition;
     iconRight?: IconDefinition;
     type?: string;
     onclick?: boolean;
@@ -91,7 +91,7 @@ function Input({
                 {label}
             </label>
             <span className={cx('iconLeft')}>
-                <FontAwesomeIcon icon={iconLeft} />
+                <FontAwesomeIcon icon={iconLeft as IconDefinition} />
             </span>
             {!onclick ? (
                 <input

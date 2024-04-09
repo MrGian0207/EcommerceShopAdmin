@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './ForgotPassword.module.scss';
 
 import FormAuth from '~/components/FormAuth';
-import Input from '~/components/Input';
+import Input from '~/components/Gender';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 import api from '~/api/api';

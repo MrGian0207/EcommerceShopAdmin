@@ -4,12 +4,13 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Toastify from '~/services/Toastify';
 import { FormEventHandler, ReactNode, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+
 const cx = classNames.bind(styles);
 
 type AddLayoutType = {
     leftColumn: ReactNode;
     rightColumn: ReactNode;
-    imageUrl?: string;
     SetImageUrl?: React.Dispatch<React.SetStateAction<string>>;
     name?: string;
     SetName?: React.Dispatch<React.SetStateAction<string>>;
@@ -19,13 +20,15 @@ type AddLayoutType = {
     SetSlug?: React.Dispatch<React.SetStateAction<string>>;
     description?: string;
     SetDescription?: React.Dispatch<React.SetStateAction<string>>;
+    parentCategories?: string;
+    SetParentCategories?: React.Dispatch<React.SetStateAction<string>>;
     ImageFile?: File | null;
+    NameImageFile?: string | null;
 };
 
 function AddLayout({
     leftColumn,
     rightColumn,
-    imageUrl,
     SetImageUrl,
     name,
     SetName,
@@ -35,8 +38,15 @@ function AddLayout({
     SetSlug,
     description,
     SetDescription,
+    parentCategories,
+    SetParentCategories,
     ImageFile,
+    NameImageFile = '',
 }: AddLayoutType) {
+    const location = useLocation();
+    let path = location.pathname; // Lấy đường dẫn từ URL
+    console.log(path);
+
     const submit_ButtonRef = useRef<HTMLButtonElement>(null);
 
     const handleEmptyInput = () => {
@@ -44,6 +54,7 @@ function AddLayout({
         if (SetMetaTitle) SetMetaTitle('');
         if (SetSlug) SetSlug('');
         if (SetDescription) SetDescription('');
+        if (SetParentCategories) SetParentCategories('');
         if (SetImageUrl) SetImageUrl('');
     };
 
@@ -58,13 +69,16 @@ function AddLayout({
         Toastify.showToastMessagePending();
         const formData = new FormData();
 
-        formData.append('name', name || '');
-        formData.append('title', metaTitle || '');
-        formData.append('slug', slug || '');
-        formData.append('description', description || '');
-        if (ImageFile) formData.append('category-image', ImageFile || null);
+        name && formData.append('name', name || '');
+        metaTitle && formData.append('title', metaTitle || '');
+        slug && formData.append('slug', slug || '');
+        description && formData.append('description', description || '');
+        parentCategories &&
+            formData.append('parentCategories', parentCategories);
+        ImageFile &&
+            formData.append(NameImageFile as string, ImageFile || null);
 
-        fetch('http://localhost:8000/categories/main-categories/add', {
+        fetch(`http://localhost:8000${path}`, {
             method: 'POST',
             body: formData,
         })

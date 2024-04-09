@@ -1,13 +1,15 @@
-import styles from './MainCategoriesAdd.module.scss';
+import styles from './SubCategoriesAdd.module.scss';
 import classNames from 'classnames/bind';
 import DefaultLayout from '~/components/DefaultLayout';
 import AddLayout from '~/components/AddLayout';
 import images from '~/assets/Image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useRef, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function MainCategoriesAdd(): JSX.Element {
+function SubCategoriesAdd() {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [imageUrl, setImageUrl] = useState('');
     const [resizedImageUrl, setResizedImageUrl] = useState<string>('');
@@ -16,7 +18,8 @@ function MainCategoriesAdd(): JSX.Element {
     const [slug, setSlug] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const nameImageFile = 'category-image';
+    const [parentCategories, setParentCategories] = useState('');
+    const nameImageFile = 'sub-category-image';
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
@@ -77,7 +80,7 @@ function MainCategoriesAdd(): JSX.Element {
         <div className={cx('edit')}>
             <DefaultLayout
                 active={'categories'}
-                page={['Dashboard', 'Categories', 'Add']}
+                page={['Dashboard', 'Sub Categories', 'Add']}
             >
                 <AddLayout
                     leftColumn={
@@ -132,15 +135,45 @@ function MainCategoriesAdd(): JSX.Element {
                     }
                     rightColumn={
                         <>
-                            <div className={cx('image-container')}>
+                            <div className={cx('right-column')}>
+                                <div className={cx('selected-box')}>
+                                    <label>Parent Category</label>
+                                    <div className={cx('options-box')}>
+                                        <select
+                                            className={cx('custom-select')}
+                                            name="sub-categories"
+                                            value={parentCategories}
+                                            onChange={(e) => {
+                                                setParentCategories(
+                                                    e.target.value,
+                                                );
+                                            }}
+                                        >
+                                            <option disabled></option>
+                                            <option>Clothes</option>
+                                            <option>Shoes</option>
+                                            <option>Accessories</option>
+                                        </select>
+                                        <div
+                                            className={cx(
+                                                'custom-select-arrow',
+                                            )}
+                                        >
+                                            <FontAwesomeIcon
+                                                className={cx('icon')}
+                                                icon={faChevronDown}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className={cx('image')}>
-                                    <label htmlFor="category-image">
+                                    <label htmlFor="sub-category-image">
                                         Image 512 * 512
                                     </label>
                                     <input
                                         ref={fileInputRef}
-                                        name="category-image"
-                                        id="category-image"
+                                        name="sub-category-image"
+                                        id={nameImageFile}
                                         type="file"
                                         onChange={handleFileChange}
                                     />
@@ -177,6 +210,8 @@ function MainCategoriesAdd(): JSX.Element {
                     SetSlug={setSlug}
                     description={description}
                     SetDescription={setDescription}
+                    parentCategories={parentCategories}
+                    SetParentCategories={setParentCategories}
                     ImageFile={imageFile}
                     NameImageFile={nameImageFile}
                 />
@@ -185,4 +220,4 @@ function MainCategoriesAdd(): JSX.Element {
     );
 }
 
-export default MainCategoriesAdd;
+export default SubCategoriesAdd;

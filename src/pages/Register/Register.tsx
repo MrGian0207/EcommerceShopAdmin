@@ -4,7 +4,7 @@ import styles from './Register.module.scss';
 import React, { useEffect, useState } from 'react';
 
 import FormAuth from '~/components/FormAuth';
-import Input from '~/components/Input';
+import Input from '~/components/Gender';
 import {
     faAngleDown,
     faEnvelope,

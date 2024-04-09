@@ -1,40 +1,39 @@
 import DefaultLayout from '~/components/DefaultLayout';
-import Button from '~/components/Button';
 import TableLayout from '~/components/TableLayout';
-import styles from './MainCategories.module.scss';
+import Button from '~/components/Button';
+import styles from './SubCategories.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 const cx = classNames.bind(styles);
 
-function MainCategories() {
+function SubCategories(): JSX.Element {
     return (
-        <div className={cx('main-categories')}>
+        <div className={cx('sub-categories')}>
             <DefaultLayout
                 active={'categories'}
-                page={['Dashboard', 'Categories']}
+                page={['Dashboard', 'SubCategories']}
                 searchEngine={true}
                 buttons={[
                     <Button
-                        to={'/categories/main-categories/add'}
+                        to={'/categories/sub-categories/add'}
                         className="button-add"
                     >
                         <FontAwesomeIcon icon={faPlus} />
-                        Add Category
+                        Add Sub Category
                     </Button>,
                 ]}
             >
                 <TableLayout
                     headers={[
                         'Category',
-                        'Total Items',
-                        'Description',
+                        'Parent Category',
                         'Created at',
                         'Actions',
                     ]}
                     category
-                    totalItems
-                    decription
+                    parentCategory
                     createdAt
                     actions
                 />
@@ -43,4 +42,4 @@ function MainCategories() {
     );
 }
 
-export default MainCategories;
+export default SubCategories;

@@ -11,120 +11,69 @@ import {
 
 const cx = classNames.bind(styles);
 
-function TableLayout(): JSX.Element {
+type TableLayoutType = {
+    headers?: string[];
+    category?: boolean;
+    parentCategory?: boolean;
+    totalItems?: boolean;
+    decription?: boolean;
+    createdAt?: boolean;
+    actions?: boolean;
+};
+
+function TableLayout({
+    headers,
+    category = false,
+    parentCategory = false,
+    totalItems = false,
+    decription = false,
+    createdAt = false,
+    actions = false,
+}: TableLayoutType): JSX.Element {
     return (
         <>
             <div className={cx('table-layout')}>
                 <table className={cx('table')}>
                     <thead>
                         <tr>
-                            <th>Cateogory</th>
-                            <th>Total Items</th>
-                            <th>Description</th>
-                            <th>Created at</th>
-                            <th>Actions</th>
+                            {headers &&
+                                headers.map((header) => {
+                                    return <th key={header}>{header}</th>;
+                                })}
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th>
-                                <div className={cx('name-item')}>
-                                    <img
-                                        alt="Accessories demo"
-                                        src="https://res.cloudinary.com/techgater/image/upload/v1709993047/my-uploads/aw62zeksnh3gn5llokkw.jpg"
-                                    />
-                                    <h4>Accessories demo</h4>
-                                </div>
-                            </th>
-                            <td>2</td>
-                            <td>
-                                Accessories are the key to making a style
-                                statemen
-                            </td>
-                            <td>09 Mar 2024</td>
-                            <td>
-                                <Button to={'/'} className="edit-btn">
-                                    <FontAwesomeIcon icon={faPen} />
-                                </Button>
-                                <Button to={'/'} className="delete-btn">
-                                    <FontAwesomeIcon icon={faTrash} />
-                                </Button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <div className={cx('name-item')}>
-                                    <img
-                                        alt="Accessories demo"
-                                        src="https://res.cloudinary.com/techgater/image/upload/v1709993047/my-uploads/aw62zeksnh3gn5llokkw.jpg"
-                                    />
-                                    <h4>Accessories demo</h4>
-                                </div>
-                            </th>
-                            <td>2</td>
-                            <td>
-                                Accessories are the key to making a style
-                                statemen
-                            </td>
-                            <td>09 Mar 2024</td>
-                            <td>
-                                <Button to={'/'} className="edit-btn">
-                                    <FontAwesomeIcon icon={faPen} />
-                                </Button>
-                                <Button to={'/'} className="delete-btn">
-                                    <FontAwesomeIcon icon={faTrash} />
-                                </Button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <div className={cx('name-item')}>
-                                    <img
-                                        alt="Accessories demo"
-                                        src="https://res.cloudinary.com/techgater/image/upload/v1709993047/my-uploads/aw62zeksnh3gn5llokkw.jpg"
-                                    />
-                                    <h4>Accessories demo</h4>
-                                </div>
-                            </th>
-                            <td>2</td>
-                            <td>
-                                Accessories are the key to making a style
-                                statemen
-                            </td>
-                            <td>09 Mar 2024</td>
-                            <td>
-                                <Button to={'/'} className="edit-btn">
-                                    <FontAwesomeIcon icon={faPen} />
-                                </Button>
-                                <Button to={'/'} className="delete-btn">
-                                    <FontAwesomeIcon icon={faTrash} />
-                                </Button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <div className={cx('name-item')}>
-                                    <img
-                                        alt="Accessories demo"
-                                        src="https://res.cloudinary.com/techgater/image/upload/v1709993047/my-uploads/aw62zeksnh3gn5llokkw.jpg"
-                                    />
-                                    <h4>Accessories demo</h4>
-                                </div>
-                            </th>
-                            <td>2</td>
-                            <td>
-                                Accessories are the key to making a style
-                                statemen
-                            </td>
-                            <td>09 Mar 2024</td>
-                            <td>
-                                <Button to={'/'} className="edit-btn">
-                                    <FontAwesomeIcon icon={faPen} />
-                                </Button>
-                                <Button to={'/'} className="delete-btn">
-                                    <FontAwesomeIcon icon={faTrash} />
-                                </Button>
-                            </td>
+                            {category && (
+                                <th>
+                                    <div className={cx('name-item')}>
+                                        <img
+                                            alt="Accessories demo"
+                                            src="https://res.cloudinary.com/techgater/image/upload/v1709993047/my-uploads/aw62zeksnh3gn5llokkw.jpg"
+                                        />
+                                        <h4>Accessories demo</h4>
+                                    </div>
+                                </th>
+                            )}
+                            {parentCategory && <td></td>}
+                            {totalItems && <td>2</td>}
+                            {decription && (
+                                <td>
+                                    Accessories are the key to making a style
+                                    statemen
+                                </td>
+                            )}
+                            {createdAt && <td>09 Mar 2024</td>}
+                            {actions && (
+                                <td>
+                                    <Button to={'/'} className="edit-btn">
+                                        <FontAwesomeIcon icon={faPen} />
+                                    </Button>
+                                    <Button to={'/'} className="delete-btn">
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </Button>
+                                </td>
+                            )}
                         </tr>
                     </tbody>
                 </table>
