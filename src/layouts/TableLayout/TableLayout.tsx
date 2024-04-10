@@ -11,6 +11,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
+import { useUpdateLayout } from '~/context/UpdateLayoutContext';
 
 const cx = classNames.bind(styles);
 
@@ -22,6 +23,12 @@ type TableLayoutType = {
     decription?: boolean;
     createdAt?: boolean;
     actions?: boolean;
+    handleDeteleToastify?: (
+        name: string,
+        id: string,
+        path: string,
+        SetDeleteButtonOnclick?: React.Dispatch<React.SetStateAction<boolean>>,
+    ) => void;
 };
 
 type DataType = {
@@ -32,6 +39,7 @@ type DataType = {
     description?: string;
     image?: string;
     createdAt?: string;
+    parentCategory?: string;
 };
 
 function TableLayout({
@@ -42,10 +50,13 @@ function TableLayout({
     decription = false,
     createdAt = false,
     actions = false,
+    handleDeteleToastify,
 }: TableLayoutType): JSX.Element {
     const location = useLocation();
     const path = location.pathname;
     const [dataArray, setDataArray] = useState<DataType[]>([]); // Use state to store data array
+    const [deleteButtonOnclick, SetDeleteButtonOnclick] = useState(false);
+    const { updateLayout } = useUpdateLayout()!;
 
     useEffect(() => {
         try {
@@ -67,7 +78,7 @@ function TableLayout({
             console.log(err);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [updateLayout]);
 
     return (
         <>
@@ -95,7 +106,9 @@ function TableLayout({
                                         </div>
                                     </th>
                                 )}
-                                {parentCategory && <td></td>}
+                                {parentCategory && (
+                                    <td>{item.parentCategory}</td>
+                                )}
                                 {totalItems && <td>0</td>}
                                 {decription && (
                                     <td>
@@ -122,7 +135,22 @@ function TableLayout({
                                                 <FontAwesomeIcon icon={faPen} />
                                             </Button>
                                             <Button
-                                                to={`http://localhost:8000${path}/delete/${item._id}`}
+                                                onClick={() => {
+                                                    if (
+                                                        !deleteButtonOnclick &&
+                                                        handleDeteleToastify
+                                                    ) {
+                                                        handleDeteleToastify(
+                                                            item?.name as string,
+                                                            item?._id as string,
+                                                            path,
+                                                            SetDeleteButtonOnclick,
+                                                        );
+                                                        SetDeleteButtonOnclick(
+                                                            true,
+                                                        );
+                                                    }
+                                                }}
                                                 className="delete-btn"
                                             >
                                                 <FontAwesomeIcon

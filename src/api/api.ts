@@ -9,7 +9,7 @@ const api = {
     mainCategoriesEdit: 'categories/main-categories/:id',
     subCategories: 'categories/sub-categories',
     subCategoriesAdd: 'categories/sub-categories/add',
-    subCategoriesEdit: 'categories/sub-categories/edit',
+    subCategoriesEdit: 'categories/sub-categories/:id',
     products: 'products',
 };
 

@@ -3,6 +3,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from '~/components/GlobalStyles';
 import { AuthProvider } from './context/AuthContext';
+import { UpdateLayoutContextProvider } from './context/UpdateLayoutContext';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement,
@@ -11,7 +12,9 @@ root.render(
     // <React.StrictMode>
     <GlobalStyles>
         <AuthProvider>
-            <App />
+            <UpdateLayoutContextProvider>
+                <App />
+            </UpdateLayoutContextProvider>
         </AuthProvider>
     </GlobalStyles>,
     // </React.StrictMode>,

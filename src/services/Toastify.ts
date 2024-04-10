@@ -13,7 +13,7 @@ export const showToastMessageSuccessfully = (message: string) => {
         render: `${message}`,
         type: 'success',
         isLoading: false,
-        autoClose: 5000, 
+        autoClose: 3000,
         position: 'top-center',
     });
 };
@@ -23,7 +23,7 @@ export const showToastMessageFailure = (message: string) => {
         render: `${message}`,
         type: 'error',
         isLoading: false,
-        autoClose: 5000,
+        autoClose: 3000,
         position: 'top-center',
     });
 };

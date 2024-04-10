@@ -1,26 +1,29 @@
-import styles from './MainCategoriesEdit.module.scss';
+import styles from './SubCategoriesEdit.module.scss';
 import classNames from 'classnames/bind';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import ActionLayout from '~/layouts/ActionLayout';
 import images from '~/assets/Image';
-import { useEffect, useRef, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { useRef, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function MainCategoriesEdit(): JSX.Element {
+function SubCategoriesEdit() {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [imageUrl, setImageUrl] = useState('');
     const [resizedImageUrl, setResizedImageUrl] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [metaTitle, setMetaTitle] = useState<string>('');
     const [slug, setSlug] = useState<string>('');
-    const [description, setDescription] = useState<string>('');
     const [imageSource, setImageSource] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const nameImageFile = 'category-image';
+    const [parentCategories, setParentCategories] = useState('');
+    const nameImageFile = 'sub-category-image';
 
-    const nameButtonSubmit: string = 'Edit Category';
+    const nameButtonSubmit = 'Edit Sub Category';
 
     const location = useLocation();
     const path = location.pathname;
@@ -94,6 +97,7 @@ function MainCategoriesEdit(): JSX.Element {
                                 title: string;
                                 slug: string;
                                 description: string;
+                                parentCategory: string;
                                 image: string;
                             } = res?.data;
 
@@ -101,6 +105,7 @@ function MainCategoriesEdit(): JSX.Element {
                             setMetaTitle(data?.title);
                             setSlug(data?.slug);
                             setDescription(data?.description);
+                            setParentCategories(data?.parentCategory);
                             setImageSource(data?.image);
                         }
                     })
@@ -118,7 +123,7 @@ function MainCategoriesEdit(): JSX.Element {
         <div className={cx('edit')}>
             <DefaultLayout
                 active={'categories'}
-                page={['Dashboard', 'Categories', 'Edit']}
+                page={['Dashboard', 'Sub Categories', 'Edit']}
             >
                 <ActionLayout
                     leftColumn={
@@ -173,15 +178,45 @@ function MainCategoriesEdit(): JSX.Element {
                     }
                     rightColumn={
                         <>
-                            <div className={cx('image-container')}>
+                            <div className={cx('right-column')}>
+                                <div className={cx('selected-box')}>
+                                    <label>Parent Category</label>
+                                    <div className={cx('options-box')}>
+                                        <select
+                                            className={cx('custom-select')}
+                                            name="sub-categories"
+                                            value={parentCategories}
+                                            onChange={(e) => {
+                                                setParentCategories(
+                                                    e.target.value,
+                                                );
+                                            }}
+                                        >
+                                            <option disabled></option>
+                                            <option>Clothes</option>
+                                            <option>Shoes</option>
+                                            <option>Accessories</option>
+                                        </select>
+                                        <div
+                                            className={cx(
+                                                'custom-select-arrow',
+                                            )}
+                                        >
+                                            <FontAwesomeIcon
+                                                className={cx('icon')}
+                                                icon={faChevronDown}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className={cx('image')}>
-                                    <label htmlFor="category-image">
+                                    <label htmlFor="sub-category-image">
                                         Image 512 * 512
                                     </label>
                                     <input
                                         ref={fileInputRef}
-                                        name="category-image"
-                                        id="category-image"
+                                        name="sub-category-image"
+                                        id={nameImageFile}
                                         type="file"
                                         onChange={handleFileChange}
                                     />
@@ -222,6 +257,8 @@ function MainCategoriesEdit(): JSX.Element {
                     SetSlug={setSlug}
                     description={description}
                     SetDescription={setDescription}
+                    parentCategories={parentCategories}
+                    SetParentCategories={setParentCategories}
                     ImageFile={imageFile}
                     NameImageFile={nameImageFile}
                     nameButtonSubmit={nameButtonSubmit}
@@ -231,4 +268,4 @@ function MainCategoriesEdit(): JSX.Element {
     );
 }
 
-export default MainCategoriesEdit;
+export default SubCategoriesEdit;

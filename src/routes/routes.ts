@@ -8,6 +8,7 @@ import SubCategories from '~/pages/SubCategories';
 import MainCategoriesAdd from '~/pages/MainCategories/MainCategoriesAdd';
 import MainCategoriesEdit from '~/pages/MainCategories/MainCategoriesEdit';
 import SubCategoriesAdd from '~/pages/SubCategories/SubCategoriesAdd';
+    import SubCategoriesEdit from '~/pages/SubCategories/SubCategoriesEdit';
 
 import api from '~/api/api';
 
@@ -23,6 +24,7 @@ const publicRoutes = [
     { path: api.mainCategoriesEdit, component: MainCategoriesEdit },
     { path: api.subCategories, component: SubCategories },
     { path: api.subCategoriesAdd, component: SubCategoriesAdd },
+    { path: api.subCategoriesEdit, component: SubCategoriesEdit },
 ];
 
 // Private Routes

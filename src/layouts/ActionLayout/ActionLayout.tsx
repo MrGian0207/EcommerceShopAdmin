@@ -73,11 +73,10 @@ function ActionLayout({
         metaTitle && formData.append('title', metaTitle || '');
         slug && formData.append('slug', slug || '');
         description && formData.append('description', description || '');
-        parentCategories &&
-            formData.append('parentCategories', parentCategories);
+        parentCategories && formData.append('parentCategory', parentCategories);
         ImageFile &&
             formData.append(NameImageFile as string, ImageFile || null);
-            
+
         try {
             fetch(`http://localhost:8000${path}`, {
                 method: 'POST',
