@@ -30,7 +30,6 @@ function CustomContentToastify({
     const { SetUpdateLayout } = useUpdateLayout()!;
 
     const handleConfirm = () => {
-        console.log(id);
         Toastify.showToastMessagePending();
         fetch(`http://localhost:8000${path}/delete/${id}`, {
             method: 'DELETE',
@@ -55,6 +54,7 @@ function CustomContentToastify({
                 console.log(error);
             });
     };
+    
     return (
         <div className={cx('msg-container')}>
             <p className={cx('msg-title')}>{title}</p>

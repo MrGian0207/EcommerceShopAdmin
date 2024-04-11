@@ -6,6 +6,7 @@ import images from '~/assets/Image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useRef, useState } from 'react';
+import * as HandleImageFile from '~/utils/HandleImageFile';
 
 const cx = classNames.bind(styles);
 
@@ -20,63 +21,7 @@ function SubCategoriesAdd() {
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [parentCategories, setParentCategories] = useState('');
     const nameImageFile = 'sub-category-image';
-
     const nameButtonSubmit = 'Create Sub Category';
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files && event.target.files[0];
-        setImageFile(file);
-
-        if (file) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = () => {
-                const result = reader.result as string;
-                setImageUrl(result);
-                resizeImage(result);
-            };
-        }
-    };
-
-    const resizeImage = (imageUrl: string) => {
-        const img = new Image();
-        img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            if (ctx) {
-                const maxWidth = 512;
-                const maxHeight = 512;
-                let width = img.width;
-                let height = img.height;
-
-                if (width > height) {
-                    if (width > maxWidth) {
-                        height *= maxWidth / width;
-                        width = maxWidth;
-                    }
-                } else {
-                    if (height > maxHeight) {
-                        width *= maxHeight / height;
-                        height = maxHeight;
-                    }
-                }
-
-                canvas.width = width;
-                canvas.height = height;
-
-                ctx.drawImage(img, 0, 0, width, height);
-                const resizedImageUrl = canvas.toDataURL();
-                setResizedImageUrl(resizedImageUrl);
-            }
-        };
-        img.src = imageUrl;
-    };
-
-    const handleFileSelect = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
-        }
-    };
 
     return (
         <div className={cx('edit')}>
@@ -177,10 +122,21 @@ function SubCategoriesAdd() {
                                         name="sub-category-image"
                                         id={nameImageFile}
                                         type="file"
-                                        onChange={handleFileChange}
+                                        onChange={(e) => {
+                                            HandleImageFile.handleFileChange(
+                                                e,
+                                                setImageFile,
+                                                setImageUrl,
+                                                setResizedImageUrl,
+                                            );
+                                        }}
                                     />
                                     <div
-                                        onClick={handleFileSelect}
+                                        onClick={() => {
+                                            HandleImageFile.handleFileSelect(
+                                                fileInputRef,
+                                            );
+                                        }}
                                         className={cx('image-custom')}
                                     >
                                         <div className="box">
