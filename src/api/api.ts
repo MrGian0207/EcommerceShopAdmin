@@ -3,14 +3,17 @@ const api = {
     register: '/auth/register',
     forgetPassword: '/auth/forgot-password',
     dashboard: '/dashboard',
-    brands: '/brands',
     mainCategories: 'categories/main-categories',
     mainCategoriesAdd: 'categories/main-categories/add',
     mainCategoriesEdit: 'categories/main-categories/:id',
     subCategories: 'categories/sub-categories',
     subCategoriesAdd: 'categories/sub-categories/add',
     subCategoriesEdit: 'categories/sub-categories/:id',
-    products: 'products',
+    brands: '/brands',
+    brandsAdd: '/brands/add',
+    brandsEdit: '/brands/:id',
+    product: 'products',
+    productAdd: '/products/add',
 };
 
 export default api;

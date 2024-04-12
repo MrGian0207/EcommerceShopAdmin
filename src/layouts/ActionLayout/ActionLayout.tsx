@@ -1,6 +1,5 @@
 import styles from './ActionLayout.module.scss';
 import classNames from 'classnames/bind';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Toastify from '~/services/Toastify';
 import { FormEventHandler, ReactNode, useRef, memo } from 'react';
@@ -138,7 +137,6 @@ function ActionLayout({
                     </button>
                 </div>
             </form>
-            <ToastContainer />
         </>
     );
 }

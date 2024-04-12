@@ -1,9 +1,12 @@
-.category-name,
+.product-name,
 .meta-title,
 .slug,
-.description {
+.tag,
+.description,
+.product-code {
     display: flex;
     flex-direction: column;
+    width: 100%;
 
     & label {
         color: rgb(99, 115, 129);
@@ -20,6 +23,18 @@
         font-size: 1rem;
         border: 2px solid rgba(145, 158, 171, 0.32);
         transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+        &:focus {
+            border: 2px solid rgb(82 95 225) !important;
+        }
+
+        &:hover {
+            border: 2px solid var(--black-color);
+        }
+
+        &:focus:hover {
+            border: 2px solid rgb(82 95 225) !important;
+        }
     }
 
     & textarea {
@@ -31,10 +46,7 @@
         border: 2px solid rgba(145, 158, 171, 0.32);
         border-radius: 3px;
         resize: none;
-    }
 
-    & input,
-    textarea {
         &:focus {
             outline: none;
             border: 2px solid rgb(82 95 225);
@@ -50,28 +62,34 @@
         }
     }
 }
+
+.row {
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    gap: 15px;
+}
+
 .right-column {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 20px;
     padding: 24px;
     background-color: var(--white-color);
     border-radius: 8px;
     box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
         rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
 
-    & label {
-        color: rgb(99, 115, 129);
-        font-size: 0.875rem;
-        margin-bottom: 8px;
-        font-weight: 600;
-
-        cursor: pointer;
-    }
-    
     & .image {
         display: flex;
         flex-direction: column;
+
+        & label {
+            color: rgb(99, 115, 129);
+            font-size: 0.875rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
 
         & input {
             display: none;

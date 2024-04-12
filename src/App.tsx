@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes/routes';
 import { memo } from 'react';
+import { ToastContainer } from 'react-toastify';
+
 function App() {
     return (
         <Router>
@@ -18,6 +20,7 @@ function App() {
                     })}
                 </Routes>
             </div>
+            <ToastContainer role="alert" />
         </Router>
     );
 }

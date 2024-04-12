@@ -35,12 +35,13 @@ export const handleDeteleToastify = (
     path: string,
     SetDeleteButtonOnclick?: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
+
     const closeToast = () => {
         SetDeleteButtonOnclick && SetDeleteButtonOnclick(false);
-        toast.dismiss();
+        toast.dismiss(ToastId);
     };
 
-    toast.warning(
+    const ToastId = toast.warning(
         <CustomContentToastify
             title={`Do you wanna delete ${name}`}
             button={true}

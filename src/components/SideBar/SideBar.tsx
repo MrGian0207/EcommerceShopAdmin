@@ -54,7 +54,7 @@ function SideBar({ active }: SideBarType): JSX.Element {
                     iconLeft={faStore}
                     children={['Product']}
                     active={active === 'product' && true}
-                    title={'product'}
+                    title={'products'}
                 />
                 <SideBarItems
                     iconLeft={faCartShopping}

@@ -20,8 +20,12 @@ type TableLayoutType = {
     category?: boolean;
     parentCategory?: boolean;
     totalItems?: boolean;
-    decription?: boolean;
+    description?: boolean;
     createdAt?: boolean;
+    status?: boolean;
+    rating?: boolean;
+    price?: boolean;
+    featured?: boolean;
     actions?: boolean;
     handleDeteleToastify?: (
         name: string,
@@ -39,6 +43,10 @@ type DataType = {
     description?: string;
     image?: string;
     createdAt?: string;
+    status?: string;
+    rating?: number;
+    price?: string;
+    featured?: boolean;
     parentCategory?: string;
 };
 
@@ -47,7 +55,11 @@ function TableLayout({
     category = false,
     parentCategory = false,
     totalItems = false,
-    decription = false,
+    description = false,
+    status = false,
+    rating = false,
+    price = false,
+    featured = false,
     createdAt = false,
     actions = false,
     handleDeteleToastify,
@@ -110,7 +122,7 @@ function TableLayout({
                                     <td>{item.parentCategory}</td>
                                 )}
                                 {totalItems && <td>0</td>}
-                                {decription && (
+                                {description && (
                                     <td>
                                         <div className={cx('description')}>
                                             {item.description}
@@ -118,11 +130,31 @@ function TableLayout({
                                     </td>
                                 )}
                                 {createdAt && (
-                                    <td>
+                                    <td className={cx('created-at')}>
                                         {format(
                                             new Date(item.createdAt as string),
                                             'dd MMM yyyy',
                                         )}
+                                    </td>
+                                )}
+                                {status && (
+                                    <td className={cx('status')}>
+                                        {item.status}
+                                    </td>
+                                )}
+                                {rating && (
+                                    <td className={cx('rating')}>
+                                        {item.rating}
+                                    </td>
+                                )}
+                                {price && (
+                                    <td className={cx('price')}>
+                                        {`$${item.price}`}
+                                    </td>
+                                )}
+                                {featured && (
+                                    <td className={cx('featured')}>
+                                        {`$${item.featured}`}
                                     </td>
                                 )}
                                 {actions && (

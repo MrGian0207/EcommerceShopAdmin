@@ -1,8 +1,8 @@
+import styles from './Product.module.scss';
+import classNames from 'classnames/bind';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import Button from '~/components/Button';
 import TableLayout from '~/layouts/TableLayout';
-import styles from './MainCategories.module.scss';
-import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,35 +10,36 @@ import * as Toastify from '~/services/Toastify';
 
 const cx = classNames.bind(styles);
 
-function MainCategories() {
+function Product() {
     return (
-        <div className={cx('main-categories')}>
+        <div className={cx('product')}>
             <DefaultLayout
-                active={'categories'}
-                page={['Dashboard', 'Categories']}
+                active={'product'}
+                page={['Dashboard', 'Product List']}
                 searchEngine={true}
                 buttons={[
-                    <Button
-                        to={'/categories/main-categories/add'}
-                        className="button-add"
-                    >
+                    <Button to={'/products/add'} className="button-add">
                         <FontAwesomeIcon icon={faPlus} />
-                        Add Category
+                        Add Product
                     </Button>,
                 ]}
             >
                 <TableLayout
                     headers={[
                         'Category',
-                        'Total Items',
-                        'Description',
                         'Created at',
+                        'Status',
+                        'Rating',
+                        'Price',
+                        'Featured',
                         'Actions',
                     ]}
                     category
-                    totalItems
-                    description
                     createdAt
+                    status
+                    rating
+                    price
+                    featured
                     actions
                     handleDeteleToastify={Toastify.handleDeteleToastify}
                 />
@@ -47,4 +48,4 @@ function MainCategories() {
     );
 }
 
-export default MainCategories;
+export default Product;

@@ -5,6 +5,7 @@ import { faCancel, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Toastify from '~/services/Toastify';
 import { useUpdateLayout } from '~/context/UpdateLayoutContext';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -28,33 +29,40 @@ function CustomContentToastify({
     handleReject,
 }: CustomContentToastifyType): JSX.Element {
     const { SetUpdateLayout } = useUpdateLayout()!;
+    const [deleteButtonOnclick, setDeleteButtonOnclick] = useState(false);
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
+        setDeleteButtonOnclick(true);
         Toastify.showToastMessagePending();
-        fetch(`http://localhost:8000${path}/delete/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id }),
-        })
-            .then((res) => {
-                return res.json();
+        try {
+            await fetch(`http://localhost:8000${path}/delete/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id }),
             })
-            .then((data) => {
-                if (data?.status === 'Success') {
-                    Toastify.showToastMessageSuccessfully(data?.message);
-                    SetUpdateLayout();
-                    // window.location.reload();
-                } else if (data?.status === 'Error') {
-                    Toastify.showToastMessageFailure(data?.message);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    if (data?.status === 'Success') {
+                        Toastify.showToastMessageSuccessfully(data?.message);
+                        SetUpdateLayout();
+                    } else if (data?.status === 'Error') {
+                        Toastify.showToastMessageFailure(data?.message);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } catch (error) {
+            console.log(error);
+        }
+        handleReject && handleReject();
+        setDeleteButtonOnclick(false);
     };
-    
+
     return (
         <div className={cx('msg-container')}>
             <p className={cx('msg-title')}>{title}</p>
@@ -62,7 +70,7 @@ function CustomContentToastify({
                 {button && confirmButton && (
                     <Button
                         onClick={() => {
-                            handleConfirm();
+                            !deleteButtonOnclick && handleConfirm();
                         }}
                         className={cx('msg-confirm-button')}
                         rightIcon={<FontAwesomeIcon icon={faTrash} />}

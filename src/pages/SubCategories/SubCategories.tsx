@@ -5,7 +5,6 @@ import styles from './SubCategories.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ToastContainer } from 'react-toastify';
 import * as Toastify from '~/services/Toastify';
 
 const cx = classNames.bind(styles);
@@ -40,7 +39,6 @@ function SubCategories(): JSX.Element {
                     actions
                     handleDeteleToastify={Toastify.handleDeteleToastify}
                 />{' '}
-                <ToastContainer role="alert" />
             </DefaultLayout>
         </div>
     );

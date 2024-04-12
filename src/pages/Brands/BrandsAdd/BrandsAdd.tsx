@@ -1,17 +1,14 @@
-import styles from './SubCategoriesAdd.module.scss';
+import styles from './BrandsAdd.module.scss';
 import classNames from 'classnames/bind';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import ActionLayout from '~/layouts/ActionLayout';
 import images from '~/assets/Image';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import * as HandleImageFile from '~/utils/HandleImageFile';
-import OptionSelect from '~/components/OptionSelect';
 
 const cx = classNames.bind(styles);
 
-function SubCategoriesAdd() {
+function BrandsAdd(): JSX.Element {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [imageUrl, setImageUrl] = useState('');
     const [resizedImageUrl, setResizedImageUrl] = useState<string>('');
@@ -20,53 +17,23 @@ function SubCategoriesAdd() {
     const [slug, setSlug] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const [parentCategories, setParentCategories] = useState<string>('');
-    const [nameParentCategoryArray, setNameParentCategoryArray] = useState([]);
-    const nameImageFile = 'sub-category-image';
-    const nameButtonSubmit = 'Create Sub Category';
-
-    useEffect(() => {
-        fetch(
-            'http://localhost:8000/categories/main-categories/parent-categories',
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-            },
-        )
-            .then((res) => {
-                return res.json();
-            })
-            .then((res) => {
-                if (res?.status === 'Success') {
-                    if (res?.data) {
-                        setNameParentCategoryArray(res?.data);
-                    }
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+    const nameImageFile = 'brands-image';
+    const nameButtonSubmit = 'Create Brands';
 
     return (
-        <div className={cx('edit')}>
+        <div className={cx('add')}>
             <DefaultLayout
-                active={'categories'}
-                page={['Dashboard', 'Sub Categories', 'Add']}
+                active={'brands'}
+                page={['Dashboard', 'Brands', 'Add']}
             >
                 <ActionLayout
                     leftColumn={
                         <>
-                            <div className={cx('category-name')}>
-                                <label htmlFor="category-name">
-                                    Category Name
-                                </label>
+                            <div className={cx('brands-name')}>
+                                <label htmlFor="brands-name">Brand Name</label>
                                 <input
-                                    name="category-name"
-                                    id="category-name"
+                                    name="brands-name"
+                                    id="brands-name"
                                     type="text"
                                     onChange={(e) => setName(e.target.value)}
                                     value={name}
@@ -110,23 +77,15 @@ function SubCategoriesAdd() {
                     }
                     rightColumn={
                         <>
-                            <div className={cx('right-column')}>
-                                <OptionSelect
-                                    dataOptions={parentCategories}
-                                    setDataOptions={setParentCategories}
-                                    dataOptionsArray={
-                                        nameParentCategoryArray as []
-                                    }
-                                    labelName="Parent Category"
-                                />
+                            <div className={cx('image-container')}>
                                 <div className={cx('image')}>
-                                    <label htmlFor="sub-category-image">
+                                    <label htmlFor="brands-image">
                                         Image 512 * 512
                                     </label>
                                     <input
                                         ref={fileInputRef}
-                                        name="sub-category-image"
-                                        id={nameImageFile}
+                                        name="brands-image"
+                                        id="brands-image"
                                         type="file"
                                         onChange={(e) => {
                                             HandleImageFile.handleFileChange(
@@ -174,8 +133,6 @@ function SubCategoriesAdd() {
                     SetSlug={setSlug}
                     description={description}
                     SetDescription={setDescription}
-                    parentCategories={parentCategories}
-                    SetParentCategories={setParentCategories}
                     ImageFile={imageFile}
                     NameImageFile={nameImageFile}
                     nameButtonSubmit={nameButtonSubmit}
@@ -185,4 +142,4 @@ function SubCategoriesAdd() {
     );
 }
 
-export default SubCategoriesAdd;
+export default BrandsAdd;
