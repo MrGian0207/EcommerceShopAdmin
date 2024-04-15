@@ -2,40 +2,34 @@ import styles from './OptionSelect.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 
 const cx = classNames.bind(styles);
 
-type OptionSelectType = {
+// Định nghĩa kiểu dữ liệu cho props của OptionSelect
+type OptionSelectProps = {
     dataOptions?: string;
     setDataOptions?: React.Dispatch<React.SetStateAction<string>>;
-    dataOptionsArray?: [];
     labelName?: string;
 };
 
-function OptionSelect({
-    dataOptions,
-    setDataOptions,
-    dataOptionsArray,
-    labelName = 'Option',
-}: OptionSelectType): JSX.Element {
+// Thêm kiểu dữ liệu cho ref
+const OptionSelect: ForwardRefRenderFunction<
+    HTMLSelectElement,
+    OptionSelectProps
+> = ({ dataOptions, setDataOptions, labelName }, ref) => {
     return (
         <div className={cx('selected-box')}>
             <label>{labelName}</label>
             <div className={cx('options-box')}>
                 <select
+                    ref={ref}
                     className={cx('custom-select')}
-                    value={dataOptions}
+                    value={dataOptions && dataOptions}
                     onChange={(e) => {
                         setDataOptions && setDataOptions(e.target.value);
                     }}
-                >
-                    <option disabled></option>
-
-                    {dataOptionsArray &&
-                        dataOptionsArray.map((value) => {
-                            return <option key={value}>{value}</option>;
-                        })}
-                </select>
+                ></select>
                 <div className={cx('custom-select-arrow')}>
                     <FontAwesomeIcon
                         className={cx('icon')}
@@ -45,6 +39,6 @@ function OptionSelect({
             </div>
         </div>
     );
-}
+};
 
-export default OptionSelect;
+export default forwardRef(OptionSelect);

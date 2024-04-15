@@ -3,8 +3,6 @@ import classNames from 'classnames/bind';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import ActionLayout from '~/layouts/ActionLayout';
 import images from '~/assets/Image';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useRef, useState, useEffect } from 'react';
 import * as HandleImageFile from '~/utils/HandleImageFile';
 import OptionSelect from '~/components/OptionSelect';
@@ -21,28 +19,41 @@ function SubCategoriesAdd() {
     const [description, setDescription] = useState<string>('');
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [parentCategories, setParentCategories] = useState<string>('');
-    const [nameParentCategoryArray, setNameParentCategoryArray] = useState([]);
     const nameImageFile = 'sub-category-image';
     const nameButtonSubmit = 'Create Sub Category';
 
+    const CategoryOptionSelectRef = useRef<HTMLSelectElement>(null);
     useEffect(() => {
-        fetch(
-            'http://localhost:8000/categories/main-categories/parent-categories',
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
+        fetch('http://localhost:8000/categories/main-categories/name', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
             },
-        )
+        })
             .then((res) => {
                 return res.json();
             })
-            .then((res) => {
-                if (res?.status === 'Success') {
-                    if (res?.data) {
-                        setNameParentCategoryArray(res?.data);
+            .then((mainCategoriesData) => {
+                if (
+                    mainCategoriesData?.status === 'Success' &&
+                    mainCategoriesData?.data
+                ) {
+                    const selectElement = CategoryOptionSelectRef.current;
+                    if (selectElement) {
+                        selectElement.innerHTML = '';
+
+                        const option = document.createElement('option');
+                        option.value = 'None';
+                        option.textContent = 'None';
+                        selectElement.appendChild(option);
+
+                        mainCategoriesData.data.forEach((item: string) => {
+                            const option = document.createElement('option');
+                            option.value = item;
+                            option.textContent = item;
+                            selectElement.appendChild(option);
+                        });
                     }
                 }
             })
@@ -114,9 +125,7 @@ function SubCategoriesAdd() {
                                 <OptionSelect
                                     dataOptions={parentCategories}
                                     setDataOptions={setParentCategories}
-                                    dataOptionsArray={
-                                        nameParentCategoryArray as []
-                                    }
+                                    ref={CategoryOptionSelectRef}
                                     labelName="Parent Category"
                                 />
                                 <div className={cx('image')}>
@@ -174,8 +183,8 @@ function SubCategoriesAdd() {
                     SetSlug={setSlug}
                     description={description}
                     SetDescription={setDescription}
-                    parentCategories={parentCategories}
-                    SetParentCategories={setParentCategories}
+                    Categories={parentCategories}
+                    SetCategories={setParentCategories}
                     ImageFile={imageFile}
                     NameImageFile={nameImageFile}
                     nameButtonSubmit={nameButtonSubmit}

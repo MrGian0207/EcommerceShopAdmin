@@ -7,9 +7,10 @@
 }
 
 .left-column {
-    flex: 8;
+    flex: 7;
     display: flex;
     flex-direction: column;
+    height: fit-content;
     gap: 20px;
     padding: 24px;
     background-color: var(--white-color);
@@ -20,7 +21,7 @@
 }
 
 .right-column {
-    flex: 4;
+    flex: 5;
     height: fit-content;
     display: flex;
     flex-direction: column;

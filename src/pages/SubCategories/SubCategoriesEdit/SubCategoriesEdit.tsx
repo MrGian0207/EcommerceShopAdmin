@@ -21,74 +21,63 @@ function SubCategoriesEdit() {
     const [description, setDescription] = useState<string>('');
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [parentCategories, setParentCategories] = useState('');
-    const [nameParentCategoryArray, setNameParentCategoryArray] = useState([]);
     const nameImageFile = 'sub-category-image';
     const nameButtonSubmit = 'Edit Sub Category';
+
+    const CategoryOptionSelectRef = useRef<HTMLSelectElement>(null);
 
     const location = useLocation();
     const path = location.pathname;
 
     useEffect(() => {
-        if (path) {
-            try {
-                fetch(`http://localhost:8000${path}`)
-                    .then((res) => {
-                        return res.json();
-                    })
-                    .then((res) => {
-                        if (res?.status === 'Success') {
-                            const data: {
-                                name: string;
-                                title: string;
-                                slug: string;
-                                description: string;
-                                parentCategory: string;
-                                image: string;
-                            } = res?.data;
-
-                            setName(data?.name);
-                            setMetaTitle(data?.title);
-                            setSlug(data?.slug);
-                            setDescription(data?.description);
-                            setParentCategories(data?.parentCategory);
-                            setImageSource(data?.image);
-                        }
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-        fetch(
-            'http://localhost:8000/categories/main-categories/parent-categories',
-            {
+        Promise.all([
+            fetch('http://localhost:8000/categories/main-categories/name', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
                 },
-            },
-        )
-            .then((res) => {
-                return res.json();
-            })
-            .then((res) => {
-                if (res?.status === 'Success') {
-                    if (res?.data) {
-                        setNameParentCategoryArray(res?.data);
+            }).then((res) => res.json()),
+            path &&
+                fetch(`http://localhost:8000${path}`).then((res) => res.json()),
+        ])
+            .then(([mainCategoriesData, responseData]) => {
+                if (
+                    mainCategoriesData?.status === 'Success' &&
+                    mainCategoriesData?.data
+                ) {
+                    const selectElement = CategoryOptionSelectRef.current;
+                    if (selectElement) {
+                        selectElement.innerHTML = '';
+
+                        const option = document.createElement('option');
+                        option.value = 'None';
+                        option.textContent = 'None';
+                        selectElement.appendChild(option);
+
+                        mainCategoriesData.data.forEach((item: string) => {
+                            const option = document.createElement('option');
+                            option.value = item;
+                            option.textContent = item;
+                            selectElement.appendChild(option);
+                        });
                     }
+                }
+
+                if (responseData?.status === 'Success') {
+                    const data = responseData.data;
+                    setName(data?.name);
+                    setMetaTitle(data?.title);
+                    setSlug(data?.slug);
+                    setDescription(data?.description);
+                    setParentCategories(data?.parentCategory);
+                    setImageSource(data?.image);
                 }
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [path]);
 
     return (
         <div className={cx('edit')}>
@@ -153,9 +142,7 @@ function SubCategoriesEdit() {
                                 <OptionSelect
                                     dataOptions={parentCategories}
                                     setDataOptions={setParentCategories}
-                                    dataOptionsArray={
-                                        nameParentCategoryArray as []
-                                    }
+                                    ref={CategoryOptionSelectRef}
                                     labelName="Parent Category"
                                 />
 
@@ -218,8 +205,8 @@ function SubCategoriesEdit() {
                     SetSlug={setSlug}
                     description={description}
                     SetDescription={setDescription}
-                    parentCategories={parentCategories}
-                    SetParentCategories={setParentCategories}
+                    Categories={parentCategories}
+                    SetCategories={setParentCategories}
                     ImageFile={imageFile}
                     NameImageFile={nameImageFile}
                     nameButtonSubmit={nameButtonSubmit}

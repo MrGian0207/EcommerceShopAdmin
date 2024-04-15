@@ -3,33 +3,296 @@ import classNames from 'classnames/bind';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import ActionLayout from '~/layouts/ActionLayout';
 import images from '~/assets/Image';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect, memo } from 'react';
 import * as HandleImageFile from '~/utils/HandleImageFile';
 import OptionSelect from '~/components/OptionSelect';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faCircleMinus,
+    faCircleXmark,
+} from '@fortawesome/free-solid-svg-icons';
+import ReactModal from 'react-modal';
+import VariantItems from '~/components/VariantItems';
 
 const cx = classNames.bind(styles);
 
+type VariantType = {
+    variantName?: string;
+    variantSize?: string;
+    variantColor?: string;
+    variantProductSKU?: string;
+    variantQuantity?: string;
+    variantRegularPrice?: string;
+    variantSalePrice?: string;
+    variantImagesFile?: File[];
+};
+
 function ProductAdd(): JSX.Element {
+    // Set state for input belonging to the product
     const fileInputRef = useRef<HTMLInputElement | null>(null);
-    const [imageUrl, setImageUrl] = useState('');
-    const [resizedImageUrl, setResizedImageUrl] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [metaTitle, setMetaTitle] = useState<string>('');
     const [slug, setSlug] = useState<string>('');
     const [description, setDescription] = useState<string>('');
-    const [imageFile, setImageFile] = useState<File | null>(null);
     const [categories, setCategories] = useState('');
-    const [categoriesArray, setCategoriesArray] = useState([]);
-    const [subcategories, setSubCategories] = useState('');
-    const [subCategoriesArray, setSubCategoriesArray] = useState([]);
+    const [subCategories, setSubCategories] = useState('None');
     const [brand, setBrand] = useState('');
-    const [brandArray, setBrandArray] = useState([]);
-    const [gender, setGender] = useState('');
-    const [genderArray, setGenderArray] = useState([]);
-    const [status, setStatus] = useState('');
-    const [statusArray, setStatusArray] = useState([]);
-    const nameImageFile = 'product-image';
+    const [gender, setGender] = useState('None');
+    const [status, setStatus] = useState('Sale');
+    const [productCode, setProductCode] = useState('');
+    const [tags, setTags] = useState<string[]>([]);
+    const [featureProduct, setFeatureProduct] = useState('deactive');
+    const [toggleModalVariant, setToggleModalVariant] =
+        useState<boolean>(false);
+    const [toggleModalVariantEdit, setToggleModalVariantEdit] =
+        useState<boolean>(false);
+
+    /// Set state for input inside the Modal Variant
+    const [indexVariantEdit, setIndexVariantEdit] = useState<number>(0);
+    const [variantName, setVariantName] = useState<string>('');
+    const [size, setSize] = useState<string>('');
+    const [color, setColor] = useState<string>('');
+    const [productSKU, setProductSKU] = useState<string>('');
+    const [quantity, setQuantity] = useState<string>('');
+    const [regularPrice, setRegularPrice] = useState<string>('');
+    const [salePrice, setSalePrice] = useState<string>('');
+    const [imagePreviewArray, setImagePreviewArray] = useState<string[]>([]);
+    const [imagePreviewEditwArray, setImagePreviewEditArray] = useState<
+        string[]
+    >([]);
+
+    const [imageFileArray, setImageFileArray] = useState<File[]>([]);
+    const [defaultVariant, setDefaultVariant] = useState<string>('');
+
+    // Array of variants
+    const [variantArray, setVariantArray] = useState<VariantType[]>([]);
+
+    // TODO: name for upload image with format
+    const nameImageFile = 'product-variant-image';
+
+    // TODO: name button creat product
     const nameButtonSubmit = 'Create Product';
+
+    // TODO: useRef to write options element inside select element
+    const CategoryOptionSelectRef = useRef<HTMLSelectElement>(null);
+    const SubCategoryOptionSelectRef = useRef<HTMLSelectElement>(null);
+    const BrandOptionSelectRef = useRef<HTMLSelectElement>(null);
+    const GenderOptionSelectRef = useRef<HTMLSelectElement>(null);
+    const GenderOptionData: string[] = [
+        'None',
+        'Men',
+        'Women',
+        'Kids',
+        'Others',
+    ];
+    const StatusOptionSelectRef = useRef<HTMLSelectElement>(null);
+    const StatusOptionData: string[] = ['Sale', 'New', 'Regular', 'Disabled'];
+    const TagInputRef = useRef<HTMLInputElement>(null);
+
+    // Handle Raido Change
+    const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDefaultVariant(e.target.value);
+    };
+
+    // Handle Save Modal
+    const handleSaveModal = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    ) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setVariantArray((prevVariantArray) => {
+            return [
+                ...prevVariantArray,
+                {
+                    variantName: variantName,
+                    variantSize: size,
+                    variantColor: color,
+                    variantProductSKU: productSKU,
+                    variantQuantity: quantity,
+                    variantRegularPrice: regularPrice,
+                    variantSalePrice: salePrice,
+                    variantImagesFile: imageFileArray,
+                },
+            ];
+        });
+        HandleResetValueVariantModal();
+        closeModalVariant();
+    };
+
+    const handleSaveEditModal = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    ) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        setVariantArray((prevVariantArray) => {
+            prevVariantArray.forEach((prevVariant, index) => {
+                if (index === indexVariantEdit) {
+                    prevVariant.variantName = variantName;
+                    prevVariant.variantSize = size;
+                    prevVariant.variantColor = color;
+                    prevVariant.variantProductSKU = productSKU;
+                    prevVariant.variantQuantity = quantity;
+                    prevVariant.variantRegularPrice = regularPrice;
+                    prevVariant.variantSalePrice = salePrice;
+                    prevVariant.variantImagesFile = imageFileArray;
+                }
+            });
+            return [...prevVariantArray];
+        });
+        closeModalVariant();
+    };
+
+    //  Handle Cancel Modal
+    const handleCancelModal = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    ) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeModalVariant();
+    };
+
+    // Handle Open Modal
+    const openModalVariant = () => {
+        setToggleModalVariant(true);
+        HandleResetValueVariantModal();
+    };
+
+    // Handle Close Modal
+    const closeModalVariant = () => {
+        setToggleModalVariant(false);
+        setToggleModalVariantEdit(false);
+    };
+
+    // Handle reset modal value of variants
+    const HandleResetValueVariantModal = () => {
+        setVariantName(' ');
+        setSize(' ');
+        setColor(' ');
+        setProductSKU(' ');
+        setQuantity(' ');
+        setRegularPrice(' ');
+        setSalePrice(' ');
+        setImagePreviewArray([]);
+        setImageFileArray([]);
+    };
+
+    // Promise All => Call Api to get Options
+    useEffect(() => {
+        Promise.all([
+            fetch('http://localhost:8000/categories/main-categories/name', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+            }),
+            fetch('http://localhost:8000/categories/sub-categories/name', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+            }),
+            fetch('http://localhost:8000/brands/name', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+            }),
+        ])
+            .then(([mainCategoriesRes, subCategoriesRes, brandsRes]) =>
+                Promise.all([
+                    mainCategoriesRes.json(),
+                    subCategoriesRes.json(),
+                    brandsRes.json(),
+                ]),
+            )
+            .then(([mainCategoriesData, subCategoriesData, brandsData]) => {
+                if (
+                    mainCategoriesData?.status === 'Success' &&
+                    mainCategoriesData?.data
+                ) {
+                    const selectElement = CategoryOptionSelectRef.current;
+                    if (selectElement) {
+                        selectElement.innerHTML = '';
+                        setCategories(mainCategoriesData.data[0]);
+                        mainCategoriesData.data.forEach((item: string) => {
+                            const option = document.createElement('option');
+                            option.value = item;
+                            option.textContent = item;
+                            selectElement.appendChild(option);
+                        });
+                    }
+                }
+
+                if (
+                    subCategoriesData?.status === 'Success' &&
+                    subCategoriesData?.data
+                ) {
+                    const selectElement = SubCategoryOptionSelectRef.current;
+                    if (selectElement) {
+                        selectElement.innerHTML = '';
+                        const option = document.createElement('option');
+                        option.value = 'None';
+                        option.textContent = 'None';
+                        selectElement.appendChild(option);
+
+                        subCategoriesData.data.forEach((item: string) => {
+                            const option = document.createElement('option');
+                            option.value = item;
+                            option.textContent = item;
+                            selectElement.appendChild(option);
+                        });
+                    }
+                }
+
+                if (brandsData?.status === 'Success' && brandsData?.data) {
+                    const selectElement = BrandOptionSelectRef.current;
+                    if (selectElement) {
+                        selectElement.innerHTML = '';
+                        setBrand(brandsData.data[0]);
+                        brandsData.data.forEach((item: string) => {
+                            const option = document.createElement('option');
+                            option.value = item;
+                            option.textContent = item;
+                            selectElement.appendChild(option);
+                        });
+                    }
+                }
+
+                if (GenderOptionData) {
+                    const selectElement = GenderOptionSelectRef.current;
+                    if (selectElement) {
+                        selectElement.innerHTML = '';
+                        GenderOptionData.forEach((item: string) => {
+                            const option = document.createElement('option');
+                            option.value = item;
+                            option.textContent = item;
+                            selectElement.appendChild(option);
+                        });
+                    }
+                }
+
+                if (StatusOptionData) {
+                    const selectElement = StatusOptionSelectRef.current;
+                    if (selectElement) {
+                        selectElement.innerHTML = '';
+                        StatusOptionData.forEach((item: string) => {
+                            const option = document.createElement('option');
+                            option.value = item;
+                            option.textContent = item;
+                            selectElement.appendChild(option);
+                        });
+                    }
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className={cx('add')}>
@@ -38,8 +301,10 @@ function ProductAdd(): JSX.Element {
                 page={['Dashboard', 'Product', 'Add']}
             >
                 <ActionLayout
+                    // Left Column
                     leftColumn={
                         <>
+                            {/* TODO: Input product name */}
                             <div className={cx('product-name')}>
                                 <label htmlFor="product-name">
                                     Product Name
@@ -52,6 +317,7 @@ function ProductAdd(): JSX.Element {
                                     value={name}
                                 />
                             </div>
+                            {/* TODO: Input product title */}
                             <div className={cx('meta-title')}>
                                 <label htmlFor="meta-title">Meta Title</label>
                                 <input
@@ -64,40 +330,43 @@ function ProductAdd(): JSX.Element {
                                     value={metaTitle}
                                 />
                             </div>
+                            {/* TODO: Input product Categories and Sub Categories*/}
                             <div className={cx('row')}>
                                 <OptionSelect
                                     dataOptions={categories}
                                     setDataOptions={setCategories}
-                                    dataOptionsArray={categoriesArray as []}
                                     labelName="Category"
+                                    ref={CategoryOptionSelectRef}
                                 />
                                 <OptionSelect
-                                    dataOptions={subcategories}
+                                    dataOptions={subCategories}
                                     setDataOptions={setSubCategories}
-                                    dataOptionsArray={subCategoriesArray as []}
                                     labelName="Sub Category"
+                                    ref={SubCategoryOptionSelectRef}
                                 />
                             </div>
+                            {/* TODO: Input product Brand and Gender*/}
                             <div className={cx('row')}>
                                 <OptionSelect
                                     dataOptions={brand}
                                     setDataOptions={setBrand}
-                                    dataOptionsArray={brandArray as []}
                                     labelName="Brand"
+                                    ref={BrandOptionSelectRef}
                                 />
                                 <OptionSelect
                                     dataOptions={gender}
                                     setDataOptions={setGender}
-                                    dataOptionsArray={genderArray as []}
                                     labelName="Gender"
+                                    ref={GenderOptionSelectRef}
                                 />
                             </div>
+                            {/* TODO: Input product Status and Product Code*/}
                             <div className={cx('row')}>
                                 <OptionSelect
                                     dataOptions={status}
                                     setDataOptions={setStatus}
-                                    dataOptionsArray={statusArray as []}
                                     labelName="Status"
+                                    ref={StatusOptionSelectRef}
                                 />
                                 <div className={cx('product-code')}>
                                     <label htmlFor="tag">Product Code</label>
@@ -105,26 +374,117 @@ function ProductAdd(): JSX.Element {
                                         name="product-code"
                                         id="product-code"
                                         type="text"
-                                        // onChange={(e) => setTag(e.target.value)}
-                                        // value={tag}
+                                        onChange={(e) =>
+                                            setProductCode(e.target.value)
+                                        }
+                                        value={productCode}
                                     />
                                 </div>
                             </div>
+                            {/* TODO: Input product Tag*/}
                             <div className={cx('tag')}>
                                 <label htmlFor="tag">Tags</label>
-                                <input
-                                    name="tag"
-                                    id="tag"
-                                    type="text"
-                                    // onChange={(e) => setTag(e.target.value)}
-                                    // value={tag}
-                                />
+                                <div className={cx('tag-input-box')}>
+                                    {tags.length > 0 && (
+                                        <ul className={cx('show-tagName')}>
+                                            {tags.map((tag, index) => (
+                                                <li key={`${tag}-${index}`}>
+                                                    <p>{tag}</p>
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            setTags(
+                                                                (
+                                                                    prevTags: string[],
+                                                                ) => {
+                                                                    const index =
+                                                                        prevTags.indexOf(
+                                                                            tag,
+                                                                        );
+                                                                    if (
+                                                                        index !==
+                                                                        -1
+                                                                    ) {
+                                                                        const newTags =
+                                                                            [
+                                                                                ...prevTags,
+                                                                            ];
+                                                                        newTags.splice(
+                                                                            index,
+                                                                            1,
+                                                                        );
+                                                                        return newTags;
+                                                                    }
+                                                                    return prevTags;
+                                                                },
+                                                            );
+                                                        }}
+                                                        className={cx(
+                                                            'delete-tag',
+                                                        )}
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faCircleXmark}
+                                                        />
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                    <input
+                                        ref={TagInputRef}
+                                        id="tag"
+                                        type="text"
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault();
+                                                const inputElement =
+                                                    e.target as HTMLInputElement;
+                                                const newTag =
+                                                    inputElement.value.trim();
+                                                if (newTag !== '') {
+                                                    setTags(
+                                                        (
+                                                            prevTags: string[],
+                                                        ) => {
+                                                            return [
+                                                                ...prevTags,
+                                                                newTag,
+                                                            ];
+                                                        },
+                                                    );
+                                                    inputElement.value = '';
+                                                }
+                                            }
+                                        }}
+                                    />
+
+                                    {tags.length > 0 && (
+                                        <div
+                                            className={cx('clear-all-tags')}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setTags([]);
+                                                TagInputRef.current &&
+                                                    (TagInputRef.current.value =
+                                                        '');
+                                            }}
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faCircleXmark}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </>
                     }
                     rightColumn={
+                        // Right Column
                         <>
                             <div className={cx('right-column')}>
+                                {/* TODO: Input product Slug*/}
                                 <div className={cx('slug')}>
                                     <label htmlFor="slug">Slug</label>
                                     <input
@@ -137,6 +497,7 @@ function ProductAdd(): JSX.Element {
                                         value={slug}
                                     />
                                 </div>
+                                {/* TODO: Input product Description*/}
                                 <div className={cx('description')}>
                                     <label htmlFor="description">
                                         Description
@@ -151,53 +512,705 @@ function ProductAdd(): JSX.Element {
                                         rows={9}
                                     ></textarea>
                                 </div>
-                                {/* <div className={cx('image')}>
-                                    <label htmlFor="brands-image">
-                                        Image 512 * 512
-                                    </label>
-                                    <input
-                                        ref={fileInputRef}
-                                        name="brands-image"
-                                        id="brands-image"
-                                        type="file"
-                                        onChange={(e) => {
-                                            HandleImageFile.handleFileChange(
-                                                e,
-                                                setImageFile,
-                                                setImageUrl,
-                                                setResizedImageUrl,
-                                            );
-                                        }}
-                                    />
-                                    <div
-                                        onClick={() => {
-                                            HandleImageFile.handleFileSelect(
-                                                fileInputRef,
-                                            );
-                                        }}
-                                        className={cx('image-custom')}
-                                    >
-                                        <div className="box">
-                                            <h4>Drop or Select Images</h4>
-                                            <img
-                                                src={images.uploadImage}
-                                                alt=""
+                                {/* TODO: Input product Feature*/}
+                                <div className={cx('feature-product')}>
+                                    <div className={cx('toggle-box')}>
+                                        <input
+                                            onChange={(e) => {
+                                                e.target.checked === true
+                                                    ? setFeatureProduct(
+                                                          'active',
+                                                      )
+                                                    : setFeatureProduct(
+                                                          'deactive',
+                                                      );
+                                            }}
+                                            type="checkbox"
+                                            id="toggle"
+                                        />
+                                        <label
+                                            htmlFor="toggle"
+                                            className={cx('toggle-switch')}
+                                        ></label>
+                                    </div>
+                                    <label>Feature Product</label>
+                                </div>
+                                {/* TODO: Show product Variant*/}
+                                <div className={cx('variant-box')}>
+                                    {variantArray && (
+                                        <h3 className={cx('variant-label')}>
+                                            Variants
+                                        </h3>
+                                    )}
+                                    {variantArray &&
+                                        variantArray.map(
+                                            (variant, variantIndex) => (
+                                                <div
+                                                    key={`${variant.variantName}-${variantIndex}`}
+                                                >
+                                                    <VariantItems
+                                                        variantName={
+                                                            variant.variantName
+                                                        }
+                                                        variantColor={
+                                                            variant.variantColor
+                                                        }
+                                                        variantSize={
+                                                            variant.variantSize
+                                                        }
+                                                        variantSalePrice={
+                                                            variant.variantSalePrice
+                                                        }
+                                                        handleRadioChange={
+                                                            handleRadioChange
+                                                        }
+                                                        defaultVariant={
+                                                            defaultVariant
+                                                        }
+                                                        variantArray={
+                                                            variantArray
+                                                        }
+                                                        setVariantArray={
+                                                            setVariantArray
+                                                        }
+                                                        setIndexVariantEdit={
+                                                            setIndexVariantEdit
+                                                        }
+                                                        setVariantName={
+                                                            setVariantName
+                                                        }
+                                                        setSize={setSize}
+                                                        setColor={setColor}
+                                                        setProductSKU={
+                                                            setProductSKU
+                                                        }
+                                                        setQuantity={
+                                                            setQuantity
+                                                        }
+                                                        setRegularPrice={
+                                                            setRegularPrice
+                                                        }
+                                                        setSalePrice={
+                                                            setSalePrice
+                                                        }
+                                                        setImageFileArray={
+                                                            setImageFileArray
+                                                        }
+                                                        setToggleModalVariantEdit={
+                                                            setToggleModalVariantEdit
+                                                        }
+                                                        setImagePreviewEditArray={
+                                                            setImagePreviewEditArray
+                                                        }
+                                                    />
+                                                </div>
+                                            ),
+                                        )}
+                                </div>
+                                {/* Button to Add Variant */}
+                                <button
+                                    className={cx('button')}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        openModalVariant();
+                                    }}
+                                >
+                                    Add Variant
+                                </button>
+                                {/* Variant Modal for Set variants element  */}
+                                <ReactModal
+                                    isOpen={toggleModalVariant}
+                                    onRequestClose={() => {
+                                        closeModalVariant();
+                                    }}
+                                    ariaHideApp={false}
+                                    className={cx('custom-modal')}
+                                    overlayClassName={cx('overlay-custom')}
+                                    bodyOpenClassName={cx('body-open-custom')}
+                                >
+                                    {/* Form Variant Modal */}
+                                    <form className={cx('form-variant')}>
+                                        {/* Name Modal */}
+                                        <h2 className={cx('name-modal')}>
+                                            Variants
+                                        </h2>
+                                        {/* TODO: Input variant name */}
+                                        <div className={cx('variant-name-box')}>
+                                            <label htmlFor="name">
+                                                Variant Name
+                                            </label>
+                                            <input
+                                                name="variant-name"
+                                                id="variant-name"
+                                                type="text"
+                                                onChange={(e) =>
+                                                    setVariantName(
+                                                        e.target.value,
+                                                    )
+                                                }
                                             />
                                         </div>
-                                        <div className={cx('preview-image')}>
-                                            {imageUrl && (
-                                                <img
-                                                    src={resizedImageUrl}
-                                                    alt="preview"
+                                        {/* TODO: Input variant size, variant color and product SKU */}
+                                        <div className={cx('row')}>
+                                            {/* variant size */}
+                                            <div
+                                                className={cx(
+                                                    'variant-size-box',
+                                                )}
+                                            >
+                                                <label htmlFor="variant-size">
+                                                    Size
+                                                </label>
+                                                <input
+                                                    name="variant-size"
+                                                    id="variant-size"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setSize(e.target.value)
+                                                    }
                                                 />
-                                            )}
+                                            </div>
+                                            {/* variant color */}
+                                            <div
+                                                className={cx(
+                                                    'variant-color-box',
+                                                )}
+                                            >
+                                                <label htmlFor="variant-color">
+                                                    Color
+                                                </label>
+                                                <input
+                                                    name="variant-color"
+                                                    id="variant-color"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setColor(e.target.value)
+                                                    }
+                                                />
+                                            </div>
+                                            {/* variant product SKU */}
+                                            <div
+                                                className={cx(
+                                                    'variant-productSKU-box',
+                                                )}
+                                            >
+                                                <label htmlFor="variant-productSKU">
+                                                    Product SKU
+                                                </label>
+                                                <input
+                                                    name="variant-productSKU"
+                                                    id="variant-productSKU"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setProductSKU(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                </div> */}
+                                        {/* TODO: Input variant quantity, regular price and sale price */}
+                                        <div className={cx('row')}>
+                                            {/* variant quantity */}
+                                            <div
+                                                className={cx(
+                                                    'variant-quantity-box',
+                                                )}
+                                            >
+                                                <label htmlFor="variant-quantity">
+                                                    Quantity
+                                                </label>
+                                                <input
+                                                    name="variant-quantity"
+                                                    id="variant-quantity"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setQuantity(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                            {/* variant regular price */}
+                                            <div
+                                                className={cx(
+                                                    'variant-regularPrice-box',
+                                                )}
+                                            >
+                                                <label htmlFor="variant-regularPrice">
+                                                    Regular Price
+                                                </label>
+                                                <input
+                                                    name="variant-regularPrice"
+                                                    id="variant-regularPrice"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setRegularPrice(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                            {/* variant sale price */}
+                                            <div
+                                                className={cx(
+                                                    'variant-salePrice-box',
+                                                )}
+                                            >
+                                                <label htmlFor="variant-salePrice">
+                                                    Sale Price
+                                                </label>
+                                                <input
+                                                    name="variant-salePrice"
+                                                    id="variant-salePrice"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setSalePrice(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+                                        {/* TODO: Input for upload multi images */}
+                                        <div className={cx('image')}>
+                                            <label htmlFor="brands-image">
+                                                Product Images (1080 * 1080)
+                                            </label>
+                                            <input
+                                                ref={fileInputRef}
+                                                name="brands-image"
+                                                id="brands-image"
+                                                type="file"
+                                                onChange={(e) => {
+                                                    HandleImageFile.handleMultiFileChange(
+                                                        e,
+                                                        setImageFileArray,
+                                                        setImagePreviewArray,
+                                                    );
+                                                }}
+                                            />
+                                            <div
+                                                onClick={() => {
+                                                    HandleImageFile.handleFileSelect(
+                                                        fileInputRef,
+                                                    );
+                                                }}
+                                                className={cx('image-custom')}
+                                            >
+                                                <div className={cx('box')}>
+                                                    <img
+                                                        src={images.uploadImage}
+                                                        alt="upload"
+                                                    />
+                                                    <span
+                                                        className={cx(
+                                                            'image-description',
+                                                        )}
+                                                    >
+                                                        <h4>
+                                                            Drop or Select
+                                                            Images
+                                                        </h4>
+                                                        <p>
+                                                            Drop Images here or
+                                                            click through your
+                                                            machine
+                                                        </p>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* TODO: Show preview images have been uploaded */}
+                                        <div className={cx('row-image')}>
+                                            {imagePreviewArray.length > 0 &&
+                                                imagePreviewArray.map(
+                                                    (imagePreview, index) => {
+                                                        return (
+                                                            <div
+                                                                key={`imagePreview-${index}`}
+                                                            >
+                                                                <div
+                                                                    className={cx(
+                                                                        'preview-image',
+                                                                    )}
+                                                                >
+                                                                    <img
+                                                                        src={
+                                                                            imagePreview
+                                                                        }
+                                                                        alt="preview"
+                                                                    />
+                                                                    {/* button deleta preview image */}
+                                                                    <span
+                                                                        onClick={() => {
+                                                                            setImageFileArray(
+                                                                                (
+                                                                                    prevImageFile,
+                                                                                ) => [
+                                                                                    ...prevImageFile.filter(
+                                                                                        (
+                                                                                            imageFile,
+                                                                                            newIndex,
+                                                                                        ) =>
+                                                                                            newIndex !==
+                                                                                            index,
+                                                                                    ),
+                                                                                ],
+                                                                            );
+                                                                            setImagePreviewArray(
+                                                                                (
+                                                                                    prevImages,
+                                                                                ) => [
+                                                                                    ...prevImages.filter(
+                                                                                        (
+                                                                                            image,
+                                                                                            newindex,
+                                                                                        ) =>
+                                                                                            newindex !==
+                                                                                            index,
+                                                                                    ),
+                                                                                ],
+                                                                            );
+                                                                        }}
+                                                                        className={cx(
+                                                                            'delete-image',
+                                                                        )}
+                                                                    >
+                                                                        <FontAwesomeIcon
+                                                                            icon={
+                                                                                faCircleMinus
+                                                                            }
+                                                                        />
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    },
+                                                )}
+                                        </div>
+                                        {/* TODO: Button cancel and save of variant modal */}
+                                        <div className={cx('row-button')}>
+                                            {/* TODO: Button cancel modal */}
+                                            <button
+                                                className={cx('btn-cancel')}
+                                                onClick={handleCancelModal}
+                                            >
+                                                Cancel
+                                            </button>
+                                            {/* TODO: Button save modal*/}
+                                            <button
+                                                className={cx('btn-save')}
+                                                onClick={handleSaveModal}
+                                            >
+                                                Save
+                                            </button>
+                                        </div>
+                                    </form>
+                                </ReactModal>
+                                {/* Variant Modal for Edit variants element  */}
+                                <ReactModal
+                                    isOpen={toggleModalVariantEdit}
+                                    onRequestClose={() => {
+                                        closeModalVariant();
+                                    }}
+                                    ariaHideApp={false}
+                                    className={cx('custom-modal')}
+                                    overlayClassName={cx('overlay-custom')}
+                                    bodyOpenClassName={cx('body-open-custom')}
+                                >
+                                    {/* Form Variant Modal */}
+                                    <form className={cx('form-variant')}>
+                                        {/* Name Modal */}
+                                        <h2 className={cx('name-modal')}>
+                                            Variants Edit
+                                        </h2>
+                                        {/* TODO: Input variant name */}
+                                        <div className={cx('variant-name-box')}>
+                                            <label htmlFor="name">
+                                                Variant Name
+                                            </label>
+                                            <input
+                                                name="variant-name"
+                                                id="variant-name"
+                                                type="text"
+                                                onChange={(e) =>
+                                                    setVariantName(
+                                                        e.target.value,
+                                                    )
+                                                }
+                                                value={variantName}
+                                            />
+                                        </div>
+                                        {/* TODO: Input variant size, variant color and product SKU */}
+                                        <div className={cx('row')}>
+                                            {/* variant size */}
+                                            <div
+                                                className={cx(
+                                                    'variant-size-box',
+                                                )}
+                                            >
+                                                <label htmlFor="variant-size">
+                                                    Size
+                                                </label>
+                                                <input
+                                                    name="variant-size"
+                                                    id="variant-size"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setSize(e.target.value)
+                                                    }
+                                                    value={size}
+                                                />
+                                            </div>
+                                            {/* variant color */}
+                                            <div
+                                                className={cx(
+                                                    'variant-color-box',
+                                                )}
+                                            >
+                                                <label htmlFor="variant-color">
+                                                    Color
+                                                </label>
+                                                <input
+                                                    name="variant-color"
+                                                    id="variant-color"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setColor(e.target.value)
+                                                    }
+                                                    value={color}
+                                                />
+                                            </div>
+                                            {/* variant product SKU */}
+                                            <div
+                                                className={cx(
+                                                    'variant-productSKU-box',
+                                                )}
+                                            >
+                                                <label htmlFor="variant-productSKU">
+                                                    Product SKU
+                                                </label>
+                                                <input
+                                                    name="variant-productSKU"
+                                                    id="variant-productSKU"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setProductSKU(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    value={productSKU}
+                                                />
+                                            </div>
+                                        </div>
+                                        {/* TODO: Input variant quantity, regular price and sale price */}
+                                        <div className={cx('row')}>
+                                            {/* variant quantity */}
+                                            <div
+                                                className={cx(
+                                                    'variant-quantity-box',
+                                                )}
+                                            >
+                                                <label htmlFor="variant-quantity">
+                                                    Quantity
+                                                </label>
+                                                <input
+                                                    name="variant-quantity"
+                                                    id="variant-quantity"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setQuantity(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    value={quantity}
+                                                />
+                                            </div>
+                                            {/* variant regular price */}
+                                            <div
+                                                className={cx(
+                                                    'variant-regularPrice-box',
+                                                )}
+                                            >
+                                                <label htmlFor="variant-regularPrice">
+                                                    Regular Price
+                                                </label>
+                                                <input
+                                                    name="variant-regularPrice"
+                                                    id="variant-regularPrice"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setRegularPrice(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    value={regularPrice}
+                                                />
+                                            </div>
+                                            {/* variant sale price */}
+                                            <div
+                                                className={cx(
+                                                    'variant-salePrice-box',
+                                                )}
+                                            >
+                                                <label htmlFor="variant-salePrice">
+                                                    Sale Price
+                                                </label>
+                                                <input
+                                                    name="variant-salePrice"
+                                                    id="variant-salePrice"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setSalePrice(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    value={salePrice}
+                                                />
+                                            </div>
+                                        </div>
+                                        {/* TODO: Input for upload multi images */}
+                                        <div className={cx('image')}>
+                                            <label htmlFor="brands-image">
+                                                Product Images (1080 * 1080)
+                                            </label>
+                                            <input
+                                                ref={fileInputRef}
+                                                name="brands-image"
+                                                id="brands-image"
+                                                type="file"
+                                                onChange={(e) => {
+                                                    HandleImageFile.handleMultiFileChange(
+                                                        e,
+                                                        setImageFileArray,
+                                                        setImagePreviewEditArray,
+                                                    );
+                                                }}
+                                            />
+                                            <div
+                                                onClick={() => {
+                                                    HandleImageFile.handleFileSelect(
+                                                        fileInputRef,
+                                                    );
+                                                }}
+                                                className={cx('image-custom')}
+                                            >
+                                                <div className={cx('box')}>
+                                                    <img
+                                                        src={images.uploadImage}
+                                                        alt="upload"
+                                                    />
+                                                    <span
+                                                        className={cx(
+                                                            'image-description',
+                                                        )}
+                                                    >
+                                                        <h4>
+                                                            Drop or Select
+                                                            Images
+                                                        </h4>
+                                                        <p>
+                                                            Drop Images here or
+                                                            click through your
+                                                            machine
+                                                        </p>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* TODO: Show preview images have been uploaded */}
+                                        <div className={cx('row-image')}>
+                                            {imagePreviewEditwArray.length >
+                                                0 &&
+                                                imagePreviewEditwArray.map(
+                                                    (imagePreview, index) => {
+                                                        return (
+                                                            <div
+                                                                key={`imagePreview-${index}`}
+                                                            >
+                                                                <div
+                                                                    className={cx(
+                                                                        'preview-image',
+                                                                    )}
+                                                                >
+                                                                    <img
+                                                                        src={
+                                                                            imagePreview
+                                                                        }
+                                                                        alt="preview"
+                                                                    />
+                                                                    {/* button deleta preview image */}
+                                                                    <span
+                                                                        onClick={() => {
+                                                                            setImageFileArray(
+                                                                                (
+                                                                                    prevImageFile,
+                                                                                ) => [
+                                                                                    ...prevImageFile.filter(
+                                                                                        (
+                                                                                            imageFile,
+                                                                                            newIndex,
+                                                                                        ) =>
+                                                                                            newIndex !==
+                                                                                            index,
+                                                                                    ),
+                                                                                ],
+                                                                            );
+                                                                            setImagePreviewEditArray(
+                                                                                (
+                                                                                    prevImages,
+                                                                                ) => [
+                                                                                    ...prevImages.filter(
+                                                                                        (
+                                                                                            image,
+                                                                                            newindex,
+                                                                                        ) =>
+                                                                                            newindex !==
+                                                                                            index,
+                                                                                    ),
+                                                                                ],
+                                                                            );
+                                                                        }}
+                                                                        className={cx(
+                                                                            'delete-image',
+                                                                        )}
+                                                                    >
+                                                                        <FontAwesomeIcon
+                                                                            icon={
+                                                                                faCircleMinus
+                                                                            }
+                                                                        />
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    },
+                                                )}
+                                        </div>
+                                        {/* TODO: Button cancel and save of variant modal */}
+                                        <div className={cx('row-button')}>
+                                            {/* TODO: Button cancel modal */}
+                                            <button
+                                                className={cx('btn-cancel')}
+                                                onClick={handleCancelModal}
+                                            >
+                                                Cancel
+                                            </button>
+                                            {/* TODO: Button save modal*/}
+                                            <button
+                                                className={cx('btn-save')}
+                                                onClick={handleSaveEditModal}
+                                            >
+                                                Save
+                                            </button>
+                                        </div>
+                                    </form>
+                                </ReactModal>
                             </div>
                         </>
                     }
-                    SetImageUrl={setImageUrl}
                     name={name}
                     SetName={setName}
                     metaTitle={metaTitle}
@@ -206,13 +1219,22 @@ function ProductAdd(): JSX.Element {
                     SetSlug={setSlug}
                     description={description}
                     SetDescription={setDescription}
-                    ImageFile={imageFile}
                     NameImageFile={nameImageFile}
                     nameButtonSubmit={nameButtonSubmit}
+                    Categories={categories}
+                    SubCategories={subCategories}
+                    Brand={brand}
+                    Gender={gender}
+                    Status={status}
+                    ProductCode={productCode}
+                    Tag={tags}
+                    FeatureProduct={featureProduct}
+                    DefaultVariant={defaultVariant}
+                    VariantArray={variantArray}
                 />
             </DefaultLayout>
         </div>
     );
 }
 
-export default ProductAdd;
+export default memo(ProductAdd);

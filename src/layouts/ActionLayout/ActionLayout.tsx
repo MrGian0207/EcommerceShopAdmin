@@ -7,6 +7,17 @@ import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
+type VariantType = {
+    variantName?: string;
+    variantSize?: string;
+    variantColor?: string;
+    variantProductSKU?: string;
+    variantQuantity?: string;
+    variantRegularPrice?: string;
+    variantSalePrice?: string;
+    variantImagesFile?: File[];
+};
+
 type ActionLayoutType = {
     leftColumn: ReactNode;
     rightColumn: ReactNode;
@@ -19,10 +30,19 @@ type ActionLayoutType = {
     SetSlug?: React.Dispatch<React.SetStateAction<string>>;
     description?: string;
     SetDescription?: React.Dispatch<React.SetStateAction<string>>;
-    parentCategories?: string;
-    SetParentCategories?: React.Dispatch<React.SetStateAction<string>>;
+    Categories?: string;
+    SetCategories?: React.Dispatch<React.SetStateAction<string>>;
+    SubCategories?: string;
+    Brand?: string;
+    Gender?: string;
+    Status?: string;
+    ProductCode?: string;
+    FeatureProduct?: string;
+    Tag?: string[];
     ImageFile?: File | null;
     NameImageFile?: string | null;
+    DefaultVariant?: string;
+    VariantArray?: VariantType[];
     nameButtonSubmit?: string;
 };
 
@@ -38,8 +58,17 @@ function ActionLayout({
     SetSlug,
     description,
     SetDescription,
-    parentCategories,
-    SetParentCategories,
+    Categories,
+    SetCategories,
+    SubCategories,
+    Brand,
+    Gender,
+    Status,
+    ProductCode,
+    FeatureProduct,
+    Tag,
+    DefaultVariant,
+    VariantArray,
     ImageFile,
     NameImageFile = '',
     nameButtonSubmit = '',
@@ -48,15 +77,7 @@ function ActionLayout({
     let path = location.pathname; // Lấy đường dẫn từ URL
     const submit_ButtonRef = useRef<HTMLButtonElement>(null);
 
-    // const handleEmptyInput = () => {
-    //     if (SetName) SetName('');
-    //     if (SetMetaTitle) SetMetaTitle('');
-    //     if (SetSlug) SetSlug('');
-    //     if (SetDescription) SetDescription('');
-    //     if (SetParentCategories) SetParentCategories('');
-    //     if (SetImageUrl) SetImageUrl('');
-    // };
-
+    //Submit Form not varriants
     const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
 
@@ -68,11 +89,12 @@ function ActionLayout({
         Toastify.showToastMessagePending();
         const formData = new FormData();
 
+        // Insert data into the form to request
         name && formData.append('name', name || '');
         metaTitle && formData.append('title', metaTitle || '');
         slug && formData.append('slug', slug || '');
         description && formData.append('description', description || '');
-        parentCategories && formData.append('parentCategory', parentCategories);
+        Categories && formData.append('category', Categories);
         ImageFile &&
             formData.append(NameImageFile as string, ImageFile || null);
 
@@ -93,7 +115,140 @@ function ActionLayout({
                             );
                         }
                         if (data.status === 'Success') {
-                            // handleEmptyInput();
+                            Toastify.showToastMessageSuccessfully(
+                                data?.message,
+                            );
+                        } else {
+                            Toastify.showToastMessageFailure(data?.message);
+                        }
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                    if (submit_ButtonRef.current) {
+                        submit_ButtonRef.current.disabled = false;
+                        submit_ButtonRef.current.classList.remove(
+                            cx('disable_button'),
+                        );
+                    }
+                    Toastify.showToastMessageFailure(
+                        'Submit Failure !! Try it again',
+                    );
+                });
+
+            fetch(`http://localhost:8000${path}/variants`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((res) => {
+                    res.json();
+                })
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        } catch (error) {
+            console.log(error);
+            Toastify.showToastMessageFailure(
+                'Data Loaded Failure !! Try it again',
+            );
+        }
+    };
+
+    //Submit Form with varriants
+    const handleFormSubmitWithVariant: FormEventHandler<HTMLFormElement> = (
+        e,
+    ) => {
+        e.preventDefault();
+
+        if (submit_ButtonRef.current) {
+            submit_ButtonRef.current.disabled = true;
+            submit_ButtonRef.current.classList.add(cx('disable_button'));
+        }
+
+        Toastify.showToastMessagePending();
+        const formData = new FormData();
+
+        let variantName: string = '';
+        let variantSize: string = '';
+        let variantColor: string = '';
+        let variantProductSKU: string = '';
+        let variantQuantity: string = '';
+        let variantRegularPrice: string = '';
+        let variantSalePrice: string = '';
+        let variantNumberImagesOfVariant: string = '';
+        let variantAllImagesFile: File[] = [];
+
+        VariantArray &&
+            VariantArray.forEach((Variant) => {
+                variantName += `"${Variant.variantName}"-`;
+                variantSize += `"${Variant.variantSize}"-`;
+                variantColor += `"${Variant.variantColor}"-`;
+                variantProductSKU += `${Variant.variantProductSKU} `;
+                variantQuantity += `${Variant.variantQuantity} `;
+                variantRegularPrice += `${Variant.variantRegularPrice} `;
+                variantSalePrice += `${Variant.variantSalePrice} `;
+                variantNumberImagesOfVariant += `${Variant.variantImagesFile?.length?.toString()} `;
+                (Variant.variantImagesFile as []).length > 0 &&
+                    (Variant.variantImagesFile as []).forEach((image) => {
+                        variantAllImagesFile.push(image);
+                    });
+            });
+
+        //,Insert data into the form to request
+        name && formData.append('name', name);
+        metaTitle && formData.append('title', metaTitle);
+        slug && formData.append('slug', slug);
+        description && formData.append('description', description);
+        Categories && formData.append('category', Categories);
+        SubCategories && formData.append('subCategory', SubCategories);
+        Brand && formData.append('brand', Brand);
+        Gender && formData.append('gender', Gender);
+        Status && formData.append('status', Status);
+        ProductCode && formData.append('productCode', ProductCode);
+        Tag && formData.append('tag', Tag.join(' '));
+        FeatureProduct && formData.append('featureProduct', FeatureProduct);
+        DefaultVariant && formData.append('defaultVariant', DefaultVariant);
+        variantName && formData.append('variantName', variantName);
+        variantSize && formData.append('variantSize', variantSize);
+        variantColor && formData.append('variantColor', variantColor);
+        variantProductSKU &&
+            formData.append('variantProductSKU', variantProductSKU);
+        variantQuantity && formData.append('variantQuantity', variantQuantity);
+        variantRegularPrice &&
+            formData.append('variantRegularPrice', variantRegularPrice);
+        variantSalePrice &&
+            formData.append('variantSalePrice', variantSalePrice);
+        variantNumberImagesOfVariant &&
+            formData.append(
+                'variantNumberImagesOfVariant',
+                variantNumberImagesOfVariant,
+            );
+        variantAllImagesFile &&
+            variantAllImagesFile.forEach((ImageFile) => {
+                ImageFile &&
+                    formData.append(NameImageFile as string, ImageFile);
+            });
+
+        try {
+            fetch(`http://localhost:8000${path}`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    if (data) {
+                        if (submit_ButtonRef.current) {
+                            submit_ButtonRef.current.disabled = false;
+                            submit_ButtonRef.current.classList.remove(
+                                cx('disable_button'),
+                            );
+                        }
+                        if (data.status === 'Success') {
                             Toastify.showToastMessageSuccessfully(
                                 data?.message,
                             );
@@ -124,7 +279,14 @@ function ActionLayout({
 
     return (
         <>
-            <form className={cx('add-layout')} onSubmit={handleFormSubmit}>
+            <form
+                className={cx('add-layout')}
+                onSubmit={
+                    VariantArray
+                        ? handleFormSubmitWithVariant
+                        : handleFormSubmit
+                }
+            >
                 <div className={cx('left-column')}>{leftColumn}</div>
                 <div className={cx('right-column')}>
                     {rightColumn}

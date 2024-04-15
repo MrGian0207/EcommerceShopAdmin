@@ -12,7 +12,7 @@ import {
     faSun,
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState, memo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import SideBar from '../../components/SideBar';
@@ -379,4 +379,4 @@ function DefaultLayout({
     );
 }
 
-export default DefaultLayout;
+export default memo(DefaultLayout);
