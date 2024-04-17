@@ -10,7 +10,7 @@ import * as Toastify from '~/services/Toastify';
 
 const cx = classNames.bind(styles);
 
-function Product() {
+function Product(): JSX.Element {
     return (
         <div className={cx('product')}>
             <DefaultLayout

@@ -45,7 +45,7 @@ function VariantForm({
     handleSaveModal,
     imagePreviewArray,
     fileInputRef,
-}: VariantFormType) {
+}: VariantFormType): JSX.Element {
     return (
         <form className={cx('form-variant')}>
             {/* Name Modal */}

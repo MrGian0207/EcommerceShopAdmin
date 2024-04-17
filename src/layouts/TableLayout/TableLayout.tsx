@@ -6,14 +6,46 @@ import {
     faChevronLeft,
     faChevronRight,
     faPen,
+    faStar,
     faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useUpdateLayout } from '~/context/UpdateLayoutContext';
+import StatusItems from '~/components/StatusItems';
+import { memo } from 'react';
 
 const cx = classNames.bind(styles);
+
+type ProductType = {
+    name?: string;
+    title?: string;
+    slug?: string;
+    description?: string;
+    category?: string;
+    subCategory?: string;
+    brand?: string;
+    gender?: string;
+    status?: string;
+    productCode?: string;
+    tag?: string;
+    featureProduct?: string;
+    defaultVariant?: string;
+    variants?: Variant[];
+};
+
+type Variant = {
+    variantName?: string;
+    variantSize?: string;
+    variantColor?: string;
+    variantProductSKU?: string;
+    variantQuantity?: string;
+    variantRegularPrice?: string;
+    variantSalePrice?: string;
+    variantImagesFile?: string[];
+    product?: ProductType;
+};
 
 type TableLayoutType = {
     headers?: string[];
@@ -46,8 +78,13 @@ type DataType = {
     status?: string;
     rating?: number;
     price?: string;
-    featured?: boolean;
+    featureProduct?: string;
     parentCategory?: string;
+};
+
+type featureType = {
+    _id?: string;
+    feature?: string;
 };
 
 function TableLayout({
@@ -66,9 +103,13 @@ function TableLayout({
 }: TableLayoutType): JSX.Element {
     const location = useLocation();
     const path = location.pathname;
-    const [dataArray, setDataArray] = useState<DataType[]>([]); // Use state to store data array
+    const [dataArray, setDataArray] = useState<DataType[]>([]);
+    const [variantArray, setVariantArray] = useState<Variant[]>([]);
+    const [quantityArray, setQuantityArray] = useState<number[]>([]);
     const [deleteButtonOnclick, SetDeleteButtonOnclick] = useState(false);
     const { updateLayout } = useUpdateLayout()!;
+    const [featureArray, setFeatureArray] = useState<featureType[]>([]);
+    const [featureUpdates, setFeatureUpdates] = useState<featureType>({});
 
     useEffect(() => {
         try {
@@ -80,8 +121,29 @@ function TableLayout({
                     .then((res) => {
                         if (res?.status === 'Success') {
                             const data: DataType[] = res?.data;
+                            const features: featureType[] = [];
                             if (data) {
                                 setDataArray(data);
+                            }
+                            if (res?.variants) {
+                                setVariantArray(res?.variants);
+                            }
+                            if (res?.quantity) {
+                                setQuantityArray(res?.quantity);
+                            }
+                            data.forEach((value, index) => {
+                                if (value?.featureProduct) {
+                                    const _id = value?._id;
+                                    const active = value?.featureProduct;
+                                    features[index] = {
+                                        _id: _id,
+                                        feature: active,
+                                    };
+                                }
+                            });
+
+                            if (features.length > 0) {
+                                setFeatureArray(features);
                             }
                         }
                     });
@@ -91,6 +153,33 @@ function TableLayout({
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateLayout]);
+
+    useEffect(() => {
+        try {
+            if (featureArray.length && path) {
+                fetch(`http://localhost:8000${path}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(featureUpdates),
+                })
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        console.log(data);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [featureUpdates]);
 
     return (
         <>
@@ -105,14 +194,19 @@ function TableLayout({
                         </tr>
                     </thead>
                     <tbody>
-                        {dataArray.map((item) => (
+                        {dataArray.map((item, index) => (
                             <tr key={item._id}>
                                 {category && (
                                     <th>
                                         <div className={cx('name-item')}>
                                             <img
                                                 alt="Accessories demo"
-                                                src={item.image}
+                                                src={
+                                                    item.image
+                                                        ? item.image
+                                                        : variantArray[index]
+                                                              ?.variantImagesFile?.[0]
+                                                }
                                             />
                                             <h4>{item.name}</h4>
                                         </div>
@@ -139,22 +233,98 @@ function TableLayout({
                                 )}
                                 {status && (
                                     <td className={cx('status')}>
-                                        {item.status}
+                                        <StatusItems
+                                            quantity={quantityArray[index]}
+                                        />
                                     </td>
                                 )}
                                 {rating && (
-                                    <td className={cx('rating')}>
-                                        {item.rating}
+                                    <td>
+                                        <div className={cx('rating')}>
+                                            <FontAwesomeIcon icon={faStar} />
+                                            <FontAwesomeIcon icon={faStar} />
+                                            <FontAwesomeIcon icon={faStar} />
+                                            <FontAwesomeIcon icon={faStar} />
+                                            <FontAwesomeIcon icon={faStar} />
+                                        </div>
                                     </td>
                                 )}
                                 {price && (
                                     <td className={cx('price')}>
-                                        {`$${item.price}`}
+                                        {item.price
+                                            ? `$${item.price}`
+                                            : `$${variantArray[index]?.variantRegularPrice}`}
                                     </td>
                                 )}
                                 {featured && (
-                                    <td className={cx('featured')}>
-                                        {`$${item.featured}`}
+                                    <td>
+                                        <div className={cx('feature-product')}>
+                                            <div className={cx('toggle-box')}>
+                                                <input
+                                                    onChange={(e) => {
+                                                        e.target.checked =
+                                                            featureArray[index]
+                                                                ?.feature ===
+                                                            'active'
+                                                                ? true
+                                                                : false;
+                                                    }}
+                                                    checked={
+                                                        featureArray[index]
+                                                            ?.feature ===
+                                                        'active'
+                                                            ? true
+                                                            : false
+                                                    }
+                                                    type="checkbox"
+                                                    id={`toggle-${index}`}
+                                                />
+                                                <label
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setFeatureArray(
+                                                            (featureArray) => {
+                                                                featureArray.forEach(
+                                                                    (
+                                                                        value,
+                                                                        newIndex,
+                                                                    ) => {
+                                                                        if (
+                                                                            newIndex ===
+                                                                            index
+                                                                        ) {
+                                                                            featureArray[
+                                                                                index
+                                                                            ]
+                                                                                .feature ===
+                                                                            'active'
+                                                                                ? (featureArray[
+                                                                                      newIndex
+                                                                                  ].feature =
+                                                                                      'inactive')
+                                                                                : (featureArray[
+                                                                                      newIndex
+                                                                                  ].feature =
+                                                                                      'active');
+                                                                        }
+                                                                    },
+                                                                );
+                                                                return [
+                                                                    ...featureArray,
+                                                                ];
+                                                            },
+                                                        );
+                                                        setFeatureUpdates(
+                                                            featureArray[index],
+                                                        );
+                                                    }}
+                                                    htmlFor={`toggle-${index}`}
+                                                    className={cx(
+                                                        'toggle-switch',
+                                                    )}
+                                                ></label>
+                                            </div>
+                                        </div>
                                     </td>
                                 )}
                                 {actions && (
@@ -212,4 +382,4 @@ function TableLayout({
     );
 }
 
-export default TableLayout;
+export default memo(TableLayout);

@@ -33,6 +33,7 @@ const publicRoutes = [
     { path: api.brandsEdit, component: BrandsEdit },
     { path: api.product, component: Product },
     { path: api.productAdd, component: ProductAdd },
+
 ];
 
 // Private Routes

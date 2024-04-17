@@ -1,0 +1,31 @@
+.status-items {
+    height: 22px;
+    min-width: 22px;
+    line-height: 0;
+    border-radius: 8px;
+    cursor: default;
+    align-items: center;
+    white-space: nowrap;
+    display: inline-flex;
+    justify-content: center;
+    padding: 0px 8px;
+    // color: rgb(202, 92, 2);
+    font-size: 0.625rem;
+    // background-color: rgba(255, 171, 0, 0.16);
+    font-weight: 800;
+}
+
+.low {
+    color: rgb(255, 0, 0);
+    background-color: rgba(255, 0, 0, 0.16);
+}
+
+.medium {
+    color: rgb(202, 92, 2);
+    background-color: rgba(255, 171, 0, 0.16);
+}
+
+.high {
+    color: rgb(51, 161, 74);
+    background-color: (51, 161, 74, 0.16);
+}

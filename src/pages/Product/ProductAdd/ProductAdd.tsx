@@ -2,14 +2,10 @@ import styles from './ProductAdd.module.scss';
 import classNames from 'classnames/bind';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import ActionLayout from '~/layouts/ActionLayout';
-import images from '~/assets/Image';
 import { useRef, useState, useEffect, memo } from 'react';
-import * as HandleImageFile from '~/utils/HandleImageFile';
 import OptionSelect from '~/components/OptionSelect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faCircleXmark,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import ReactModal from 'react-modal';
 import VariantItems from '~/components/VariantItems';
 import VariantForm from '~/components/VariantForm';
