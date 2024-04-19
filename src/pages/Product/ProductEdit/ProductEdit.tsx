@@ -1,4 +1,4 @@
-import styles from './ProductAdd.module.scss';
+import styles from './ProductEdit.module.scss';
 import classNames from 'classnames/bind';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import ActionLayout from '~/layouts/ActionLayout';
@@ -9,6 +9,7 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import ReactModal from 'react-modal';
 import VariantItems from '~/components/VariantItems';
 import VariantForm from '~/components/VariantForm';
+import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -23,7 +24,10 @@ type VariantType = {
     variantImagesFile?: File[];
 };
 
-function ProductAdd(): JSX.Element {
+function ProductEdit(): JSX.Element {
+    const location = useLocation();
+    const path = location.pathname;
+
     // Set state for input belonging to the product
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [name, setName] = useState<string>('');
@@ -37,7 +41,7 @@ function ProductAdd(): JSX.Element {
     const [status, setStatus] = useState('Sale');
     const [productCode, setProductCode] = useState('');
     const [tags, setTags] = useState<string[]>([]);
-    const [featureProduct, setFeatureProduct] = useState('deactive');
+    const [featureProduct, setFeatureProduct] = useState('inactive');
     const [toggleModalVariant, setToggleModalVariant] =
         useState<boolean>(false);
     const [toggleModalVariantEdit, setToggleModalVariantEdit] =
@@ -53,11 +57,15 @@ function ProductAdd(): JSX.Element {
     const [regularPrice, setRegularPrice] = useState<string>('');
     const [salePrice, setSalePrice] = useState<string>('');
     const [imagePreviewArray, setImagePreviewArray] = useState<string[]>([]);
-
-
     const [imagePreviewEditwArray, setImagePreviewEditArray] = useState<
         string[]
     >([]);
+
+    // Image have saved to show preview in variant form modal
+    const [savedImageVariantArray, setSavedImageVariantArray] = useState<Array<string>[]>(
+        [],
+    );
+    const [savedImageVariantPreview, setSavedImageVariantPreview] = useState<string[]>([]);
 
     const [imageFileArray, setImageFileArray] = useState<File[]>([]);
     const [defaultVariant, setDefaultVariant] = useState<string>('');
@@ -69,7 +77,7 @@ function ProductAdd(): JSX.Element {
     const nameImageFile = 'product-variant-image';
 
     // TODO: name button creat product
-    const nameButtonSubmit = 'Create Product';
+    const nameButtonSubmit = 'Edit Product';
 
     // TODO: useRef to write options element inside select element
     const CategoryOptionSelectRef = useRef<HTMLSelectElement>(null);
@@ -290,13 +298,82 @@ function ProductAdd(): JSX.Element {
                 console.log(err);
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [path]);
+
+    useEffect(() => {
+        if (path) {
+            try {
+                fetch(`http://localhost:8000${path}`)
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((res) => {
+                        if (res?.status === 'Success') {
+                            const data = res?.data;
+                            setName(data?.name);
+                            setMetaTitle(data?.title);
+                            setTags((data?.tag).split(' '));
+                            setProductCode(data?.productCode);
+                            setSlug(data?.slug);
+                            setDescription(data?.description);
+                            setCategories(data?.category);
+                            setSubCategories(data?.subCategory);
+                            setGender(data?.gender);
+                            setBrand(data?.brand);
+                            setStatus(data?.status);
+                            setFeatureProduct(data?.featureProduct);
+                            setDefaultVariant(data?.defaultVariant);
+                            (data?.variants as VariantType[]).forEach(
+                                (variant) => {
+                                    setSavedImageVariantArray(
+                                        (prevSavedImageVariant) => {
+                                            return [
+                                                ...prevSavedImageVariant,
+                                                variant.variantImagesFile as [],
+                                            ];
+                                        },
+                                    );
+                                    setVariantArray((prevVariantArray) => {
+                                        return [
+                                            ...prevVariantArray,
+                                            {
+                                                variantName:
+                                                    variant.variantName,
+                                                variantSize:
+                                                    variant.variantSize,
+                                                variantColor:
+                                                    variant.variantColor,
+                                                variantProductSKU:
+                                                    variant.variantProductSKU,
+                                                variantQuantity:
+                                                    variant.variantQuantity,
+                                                variantRegularPrice:
+                                                    variant.variantRegularPrice,
+                                                variantSalePrice:
+                                                    variant.variantSalePrice,
+                                                variantImagesFile: [],
+                                            },
+                                        ];
+                                    });
+                                },
+                            );
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <div className={cx('add')}>
             <DefaultLayout
                 active={'product'}
-                page={['Dashboard', 'Product', 'Add']}
+                page={['Dashboard', 'Product', 'Edit']}
             >
                 <ActionLayout
                     // Left Column
@@ -520,9 +597,14 @@ function ProductAdd(): JSX.Element {
                                                           'active',
                                                       )
                                                     : setFeatureProduct(
-                                                          'deactive',
+                                                          'inactive',
                                                       );
                                             }}
+                                            checked={
+                                                featureProduct === 'active'
+                                                    ? true
+                                                    : false
+                                            }
                                             type="checkbox"
                                             id="toggle"
                                         />
@@ -594,8 +676,15 @@ function ProductAdd(): JSX.Element {
                                                         setImageFileArray={
                                                             setImageFileArray
                                                         }
+                                                        setSavedImageVariantPreview = {
+                                                            setSavedImageVariantPreview
+                                                        }
+
                                                         setToggleModalVariantEdit={
                                                             setToggleModalVariantEdit
+                                                        }
+                                                        savedImageVariantArray = {
+                                                            savedImageVariantArray
                                                         }
                                                         setImagePreviewEditArray={
                                                             setImagePreviewEditArray
@@ -677,9 +766,13 @@ function ProductAdd(): JSX.Element {
                                         imagePreviewArray={
                                             imagePreviewEditwArray
                                         }
-                                        fileInputRef={fileInputRef}
+                                        savedImageVariant={savedImageVariantPreview}
+                                        setSavedImageVariant={
+                                            setSavedImageVariantPreview
+                                        }
                                         variantArray={variantArray}
                                         indexVariantEdit={indexVariantEdit}
+                                        fileInputRef={fileInputRef}
                                     />
                                 </ReactModal>
                             </div>
@@ -711,4 +804,4 @@ function ProductAdd(): JSX.Element {
     );
 }
 
-export default memo(ProductAdd);
+export default memo(ProductEdit);

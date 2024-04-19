@@ -171,25 +171,11 @@ function ActionLayout({
         Toastify.showToastMessagePending();
         const formData = new FormData();
 
-        let variantName: string = '';
-        let variantSize: string = '';
-        let variantColor: string = '';
-        let variantProductSKU: string = '';
-        let variantQuantity: string = '';
-        let variantRegularPrice: string = '';
-        let variantSalePrice: string = '';
         let variantNumberImagesOfVariant: string = '';
         let variantAllImagesFile: File[] = [];
 
         VariantArray &&
             VariantArray.forEach((Variant) => {
-                variantName += `"${Variant.variantName}"-`;
-                variantSize += `"${Variant.variantSize}"-`;
-                variantColor += `"${Variant.variantColor}"-`;
-                variantProductSKU += `${Variant.variantProductSKU} `;
-                variantQuantity += `${Variant.variantQuantity} `;
-                variantRegularPrice += `${Variant.variantRegularPrice} `;
-                variantSalePrice += `${Variant.variantSalePrice} `;
                 variantNumberImagesOfVariant += `${Variant.variantImagesFile?.length?.toString()} `;
                 (Variant.variantImagesFile as []).length > 0 &&
                     (Variant.variantImagesFile as []).forEach((image) => {
@@ -211,26 +197,38 @@ function ActionLayout({
         Tag && formData.append('tag', Tag.join(' '));
         FeatureProduct && formData.append('featureProduct', FeatureProduct);
         DefaultVariant && formData.append('defaultVariant', DefaultVariant);
-        variantName && formData.append('variantName', variantName);
-        variantSize && formData.append('variantSize', variantSize);
-        variantColor && formData.append('variantColor', variantColor);
-        variantProductSKU &&
-            formData.append('variantProductSKU', variantProductSKU);
-        variantQuantity && formData.append('variantQuantity', variantQuantity);
-        variantRegularPrice &&
-            formData.append('variantRegularPrice', variantRegularPrice);
-        variantSalePrice &&
-            formData.append('variantSalePrice', variantSalePrice);
-        variantNumberImagesOfVariant &&
+        if (VariantArray && VariantArray.length > 0) {
             formData.append(
-                'variantNumberImagesOfVariant',
+                'variantNumberImagesOfVariants',
                 variantNumberImagesOfVariant,
             );
-        variantAllImagesFile &&
-            variantAllImagesFile.forEach((ImageFile) => {
-                ImageFile &&
-                    formData.append(NameImageFile as string, ImageFile);
+            VariantArray.forEach((variant) => {
+                formData.append('variantName', variant.variantName as string);
+                formData.append('variantSize', variant.variantSize as string);
+                formData.append('variantColor', variant.variantColor as string);
+                formData.append(
+                    'variantProductSKU',
+                    variant.variantProductSKU as string,
+                );
+                formData.append(
+                    'variantQuantity',
+                    variant.variantQuantity as string,
+                );
+                formData.append(
+                    'variantRegularPrice',
+                    variant.variantRegularPrice as string,
+                );
+                formData.append(
+                    'variantSalePrice',
+                    variant.variantSalePrice as string,
+                );
+                variant.variantImagesFile &&
+                    variant.variantImagesFile?.length > 0 &&
+                    variant.variantImagesFile?.forEach((image) => {
+                        formData.append(NameImageFile as string, image);
+                    });
             });
+        }
 
         try {
             fetch(`http://localhost:8000${path}`, {

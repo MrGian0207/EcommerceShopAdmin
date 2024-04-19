@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './VariantForm.module.scss';
 import classNames from 'classnames/bind';
 import * as HandleImageFile from '~/utils/HandleImageFile';
@@ -7,6 +7,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleMinus } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
+
+type VariantType = {
+    variantName?: string;
+    variantSize?: string;
+    variantColor?: string;
+    variantProductSKU?: string;
+    variantQuantity?: string;
+    variantRegularPrice?: string;
+    variantSalePrice?: string;
+    variantImagesFile?: File[];
+};
 
 type VariantFormType = {
     nameForm: string;
@@ -21,6 +32,10 @@ type VariantFormType = {
     setImagePreviewArray: React.Dispatch<React.SetStateAction<string[]>>;
     imagePreviewArray: string[];
     fileInputRef: React.MutableRefObject<HTMLInputElement | null>;
+    savedImageVariant?: string[];
+    setSavedImageVariant?: React.Dispatch<React.SetStateAction<string[]>>;
+    variantArray?: VariantType[];
+    indexVariantEdit?: number;
     handleCancelModal: (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     ) => void;
@@ -45,7 +60,47 @@ function VariantForm({
     handleSaveModal,
     imagePreviewArray,
     fileInputRef,
+    savedImageVariant,
+    setSavedImageVariant,
+    variantArray,
+    indexVariantEdit,
 }: VariantFormType): JSX.Element {
+    const [variantNameEdit, setVariantNameEdit] = useState(
+        (variantArray &&
+            variantArray[indexVariantEdit as number].variantName) ||
+            '',
+    );
+    const [variantSizeEdit, setVariantSizeEdit] = useState(
+        (variantArray &&
+            variantArray[indexVariantEdit as number].variantSize) ||
+            '',
+    );
+    const [variantColorEdit, setVariantColorEdit] = useState(
+        (variantArray &&
+            variantArray[indexVariantEdit as number].variantColor) ||
+            '',
+    );
+    const [variantProductSKUEdit, setVariantProductSKUEdit] = useState(
+        (variantArray &&
+            variantArray[indexVariantEdit as number].variantProductSKU) ||
+            '',
+    );
+    const [variantQuantityEdit, setVariantQuantityEdit] = useState(
+        (variantArray &&
+            variantArray[indexVariantEdit as number].variantQuantity) ||
+            '',
+    );
+    const [variantRegularPriceEdit, setVariantRegularPriceEdit] = useState(
+        (variantArray &&
+            variantArray[indexVariantEdit as number].variantRegularPrice) ||
+            '',
+    );
+    const [variantSalePriceEdit, setVariantSalePriceEdit] = useState(
+        (variantArray &&
+            variantArray[indexVariantEdit as number].variantSalePrice) ||
+            '',
+    );
+
     return (
         <form className={cx('form-variant')}>
             {/* Name Modal */}
@@ -57,7 +112,11 @@ function VariantForm({
                     name="variant-name"
                     id="variant-name"
                     type="text"
-                    onChange={(e) => setVariantName(e.target.value)}
+                    onChange={(e) => {
+                        setVariantName(e.target.value);
+                        setVariantNameEdit(e.target.value);
+                    }}
+                    value={variantNameEdit}
                 />
             </div>
             {/* TODO: Input variant size, variant color and product SKU */}
@@ -69,7 +128,11 @@ function VariantForm({
                         name="variant-size"
                         id="variant-size"
                         type="text"
-                        onChange={(e) => setSize(e.target.value)}
+                        onChange={(e) => {
+                            setSize(e.target.value);
+                            setVariantSizeEdit(e.target.value);
+                        }}
+                        value={variantSizeEdit}
                     />
                 </div>
                 {/* variant color */}
@@ -79,7 +142,11 @@ function VariantForm({
                         name="variant-color"
                         id="variant-color"
                         type="text"
-                        onChange={(e) => setColor(e.target.value)}
+                        onChange={(e) => {
+                            setColor(e.target.value);
+                            setVariantColorEdit(e.target.value);
+                        }}
+                        value={variantColorEdit}
                     />
                 </div>
                 {/* variant product SKU */}
@@ -89,7 +156,11 @@ function VariantForm({
                         name="variant-productSKU"
                         id="variant-productSKU"
                         type="text"
-                        onChange={(e) => setProductSKU(e.target.value)}
+                        onChange={(e) => {
+                            setProductSKU(e.target.value);
+                            setVariantProductSKUEdit(e.target.value);
+                        }}
+                        value={variantProductSKUEdit}
                     />
                 </div>
             </div>
@@ -102,7 +173,11 @@ function VariantForm({
                         name="variant-quantity"
                         id="variant-quantity"
                         type="text"
-                        onChange={(e) => setQuantity(e.target.value)}
+                        onChange={(e) => {
+                            setQuantity(e.target.value);
+                            setVariantQuantityEdit(e.target.value);
+                        }}
+                        value={variantQuantityEdit}
                     />
                 </div>
                 {/* variant regular price */}
@@ -112,7 +187,11 @@ function VariantForm({
                         name="variant-regularPrice"
                         id="variant-regularPrice"
                         type="text"
-                        onChange={(e) => setRegularPrice(e.target.value)}
+                        onChange={(e) => {
+                            setRegularPrice(e.target.value);
+                            setVariantRegularPriceEdit(e.target.value);
+                        }}
+                        value={variantRegularPriceEdit}
                     />
                 </div>
                 {/* variant sale price */}
@@ -122,7 +201,11 @@ function VariantForm({
                         name="variant-salePrice"
                         id="variant-salePrice"
                         type="text"
-                        onChange={(e) => setSalePrice(e.target.value)}
+                        onChange={(e) => {
+                            setSalePrice(e.target.value);
+                            setVariantSalePriceEdit(e.target.value);
+                        }}
+                        value={variantSalePriceEdit}
                     />
                 </div>
             </div>
@@ -163,13 +246,43 @@ function VariantForm({
             </div>
             {/* TODO: Show preview images have been uploaded */}
             <div className={cx('row-image')}>
-                {imagePreviewArray.length > 0 &&
+                {savedImageVariant &&
+                    savedImageVariant.length > 0 &&
+                    savedImageVariant.map((imagePreview, index) => {
+                        return (
+                            <div key={`imagePreview-${index}`}>
+                                <div className={cx('preview-image')}>
+                                    <img src={imagePreview} alt="preview" />
+                                    {/* button delete preview image */}
+                                    <span
+                                        onClick={() => {
+                                            setSavedImageVariant &&
+                                                setSavedImageVariant(
+                                                    (prevImages) => [
+                                                        ...prevImages.filter(
+                                                            (image, newindex) =>
+                                                                newindex !==
+                                                                index,
+                                                        ),
+                                                    ],
+                                                );
+                                        }}
+                                        className={cx('delete-image')}
+                                    >
+                                        <FontAwesomeIcon icon={faCircleMinus} />
+                                    </span>
+                                </div>
+                            </div>
+                        );
+                    })}
+                {imagePreviewArray &&
+                    imagePreviewArray.length > 0 &&
                     imagePreviewArray.map((imagePreview, index) => {
                         return (
                             <div key={`imagePreview-${index}`}>
                                 <div className={cx('preview-image')}>
                                     <img src={imagePreview} alt="preview" />
-                                    {/* button deleta preview image */}
+                                    {/* button delete preview image */}
                                     <span
                                         onClick={() => {
                                             setImageFileArray(

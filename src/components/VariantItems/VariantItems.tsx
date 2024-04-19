@@ -42,6 +42,10 @@ type VariantItemsType = {
     setRegularPrice?: React.Dispatch<React.SetStateAction<string>>;
     setSalePrice?: React.Dispatch<React.SetStateAction<string>>;
     setImageFileArray?: React.Dispatch<React.SetStateAction<File[]>>;
+    setSavedImageVariantPreview?: React.Dispatch<
+        React.SetStateAction<string[]>
+    >;
+    savedImageVariantArray?: Array<string>[];
 };
 
 function VariantItems({
@@ -64,6 +68,8 @@ function VariantItems({
     setRegularPrice,
     setSalePrice,
     setImageFileArray,
+    setSavedImageVariantPreview,
+    savedImageVariantArray,
 }: VariantItemsType): JSX.Element {
     return (
         <div className={cx('variant')}>
@@ -131,6 +137,16 @@ function VariantItems({
                                         ) {
                                             setIndexVariantEdit &&
                                                 setIndexVariantEdit(index);
+                                            if (
+                                                setSavedImageVariantPreview &&
+                                                savedImageVariantArray
+                                            ) {
+                                                setSavedImageVariantPreview(
+                                                    savedImageVariantArray[
+                                                        index
+                                                    ],
+                                                );
+                                            }
                                         }
                                     });
 
@@ -158,20 +174,29 @@ function VariantItems({
                                         variant[0].variantSalePrice as string,
                                     );
 
-                                    setImageFileArray(
-                                        variant[0].variantImagesFile as File[],
-                                    );
+                                    if (
+                                        typeof variant[0]
+                                            .variantImagesFile?.[0] !== 'string'
+                                    ) {
+                                        setImageFileArray(
+                                            variant[0]
+                                                .variantImagesFile as File[],
+                                        );
 
-                                    const imagesURL: string[] =
-                                        variant[0].variantImagesFile?.flatMap(
-                                            (file) => {
-                                                return URL.createObjectURL(
-                                                    file,
-                                                );
-                                            },
-                                        ) ?? [];
+                                        const imagesURL: string[] =
+                                            variant[0].variantImagesFile?.flatMap(
+                                                (file) => {
+                                                    return URL.createObjectURL(
+                                                        file,
+                                                    );
+                                                },
+                                            ) ?? [];
 
-                                    setImagePreviewEditArray(imagesURL);
+                                        setImagePreviewEditArray(imagesURL);
+                                    } else {
+                                        setImagePreviewEditArray([]);
+                                    }
+
                                     setToggleModalVariantEdit(true);
                                 }
                             }}

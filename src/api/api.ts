@@ -14,6 +14,7 @@ const api = {
     brandsEdit: '/brands/:id',
     product: 'products',
     productAdd: '/products/add',
+    productEdit: '/products/:id',
 };
 
 export default api;

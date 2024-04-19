@@ -13,6 +13,7 @@ import BrandsAdd from '~/pages/Brands/BrandsAdd';
 import BrandsEdit from '~/pages/Brands/BrandsEdit';
 import Product from '~/pages/Product';
 import ProductAdd from '~/pages/Product/ProductAdd';
+import ProductEdit from '~/pages/Product/ProductEdit';
 
 import api from '~/api/api';
 
@@ -33,7 +34,7 @@ const publicRoutes = [
     { path: api.brandsEdit, component: BrandsEdit },
     { path: api.product, component: Product },
     { path: api.productAdd, component: ProductAdd },
-
+    { path: api.productEdit, component: ProductEdit },
 ];
 
 // Private Routes
