@@ -1,31 +1,64 @@
 .status-items {
-    height: 22px;
-    min-width: 22px;
-    line-height: 0;
-    border-radius: 8px;
-    cursor: default;
-    align-items: center;
-    white-space: nowrap;
-    display: inline-flex;
-    justify-content: center;
-    padding: 0px 8px;
-    // color: rgb(202, 92, 2);
-    font-size: 0.625rem;
-    // background-color: rgba(255, 171, 0, 0.16);
-    font-weight: 800;
+  height: 22px;
+  min-width: 22px;
+  line-height: 0;
+  border-radius: 8px;
+  cursor: default;
+  align-items: center;
+  white-space: nowrap;
+  display: inline-flex;
+  justify-content: center;
+  padding: 0px 8px;
+  font-size: 0.625rem;
+  font-weight: 800;
 }
 
 .low {
-    color: rgb(255, 0, 0);
-    background-color: rgba(255, 0, 0, 0.16);
+  color: rgb(255, 0, 0);
+  background-color: rgba(255, 0, 0, 0.12);
 }
 
 .medium {
-    color: rgb(202, 92, 2);
-    background-color: rgba(255, 171, 0, 0.16);
+  color: rgb(202, 92, 2);
+  background-color: rgba(255, 171, 0, 0.12);
 }
 
 .high {
-    color: rgb(51, 161, 74);
-    background-color: (51, 161, 74, 0.16);
+  color: rgb(51, 161, 74);
+  background-color: rgba(51, 161, 74, 0.12);
+}
+
+.pending {
+  color: rgb(0, 0, 255);
+  background-color: rgba(0, 0, 255, 0.12);
+}
+
+.ontheway {
+  color: rgb(202, 92, 2);
+  background-color: rgba(255, 171, 0, 0.12);
+}
+
+.delivered {
+  color: rgb(51, 161, 74);
+  background-color: rgba(51, 161, 74, 0.12);
+}
+
+.returned {
+  color: rgb(255, 0, 0);
+  background-color: rgba(255, 0, 0, 0.12);
+}
+
+.cancelled {
+  color: rgb(255, 0, 0);
+  background-color: rgba(255, 0, 0, 0.12);
+}
+
+.Not-verified {
+  color: rgb(139, 0, 0);
+  background-color: rgba(139, 0, 0, 0.12);
+}
+
+.Active {
+  color: rgb(51, 161, 74);
+  background-color: rgba(51, 161, 74, 0.12);
 }

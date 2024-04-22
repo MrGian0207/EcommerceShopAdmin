@@ -34,6 +34,7 @@ export const handleDeteleToastify = (
     id: string,
     path: string,
     SetDeleteButtonOnclick?: React.Dispatch<React.SetStateAction<boolean>>,
+    navigate?: boolean
 ) => {
 
     const closeToast = () => {
@@ -50,6 +51,7 @@ export const handleDeteleToastify = (
             id={id}
             path={path}
             handleReject={closeToast}
+            navigate={navigate}
         />,
         {
             position: 'top-center',

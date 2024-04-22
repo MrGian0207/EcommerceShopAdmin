@@ -40,6 +40,8 @@ function MainCategories() {
                     description
                     createdAt
                     actions
+                    editButton
+                    deleteButton
                     handleDeteleToastify={Toastify.handleDeteleToastify}
                 />
             </DefaultLayout>

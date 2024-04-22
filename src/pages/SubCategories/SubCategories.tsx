@@ -37,6 +37,8 @@ function SubCategories(): JSX.Element {
                     parentCategory
                     createdAt
                     actions
+                    editButton
+                    deleteButton
                     handleDeteleToastify={Toastify.handleDeteleToastify}
                 />{' '}
             </DefaultLayout>

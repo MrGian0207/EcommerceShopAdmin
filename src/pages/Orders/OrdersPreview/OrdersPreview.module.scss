@@ -1,0 +1,225 @@
+.ordersPreview {
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+
+.previewDetail {
+   background-color: rgb(255, 255, 255);
+   color: rgb(33, 43, 54);
+   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+   border-radius: 8px;
+   box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
+      rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
+
+   & .content-wrapper {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+
+      & .title {
+         display: flex;
+         flex: row;
+         justify-content: space-between;
+         align-items: center;
+         padding-bottom: 8px;
+         border-bottom: thin solid rgb(196, 205, 213);
+
+         & h6 {
+            font-size: 1.125rem;
+            font-weight: 800;
+         }
+         & p {
+            font-size: 1rem;
+            font-weight: 500;
+         }
+      }
+
+      & .card-box {
+         padding-top: 8px;
+         display: flex;
+
+         & .card-item:first-child {
+            padding-left: 0;
+         }
+
+         & .card-item {
+            flex: 1;
+            padding-top: 16px;
+            padding-left: 16px;
+            color: rgb(33, 43, 54);
+            color: currentColor;
+            border-radius: 8px;
+
+            & .content-card {
+               min-height: 226px;
+               padding: 24px;
+               box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
+                  rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
+
+               & .title-card {
+                  display: flex;
+                  align-items: center;
+
+                  & h6 {
+                     font-size: 1.125rem;
+                     font-weight: 800;
+                     margin-left: 16px;
+                  }
+
+                  & .icon-card {
+                     cursor: pointer;
+                     display: flex;
+                     justify-content: center;
+                     align-items: center;
+                     min-height: 50px;
+                     min-width: 50px;
+                     -webkit-tap-highlight-color: transparent;
+                     font-weight: 700;
+                     font-size: 0.875rem;
+                     padding: 6px 16px;
+                     border-radius: 3px;
+                     transition: background-color 250ms
+                           cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+                        box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+                        border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+                        color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+                     box-shadow: rgba(82, 95, 225, 0.24) 0px 8px 16px 0px;
+                     color: rgb(33, 43, 54);
+                     background: rgba(82, 95, 225, 0.3);
+
+                     &:hover {
+                        text-decoration: none;
+                        background-color: rgb(0, 100, 202);
+                        box-shadow: none;
+                     }
+                  }
+               }
+
+               & .card-information {
+                  margin-top: 24px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 5px;
+
+                  & p {
+                     font-size: 0.875rem;
+                     font-weight: 500;
+
+                     & strong {
+                        font-weight: 800;
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}
+
+.previewProduct {
+   margin-bottom: 20px;
+   background-color: rgb(255, 255, 255);
+   color: rgb(33, 43, 54);
+   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+   border-radius: 8px;
+   box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
+      rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
+
+   & .product-quantity {
+      padding: 16px;
+      font-size: 1.25rem;
+      font-weight: 800;
+   }
+
+   & .product-table {
+      & .product {
+         width: 100%;
+         border-collapse: collapse;
+         border-spacing: 0px;
+         min-width: 800px;
+         overflow: auto;
+         border-color: gray;
+
+         & th {
+            line-height: 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            vertical-align: inherit;
+            text-align: left;
+            padding: 16px;
+            border-bottom: none;
+            color: rgb(99, 115, 129);
+            background-color: rgb(243, 244, 248);
+         }
+
+         & td {
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 400;
+            vertical-align: inherit;
+            text-align: left;
+            padding: 16px 16px;
+            color: rgb(33, 43, 54);
+            border-bottom: 1px solid rgb(196, 205, 213);
+
+            & .image-product {
+               display: flex;
+               align-items: center;
+               & img {
+                  width: 64px;
+                  height: 64px;
+                  object-fit: cover;
+                  margin: 0px 16px;
+                  border-radius: 8px;
+               }
+            }
+         }
+      }
+
+      & .total {
+         width: 100%;
+         border-collapse: collapse;
+         border-spacing: 0px;
+         min-width: 800px;
+         overflow: auto;
+         border-color: gray;
+
+         & tr {
+            width: 100%;
+         }
+
+         & tr:first-child {
+            background-color: rgb(243, 244, 248);
+         }
+
+         td:first-child {
+            width: 10%;
+         }
+
+         td:nth-child(2) {
+            width: 55%;
+         }
+
+         td:last-child {
+            width: 35%;
+            padding-right: 30px;
+         }
+         & td {
+            line-height: 1.57143;
+            font-size: 0.875rem;
+            font-weight: 800;
+            display: table-cell;
+            vertical-align: inherit;
+            text-align: left;
+            padding: 8px 16px;
+            color: rgb(33, 43, 54);
+            border-bottom: 1px solid rgb(196, 205, 213);
+
+            & p {
+               text-align: right;
+            }
+         }
+      }
+   }
+}

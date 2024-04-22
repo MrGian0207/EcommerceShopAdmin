@@ -41,6 +41,8 @@ function Product(): JSX.Element {
                     price
                     featured
                     actions
+                    editButton
+                    deleteButton
                     handleDeteleToastify={Toastify.handleDeteleToastify}
                 />
             </DefaultLayout>
