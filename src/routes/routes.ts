@@ -18,6 +18,9 @@ import Orders from '~/pages/Orders';
 import OrdersPreview from '~/pages/Orders/OrdersPreview';
 import Users from '~/pages/Users';
 import UsersPreview from '~/pages/Users/UsersPreview';
+import Newletters from '~/pages/Newletter';
+import Slides from '~/pages/Slides';
+import SlidesAdd from '~/pages/Slides/SlidesAdd';
 
 import api from '~/api/api';
 
@@ -43,6 +46,9 @@ const publicRoutes = [
   { path: api.ordersPreview, component: OrdersPreview },
   { path: api.users, component: Users },
   { path: api.usersPreview, component: UsersPreview },
+  { path: api.newletter, component: Newletters },
+  { path: api.slides, component: Slides },
+  { path: api.slidesAdd, component: SlidesAdd },
 ];
 
 // Private Routes

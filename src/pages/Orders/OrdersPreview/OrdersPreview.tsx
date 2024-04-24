@@ -196,7 +196,6 @@ function OrdersPreview(): JSX.Element {
                     <div className={cx('card-information')}>
                       <p>
                         <strong>Address:</strong> {data?.order?.customerAddress}
-                        Nam
                       </p>
                       <p>
                         <strong>Order Data: </strong>

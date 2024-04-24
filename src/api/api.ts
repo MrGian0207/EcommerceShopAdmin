@@ -19,6 +19,10 @@ const api = {
   ordersPreview: '/orders/:id',
   users: '/users',
   usersPreview: '/users/:id',
+  newletter: '/newletter',
+  newletterAdd: '/newletter/add',
+  slides: '/slides',
+  slidesAdd: '/slides/add',
 };
 
 export default api;

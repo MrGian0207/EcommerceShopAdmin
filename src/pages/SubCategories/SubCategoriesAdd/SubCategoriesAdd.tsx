@@ -143,6 +143,7 @@ function SubCategoriesAdd() {
                                                 setImageFile,
                                                 setImageUrl,
                                                 setResizedImageUrl,
+                                                512
                                             );
                                         }}
                                     />

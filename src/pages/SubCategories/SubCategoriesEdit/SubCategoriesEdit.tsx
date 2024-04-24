@@ -161,6 +161,7 @@ function SubCategoriesEdit() {
                                                 setImageFile,
                                                 setImageUrl,
                                                 setResizedImageUrl,
+                                                512
                                             );
                                         }}
                                     />

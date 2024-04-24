@@ -46,6 +46,12 @@ type ActionLayoutType = {
   idVariantArray?: string[];
   idVariantDeletedArray?: string[];
   nameButtonSubmit?: string;
+  heading?: string;
+  primaryButtonText?: string;
+  primaryButtonLink?: string;
+  secondaryButtonText?: string;
+  secondaryButtonLink?: string;
+  displaySlide?: string;
 };
 
 function ActionLayout({
@@ -76,6 +82,12 @@ function ActionLayout({
   ImageFile,
   NameImageFile = '',
   nameButtonSubmit = '',
+  heading,
+  primaryButtonText,
+  primaryButtonLink,
+  secondaryButtonText,
+  secondaryButtonLink,
+  displaySlide,
 }: ActionLayoutType) {
   const location = useLocation();
   let path = location.pathname; // Lấy đường dẫn từ URL
@@ -100,6 +112,17 @@ function ActionLayout({
     description && formData.append('description', description || '');
     Categories && formData.append('category', Categories);
     ImageFile && formData.append(NameImageFile as string, ImageFile || null);
+
+    heading && formData.append('heading', heading);
+    primaryButtonText &&
+      formData.append('primaryButtonText', primaryButtonText);
+    primaryButtonLink &&
+      formData.append('primaryButtonLink', primaryButtonLink);
+    secondaryButtonText &&
+      formData.append('secondaryButtonText', secondaryButtonText);
+    secondaryButtonLink &&
+      formData.append('secondaryButtonLink', secondaryButtonLink);
+    displaySlide && formData.append('displaySlide', displaySlide);
 
     try {
       fetch(`http://localhost:8000${path}`, {
@@ -176,7 +199,7 @@ function ActionLayout({
           });
       });
 
-    //,Insert data into the form to request
+    //Insert data into the form to request
     name && formData.append('name', name);
     metaTitle && formData.append('title', metaTitle);
     slug && formData.append('slug', slug);

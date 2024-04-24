@@ -135,6 +135,7 @@ function MainCategoriesEdit(): JSX.Element {
                                                 setImageFile,
                                                 setImageUrl,
                                                 setResizedImageUrl,
+                                                512
                                             );
                                         }}
                                     />

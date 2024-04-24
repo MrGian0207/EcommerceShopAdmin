@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import {
   faChevronLeft,
   faChevronRight,
+  faCopy,
   faEye,
   faPen,
   faStar,
@@ -69,6 +70,7 @@ type TableLayoutType = {
   editButton?: boolean;
   deleteButton?: boolean;
   previewButton?: boolean;
+  copyButton?: boolean;
   handleDeteleToastify?: (
     name: string,
     id: string,
@@ -82,6 +84,7 @@ type DataType = {
   name?: string;
   fullName?: string;
   customerName?: string;
+  emailNewletter?: string;
   emailAddress?: string;
   phoneNumber?: number;
   title?: string;
@@ -125,6 +128,7 @@ function TableLayout({
   editButton = false,
   deleteButton = false,
   previewButton = false,
+  copyButton = false,
   handleDeteleToastify,
 }: TableLayoutType): JSX.Element {
   const location = useLocation();
@@ -247,7 +251,7 @@ function TableLayout({
                     </div>
                   </th>
                 )}
-                {email && <td>{item.emailAddress}</td>}
+                {email && <td>{item.emailAddress || item.emailNewletter}</td>}
                 {phone && <td>0{item.phoneNumber}</td>}
                 {/* Thành phần cha liên quan của sản phẩm */}
                 {parentCategory && <td>{item.parentCategory}</td>}
@@ -274,7 +278,7 @@ function TableLayout({
                     {item?.statusDelivery && (
                       <StatusItems statusDelivery={item?.statusDelivery} />
                     )}
-                    {item?.status && (
+                    {item?.status && user && (
                       <StatusItems statusUser={item?.status} />
                     )}
                   </td>
@@ -396,6 +400,21 @@ function TableLayout({
                           className="delete-btn"
                         >
                           <FontAwesomeIcon icon={faTrash} />
+                        </Button>
+                      )}
+                      {/* Copy email Newletter */}
+                      {copyButton && (
+                        <Button
+                          onClick={() => {
+                            if (item?.emailNewletter) {
+                              navigator.clipboard.writeText(
+                                item?.emailNewletter as string,
+                              );
+                            }
+                          }}
+                          className="copy-btn"
+                        >
+                          <FontAwesomeIcon icon={faCopy} />
                         </Button>
                       )}
                     </div>

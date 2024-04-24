@@ -95,6 +95,7 @@ function MainCategoriesAdd(): JSX.Element {
                                                 setImageFile,
                                                 setImageUrl,
                                                 setResizedImageUrl,
+                                                512
                                             );
                                         }}
                                     />
