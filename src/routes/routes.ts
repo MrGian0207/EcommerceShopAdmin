@@ -21,6 +21,7 @@ import UsersPreview from '~/pages/Users/UsersPreview';
 import Newletters from '~/pages/Newletter';
 import Slides from '~/pages/Slides';
 import SlidesAdd from '~/pages/Slides/SlidesAdd';
+import SlidesEdit from '~/pages/Slides/SlidesEdit';
 
 import api from '~/api/api';
 
@@ -49,6 +50,7 @@ const publicRoutes = [
   { path: api.newletter, component: Newletters },
   { path: api.slides, component: Slides },
   { path: api.slidesAdd, component: SlidesAdd },
+  { path: api.slidesEdit, component: SlidesEdit },
 ];
 
 // Private Routes

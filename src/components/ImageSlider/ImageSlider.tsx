@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import * as Toastify from '~/services/Toastify';
 
 const cx = classNames.bind(styles);
 
@@ -26,8 +27,10 @@ interface ImageSliderProps {
 function ImageSlider({ data }: ImageSliderProps): JSX.Element {
   const slideRef = useRef<HTMLDivElement>(null);
   const [slider, setSlider] = useState<Slide[]>(data);
-  if (data.length === 0) setSlider([]);
+
   const [indexSlide, setindexSlide] = useState<number>(0);
+  const [deleteButtonOnclick, SetDeleteButtonOnclick] = useState(false);
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (indexSlide === slider.length - 1) {
@@ -64,18 +67,34 @@ function ImageSlider({ data }: ImageSliderProps): JSX.Element {
               </div>
               {/* Button */}
               <div className={cx('actions-button')}>
-                <Link to={'/'} className={cx('delete-button')}>
+                <button
+                  className={cx('delete-button')}
+                  onClick={() => {
+                    if (!deleteButtonOnclick) {
+                      Toastify.handleDeteleToastify(
+                        'slide',
+                        content._id as string,
+                        '/slides',
+                        SetDeleteButtonOnclick,
+                      );
+                      SetDeleteButtonOnclick(true);
+                    }
+                  }}
+                >
                   <FontAwesomeIcon icon={faTrash} />
                   <p>Delete</p>
-                </Link>
-                <Link to={'/'} className={cx('edit-button')}>
+                </button>
+                <Link
+                  to={`/slides/${content._id}`}
+                  className={cx('edit-button')}
+                >
                   <FontAwesomeIcon icon={faPen} />
                   <p>Edit</p>
                 </Link>
               </div>
             </div>
             <div className={cx('slide-navigator')}>
-              {data.map((_, index) => {
+              {slider.map((_, index) => {
                 return (
                   <div
                     className={cx('img-dot-btn', {

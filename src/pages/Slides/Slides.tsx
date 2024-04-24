@@ -7,6 +7,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ImageSlider from '~/components/ImageSlider';
+import { useUpdateLayout } from '~/context/UpdateLayoutContext';
 
 const cx = classNames.bind(styles);
 
@@ -23,9 +24,9 @@ type Slide = {
 };
 
 function Slides(): JSX.Element {
+  const { updateLayout } = useUpdateLayout()!;
   const location = useLocation();
   const path = location.pathname;
-
   const [data, setData] = useState<Slide[]>([]);
 
   useEffect(() => {
@@ -35,7 +36,8 @@ function Slides(): JSX.Element {
       setData(resData.data);
     };
     fetchData();
-  }, [path]);
+  }, [path, updateLayout]);
+
   return (
     <div className={cx('slides')}>
       <DefaultLayout

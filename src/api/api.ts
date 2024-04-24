@@ -23,6 +23,7 @@ const api = {
   newletterAdd: '/newletter/add',
   slides: '/slides',
   slidesAdd: '/slides/add',
+  slidesEdit: '/slides/:id',
 };
 
 export default api;
