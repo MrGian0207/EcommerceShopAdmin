@@ -149,7 +149,9 @@ function SlidesEdit() {
                       <img src={images.uploadImage} alt="" />
                     </div>
                     <div className={cx('preview-image')}>
-                      <img src={resizedImageUrl} alt="preview" />
+                      {(imageUrl || resizedImageUrl) && (
+                        <img src={resizedImageUrl} alt="preview" />
+                      )}
                     </div>
                   </div>
 

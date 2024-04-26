@@ -24,6 +24,7 @@ const api = {
   slides: '/slides',
   slidesAdd: '/slides/add',
   slidesEdit: '/slides/:id',
+  settings: '/settings',
 };
 
 export default api;

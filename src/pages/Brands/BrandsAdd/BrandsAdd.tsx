@@ -84,7 +84,7 @@ function BrandsAdd(): JSX.Element {
                         setImageFile,
                         setImageUrl,
                         setResizedImageUrl,
-                        512
+                        512,
                       );
                     }}
                   />

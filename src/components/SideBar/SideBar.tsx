@@ -79,8 +79,8 @@ function SideBar({ active }: SideBarType): JSX.Element {
         <SideBarItems
           iconLeft={faGears}
           children={['Setting']}
-          active={active === 'setting' && true}
-          title={'setting'}
+          active={active === 'settings' && true}
+          title={'settings'}
         />
       </div>
     </div>

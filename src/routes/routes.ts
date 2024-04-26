@@ -22,6 +22,7 @@ import Newletters from '~/pages/Newletter';
 import Slides from '~/pages/Slides';
 import SlidesAdd from '~/pages/Slides/SlidesAdd';
 import SlidesEdit from '~/pages/Slides/SlidesEdit';
+import Settings from '~/pages/Settings';
 
 import api from '~/api/api';
 
@@ -51,6 +52,7 @@ const publicRoutes = [
   { path: api.slides, component: Slides },
   { path: api.slidesAdd, component: SlidesAdd },
   { path: api.slidesEdit, component: SlidesEdit },
+  { path: api.settings, component: Settings },
 ];
 
 // Private Routes
