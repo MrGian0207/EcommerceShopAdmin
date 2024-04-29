@@ -2,10 +2,10 @@ import styles from './Setting.module.scss';
 import classNames from 'classnames/bind';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import { useState, useRef } from 'react';
-import ProfileSetting from '~/components/ProfileSetting';
-import Roles from '~/components/Roles';
-import AddRole from '~/components/AddRole';
-import ChangePassword from '~/components/ChangePassword';
+import ProfileSetting from '~/pages/Settings/ProfileSetting';
+import Roles from '~/pages/Settings/Roles';
+import AddRole from '~/pages/Settings/AddRole';
+import ChangePassword from '~/pages/Settings/ChangePassword';
 
 const cx = classNames.bind(styles);
 type LineBreakProp = {
@@ -23,11 +23,12 @@ function Settings(): JSX.Element {
 
    function LineBreak({ nameRef, activeRef }: LineBreakProp) {
       // Tính toán width dựa trên kích thước của nút hiện tại
-      const width = nameRef?.current?.offsetWidth || 126;
+      let width = nameRef?.current?.offsetWidth || 140;
 
       let leftPosition = 0;
       switch (nameRef) {
          case profileSettingRef:
+            width = 140;
             leftPosition = 0;
             break;
          case rolesRef:
@@ -72,8 +73,6 @@ function Settings(): JSX.Element {
 
    const renderComponent = () => {
       switch (component) {
-         case 'Profile Setting':
-            return <ProfileSetting />;
          case 'Roles':
             return <Roles />;
          case 'Add Role':
@@ -81,7 +80,31 @@ function Settings(): JSX.Element {
          case 'Change Password':
             return <ChangePassword />;
          default:
+            profileSettingRef?.current &&
+               profileSettingRef?.current.classList.add(cx('active'));
             return <ProfileSetting />;
+      }
+   };
+
+   const removeActiveButton = (nameButton: string) => {
+      switch (nameButton) {
+         case 'Profile Setting':
+            profileSettingRef?.current &&
+               profileSettingRef?.current.classList.remove(cx('active'));
+            break;
+         case 'Roles':
+            rolesRef?.current &&
+               rolesRef?.current.classList.remove(cx('active'));
+            break;
+         case 'Add Role':
+            addRoleRef?.current &&
+               addRoleRef?.current.classList.remove(cx('active'));
+            break;
+         case 'Change Password':
+            changePasswordRef?.current &&
+               changePasswordRef?.current.classList.remove(cx('active'));
+            break;
+         default:
       }
    };
 
@@ -115,14 +138,22 @@ function Settings(): JSX.Element {
    );
 
    return (
-      <div className={cx('brands')}>
+      <div className={cx('settings-container')}>
          <DefaultLayout active={'settings'} page={['Dashboard', 'Setting']}>
             <div className={cx('settings')}>
                <nav className={cx('navigator')}>
                   <button
                      ref={profileSettingRef}
+                     className={cx('active')}
                      onClick={() => {
-                        setComponent('Profile Setting');
+                        profileSettingRef?.current &&
+                           profileSettingRef?.current.classList.add(
+                              cx('active'),
+                           );
+                        setComponent((prevComponet) => {
+                           removeActiveButton(prevComponet);
+                           return 'Profile Setting';
+                        });
                      }}
                   >
                      Profile Setting
@@ -130,7 +161,12 @@ function Settings(): JSX.Element {
                   <button
                      ref={rolesRef}
                      onClick={() => {
-                        setComponent('Roles');
+                        rolesRef?.current &&
+                           rolesRef?.current.classList.add(cx('active'));
+                        setComponent((prevComponent) => {
+                           removeActiveButton(prevComponent);
+                           return 'Roles';
+                        });
                      }}
                   >
                      Roles
@@ -138,7 +174,12 @@ function Settings(): JSX.Element {
                   <button
                      ref={addRoleRef}
                      onClick={() => {
-                        setComponent('Add Role');
+                        addRoleRef?.current &&
+                           addRoleRef?.current.classList.add(cx('active'));
+                        setComponent((prevComponent) => {
+                           removeActiveButton(prevComponent);
+                           return 'Add Role';
+                        });
                      }}
                   >
                      Add Role
@@ -146,7 +187,14 @@ function Settings(): JSX.Element {
                   <button
                      ref={changePasswordRef}
                      onClick={() => {
-                        setComponent('Change Password');
+                        changePasswordRef?.current &&
+                           changePasswordRef?.current.classList.add(
+                              cx('active'),
+                           );
+                        setComponent((prevComponent) => {
+                           removeActiveButton(prevComponent);
+                           return 'Change Password';
+                        });
                      }}
                   >
                      Change Password

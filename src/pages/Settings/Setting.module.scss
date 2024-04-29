@@ -1,3 +1,7 @@
+.settings-container {
+   height: 100%;
+}
+
 .settings {
    display: block;
    height: fit-content;
@@ -12,17 +16,28 @@
       width: 100%;
       border-bottom: 1px solid rgba(196, 205, 213, 1);
 
+      & button:first-child {
+         padding: 12px 16px 12px 24px;
+      }
+
+      & button:not(:first-child) {
+         padding: 12px 16px;
+      }
+
       & button {
          cursor: pointer;
          height: 100%;
          background: transparent;
-         padding: 12px 16px;
          margin-right: 40px;
-         color: rgb(33, 43, 54);
+         color: rgb(99, 115, 129);
          flex-shrink: 0;
          font-size: 0.875rem;
          font-weight: 700;
          user-select: none;
+
+         &.active {
+            color: rgb(33, 43, 54);
+         }
 
          &:active {
             background-color: rgb(33, 43, 54, 0.3);
@@ -32,7 +47,6 @@
       & .active-button {
          position: absolute;
          height: 3px;
-         left: 0;
          bottom: 0;
          background-color: rgb(82, 95, 225);
          border-radius: 3px 3px 0px 0px;

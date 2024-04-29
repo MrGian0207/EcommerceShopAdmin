@@ -159,11 +159,64 @@
 }
 
 .pagination {
+   cursor: pointer;
    display: flex;
    justify-content: flex-end;
    margin-top: 16px;
    padding-right: 32px;
    padding-bottom: 16px;
+
+   & > * {
+      cursor: pointer;
+   }
+
+   & .prev-button,
+   .page-number,
+   .next-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
+      background-color: transparent;
+      outline: 0px;
+      cursor: pointer;
+      user-select: none;
+      vertical-align: middle;
+      appearance: none;
+      text-decoration: none;
+      line-height: 1.57143;
+      font-size: 0.875rem;
+      font-family: Poppins, sans-serif;
+      font-weight: 400;
+      border-radius: 3px;
+      text-align: center;
+      box-sizing: border-box;
+      min-width: 32px;
+      height: 32px;
+      padding: 0px 6px;
+      margin: 0px 3px;
+      color: rgb(33, 43, 54);
+      transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+         background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      border: 1px solid rgba(145, 158, 171, 0.32);
+   }
+   & .icon {
+      font-size: 0.75rem;
+      color: rgb(33, 43, 54);
+      font-weight: 800;
+   }
+
+   & .blur {
+      opacity: 0.5;
+   }
+
+   & .active {
+      background-color: rgba(82, 95, 225, 0.08);
+      border: 1px solid rgba(82, 95, 225, 0.24);
+      color: rgb(82, 95, 225);
+      font-weight: 800;
+   }
 }
 
 .feature-product {

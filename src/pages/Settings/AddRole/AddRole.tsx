@@ -11,6 +11,8 @@ import {
    faVenusMars,
 } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
+import * as Toastify from '~/services/Toastify';
+import { useAuth } from '~/context/AuthContext';
 
 const cx = classNames.bind(styles);
 
@@ -22,12 +24,15 @@ function AddRole(): JSX.Element {
    const [phone, setPhone] = useState<string>('');
    const [emailAddress, setEmailAddress] = useState<string>('');
    const [password, setPassword] = useState<string>('');
+   const { accessToken } = useAuth()!;
 
    const handleSubmit = async () => {
+      Toastify.showToastMessagePending();
       const res = await fetch('http://localhost:8000/settings', {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
          },
          body: JSON.stringify({
             fullName,
@@ -39,6 +44,11 @@ function AddRole(): JSX.Element {
          }),
       });
       const resData = await res.json();
+      if (resData) {
+         if (resData?.status === 'Success') {
+            Toastify.showToastMessageSuccessfully(resData?.message);
+         }
+      }
    };
 
    return (

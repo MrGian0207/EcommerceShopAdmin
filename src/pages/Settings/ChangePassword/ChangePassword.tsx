@@ -1,6 +1,8 @@
 import styles from './ChangePassword.module.scss';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
+import * as Toastify from '~/services/Toastify';
+import { useAuth } from '~/context/AuthContext';
 
 const cx = classNames.bind(styles);
 
@@ -8,25 +10,35 @@ function ChangePassword(): JSX.Element {
    const [oldPassword, setOldPassword] = useState<string>('');
    const [newPassword, setNewPassword] = useState<string>('');
    const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
+   const { accessToken } = useAuth()!;
 
    const handleSubmit = async () => {
+      const id_user: string = (await localStorage.getItem('id_user'))
+         ? (localStorage.getItem('id_user') as string)
+         : '';
+      Toastify.showToastMessagePending();
       const res = await fetch(
          'http://localhost:8000/settings/update-password',
          {
             method: 'PUT',
             headers: {
                'Content-Type': 'application/json',
+               Authorization: `Bearer ${accessToken}`,
             },
             body: JSON.stringify({
                oldPassword,
                newPassword,
                confirmNewPassword,
-               id: '6626b9e07e036b53efa99caa',
+               id: id_user,
             }),
          },
       );
       const resData = await res.json();
-      console.log(resData);
+      if (resData) {
+         if (resData?.status === 'Success') {
+            Toastify.showToastMessageSuccessfully(resData.message);
+         }
+      }
    };
 
    return (

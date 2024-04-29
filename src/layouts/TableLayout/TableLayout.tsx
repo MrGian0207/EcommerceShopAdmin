@@ -19,6 +19,8 @@ import { useUpdateLayout } from '~/context/UpdateLayoutContext';
 import StatusItems from '~/components/StatusItems';
 import { memo } from 'react';
 import images from '~/assets/Image';
+import { useAuth } from '~/context/AuthContext';
+import { useSearchParams } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -149,11 +151,23 @@ function TableLayout({
    const [featureArray, setFeatureArray] = useState<featureType[]>([]);
    const [featureUpdates, setFeatureUpdates] = useState<featureType>({});
 
+   const { accessToken } = useAuth()!;
+   const [page, setPage] = useState<number>(1);
+   const [numbersPage, setNumbersPage] = useState<number[]>([1]);
+   const [searchParams, setSearchParams] = useSearchParams({ page: '1' });
    // Lấy dữ liệu từ BE trả về, hiển thị danh sách sản phẩmm
    useEffect(() => {
       try {
          if (path) {
-            fetch(`http://localhost:8000${path}`)
+            fetch(
+               `http://localhost:8000${path}?page=${searchParams.get('page')}`,
+               {
+                  method: 'GET',
+                  headers: {
+                     Authorization: `Bearer ${accessToken}`,
+                  },
+               },
+            )
                .then((res) => {
                   return res.json();
                })
@@ -162,8 +176,16 @@ function TableLayout({
                      const data: DataType[] = res?.data;
                      const features: featureType[] = [];
                      if (data) {
-                        console.log(data);
                         setDataArray(data);
+                     }
+                     if (res?.numbers) {
+                        setNumbersPage((_) => {
+                           const arrIndex: number[] = [];
+                           for (let i = 1; i <= res?.numbers; i++) {
+                              arrIndex.push(i);
+                           }
+                           return arrIndex;
+                        });
                      }
                      if (res?.variants) {
                         setVariantArray(res?.variants);
@@ -192,7 +214,7 @@ function TableLayout({
          console.log(err);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [updateLayout]);
+   }, [updateLayout, accessToken, page]);
 
    // Cập nhật hiển thị nội dung trang
    useEffect(() => {
@@ -202,6 +224,7 @@ function TableLayout({
                method: 'PUT',
                headers: {
                   'Content-Type': 'application/json',
+                  Authorization: `Bearer ${accessToken}`,
                },
                body: JSON.stringify(featureUpdates),
             })
@@ -220,7 +243,7 @@ function TableLayout({
       }
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [featureUpdates]);
+   }, [featureUpdates, accessToken]);
 
    return (
       <>
@@ -478,15 +501,73 @@ function TableLayout({
          </div>
          {/* Phân trang sản phẩm  */}
          <div className={cx('pagination')}>
-            <Button className="prev-button" to={'/'}>
-               <FontAwesomeIcon icon={faChevronLeft} />
-            </Button>
-            <Button className="page-number" to={'/'}>
-               1
-            </Button>
-            <Button className="next-button" to={'/'}>
-               <FontAwesomeIcon icon={faChevronRight} />
-            </Button>
+            <button
+               onClick={() => {
+                  if (page !== 1) {
+                     setPage(page - 1);
+                     setSearchParams({ page: `${page - 1}` });
+                  }
+               }}
+               className={cx('prev-button')}
+            >
+               {page === 1 ? (
+                  <FontAwesomeIcon
+                     className={cx('icon', 'blur')}
+                     icon={faChevronLeft}
+                  />
+               ) : (
+                  <FontAwesomeIcon
+                     className={cx('icon')}
+                     icon={faChevronLeft}
+                  />
+               )}
+            </button>
+            {numbersPage.map((number) =>
+               page === number ? (
+                  <button
+                     key={`page-${number}`}
+                     className={cx('page-number', 'active')}
+                     onClick={() => {
+                        setPage(number);
+                        setSearchParams({ page: `${number}` });
+                     }}
+                  >
+                     {number}
+                  </button>
+               ) : (
+                  <button
+                     key={`page-${number}`}
+                     className={cx('page-number')}
+                     onClick={() => {
+                        setPage(number);
+                        setSearchParams({ page: `${number}` });
+                     }}
+                  >
+                     {number}
+                  </button>
+               ),
+            )}
+            <button
+               onClick={() => {
+                  if (page !== numbersPage?.length) {
+                     setPage(page + 1);
+                     setSearchParams({ page: `${page + 1}` });
+                  }
+               }}
+               className={cx('next-button')}
+            >
+               {page === numbersPage?.length ? (
+                  <FontAwesomeIcon
+                     className={cx('icon', 'blur')}
+                     icon={faChevronRight}
+                  />
+               ) : (
+                  <FontAwesomeIcon
+                     className={cx('icon')}
+                     icon={faChevronRight}
+                  />
+               )}
+            </button>
          </div>
       </>
    );

@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 
 function Newletters() {
   return (
-    <div className={cx('brands')}>
+    <div className={cx('newletter')}>
       <DefaultLayout
         active={'newletter'}
         page={['Dashboard', 'Newletter']}

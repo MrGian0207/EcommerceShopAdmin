@@ -6,6 +6,8 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { useRef } from 'react';
 import * as HandleImageFile from '~/utils/HandleImageFile';
 import { useState, useEffect } from 'react';
+import * as Toastify from '~/services/Toastify';
+import { useAuth } from '~/context/AuthContext';
 
 const cx = classNames.bind(styles);
 
@@ -22,9 +24,16 @@ function ProfileSetting() {
    const [resizedImageUrl, setResizedImageUrl] = useState<string>('');
    const [imageFile, setImageFile] = useState<File | null>(null);
 
+   const { accessToken } = useAuth()!;
+
    const handleSubmit = async () => {
       const formData = new FormData();
-      formData.append('id', '6626b9e07e036b53efa99caa');
+      formData.append(
+         'id',
+         localStorage.getItem('id_user')
+            ? (localStorage.getItem('id_user') as string)
+            : '',
+      );
       formData.append('name', name);
       formData.append('emailAddress', emailAddress);
       formData.append('phone', phone);
@@ -32,29 +41,38 @@ function ProfileSetting() {
       formData.append('about', about);
       formData.append('users-image', imageFile as File);
 
+      Toastify.showToastMessagePending();
       const res = await fetch('http://localhost:8000/users', {
          method: 'PUT',
          credentials: 'include',
+         headers: {
+            Authorization: `Bearer ${accessToken}`,
+         },
          body: formData,
       });
 
       const resData = await res.json();
-      console.log(resData);
+      if (resData) {
+         if (resData?.status === 'Success') {
+            Toastify.showToastMessageSuccessfully(resData?.message);
+         }
+      }
    };
 
    useEffect(() => {
       const fetchData = async () => {
+         const id_user: string = localStorage.getItem('id_user')
+            ? (localStorage.getItem('id_user') as string)
+            : '';
          try {
-            const res = await fetch(
-               'http://localhost:8000/users/6626b9e07e036b53efa99caa',
-               {
-                  method: 'GET',
-                  headers: {
-                     'Content-Type': 'application/json',
-                  },
-                  credentials: 'include',
+            const res = await fetch(`http://localhost:8000/users/${id_user}`, {
+               method: 'GET',
+               headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${accessToken}`,
                },
-            );
+               credentials: 'include',
+            });
             const resData = await res.json();
             console.log(resData);
             if (resData) {
@@ -70,7 +88,7 @@ function ProfileSetting() {
          }
       };
       fetchData();
-   }, []);
+   }, [accessToken]);
 
    return (
       <div className={cx('ProfileSetting')}>

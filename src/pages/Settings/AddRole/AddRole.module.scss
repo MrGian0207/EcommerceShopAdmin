@@ -7,14 +7,14 @@
    & .add-role-form {
       display: flex;
       flex-direction: column;
-      height: fit-content;
+      height: 100%;
       width: 100%;
+      padding: 24px;
       border-radius: 8px;
       background-color: var(--white-color);
       box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
          rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
       color: rgb(33, 43, 54);
-      padding: 24px;
       gap: 30px;
 
       & h3 {

@@ -1,0 +1,16 @@
+.apexcharts-xaxistooltip.apexcharts-xaxistooltip-bottom.apexcharts-theme-light {
+   background-color: rgba(82, 95, 225, 0.72);
+   border: 0px;
+   box-shadow: rgba(145, 158, 171, 0.24) 0px 0px 4px 0px,
+      rgba(145, 158, 171, 0.24) 0px 24px 48px 0px;
+   color: rgb(33, 43, 54);
+   border-radius: 8px;
+}
+
+.apexcharts-xaxistooltip-bottom:before {
+   display: none;
+}
+
+.apexcharts-xaxistooltip-bottom:after {
+   display: none;
+}
