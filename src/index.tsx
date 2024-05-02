@@ -4,6 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from '~/components/GlobalStyles';
 import { UpdateLayoutContextProvider } from './context/UpdateLayoutContext';
+import { SearchContextProvider } from './context/SearchContext';
 
 const root = ReactDOM.createRoot(
    document.getElementById('root') as HTMLElement,
@@ -11,9 +12,11 @@ const root = ReactDOM.createRoot(
 root.render(
    // <React.StrictMode>
    <GlobalStyles>
-      <UpdateLayoutContextProvider>
-         <App />
-      </UpdateLayoutContextProvider>
+      <SearchContextProvider>
+         <UpdateLayoutContextProvider>
+            <App />
+         </UpdateLayoutContextProvider>
+      </SearchContextProvider>
    </GlobalStyles>,
    // </React.StrictMode>,
 );

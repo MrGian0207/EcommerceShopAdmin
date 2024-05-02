@@ -19,6 +19,7 @@ import SideBar from '../../components/SideBar';
 import { useAuth } from '~/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import images from '~/assets/Image';
+import { useSearch } from '~/context/SearchContext';
 
 const cx = classNames.bind(styles);
 
@@ -75,6 +76,7 @@ function DefaultLayout({
    };
 
    const [dataUser, setdataUser] = useState<User>({});
+   const { searchText, setSearchText } = useSearch()!;
    useEffect(() => {
       const fetchData = async () => {
          const id_user: string = localStorage.getItem('id_user')
@@ -146,6 +148,10 @@ function DefaultLayout({
                         </div>
                         <div className={cx('input-search')}>
                            <input
+                              value={searchText}
+                              onChange={(e) => {
+                                 setSearchText(e.target.value);
+                              }}
                               ref={inputSearchRef}
                               type="text"
                               placeholder="Search"

@@ -21,6 +21,7 @@ import { memo } from 'react';
 import images from '~/assets/Image';
 import { useAuth } from '~/context/AuthContext';
 import { useSearchParams } from 'react-router-dom';
+import { useSearch } from '~/context/SearchContext';
 
 const cx = classNames.bind(styles);
 
@@ -143,6 +144,7 @@ function TableLayout({
 }: TableLayoutType): JSX.Element {
    const location = useLocation();
    const path = location.pathname;
+
    const [dataArray, setDataArray] = useState<DataType[]>([]);
    const [variantArray, setVariantArray] = useState<Variant[]>([]);
    const [quantityArray, setQuantityArray] = useState<number[]>([]);
@@ -155,12 +157,14 @@ function TableLayout({
    const [page, setPage] = useState<number>(1);
    const [numbersPage, setNumbersPage] = useState<number[]>([1]);
    const [searchParams, setSearchParams] = useSearchParams({ page: '1' });
+
+   const { debouncedSearchText } = useSearch()!;
    // Lấy dữ liệu từ BE trả về, hiển thị danh sách sản phẩmm
    useEffect(() => {
       try {
          if (path) {
             fetch(
-               `http://localhost:8000${path}?page=${searchParams.get('page')}`,
+               `http://localhost:8000${path}?page=${searchParams.get('page')}&search=${debouncedSearchText}`,
                {
                   method: 'GET',
                   headers: {
@@ -214,7 +218,7 @@ function TableLayout({
          console.log(err);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [updateLayout, accessToken, page]);
+   }, [updateLayout, accessToken, page, debouncedSearchText]);
 
    // Cập nhật hiển thị nội dung trang
    useEffect(() => {
