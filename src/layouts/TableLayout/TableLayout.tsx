@@ -12,18 +12,25 @@ import {
    faStar,
    faTrash,
 } from '@fortawesome/free-solid-svg-icons';
+import images from '~/assets/Image';
+import StatusItems from '~/components/StatusItems';
+import * as Toastify from '~/services/Toastify';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useUpdateLayout } from '~/context/UpdateLayoutContext';
-import StatusItems from '~/components/StatusItems';
 import { memo } from 'react';
-import images from '~/assets/Image';
 import { useAuth } from '~/context/AuthContext';
 import { useSearchParams } from 'react-router-dom';
 import { useSearch } from '~/context/SearchContext';
+import { useUser } from '~/context/UserContext';
 
 const cx = classNames.bind(styles);
+
+type TotalProductArrayType = {
+   name: string;
+   total: number;
+};
 
 type ProductType = {
    name?: string;
@@ -146,25 +153,31 @@ function TableLayout({
    const path = location.pathname;
 
    const [dataArray, setDataArray] = useState<DataType[]>([]);
+   const [totalProductArray, setTotalProductArray] = useState<
+      TotalProductArrayType[]
+   >([]);
    const [variantArray, setVariantArray] = useState<Variant[]>([]);
    const [quantityArray, setQuantityArray] = useState<number[]>([]);
    const [deleteButtonOnclick, SetDeleteButtonOnclick] = useState(false);
    const { updateLayout } = useUpdateLayout()!;
    const [featureArray, setFeatureArray] = useState<featureType[]>([]);
-   const [featureUpdates, setFeatureUpdates] = useState<featureType>({});
 
    const { accessToken } = useAuth()!;
    const [page, setPage] = useState<number>(1);
    const [numbersPage, setNumbersPage] = useState<number[]>([1]);
    const [searchParams, setSearchParams] = useSearchParams({ page: '1' });
 
+   const { dataUser } = useUser()!;
    const { debouncedSearchText } = useSearch()!;
+
    // Lấy dữ liệu từ BE trả về, hiển thị danh sách sản phẩmm
    useEffect(() => {
       try {
          if (path) {
             fetch(
-               `http://localhost:8000${path}?page=${searchParams.get('page')}&search=${debouncedSearchText}`,
+               `http://localhost:8000${path}?page=${searchParams.get(
+                  'page',
+               )}&search=${debouncedSearchText}`,
                {
                   method: 'GET',
                   headers: {
@@ -182,6 +195,11 @@ function TableLayout({
                      if (data) {
                         setDataArray(data);
                      }
+
+                     if (res?.products) {
+                        setTotalProductArray(res?.products);
+                     }
+
                      if (res?.numbers) {
                         setNumbersPage((_) => {
                            const arrIndex: number[] = [];
@@ -221,33 +239,32 @@ function TableLayout({
    }, [updateLayout, accessToken, page, debouncedSearchText]);
 
    // Cập nhật hiển thị nội dung trang
-   useEffect(() => {
-      try {
-         if (featureArray.length && path) {
-            fetch(`http://localhost:8000${path}`, {
-               method: 'PUT',
-               headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${accessToken}`,
-               },
-               body: JSON.stringify(featureUpdates),
+   const handleSetFeaturedProduct = async (featureUpdates: featureType) => {
+      if (featureArray.length && path) {
+         Toastify.showToastMessagePending();
+         await fetch(`http://localhost:8000${path}`, {
+            method: 'PUT',
+            headers: {
+               'Content-Type': 'application/json',
+               Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(featureUpdates),
+         })
+            .then((res) => {
+               return res.json();
             })
-               .then((res) => {
-                  return res.json();
-               })
-               .then((data) => {
-                  console.log(data);
-               })
-               .catch((err) => {
-                  console.log(err);
-               });
-         }
-      } catch (error) {
-         console.log(error);
+            .then((data) => {
+               if (data?.status === 'Success') {
+                  Toastify.showToastMessageSuccessfully(data?.message);
+               } else {
+                  Toastify.showToastMessageFailure(data?.message);
+               }
+            })
+            .catch((err) => {
+               console.log(err);
+            });
       }
-
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [featureUpdates, accessToken]);
+   };
 
    return (
       <>
@@ -298,7 +315,9 @@ function TableLayout({
                            {/* Thành phần cha liên quan của sản phẩm */}
                            {parentCategory && <td>{item.parentCategory}</td>}
                            {/* Tổng số lượng sản phẩm */}
-                           {totalItems && <td>0</td>}
+                           {totalItems && totalProductArray && (
+                              <td>{totalProductArray[index]?.total}</td>
+                           )}
                            {/* Mô tả của sản phẩm */}
                            {description && (
                               <td>
@@ -399,9 +418,23 @@ function TableLayout({
                                        <label
                                           onClick={(e) => {
                                              e.preventDefault();
+                                             handleSetFeaturedProduct(
+                                                featureArray[index]?.feature ===
+                                                   'active'
+                                                   ? {
+                                                        _id: featureArray[index]
+                                                           ._id,
+                                                        feature: 'inactive',
+                                                     }
+                                                   : {
+                                                        _id: featureArray[index]
+                                                           ._id,
+                                                        feature: 'active',
+                                                     },
+                                             );
                                              setFeatureArray((featureArray) => {
                                                 featureArray.forEach(
-                                                   (value, newIndex) => {
+                                                   (_, newIndex) => {
                                                       if (newIndex === index) {
                                                          featureArray[index]
                                                             .feature ===
@@ -419,9 +452,6 @@ function TableLayout({
                                                 );
                                                 return [...featureArray];
                                              });
-                                             setFeatureUpdates(
-                                                featureArray[index],
-                                             );
                                           }}
                                           htmlFor={`toggle-${index}`}
                                           className={cx('toggle-switch')}
@@ -444,36 +474,41 @@ function TableLayout({
                                        </Button>
                                     )}
                                     {/* Chỉnh sửa sản phẩm  */}
-                                    {editButton && (
-                                       <Button
-                                          to={`${path}/${item._id}`}
-                                          className="edit-btn"
-                                       >
-                                          <FontAwesomeIcon icon={faPen} />
-                                       </Button>
-                                    )}
+                                    {editButton &&
+                                       (dataUser.role as string) !==
+                                          'Staff' && (
+                                          <Button
+                                             to={`${path}/${item._id}`}
+                                             className="edit-btn"
+                                          >
+                                             <FontAwesomeIcon icon={faPen} />
+                                          </Button>
+                                       )}
                                     {/* Xóa sản phẩm  */}
-                                    {deleteButton && (
-                                       <Button
-                                          onClick={() => {
-                                             if (
-                                                !deleteButtonOnclick &&
-                                                handleDeteleToastify
-                                             ) {
-                                                handleDeteleToastify(
-                                                   item?.name as string,
-                                                   item?._id as string,
-                                                   path,
-                                                   SetDeleteButtonOnclick,
-                                                );
-                                                SetDeleteButtonOnclick(true);
-                                             }
-                                          }}
-                                          className="delete-btn"
-                                       >
-                                          <FontAwesomeIcon icon={faTrash} />
-                                       </Button>
-                                    )}
+                                    {deleteButton &&
+                                       (dataUser.role as string) !== 'Staff' &&
+                                       (dataUser.role as string) !==
+                                          'Editor' && (
+                                          <Button
+                                             onClick={() => {
+                                                if (
+                                                   !deleteButtonOnclick &&
+                                                   handleDeteleToastify
+                                                ) {
+                                                   handleDeteleToastify(
+                                                      item?.name as string,
+                                                      item?._id as string,
+                                                      path,
+                                                      SetDeleteButtonOnclick,
+                                                   );
+                                                   SetDeleteButtonOnclick(true);
+                                                }
+                                             }}
+                                             className="delete-btn"
+                                          >
+                                             <FontAwesomeIcon icon={faTrash} />
+                                          </Button>
+                                       )}
                                     {/* Copy email Newletter */}
                                     {copyButton && (
                                        <Button

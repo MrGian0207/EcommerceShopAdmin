@@ -74,7 +74,6 @@ function ProfileSetting() {
                credentials: 'include',
             });
             const resData = await res.json();
-            console.log(resData);
             if (resData) {
                setName(resData?.data.fullName);
                setEmailAddress(resData?.data.emailAddress);

@@ -1,12 +1,12 @@
 .form-variant {
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+   height: fit-content;
+   display: flex;
+   flex-direction: column;
+   gap: var(--semi-big-gap);
 }
 
 .name-modal {
-    font-weight: 800;
+   font-weight: var(--font-weight-semi-bold);
 }
 
 .variant-name-box,
@@ -16,193 +16,192 @@
 .variant-quantity-box,
 .variant-regularPrice-box,
 .variant-salePrice-box {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+   display: flex;
+   flex-direction: column;
+   width: 100%;
 
-    & label {
-        color: rgb(99, 115, 129);
-        font-size: 0.875rem;
-        margin-bottom: 8px;
-        font-weight: 600;
-    }
+   & label {
+      color: var(--sub-title-color);
+      font-size: var(--font-size-small);
+      margin-bottom: 8px;
+      font-weight: 600;
+   }
 
-    & input {
-        width: 100%;
-        padding: 17px 14px;
-        border-radius: 3px;
-        color: rgb(33, 43, 54);
-        font-size: 1rem;
-        border: 2px solid rgba(145, 158, 171, 0.32);
-        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+   & input {
+      width: 100%;
+      padding: 17px 14px;
+      border-radius: 3px;
+      color: var(--text-color);
+      font-size: 1rem;
+      border: 2px solid var(--sub-main-border-color);
+      transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 
-        &:focus {
-            border: 2px solid rgb(82 95 225) !important;
-        }
+      &:focus {
+         border: 2px solid var(--main-border-color) !important;
+      }
 
-        &:hover {
-            border: 2px solid var(--black-color);
-        }
+      &:hover {
+         border: 2px solid var(--black-color);
+      }
 
-        &:focus:hover {
-            border: 2px solid rgb(82 95 225) !important;
-        }
-    }
+      &:focus:hover {
+         border: 2px solid var(--main-border-color) !important;
+      }
+   }
 }
 
 .row-button,
 .row {
-    display: flex;
-    width: 100%;
-    height: fit-content;
-    gap: 15px;
+   display: flex;
+   width: 100%;
+   height: fit-content;
+   gap: 15px;
 }
 
 .row-image {
-    display: flex;
-    width: 100%;
-    height: fit-content;
-    gap: 15px;
-    flex-wrap: wrap;
+   display: flex;
+   width: 100%;
+   height: fit-content;
+   gap: 15px;
+   flex-wrap: wrap;
 }
 
 .image {
-    display: flex;
-    flex-direction: column;
+   display: flex;
+   flex-direction: column;
 
-    &:hover {
-        opacity: 0.72;
-    }
+   &:hover {
+      opacity: 0.72;
+   }
 
-    & label {
-        color: rgb(99, 115, 129);
-        font-size: 0.875rem;
-        margin-bottom: 8px;
-        font-weight: 600;
-    }
+   & label {
+      color: var(--sub-title-color);
+      font-size: var(--font-size-small);
+      margin-bottom: 8px;
+      font-weight: 600;
+   }
 
-    & input {
-        display: none;
-    }
+   & input {
+      display: none;
+   }
 
-    & .image-custom {
-        position: relative;
-        display: flex;
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-        transition: padding 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-        padding: 8px 0px;
-        border: 1px dashed rgba(145, 158, 171, 0.32);
-        background-color: rgb(243, 244, 248);
-        border-radius: 3px;
-        cursor: pointer;
+   & .image-custom {
+      position: relative;
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      transition: padding 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      padding: 8px 0px;
+      border: 1px dashed var(--sub-main-border-color);
+      background-color: rgb(243, 244, 248);
+      border-radius: 3px;
+      cursor: pointer;
 
-        & .box {
-            display: flex;
-            height: fit-content;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            padding: 40px 8px;
-            gap: 25px;
+      & .box {
+         display: flex;
+         height: fit-content;
+         flex-direction: row;
+         justify-content: center;
+         align-items: center;
+         width: 100%;
+         padding: 40px 8px;
+         gap: var(--semi-big-gap);
+         & img {
+            height: 200px;
+            width: auto;
+         }
 
-            & img {
-                height: 200px;
-                width: auto;
+         & .image-description {
+            & h4 {
+               font-size: 1.125rem;
+               color: rgba(210, 210, 210, 1);
+               margin-bottom: 10px;
             }
 
-            & .image-description {
-                & h4 {
-                    font-size: 1.125rem;
-                    color: rgba(210, 210, 210, 1);
-                    margin-bottom: 10px;
-                }
-
-                & p {
-                    font-weight: 400;
-                    color: rgb(99, 115, 129);
-                    font-size: 0.875rem;
-                }
+            & p {
+               font-weight: var(--font-weight-semi-bold);
+               color: var(--sub-title-color);
+               font-size: var(--font-size-small);
             }
-        }
-    }
+         }
+      }
+   }
 }
 
 .preview-image {
-    background-color: rgb(255, 255, 255);
-    color: rgb(33, 43, 54);
-    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    border-radius: 3px;
-    border: 1px solid rgb(196, 205, 213);
-    background-image: none;
-    width: 80px;
-    height: 80px;
-    margin: 4px;
-    position: relative;
+   background-color: rgb(255, 255, 255);
+   color: var(--text-color);
+   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+   border-radius: 3px;
+   border: 1px solid rgb(196, 205, 213);
+   background-image: none;
+   width: 80px;
+   height: 80px;
+   margin: 4px;
+   position: relative;
 
-    & img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
+   & img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+   }
 
-    & .delete-image {
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 5px;
-        height: 24px;
-        width: 24px;
-        font-size: 1.25rem;
-        position: absolute;
-        top: 5px;
-        right: 5px;
+   & .delete-image {
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 5px;
+      height: 24px;
+      width: 24px;
+      font-size: 1.25rem;
+      position: absolute;
+      top: 5px;
+      right: 5px;
 
-        &:hover {
-            font-size: 1.5rem;
-        }
-    }
+      &:hover {
+         font-size: 1.5rem;
+      }
+   }
 }
 
 .btn-cancel,
 .btn-save {
-    cursor: pointer;
-    user-select: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9375rem;
-    height: 48px;
-    min-width: 64px;
-    padding: 7px 21px;
-    border-radius: 3px;
-    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-        box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-        border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-        color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    font-weight: 800;
+   cursor: pointer;
+   user-select: none;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 0.9375rem;
+   height: 48px;
+   min-width: var(--min-width-button);
+   padding: 7px 21px;
+   border-radius: 3px;
+   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+   font-weight: var(--font-weight-semi-bold);
 }
 
 .btn-cancel {
-    border: 1px solid rgba(211, 49, 49, 0.5);
-    color: rgb(211, 49, 49);
-    background-color: transparent;
+   border: 1px solid rgba(211, 49, 49, 0.5);
+   color: rgb(211, 49, 49);
+   background-color: transparent;
 
-    &:hover {
-        background-color: rgba(211, 49, 49, 0.08);
-        border: 1px solid rgb(211, 49, 49);
-    }
+   &:hover {
+      background-color: rgba(211, 49, 49, 0.08);
+      border: 1px solid rgb(211, 49, 49);
+   }
 }
 
 .btn-save {
-    color: rgb(255, 255, 255);
-    background-color: rgb(82, 95, 225);
-    box-shadow: rgba(82, 95, 225, 0.24) 0px 8px 16px 0px;
+   color: rgb(255, 255, 255);
+   background-color: var(--main-color);
+   box-shadow: rgba(82, 95, 225, 0.24) 0px 8px 16px 0px;
 
-    &:hover {
-        background-color: rgb(0, 100, 202);
-    }
+   &:hover {
+      background-color: rgb(0, 100, 202);
+   }
 }

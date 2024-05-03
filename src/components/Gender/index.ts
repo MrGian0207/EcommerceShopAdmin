@@ -1,1 +1,1 @@
-export { default } from './Gender';
+export { default } from './Input';

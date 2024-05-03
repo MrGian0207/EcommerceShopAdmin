@@ -1,21 +1,21 @@
 .content {
-    text-align: center;
+   text-align: center;
 
-    & .welcome {
-        font-size: var(--font-size-extra-large);
-        font-weight: 300;
-        color: var(--white-color);
-    }
+   & .welcome {
+      font-size: var(--font-size-extra-large);
+      font-weight: var(--font-weight-semi-bold);
+      color: var(--white-color);
+   }
 
-    & .nameStore {
-        font-size: var(--font-size-biggest);
-        font-weight: 900;
-        color: var(--white-color);
-    }
+   & .nameStore {
+      font-size: var(--font-size-biggest);
+      font-weight: var(--font-weight-black);
+      color: var(--white-color);
+   }
 
-    & .discription {
-        font-size: var(--font-size-medium);
-        font-weight: 400;
-        color: var(--white-color);
-    }
+   & .discription {
+      font-size: var(--font-size-medium);
+      font-weight: var(--font-weight-semi-bold);
+      color: var(--white-color);
+   }
 }

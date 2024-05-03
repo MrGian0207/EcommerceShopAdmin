@@ -10,14 +10,13 @@
       overflow: auto;
       height: fit-content;
       width: 100%;
-      min-width: 800px;
+      max-width: 100%;
       background-color: rgb(255, 255, 255);
       box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
          rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
    }
    & table {
       height: fit-content;
-      width: 100%;
       border-collapse: collapse;
       border-spacing: 0px;
       width: 100%;
@@ -44,7 +43,7 @@
 
             & th {
                line-height: 1.5rem;
-               font-size: 0.875rem;
+               font-size: var(--font-size-small);
                font-weight: 600;
                display: table-cell;
                vertical-align: inherit;
@@ -68,19 +67,19 @@
             border-bottom: 1px solid rgb(196, 205, 213);
 
             &:hover {
-               background-color: rgba(145, 158, 171, 0.08);
+               background-color: var(--sub-main-border-color-hover);
             }
 
             & th {
                line-height: 1.57143;
-               font-size: 0.875rem;
-               font-weight: 400;
+               font-size: var(--font-size-small);
+               font-weight: var(--font-weight-semi-bold);
                display: table-cell;
                vertical-align: inherit;
                text-align: left;
                padding: 8px 24px;
 
-               color: rgb(33, 43, 54);
+               color: var(--text-color);
 
                & .name-item {
                   display: flex;
@@ -107,8 +106,8 @@
                display: table-cell;
                height: 100%;
                padding: 8px 16px;
-               font-size: 0.875rem;
-               color: rgb(33, 43, 54);
+               font-size: var(--font-size-small);
+               color: var(--text-color);
                font-weight: 500;
                vertical-align: middle;
 
@@ -131,7 +130,7 @@
                   display: flex;
                   justify-content: flex-start;
                   align-items: center;
-                  gap: 2px;
+                  gap: var(--user-image-gap);
                   color: rgba(202, 209, 215, 1);
                }
 
@@ -186,9 +185,9 @@
       appearance: none;
       text-decoration: none;
       line-height: 1.57143;
-      font-size: 0.875rem;
+      font-size: var(--font-size-small);
       font-family: Poppins, sans-serif;
-      font-weight: 400;
+      font-weight: var(--font-weight-semi-bold);
       border-radius: 3px;
       text-align: center;
       box-sizing: border-box;
@@ -196,15 +195,15 @@
       height: 32px;
       padding: 0px 6px;
       margin: 0px 3px;
-      color: rgb(33, 43, 54);
+      color: var(--text-color);
       transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
          background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-      border: 1px solid rgba(145, 158, 171, 0.32);
+      border: 1px solid var(--sub-main-border-color);
    }
    & .icon {
       font-size: 0.75rem;
-      color: rgb(33, 43, 54);
-      font-weight: 800;
+      color: var(--text-color);
+      font-weight: var(--font-weight-semi-bold);
    }
 
    & .blur {
@@ -212,10 +211,10 @@
    }
 
    & .active {
-      background-color: rgba(82, 95, 225, 0.08);
-      border: 1px solid rgba(82, 95, 225, 0.24);
-      color: rgb(82, 95, 225);
-      font-weight: 800;
+      background-color: var(--background-color-blur);
+      border: 1px solid var(--navigator-border-color);
+      color: var(--main-color);
+      font-weight: var(--font-weight-semi-bold);
    }
 }
 
@@ -224,7 +223,7 @@
    flex-direction: row;
    justify-content: flex-start;
    align-items: center;
-   gap: 8px;
+   gap: var(--semi-small-gap);
 
    & .toggle-box {
       display: flex;
@@ -269,7 +268,7 @@
 
       /* Dịch chuyển nút trượt khi toggle được bật */
       & input[type='checkbox']:checked + .toggle-switch::after {
-         background-color: rgb(82, 95, 225);
+         background-color: var(--main-color);
          left: 25px;
       }
    }

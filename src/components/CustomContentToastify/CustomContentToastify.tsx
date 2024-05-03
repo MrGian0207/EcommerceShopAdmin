@@ -35,7 +35,7 @@ function CustomContentToastify({
    const navigator = useNavigate();
    const { SetUpdateLayout } = useUpdateLayout()!;
    const [deleteButtonOnclick, setDeleteButtonOnclick] = useState(false);
-   const { accessToken, login } = useAuth()!;
+   const { accessToken } = useAuth()!;
 
    const handleConfirm = async () => {
       setDeleteButtonOnclick(true);

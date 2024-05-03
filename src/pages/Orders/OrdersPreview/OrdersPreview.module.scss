@@ -1,12 +1,12 @@
 .ordersPreview {
    display: flex;
    flex-direction: column;
-   gap: 10px;
+   gap: var(--small-gap);
 }
 
 .previewDetail {
    background-color: rgb(255, 255, 255);
-   color: rgb(33, 43, 54);
+   color: var(--text-color);
    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
    border-radius: 8px;
    box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
@@ -27,7 +27,7 @@
 
          & h6 {
             font-size: 1.125rem;
-            font-weight: 800;
+            font-weight: var(--font-weight-semi-bold);
          }
          & p {
             font-size: 1rem;
@@ -47,7 +47,7 @@
             flex: 1;
             padding-top: 16px;
             padding-left: 16px;
-            color: rgb(33, 43, 54);
+            color: var(--text-color);
             color: currentColor;
             border-radius: 8px;
 
@@ -63,7 +63,7 @@
 
                   & h6 {
                      font-size: 1.125rem;
-                     font-weight: 800;
+                     font-weight: var(--font-weight-semi-bold);
                      margin-left: 16px;
                   }
 
@@ -76,7 +76,7 @@
                      min-width: 50px;
                      -webkit-tap-highlight-color: transparent;
                      font-weight: 700;
-                     font-size: 0.875rem;
+                     font-size: var(--font-size-small);
                      padding: 6px 16px;
                      border-radius: 3px;
                      transition: background-color 250ms
@@ -85,7 +85,7 @@
                         border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
                         color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
                      box-shadow: rgba(82, 95, 225, 0.24) 0px 8px 16px 0px;
-                     color: rgb(33, 43, 54);
+                     color: var(--text-color);
                      background: rgba(82, 95, 225, 0.3);
 
                      &:hover {
@@ -100,14 +100,14 @@
                   margin-top: 24px;
                   display: flex;
                   flex-direction: column;
-                  gap: 5px;
+                  gap: var(--tag-gap);
 
                   & p {
-                     font-size: 0.875rem;
+                     font-size: var(--font-size-small);
                      font-weight: 500;
 
                      & strong {
-                        font-weight: 800;
+                        font-weight: var(--font-weight-semi-bold);
                      }
                   }
                }
@@ -120,7 +120,7 @@
 .previewProduct {
    margin-bottom: 20px;
    background-color: rgb(255, 255, 255);
-   color: rgb(33, 43, 54);
+   color: var(--text-color);
    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
    border-radius: 8px;
    box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
@@ -129,7 +129,7 @@
    & .product-quantity {
       padding: 16px;
       font-size: 1.25rem;
-      font-weight: 800;
+      font-weight: var(--font-weight-semi-bold);
    }
 
    & .product-table {
@@ -143,24 +143,24 @@
 
          & th {
             line-height: 1.5rem;
-            font-size: 0.875rem;
+            font-size: var(--font-size-small);
             font-weight: 600;
             vertical-align: inherit;
             text-align: left;
             padding: 16px;
             border-bottom: none;
-            color: rgb(99, 115, 129);
+            color: var(--sub-title-color);
             background-color: rgb(243, 244, 248);
          }
 
          & td {
             text-align: center;
-            font-size: 0.875rem;
-            font-weight: 400;
+            font-size: var(--font-size-small);
+            font-weight: var(--font-weight-semi-bold);
             vertical-align: inherit;
             text-align: left;
             padding: 16px 16px;
-            color: rgb(33, 43, 54);
+            color: var(--text-color);
             border-bottom: 1px solid rgb(196, 205, 213);
 
             & .image-product {
@@ -207,13 +207,13 @@
          }
          & td {
             line-height: 1.57143;
-            font-size: 0.875rem;
-            font-weight: 800;
+            font-size: var(--font-size-small);
+            font-weight: var(--font-weight-semi-bold);
             display: table-cell;
             vertical-align: inherit;
             text-align: left;
             padding: 8px 16px;
-            color: rgb(33, 43, 54);
+            color: var(--text-color);
             border-bottom: 1px solid rgb(196, 205, 213);
 
             & p {

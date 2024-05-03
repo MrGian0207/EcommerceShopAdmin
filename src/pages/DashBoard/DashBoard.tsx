@@ -97,26 +97,34 @@ function DashBoard(): JSX.Element {
       <div className={cx('dashboard')}>
          <DefaultLayout active={'dashboard'} page={['Dashboard']}>
             <div className={cx('row-statistics')}>
-               <StatisticItems
-                  title="Daily Earning"
-                  quantity="$0.0"
-                  icon={faFileInvoiceDollar}
-               />
-               <StatisticItems
-                  title="Daily Orders"
-                  quantity="0"
-                  icon={faWallet}
-               />
-               <StatisticItems
-                  title="Signup Users"
-                  quantity="14"
-                  icon={faUser}
-               />
-               <StatisticItems
-                  title="Total Product"
-                  quantity="8"
-                  icon={faShop}
-               />
+               <div className={cx('statisticItem')}>
+                  <StatisticItems
+                     title="Daily Earning"
+                     quantity="$0.0"
+                     icon={faFileInvoiceDollar}
+                  />
+               </div>
+               <div className={cx('statisticItem')}>
+                  <StatisticItems
+                     title="Daily Orders"
+                     quantity="0"
+                     icon={faWallet}
+                  />
+               </div>
+               <div className={cx('statisticItem')}>
+                  <StatisticItems
+                     title="Signup Users"
+                     quantity="14"
+                     icon={faUser}
+                  />
+               </div>
+               <div className={cx('statisticItem')}>
+                  <StatisticItems
+                     title="Total Product"
+                     quantity="8"
+                     icon={faShop}
+                  />
+               </div>
             </div>
             <div className={cx('row-statistics')}>
                <div className={cx('sales-report')}>

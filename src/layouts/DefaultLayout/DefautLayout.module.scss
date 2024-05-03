@@ -22,9 +22,9 @@
       padding: 24px 0 24px 24px;
       height: 68px;
       border-bottom: 1px solid rgb(196, 205, 213);
-      font-size: 0.9rem;
+      font-size: var(--font-size-small);
       font-weight: 500;
-      color: rgb(33, 43, 54);
+      color: var(--text-color);
       border-top: 1px solid rgba(196, 205, 213, 1);
 
       & .button {
@@ -32,7 +32,7 @@
          display: flex;
          justify-content: flex-end;
          padding-right: 30px;
-         gap: 10px;
+         gap: var(--small-gap);
       }
 
       & .title {
@@ -111,7 +111,7 @@
          &:focus-within {
             width: 230px;
             box-shadow: rgba(145, 158, 171, 0.24) 0px 8px 16px 0px;
-            border-color: rgb(82, 95, 225);
+            border-color: var(--main-color);
          }
 
          & .icon-search {
@@ -131,13 +131,20 @@
    }
 
    & .header {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: flex-end;
-      color: rgb(99, 115, 129);
+      justify-content: space-between;
+      color: var(--sub-title-color);
       width: 100%;
       height: 60px;
-      padding: 12px 57px 12px 24px;
+      padding: 12px 30px 12px 24px;
+
+      .header-right {
+         flex: 1;
+         display: flex;
+         align-items: center;
+         justify-content: flex-end;
+      }
    }
 
    .language {
@@ -146,11 +153,12 @@
       justify-content: center;
       align-items: center;
       font-size: 15px;
-      color: rgb(99, 115, 129);
+      font-weight: 500;
+      color: var(--sub-title-color);
       cursor: pointer;
 
       &:hover {
-         color: rgb(82, 95, 225);
+         color: var(--main-color);
       }
 
       & span {
@@ -170,15 +178,15 @@
          z-index: 999;
          height: 157px;
          width: 300px;
-         border: 1px solid rgba(145, 158, 171, 0.08);
+         border: 1px solid var(--sub-main-border-color-hover);
          margin-top: 12px;
          margin-left: 4px;
          background-color: rgb(255, 255, 255);
-         color: rgb(33, 43, 54);
+         color: var(--text-color);
          border-radius: 3px;
          box-shadow: rgba(145, 158, 171, 0.24) 0px 0px 2px 0px,
             rgba(145, 158, 171, 0.24) 0px 20px 40px -4px;
-         border: 1px solid rgba(145, 158, 171, 0.08);
+         border: 1px solid var(--sub-main-border-color-hover);
 
          & .title {
             display: flex;
@@ -204,9 +212,10 @@
                padding: 8px 16px;
                transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)
                   0ms;
+               font-weight: 600;
 
                &:hover {
-                  background-color: rgba(145, 158, 171, 0.08);
+                  background-color: var(--sub-main-border-color-hover);
                }
 
                & .nation-flag {
@@ -289,11 +298,11 @@
          display: none;
          height: 460px;
          width: 360px;
-         border: 1px solid rgba(145, 158, 171, 0.08);
+         border: 1px solid var(--sub-main-border-color-hover);
          margin-top: 12px;
          margin-left: 4px;
          background-color: rgb(255, 255, 255);
-         color: rgb(33, 43, 54);
+         color: var(--text-color);
          border-radius: 3px;
          box-shadow: rgba(145, 158, 171, 0.24) 0px 0px 2px 0px,
             rgba(145, 158, 171, 0.24) 0px 20px 40px -4px;
@@ -327,7 +336,7 @@
                background-color: rgb(243, 244, 248);
                transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)
                   0ms;
-               color: rgb(99, 115, 129);
+               color: var(--sub-title-color);
 
                & .user-img {
                   display: block;
@@ -337,7 +346,7 @@
                   border-radius: 50%;
                   overflow: hidden;
                   user-select: none;
-                  color: rgb(99, 115, 129);
+                  color: var(--sub-title-color);
                   background-color: rgb(196, 205, 213);
 
                   & img {
@@ -353,15 +362,15 @@
                   align-items: flex-start;
 
                   & .content {
-                     font-size: 0.875rem;
-                     color: rgb(33, 43, 54);
+                     font-size: var(--font-size-small);
+                     color: var(--text-color);
 
                      padding: 0;
                   }
 
                   & .time {
-                     font-size: 0.875rem;
-                     font-weight: 400;
+                     font-size: var(--font-size-small);
+                     font-weight: var(--font-weight-semi-bold);
                   }
                }
             }
@@ -375,7 +384,7 @@
       align-items: center;
       padding: 8px;
       margin-left: 10px;
-      color: rgb(82, 95, 225);
+      color: var(--main-color);
       font-size: 1.5rem;
       cursor: pointer;
 
@@ -422,11 +431,11 @@
          right: 50px;
          height: fit-content;
          width: fit-content;
-         border: 1px solid rgba(145, 158, 171, 0.08);
+         border: 1px solid var(--sub-main-border-color-hover);
          margin-top: 12px;
          margin-left: 4px;
          background-color: rgb(255, 255, 255);
-         color: rgb(33, 43, 54);
+         color: var(--text-color);
          border-radius: 3px;
          box-shadow: rgba(145, 158, 171, 0.24) 0px 0px 2px 0px,
             rgba(145, 158, 171, 0.24) 0px 20px 40px -4px;
@@ -448,9 +457,9 @@
             }
 
             & p {
-               font-size: 0.875rem;
+               font-size: var(--font-size-small);
                margin-top: 6px;
-               color: rgb(99, 115, 129);
+               color: var(--sub-title-color);
             }
          }
 
@@ -480,13 +489,13 @@
                   }
 
                   & p {
-                     font-size: 0.875rem;
+                     font-size: var(--font-size-small);
                      font-weight: 500;
                   }
                }
 
                &:hover {
-                  background-color: rgba(145, 158, 171, 0.08);
+                  background-color: var(--sub-main-border-color-hover);
                }
             }
          }
@@ -498,13 +507,13 @@
                background-color: transparent;
                display: block;
                width: 100%;
-               font-size: 0.875rem;
+               font-size: var(--font-size-small);
                line-height: 1.71429;
                text-align: center;
                padding: 5px 15px;
                font-weight: 700;
                color: var(--black-color);
-               border: 1px solid rgba(145, 158, 171, 0.32);
+               border: 1px solid var(--sub-main-border-color);
                cursor: pointer;
                transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1)
                      0ms,
@@ -513,7 +522,7 @@
                   color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 
                &:hover {
-                  background-color: rgba(145, 158, 171, 0.08);
+                  background-color: var(--sub-main-border-color-hover);
                }
             }
          }
@@ -523,5 +532,75 @@
    & .content {
       width: 100%;
       height: 100%;
+   }
+}
+
+.toggle-sidebar {
+   margin-right: 20px;
+   display: none;
+   justify-content: flex-start;
+   align-items: center;
+   height: fit-content;
+   width: fit-content;
+   padding: 8px;
+   border-radius: 50%;
+   background-color: transparent;
+   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+   font-size: 1.25rem;
+   color: var(--text-color);
+   cursor: pointer;
+   user-select: none;
+
+   &:hover {
+      background-color: rgba(99, 115, 129, 0.08);
+   }
+}
+
+.active {
+   display: none !important;
+}
+
+@media screen and (max-width: 1230px) {
+   .toggle-sidebar {
+      display: inline-flex;
+   }
+
+   .active {
+      display: none;
+   }
+
+   // body {
+   //    overflow-y: hidden;
+   // }
+   .default-layout {
+      &.openSidebar {
+         position: relative;
+
+         .sideBar {
+            position: absolute;
+            overflow-y: auto;
+            z-index: 99999;
+            background-color: var(--white-color);
+            box-shadow: rgba(145, 158, 171, 0.2) 0px 8px 10px -5px,
+               rgba(145, 158, 171, 0.14) 0px 16px 24px 2px,
+               rgba(145, 158, 171, 0.12) 0px 6px 30px 5px;
+         }
+
+         .content-layout {
+            &.openSidebar {
+               flex: 1;
+               background-color: (243, 244, 248, 0.72);
+               backdrop-filter: blur(6px);
+               opacity: 0.2;
+               z-index: -1;
+            }
+         }
+      }
+   }
+}
+
+@media screen and (min-width: 1230px) {
+   .active {
+      display: block !important;
    }
 }

@@ -167,7 +167,7 @@ function AddRole(): JSX.Element {
                         setPassword(e.target.value);
                      }}
                      id="user-passWord"
-                     type={isShowPassword ? 'test' : 'password'}
+                     type={isShowPassword ? 'text' : 'password'}
                   />
                   <span
                      onClick={() => {

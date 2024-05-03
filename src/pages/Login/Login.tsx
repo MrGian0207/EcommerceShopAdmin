@@ -4,12 +4,12 @@ import styles from './Login.module.scss';
 import Button from '~/components/Button';
 import FormAuth from '~/components/FormAuth';
 import Input from '~/components/Gender';
-import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faEye, faLock } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState, memo } from 'react';
-
-import api from '~/api/api';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '~/context/AuthContext';
+import * as Toastify from '~/services/Toastify';
+import api from '~/api/api';
 
 const cx = classNames.bind(styles);
 
@@ -31,6 +31,7 @@ function Login(): JSX.Element {
 
    useEffect(() => {
       if (isSubmitted) {
+         Toastify.showToastMessagePending();
          fetch('http://localhost:8000/auth/login', {
             method: 'POST',
             headers: {
@@ -45,18 +46,19 @@ function Login(): JSX.Element {
          })
             .then((res) => {
                setIsSubmitted(false);
-               if (res.ok) {
-                  return res.json();
-               } else {
-                  throw new Error('Login failed');
-               }
+               return res.json();
             })
             .then((data) => {
-               const { accessToken, idUser } = data;
-               localStorage.setItem('access_token', accessToken);
-               localStorage.setItem('id_user', idUser);
-               login(accessToken);
-               navigate('/dashboard');
+               const { accessToken, idUser, response } = data;
+               if (accessToken && idUser && response) {
+                  localStorage.setItem('access_token', accessToken);
+                  localStorage.setItem('id_user', idUser);
+                  login(accessToken);
+                  navigate('/dashboard');
+                  Toastify.showToastMessageSuccessfully(response?.message);
+               } else {
+                  Toastify.showToastMessageFailure(data?.message);
+               }
             })
             .catch((err) => {
                console.log(err);
@@ -101,6 +103,7 @@ function Login(): JSX.Element {
                      index="Password"
                      label="Password"
                      iconLeft={faLock}
+                     iconRight={faEye}
                      type={'password'}
                      autocomplete="current-password"
                   />

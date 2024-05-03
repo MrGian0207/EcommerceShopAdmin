@@ -6,8 +6,8 @@ import React, {
    memo,
    useEffect,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import * as Toastify from '~/services/Toastify';
 
 // Define the type for your context value
 interface AuthContextType {
@@ -57,6 +57,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = memo(
       };
 
       const logout = async () => {
+         Toastify.showToastMessagePending();
          await fetch('http://localhost:8000/logout', {
             method: 'POST',
             headers: {
@@ -69,10 +70,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = memo(
                return res.json();
             })
             .then((data) => {
-               console.log(data.status);
-               localStorage.removeItem('access_token');
-               localStorage.removeItem('id_user');
-               setAccessToken(null);
+               if (data.status === 'Success') {
+                  localStorage.removeItem('access_token');
+                  localStorage.removeItem('id_user');
+                  setAccessToken(null);
+                  Toastify.showToastMessageSuccessfully(data.message);
+               } else {
+                  Toastify.showToastMessageFailure(data.message);
+               }
             })
             .catch((err) => {
                console.log(err);

@@ -2,7 +2,6 @@ import AuthHeader from '~/components/AuthHeader';
 import classNames from 'classnames/bind';
 import styles from './Register.module.scss';
 import React, { useEffect, useState } from 'react';
-
 import FormAuth from '~/components/FormAuth';
 import Input from '~/components/Gender';
 import {
@@ -14,6 +13,7 @@ import {
    faVenus,
 } from '@fortawesome/free-solid-svg-icons';
 import api from '~/api/api';
+import * as Toastify from '~/services/Toastify';
 
 const cx = classNames.bind(styles);
 
@@ -32,6 +32,7 @@ function Register(): JSX.Element {
 
    useEffect(() => {
       if (isSubmitted) {
+         Toastify.showToastMessagePending();
          fetch('http://localhost:8000/auth/register', {
             method: 'POST',
             headers: {
@@ -50,7 +51,11 @@ function Register(): JSX.Element {
                return res.json();
             })
             .then((data) => {
-               console.log(data);
+               if (data?.status === 'Success') {
+                  Toastify.showToastMessageSuccessfully(data?.message);
+               } else {
+                  Toastify.showToastMessageFailure(data?.message);
+               }
             })
             .catch((e) => {
                setIsSubmitted(false);

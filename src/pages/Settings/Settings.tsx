@@ -6,6 +6,7 @@ import ProfileSetting from '~/pages/Settings/ProfileSetting';
 import Roles from '~/pages/Settings/Roles';
 import AddRole from '~/pages/Settings/AddRole';
 import ChangePassword from '~/pages/Settings/ChangePassword';
+import { useUser } from '~/context/UserContext';
 
 const cx = classNames.bind(styles);
 type LineBreakProp = {
@@ -20,6 +21,7 @@ function Settings(): JSX.Element {
    const addRoleRef = useRef<HTMLButtonElement>(null);
    const changePasswordRef = useRef<HTMLButtonElement>(null);
    const activeButtonRef = useRef<HTMLSpanElement>(null);
+   const { dataUser } = useUser()!;
 
    function LineBreak({ nameRef, activeRef }: LineBreakProp) {
       // Tính toán width dựa trên kích thước của nút hiện tại
@@ -158,32 +160,38 @@ function Settings(): JSX.Element {
                   >
                      Profile Setting
                   </button>
-                  <button
-                     ref={rolesRef}
-                     onClick={() => {
-                        rolesRef?.current &&
-                           rolesRef?.current.classList.add(cx('active'));
-                        setComponent((prevComponent) => {
-                           removeActiveButton(prevComponent);
-                           return 'Roles';
-                        });
-                     }}
-                  >
-                     Roles
-                  </button>
-                  <button
-                     ref={addRoleRef}
-                     onClick={() => {
-                        addRoleRef?.current &&
-                           addRoleRef?.current.classList.add(cx('active'));
-                        setComponent((prevComponent) => {
-                           removeActiveButton(prevComponent);
-                           return 'Add Role';
-                        });
-                     }}
-                  >
-                     Add Role
-                  </button>
+                  {dataUser?.role === 'Admin' && (
+                     <>
+                        <button
+                           ref={rolesRef}
+                           onClick={() => {
+                              rolesRef?.current &&
+                                 rolesRef?.current.classList.add(cx('active'));
+                              setComponent((prevComponent) => {
+                                 removeActiveButton(prevComponent);
+                                 return 'Roles';
+                              });
+                           }}
+                        >
+                           Roles
+                        </button>
+                        <button
+                           ref={addRoleRef}
+                           onClick={() => {
+                              addRoleRef?.current &&
+                                 addRoleRef?.current.classList.add(
+                                    cx('active'),
+                                 );
+                              setComponent((prevComponent) => {
+                                 removeActiveButton(prevComponent);
+                                 return 'Add Role';
+                              });
+                           }}
+                        >
+                           Add Role
+                        </button>
+                     </>
+                  )}
                   <button
                      ref={changePasswordRef}
                      onClick={() => {

@@ -3,7 +3,7 @@
    border: 0px;
    box-shadow: rgba(145, 158, 171, 0.24) 0px 0px 4px 0px,
       rgba(145, 158, 171, 0.24) 0px 24px 48px 0px;
-   color: rgb(33, 43, 54);
+   color: var(--text-color);
    border-radius: 8px;
 }
 
