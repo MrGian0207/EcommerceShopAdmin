@@ -41,13 +41,14 @@ export const UserContextProvider: React.FC<{ children: ReactNode }> = memo(
                ? (localStorage.getItem('id_user') as string)
                : '';
             try {
-               const res = await fetch(
-                  `${process.env.REACT_APP_BACKEND_URL}/users/${id_user}`,
+               const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${id_user}`,
                   {
                      method: 'GET',
                      headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${
+                           accessToken ? accessToken : 'null'
+                        }`,
                      },
                      credentials: 'include',
                   },
