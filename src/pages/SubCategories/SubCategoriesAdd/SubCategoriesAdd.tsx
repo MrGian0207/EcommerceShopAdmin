@@ -25,6 +25,13 @@ function SubCategoriesAdd() {
    const { accessToken } = useAuth()!;
 
    const CategoryOptionSelectRef = useRef<HTMLSelectElement>(null);
+
+   useEffect(() => {
+      document.title = 'Add Sub Category | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
    useEffect(() => {
       fetch(
          `${process.env.REACT_APP_BACKEND_URL}/categories/main-categories/name`,

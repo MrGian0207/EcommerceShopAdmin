@@ -1,6 +1,6 @@
 import styles from './ChangePassword.module.scss';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as Toastify from '~/services/Toastify';
 import { useAuth } from '~/context/AuthContext';
 
@@ -11,6 +11,12 @@ function ChangePassword(): JSX.Element {
    const [newPassword, setNewPassword] = useState<string>('');
    const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
    const { accessToken } = useAuth()!;
+
+   useEffect(() => {
+      document.title = 'Change Password | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    const handleSubmit = async () => {
       const id_user: string = (await localStorage.getItem('id_user'))

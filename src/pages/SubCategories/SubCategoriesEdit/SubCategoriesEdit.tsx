@@ -33,6 +33,12 @@ function SubCategoriesEdit() {
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
+      document.title = 'Edit Sub Category | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   useEffect(() => {
       Promise.all([
          fetch(
             `${process.env.REACT_APP_BACKEND_URL}/categories/main-categories/name`,

@@ -29,6 +29,12 @@ function SlidesEdit() {
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
+      document.title = 'Edit Slide | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   useEffect(() => {
       const fetchData = async () => {
          const res = await fetch(
             `${process.env.REACT_APP_BACKEND_URL}${path}`,

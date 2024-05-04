@@ -7,9 +7,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Toastify from '~/services/Toastify';
+import { useEffect } from 'react';
+
 const cx = classNames.bind(styles);
 
 function Brands() {
+   useEffect(() => {
+      document.title = 'Brand | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
    return (
       <div className={cx('brands')}>
          <DefaultLayout

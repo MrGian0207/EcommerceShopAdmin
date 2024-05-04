@@ -31,6 +31,12 @@ function Register(): JSX.Element {
    };
 
    useEffect(() => {
+      document.title = 'Register | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   useEffect(() => {
       if (isSubmitted) {
          Toastify.showToastMessagePending();
          fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {

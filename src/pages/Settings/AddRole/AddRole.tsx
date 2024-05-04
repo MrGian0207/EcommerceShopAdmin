@@ -10,7 +10,7 @@ import {
    faUserTie,
    faVenusMars,
 } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as Toastify from '~/services/Toastify';
 import { useAuth } from '~/context/AuthContext';
 
@@ -50,6 +50,12 @@ function AddRole(): JSX.Element {
          }
       }
    };
+
+   useEffect(() => {
+      document.title = 'Add Role | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    return (
       <div className={cx('add-role')}>

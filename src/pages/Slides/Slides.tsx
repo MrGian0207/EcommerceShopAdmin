@@ -32,6 +32,12 @@ function Slides(): JSX.Element {
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
+      document.title = 'Slide | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   useEffect(() => {
       const fetchData = async () => {
          const res = await fetch(
             `${process.env.REACT_APP_BACKEND_URL}${path}`,

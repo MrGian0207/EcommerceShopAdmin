@@ -6,10 +6,18 @@ import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import * as Toastify from '~/services/Toastify';
+import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
 function SubCategories(): JSX.Element {
+
+    useEffect(() => {
+        document.title = 'Sub Category | NextStore';
+  
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+     }, []);
+
     return (
         <div className={cx('sub-categories')}>
             <DefaultLayout

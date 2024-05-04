@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import ActionLayout from '~/layouts/ActionLayout';
 import images from '~/assets/Image';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import * as HandleImageFile from '~/utils/HandleImageFile';
 
 const cx = classNames.bind(styles);
@@ -19,6 +19,12 @@ function MainCategoriesAdd(): JSX.Element {
     const [imageFile, setImageFile] = useState<File | null>(null);
     const nameImageFile = 'category-image';
     const nameButtonSubmit = 'Create Category';
+
+    useEffect(() => {
+        document.title = 'Add Category | NextStore';
+  
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+     }, []);
 
     return (
         <div className={cx('add')}>

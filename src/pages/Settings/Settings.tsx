@@ -1,7 +1,7 @@
 import styles from './Setting.module.scss';
 import classNames from 'classnames/bind';
 import DefaultLayout from '~/layouts/DefaultLayout';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ProfileSetting from '~/pages/Settings/ProfileSetting';
 import Roles from '~/pages/Settings/Roles';
 import AddRole from '~/pages/Settings/AddRole';
@@ -22,6 +22,12 @@ function Settings(): JSX.Element {
    const changePasswordRef = useRef<HTMLButtonElement>(null);
    const activeButtonRef = useRef<HTMLSpanElement>(null);
    const { dataUser } = useUser()!;
+
+   useEffect(() => {
+      document.title = 'Setting | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    function LineBreak({ nameRef, activeRef }: LineBreakProp) {
       // Tính toán width dựa trên kích thước của nút hiện tại

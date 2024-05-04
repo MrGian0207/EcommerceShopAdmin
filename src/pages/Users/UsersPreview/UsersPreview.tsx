@@ -20,6 +20,12 @@ function UsersPreview(): JSX.Element {
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
+      document.title = 'Preview User | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   useEffect(() => {
       const fetchData = async () => {
          try {
             const res = await fetch(

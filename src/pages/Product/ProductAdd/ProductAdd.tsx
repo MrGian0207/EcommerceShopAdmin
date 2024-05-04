@@ -174,6 +174,12 @@ function ProductAdd(): JSX.Element {
       setImageFileArray([]);
    };
 
+   useEffect(() => {
+      document.title = 'Add Product | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
    const { accessToken } = useAuth()!;
    // Promise All => Call Api to get Options
    useEffect(() => {

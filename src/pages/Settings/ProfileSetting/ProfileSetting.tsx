@@ -60,6 +60,12 @@ function ProfileSetting() {
    };
 
    useEffect(() => {
+      document.title = 'Profile Setting | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   useEffect(() => {
       const fetchData = async () => {
          const id_user: string = localStorage.getItem('id_user')
             ? (localStorage.getItem('id_user') as string)

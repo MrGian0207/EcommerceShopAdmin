@@ -30,6 +30,12 @@ function MainCategoriesEdit(): JSX.Element {
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
+      document.title = 'Edit Category | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   useEffect(() => {
       if (path) {
          try {
             fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {

@@ -190,6 +190,12 @@ function ProductEdit(): JSX.Element {
       setImageFileArray([]);
    };
 
+   useEffect(() => {
+      document.title = 'Edit Product | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
    const { accessToken } = useAuth()!;
    // Promise All => Call Api to get Options
    useEffect(() => {

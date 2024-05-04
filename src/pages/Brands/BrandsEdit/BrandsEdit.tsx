@@ -27,6 +27,12 @@ function BrandsEdit(): JSX.Element {
    const location = useLocation();
    const path = location.pathname;
 
+   useEffect(() => {
+      document.title = 'Edit Brand | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
    const { accessToken } = useAuth()!;
    useEffect(() => {
       if (path) {

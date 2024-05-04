@@ -23,6 +23,12 @@ function DashBoard(): JSX.Element {
    const navigate = useNavigate();
 
    useEffect(() => {
+      document.title = 'Dashboard | NextStore';
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   useEffect(() => {
       if (accessToken !== null) {
          fetch(`${process.env.REACT_APP_BACKEND_URL}/dashboard`, {
             method: 'GET',
