@@ -42,14 +42,17 @@ function CustomContentToastify({
       Toastify.showToastMessagePending();
       try {
          console.log({ path, id });
-         await fetch(`http://localhost:8000${path}/delete/${id}`, {
-            method: 'DELETE',
-            headers: {
-               'Content-Type': 'application/json',
-               Authorization: `Bearer ${accessToken}`,
+         await fetch(
+            `${process.env.REACT_APP_BACKEND_URL}${path}/delete/${id}`,
+            {
+               method: 'DELETE',
+               headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${accessToken}`,
+               },
+               body: JSON.stringify({ id }),
             },
-            body: JSON.stringify({ id }),
-         })
+         )
             .then((res) => {
                return res.json();
             })

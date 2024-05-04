@@ -26,14 +26,17 @@ function SubCategoriesAdd() {
 
    const CategoryOptionSelectRef = useRef<HTMLSelectElement>(null);
    useEffect(() => {
-      fetch('http://localhost:8000/categories/main-categories/name', {
-         method: 'GET',
-         headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+      fetch(
+         `${process.env.REACT_APP_BACKEND_URL}/categories/main-categories/name`,
+         {
+            method: 'GET',
+            headers: {
+               'Content-Type': 'application/json',
+               Accept: 'application/json',
+               Authorization: `Bearer ${accessToken}`,
+            },
          },
-      })
+      )
          .then((res) => {
             return res.json();
          })

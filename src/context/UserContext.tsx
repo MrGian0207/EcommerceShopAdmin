@@ -42,7 +42,7 @@ export const UserContextProvider: React.FC<{ children: ReactNode }> = memo(
                : '';
             try {
                const res = await fetch(
-                  `http://localhost:8000/users/${id_user}`,
+                  `${process.env.REACT_APP_BACKEND_URL}/users/${id_user}`,
                   {
                      method: 'GET',
                      headers: {

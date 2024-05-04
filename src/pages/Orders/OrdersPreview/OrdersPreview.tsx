@@ -109,11 +109,14 @@ function OrdersPreview(): JSX.Element {
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const res = await fetch(`http://localhost:8000${path}`, {
-               headers: {
-                  Authorization: `Bearer ${accessToken}`,
+            const res = await fetch(
+               `${process.env.REACT_APP_BACKEND_URL}${path}`,
+               {
+                  headers: {
+                     Authorization: `Bearer ${accessToken}`,
+                  },
                },
-            });
+            );
             const resData = await res.json();
             setData({ ...resData?.data });
             setSelectedOption(resData?.data?.order?.statusDelivery as string);

@@ -18,7 +18,7 @@ function ChangePassword(): JSX.Element {
          : '';
       Toastify.showToastMessagePending();
       const res = await fetch(
-         'http://localhost:8000/settings/update-password',
+         `${process.env.REACT_APP_BACKEND_URL}/settings/update-password`,
          {
             method: 'PUT',
             headers: {

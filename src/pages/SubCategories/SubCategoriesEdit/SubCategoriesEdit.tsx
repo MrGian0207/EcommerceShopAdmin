@@ -34,16 +34,19 @@ function SubCategoriesEdit() {
 
    useEffect(() => {
       Promise.all([
-         fetch('http://localhost:8000/categories/main-categories/name', {
-            method: 'GET',
-            headers: {
-               'Content-Type': 'application/json',
-               Accept: 'application/json',
-               Authorization: `Bearer ${accessToken}`,
+         fetch(
+            `${process.env.REACT_APP_BACKEND_URL}/categories/main-categories/name`,
+            {
+               method: 'GET',
+               headers: {
+                  'Content-Type': 'application/json',
+                  Accept: 'application/json',
+                  Authorization: `Bearer ${accessToken}`,
+               },
             },
-         }).then((res) => res.json()),
+         ).then((res) => res.json()),
          path &&
-            fetch(`http://localhost:8000${path}`, {
+            fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
                method: 'GET',
                headers: {
                   'Content-Type': 'application/json',

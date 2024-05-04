@@ -127,7 +127,7 @@ function ActionLayout({
       displaySlide && formData.append('displaySlide', displaySlide);
 
       try {
-         fetch(`http://localhost:8000${path}`, {
+         fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
             method: 'POST',
             headers: {
                Authorization: `Bearer ${accessToken}`,
@@ -165,7 +165,7 @@ function ActionLayout({
                );
             });
 
-         fetch(`http://localhost:8000${path}/variants`, {
+         fetch(`${process.env.REACT_APP_BACKEND_URL}${path}/variants`, {
             method: 'POST',
             headers: {
                Authorization: `Bearer ${accessToken}`,
@@ -273,7 +273,7 @@ function ActionLayout({
       }
 
       try {
-         fetch(`http://localhost:8000${path}`, {
+         fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
             method: 'POST',
             headers: {
                Authorization: `Bearer ${accessToken}`,

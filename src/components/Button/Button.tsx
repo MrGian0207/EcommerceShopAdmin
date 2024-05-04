@@ -111,7 +111,7 @@ const Button: React.FC<ButtonProps> = ({
 
    const handleSelectOption = async (option: string) => {
       Toastify.showToastMessagePending();
-      await fetch(`http://localhost:8000${path}/edit-status`, {
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}${path}/edit-status`, {
          method: 'PUT',
          headers: {
             'Content-Type': 'application/json',

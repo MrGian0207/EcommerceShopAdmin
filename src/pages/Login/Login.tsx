@@ -25,14 +25,10 @@ function Login(): JSX.Element {
       setIsSubmitted(true);
    };
 
-   // const googleAuth = () => {
-   //    window.open(`http://localhost:8000/auth/google/callback`, '_self');
-   // };
-
    useEffect(() => {
       if (isSubmitted) {
          Toastify.showToastMessagePending();
-         fetch('http://localhost:8000/auth/login', {
+         fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',

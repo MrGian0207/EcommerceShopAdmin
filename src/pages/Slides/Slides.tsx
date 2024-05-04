@@ -32,14 +32,16 @@ function Slides(): JSX.Element {
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
-
       const fetchData = async () => {
-         const res = await fetch(`http://localhost:8000${path}`, {
-            headers: {
-               'Content-Type': 'application/json',
-               Authorization: `Bearer ${accessToken}`,
+         const res = await fetch(
+            `${process.env.REACT_APP_BACKEND_URL}${path}`,
+            {
+               headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${accessToken}`,
+               },
             },
-         });
+         );
          const resData = await res.json();
          setData(resData.data);
       };

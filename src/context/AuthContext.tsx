@@ -9,7 +9,6 @@ import React, {
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Toastify from '~/services/Toastify';
 
-// Define the type for your context value
 interface AuthContextType {
    accessToken: string | null;
    login: (accessToken: string) => void;
@@ -58,7 +57,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = memo(
 
       const logout = async () => {
          Toastify.showToastMessagePending();
-         await fetch(`http://localhost:8000/logout`, {
+         await fetch(`${process.env.REACT_APP_BACKEND_URL}/logout`, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',

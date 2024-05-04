@@ -30,13 +30,16 @@ function SlidesEdit() {
 
    useEffect(() => {
       const fetchData = async () => {
-         const res = await fetch(`http://localhost:8000${path}`, {
-            method: 'GET',
-            headers: {
-               'Content-Type': 'application/json',
-               Authorization: `Bearer ${accessToken}`,
+         const res = await fetch(
+            `${process.env.REACT_APP_BACKEND_URL}${path}`,
+            {
+               method: 'GET',
+               headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${accessToken}`,
+               },
             },
-         });
+         );
          const resData = await res.json();
          setResizedImageUrl(resData?.data?.image);
          setHeading(resData?.data?.heading);

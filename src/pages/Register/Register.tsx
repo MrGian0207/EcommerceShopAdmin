@@ -33,7 +33,7 @@ function Register(): JSX.Element {
    useEffect(() => {
       if (isSubmitted) {
          Toastify.showToastMessagePending();
-         fetch('http://localhost:8000/auth/register', {
+         fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',

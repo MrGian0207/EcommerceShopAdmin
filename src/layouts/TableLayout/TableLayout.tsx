@@ -175,7 +175,9 @@ function TableLayout({
       try {
          if (path) {
             fetch(
-               `http://localhost:8000${path}?page=${searchParams.get(
+               `${
+                  process.env.REACT_APP_BACKEND_URL
+               }${path}?page=${searchParams.get(
                   'page',
                )}&search=${debouncedSearchText}`,
                {
@@ -242,7 +244,7 @@ function TableLayout({
    const handleSetFeaturedProduct = async (featureUpdates: featureType) => {
       if (featureArray.length && path) {
          Toastify.showToastMessagePending();
-         await fetch(`http://localhost:8000${path}`, {
+         await fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
             method: 'PUT',
             headers: {
                'Content-Type': 'application/json',

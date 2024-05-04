@@ -24,7 +24,7 @@ function DashBoard(): JSX.Element {
 
    useEffect(() => {
       if (accessToken !== null) {
-         fetch('http://localhost:8000/dashboard', {
+         fetch(`${process.env.REACT_APP_BACKEND_URL}/dashboard`, {
             method: 'GET',
             headers: {
                'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ function DashBoard(): JSX.Element {
                } else if (status === 'Error') {
                   console.log('Dashboard Error');
 
-                  fetch('http://localhost:8000/refreshToken', {
+                  fetch(`${process.env.REACT_APP_BACKEND_URL}/refreshToken`, {
                      method: 'POST',
                      headers: {
                         'Content-Type': 'application/json',

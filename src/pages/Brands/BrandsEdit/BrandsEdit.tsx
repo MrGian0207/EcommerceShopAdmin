@@ -29,10 +29,9 @@ function BrandsEdit(): JSX.Element {
 
    const { accessToken } = useAuth()!;
    useEffect(() => {
-
       if (path) {
          try {
-            fetch(`http://localhost:8000${path}`, {
+            fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
                method: 'GET',
                headers: {
                   Authorization: `Bearer ${accessToken}`,

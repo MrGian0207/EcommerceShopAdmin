@@ -42,7 +42,7 @@ function ProfileSetting() {
       formData.append('users-image', imageFile as File);
 
       Toastify.showToastMessagePending();
-      const res = await fetch('http://localhost:8000/users', {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
          method: 'PUT',
          credentials: 'include',
          headers: {
@@ -65,14 +65,17 @@ function ProfileSetting() {
             ? (localStorage.getItem('id_user') as string)
             : '';
          try {
-            const res = await fetch(`http://localhost:8000/users/${id_user}`, {
-               method: 'GET',
-               headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${accessToken}`,
+            const res = await fetch(
+               `${process.env.REACT_APP_BACKEND_URL}/users/${id_user}`,
+               {
+                  method: 'GET',
+                  headers: {
+                     'Content-Type': 'application/json',
+                     Authorization: `Bearer ${accessToken}`,
+                  },
+                  credentials: 'include',
                },
-               credentials: 'include',
-            });
+            );
             const resData = await res.json();
             if (resData) {
                setName(resData?.data.fullName);

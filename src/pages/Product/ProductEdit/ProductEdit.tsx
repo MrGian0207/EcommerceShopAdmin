@@ -194,23 +194,29 @@ function ProductEdit(): JSX.Element {
    // Promise All => Call Api to get Options
    useEffect(() => {
       Promise.all([
-         fetch('http://localhost:8000/categories/main-categories/name', {
-            method: 'GET',
-            headers: {
-               'Content-Type': 'application/json',
-               Accept: 'application/json',
-               Authorization: `Bearer ${accessToken}`,
+         fetch(
+            `${process.env.REACT_APP_BACKEND_URL}/categories/main-categories/name`,
+            {
+               method: 'GET',
+               headers: {
+                  'Content-Type': 'application/json',
+                  Accept: 'application/json',
+                  Authorization: `Bearer ${accessToken}`,
+               },
             },
-         }),
-         fetch('http://localhost:8000/categories/sub-categories/name', {
-            method: 'GET',
-            headers: {
-               'Content-Type': 'application/json',
-               Accept: 'application/json',
-               Authorization: `Bearer ${accessToken}`,
+         ),
+         fetch(
+            `${process.env.REACT_APP_BACKEND_URL}/categories/sub-categories/name`,
+            {
+               method: 'GET',
+               headers: {
+                  'Content-Type': 'application/json',
+                  Accept: 'application/json',
+                  Authorization: `Bearer ${accessToken}`,
+               },
             },
-         }),
-         fetch('http://localhost:8000/brands/name', {
+         ),
+         fetch(`${process.env.REACT_APP_BACKEND_URL}/brands/name`, {
             method: 'GET',
             headers: {
                'Content-Type': 'application/json',
@@ -314,7 +320,7 @@ function ProductEdit(): JSX.Element {
    useEffect(() => {
       if (path) {
          try {
-            fetch(`http://localhost:8000${path}`, {
+            fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
                headers: {
                   Authorization: `Bearer ${accessToken}`,
                },

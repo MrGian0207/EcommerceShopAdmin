@@ -28,7 +28,7 @@ function AddRole(): JSX.Element {
 
    const handleSubmit = async () => {
       Toastify.showToastMessagePending();
-      const res = await fetch('http://localhost:8000/settings', {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/settings`, {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',

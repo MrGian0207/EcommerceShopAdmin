@@ -32,7 +32,7 @@ function MainCategoriesEdit(): JSX.Element {
    useEffect(() => {
       if (path) {
          try {
-            fetch(`http://localhost:8000${path}`, {
+            fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
                method: 'GET',
                headers: {
                   Authorization: `Bearer ${accessToken}`,
