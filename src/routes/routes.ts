@@ -26,9 +26,13 @@ import Settings from '~/pages/Settings';
 
 import api from '~/api/api';
 
+const accessToken: string | null = localStorage.getItem('access_token')
+   ? localStorage.getItem('access_token')
+   : null;
+
 // Public Routes
 const publicRoutes = [
-   { path: api.index, component: DashBoard },
+   { path: api.index, component: accessToken ? DashBoard : Login },
    { path: api.login, component: Login },
    { path: api.register, component: Register },
    { path: api.forgetPassword, component: ForgotPassword },
