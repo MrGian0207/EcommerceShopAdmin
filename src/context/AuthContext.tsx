@@ -73,7 +73,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = memo(
                   localStorage.removeItem('access_token');
                   localStorage.removeItem('id_user');
                   setAccessToken(null);
-                  Toastify.showToastMessageSuccessfully(data.message);
+                  Toastify.showToastMessageSuccessfully('Logout successfully');
                } else {
                   Toastify.showToastMessageFailure(data.message);
                }

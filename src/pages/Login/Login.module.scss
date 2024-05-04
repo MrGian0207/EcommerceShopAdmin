@@ -27,7 +27,7 @@
    width: 100%;
    text-align: center;
    font-weight: 600;
-   font-size: var(var(--font-size-small));
+   font-size: var(--font-size-small);
 
    & a {
       margin-left: 3px;
@@ -72,7 +72,7 @@
 .forgot-password {
    display: inline-flex;
    align-items: center;
-   font-size: var(var(--font-size-small));
+   font-size: var(--font-size-small);
    font-weight: 600;
 
    & a {
