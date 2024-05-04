@@ -58,7 +58,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = memo(
 
       const logout = async () => {
          Toastify.showToastMessagePending();
-         await fetch('http://localhost:8000/logout', {
+         await fetch(`http://localhost:8000/logout`, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',
