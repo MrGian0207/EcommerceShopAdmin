@@ -1,4 +1,5 @@
 const api = {
+   index: '/',
    login: '/auth/login',
    logout: '/logout',
    register: '/auth/register',
