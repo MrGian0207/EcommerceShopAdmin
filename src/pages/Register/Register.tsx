@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './Register.module.scss';
 import React, { useEffect, useState } from 'react';
 import FormAuth from '~/components/FormAuth';
-import Input from '~/components/Gender';
+import Input from '~/components/Input';
 import {
    faAngleDown,
    faEnvelope,

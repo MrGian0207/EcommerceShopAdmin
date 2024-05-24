@@ -18,7 +18,6 @@ root.render(
             </UpdateLayoutContextProvider>
          </SearchContextProvider>
       </GlobalStyles>
-      , //{' '}
    </React.StrictMode>,
 );
 
