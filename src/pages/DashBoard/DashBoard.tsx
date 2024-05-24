@@ -23,7 +23,7 @@ function DashBoard(): JSX.Element {
    const navigate = useNavigate();
 
    useEffect(() => {
-      document.title = 'Dashboard | NextStore';
+      document.title = 'Dashboard | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

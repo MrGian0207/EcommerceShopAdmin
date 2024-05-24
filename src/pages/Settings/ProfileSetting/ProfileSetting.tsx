@@ -60,7 +60,7 @@ function ProfileSetting() {
    };
 
    useEffect(() => {
-      document.title = 'Profile Setting | NextStore';
+      document.title = 'Profile Setting | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
@@ -170,7 +170,7 @@ function ProfileSetting() {
                      }}
                      id="user-email-address"
                      type="email"
-                     placeholder="NextStore@gmail.com"
+                     placeholder="MrGianStore@gmail.com"
                   />
                </div>
             </div>

@@ -28,7 +28,7 @@ function BrandsEdit(): JSX.Element {
    const path = location.pathname;
 
    useEffect(() => {
-      document.title = 'Edit Brand | NextStore';
+      document.title = 'Edit Brand | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

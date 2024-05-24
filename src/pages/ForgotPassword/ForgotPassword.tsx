@@ -12,7 +12,7 @@ import api from '~/api/api';
 const cx = classNames.bind(styles);
 function ForgotPassword() {
    useEffect(() => {
-      document.title = 'Forgot Password | NextStore';
+      document.title = 'Forgot Password | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

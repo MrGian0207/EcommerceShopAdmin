@@ -31,7 +31,7 @@ function Register(): JSX.Element {
    };
 
    useEffect(() => {
-      document.title = 'Register | NextStore';
+      document.title = 'Register | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

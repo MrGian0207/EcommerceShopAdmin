@@ -175,7 +175,7 @@ function ProductAdd(): JSX.Element {
    };
 
    useEffect(() => {
-      document.title = 'Add Product | NextStore';
+      document.title = 'Add Product | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

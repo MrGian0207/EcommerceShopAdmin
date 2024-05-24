@@ -24,6 +24,7 @@ import { useAuth } from '~/context/AuthContext';
 import { useSearchParams } from 'react-router-dom';
 import { useSearch } from '~/context/SearchContext';
 import { useUser } from '~/context/UserContext';
+import RowTableSkeleton from '~/components/RowTableSkeleton';
 
 const cx = classNames.bind(styles);
 
@@ -161,11 +162,11 @@ function TableLayout({
    const [deleteButtonOnclick, SetDeleteButtonOnclick] = useState(false);
    const { updateLayout } = useUpdateLayout()!;
    const [featureArray, setFeatureArray] = useState<featureType[]>([]);
-
    const { accessToken } = useAuth()!;
    const [page, setPage] = useState<number>(1);
    const [numbersPage, setNumbersPage] = useState<number[]>([1]);
    const [searchParams, setSearchParams] = useSearchParams({ page: '1' });
+   const [isLoading, setIsLoading] = useState<boolean>(true);
 
    const { dataUser } = useUser()!;
    const { debouncedSearchText } = useSearch()!;
@@ -191,6 +192,7 @@ function TableLayout({
                   return res.json();
                })
                .then((res) => {
+                  setIsLoading(false);
                   if (res?.status === 'Success') {
                      const data: DataType[] = res?.data;
                      const features: featureType[] = [];
@@ -283,259 +285,280 @@ function TableLayout({
                      </tr>
                   </thead>
                   <tbody>
-                     {dataArray.map((item, index) => (
-                        <tr key={item._id}>
-                           {/* Tên của sản phẩm và hình ảnh  */}
-                           {(category || user || name) && (
-                              <th>
-                                 <div className={cx('name-item')}>
-                                    <img
-                                       alt="Accessories demo"
-                                       src={
-                                          item.image || item.imageDefault
-                                             ? item.image || item.imageDefault
-                                             : variantArray[index]
-                                                  ?.variantImagesFile?.[0] ||
-                                               images.userDefaults
-                                       }
-                                    />
-                                    <h4>
-                                       {item.name || item.fullName
-                                          ? item.name || item.fullName
-                                          : item.customerName}
-                                    </h4>
-                                 </div>
-                              </th>
-                           )}
-                           {email && (
-                              <td className={cx('email')}>
-                                 {item.emailAddress || item.emailNewletter}
-                              </td>
-                           )}
-                           {phone && <td>0{item.phoneNumber}</td>}
-                           {role && <td>{item?.role ? item?.role : ''}</td>}
-                           {/* Thành phần cha liên quan của sản phẩm */}
-                           {parentCategory && <td>{item.parentCategory}</td>}
-                           {/* Tổng số lượng sản phẩm */}
-                           {totalItems && totalProductArray && (
-                              <td>{totalProductArray[index]?.total}</td>
-                           )}
-                           {/* Mô tả của sản phẩm */}
-                           {description && (
-                              <td>
-                                 <div className={cx('description')}>
-                                    {item.description}
-                                 </div>
-                              </td>
-                           )}
-                           {/* Thời gian tạo ra dữ liệu về sản phẩm */}
-                           {createdAt && (
-                              <td className={cx('created-at')}>
-                                 {format(
-                                    new Date(item.createdAt as string),
-                                    'dd MMM yyyy',
-                                 )}
-                              </td>
-                           )}
-                           {/* Trạng thái của sản phẩm / users */}
-                           {status && (
-                              <td className={cx('status')}>
-                                 {quantityArray && quantityArray.length > 0 && (
-                                    <StatusItems
-                                       quantity={quantityArray[index]}
-                                    />
-                                 )}
-                                 {item?.statusDelivery && (
-                                    <StatusItems
-                                       statusDelivery={item?.statusDelivery}
-                                    />
-                                 )}
-                                 {item?.status && user && (
-                                    <StatusItems statusUser={item?.status} />
-                                 )}
-                              </td>
-                           )}
-                           {/* Thời gian users tạo tài khoản */}
-                           {joined && (
-                              <td className={cx('created-at')}>
-                                 {format(
-                                    new Date(item.createdAt as string),
-                                    'dd MMM yyyy',
-                                 )}
-                              </td>
-                           )}
-                           {/* Đánh giá về sản phẩm  */}
-                           {rating && (
-                              <td>
-                                 <div className={cx('rating')}>
-                                    <FontAwesomeIcon icon={faStar} />
-                                    <FontAwesomeIcon icon={faStar} />
-                                    <FontAwesomeIcon icon={faStar} />
-                                    <FontAwesomeIcon icon={faStar} />
-                                    <FontAwesomeIcon icon={faStar} />
-                                 </div>
-                              </td>
-                           )}
-                           {/* Giá của sản phẩm  */}
-                           {price && (
-                              <td className={cx('price')}>
-                                 {item.price || item.total
-                                    ? `$${item.price || item.total}`
-                                    : `$${variantArray[index]?.variantRegularPrice}`}
-                              </td>
-                           )}
-                           {/* Số lượng của sản phẩm */}
-                           {quantity && (
-                              <td>
-                                 <p className={cx('quantity')}>
-                                    {item.quantityProducts &&
-                                       `${item.quantityProducts.reduce(
-                                          (acc, item) => acc + item,
-                                       )}`}
-                                 </p>
-                              </td>
-                           )}
-                           {/* Hiển thị sản phẩm hay là không trên trang bán hàng */}
-                           {featured && (
-                              <td>
-                                 <div className={cx('feature-product')}>
-                                    <div className={cx('toggle-box')}>
-                                       <input
-                                          onChange={(e) => {
-                                             e.target.checked =
+                     {isLoading === false ? (
+                        dataArray.map((item, index) => (
+                           <tr key={item._id}>
+                              {/* Tên của sản phẩm và hình ảnh  */}
+                              {(category || user || name) && (
+                                 <th>
+                                    <div className={cx('name-item')}>
+                                       <img
+                                          alt="Accessories demo"
+                                          src={
+                                             item.image || item.imageDefault
+                                                ? item.image ||
+                                                  item.imageDefault
+                                                : variantArray[index]
+                                                     ?.variantImagesFile?.[0] ||
+                                                  images.userDefaults
+                                          }
+                                       />
+                                       <h4>
+                                          {item.name || item.fullName
+                                             ? item.name || item.fullName
+                                             : item.customerName}
+                                       </h4>
+                                    </div>
+                                 </th>
+                              )}
+                              {email && (
+                                 <td className={cx('email')}>
+                                    {item.emailAddress || item.emailNewletter}
+                                 </td>
+                              )}
+                              {phone && <td>0{item.phoneNumber}</td>}
+                              {role && <td>{item?.role ? item?.role : ''}</td>}
+                              {/* Thành phần cha liên quan của sản phẩm */}
+                              {parentCategory && <td>{item.parentCategory}</td>}
+                              {/* Tổng số lượng sản phẩm */}
+                              {totalItems && totalProductArray && (
+                                 <td>{totalProductArray[index]?.total}</td>
+                              )}
+                              {/* Mô tả của sản phẩm */}
+                              {description && (
+                                 <td>
+                                    <div className={cx('description')}>
+                                       {item.description}
+                                    </div>
+                                 </td>
+                              )}
+                              {/* Thời gian tạo ra dữ liệu về sản phẩm */}
+                              {createdAt && (
+                                 <td className={cx('created-at')}>
+                                    {format(
+                                       new Date(item.createdAt as string),
+                                       'dd MMM yyyy',
+                                    )}
+                                 </td>
+                              )}
+                              {/* Trạng thái của sản phẩm / users */}
+                              {status && (
+                                 <td className={cx('status')}>
+                                    {quantityArray &&
+                                       quantityArray.length > 0 && (
+                                          <StatusItems
+                                             quantity={quantityArray[index]}
+                                          />
+                                       )}
+                                    {item?.statusDelivery && (
+                                       <StatusItems
+                                          statusDelivery={item?.statusDelivery}
+                                       />
+                                    )}
+                                    {item?.status && user && (
+                                       <StatusItems statusUser={item?.status} />
+                                    )}
+                                 </td>
+                              )}
+                              {/* Thời gian users tạo tài khoản */}
+                              {joined && (
+                                 <td className={cx('created-at')}>
+                                    {format(
+                                       new Date(item.createdAt as string),
+                                       'dd MMM yyyy',
+                                    )}
+                                 </td>
+                              )}
+                              {/* Đánh giá về sản phẩm  */}
+                              {rating && (
+                                 <td>
+                                    <div className={cx('rating')}>
+                                       <FontAwesomeIcon icon={faStar} />
+                                       <FontAwesomeIcon icon={faStar} />
+                                       <FontAwesomeIcon icon={faStar} />
+                                       <FontAwesomeIcon icon={faStar} />
+                                       <FontAwesomeIcon icon={faStar} />
+                                    </div>
+                                 </td>
+                              )}
+                              {/* Giá của sản phẩm  */}
+                              {price && (
+                                 <td className={cx('price')}>
+                                    {item.price || item.total
+                                       ? `$${item.price || item.total}`
+                                       : `$${variantArray[index]?.variantRegularPrice}`}
+                                 </td>
+                              )}
+                              {/* Số lượng của sản phẩm */}
+                              {quantity && (
+                                 <td>
+                                    <p className={cx('quantity')}>
+                                       {item.quantityProducts &&
+                                          `${item.quantityProducts.reduce(
+                                             (acc, item) => acc + item,
+                                          )}`}
+                                    </p>
+                                 </td>
+                              )}
+                              {/* Hiển thị sản phẩm hay là không trên trang bán hàng */}
+                              {featured && (
+                                 <td>
+                                    <div className={cx('feature-product')}>
+                                       <div className={cx('toggle-box')}>
+                                          <input
+                                             onChange={(e) => {
+                                                e.target.checked =
+                                                   featureArray[index]
+                                                      ?.feature === 'active'
+                                                      ? true
+                                                      : false;
+                                             }}
+                                             checked={
                                                 featureArray[index]?.feature ===
                                                 'active'
                                                    ? true
-                                                   : false;
-                                          }}
-                                          checked={
-                                             featureArray[index]?.feature ===
-                                             'active'
-                                                ? true
-                                                : false
-                                          }
-                                          type="checkbox"
-                                          id={`toggle-${index}`}
-                                       />
-                                       <label
-                                          onClick={(e) => {
-                                             e.preventDefault();
-                                             handleSetFeaturedProduct(
-                                                featureArray[index]?.feature ===
-                                                   'active'
-                                                   ? {
-                                                        _id: featureArray[index]
-                                                           ._id,
-                                                        feature: 'inactive',
-                                                     }
-                                                   : {
-                                                        _id: featureArray[index]
-                                                           ._id,
-                                                        feature: 'active',
-                                                     },
-                                             );
-                                             setFeatureArray((featureArray) => {
-                                                featureArray.forEach(
-                                                   (_, newIndex) => {
-                                                      if (newIndex === index) {
-                                                         featureArray[index]
-                                                            .feature ===
-                                                         'active'
-                                                            ? (featureArray[
-                                                                 newIndex
-                                                              ].feature =
-                                                                 'inactive')
-                                                            : (featureArray[
-                                                                 newIndex
-                                                              ].feature =
-                                                                 'active');
-                                                      }
+                                                   : false
+                                             }
+                                             type="checkbox"
+                                             id={`toggle-${index}`}
+                                          />
+                                          <label
+                                             onClick={(e) => {
+                                                e.preventDefault();
+                                                handleSetFeaturedProduct(
+                                                   featureArray[index]
+                                                      ?.feature === 'active'
+                                                      ? {
+                                                           _id: featureArray[
+                                                              index
+                                                           ]._id,
+                                                           feature: 'inactive',
+                                                        }
+                                                      : {
+                                                           _id: featureArray[
+                                                              index
+                                                           ]._id,
+                                                           feature: 'active',
+                                                        },
+                                                );
+                                                setFeatureArray(
+                                                   (featureArray) => {
+                                                      featureArray.forEach(
+                                                         (_, newIndex) => {
+                                                            if (
+                                                               newIndex ===
+                                                               index
+                                                            ) {
+                                                               featureArray[
+                                                                  index
+                                                               ].feature ===
+                                                               'active'
+                                                                  ? (featureArray[
+                                                                       newIndex
+                                                                    ].feature =
+                                                                       'inactive')
+                                                                  : (featureArray[
+                                                                       newIndex
+                                                                    ].feature =
+                                                                       'active');
+                                                            }
+                                                         },
+                                                      );
+                                                      return [...featureArray];
                                                    },
                                                 );
-                                                return [...featureArray];
-                                             });
-                                          }}
-                                          htmlFor={`toggle-${index}`}
-                                          className={cx('toggle-switch')}
-                                       ></label>
+                                             }}
+                                             htmlFor={`toggle-${index}`}
+                                             className={cx('toggle-switch')}
+                                          ></label>
+                                       </div>
                                     </div>
-                                 </div>
-                              </td>
-                           )}
-                           {/* Các hành động Chỉnh Sửa, Xóa hay Xem Sản Phẩm */}
-                           {actions && (
-                              <td>
-                                 <div className={cx('actions')}>
-                                    {/* Xem sản phẩm */}
-                                    {previewButton && (
-                                       <Button
-                                          to={`${path}/${item._id}`}
-                                          className="preview-btn"
-                                       >
-                                          <FontAwesomeIcon icon={faEye} />
-                                       </Button>
-                                    )}
-                                    {/* Chỉnh sửa sản phẩm  */}
-                                    {editButton &&
-                                       (dataUser.role as string) !==
-                                          'Staff' && (
+                                 </td>
+                              )}
+                              {/* Các hành động Chỉnh Sửa, Xóa hay Xem Sản Phẩm */}
+                              {actions && (
+                                 <td>
+                                    <div className={cx('actions')}>
+                                       {/* Xem sản phẩm */}
+                                       {previewButton && (
                                           <Button
                                              to={`${path}/${item._id}`}
-                                             className="edit-btn"
+                                             className="preview-btn"
                                           >
-                                             <FontAwesomeIcon icon={faPen} />
+                                             <FontAwesomeIcon icon={faEye} />
                                           </Button>
                                        )}
-                                    {/* Xóa sản phẩm  */}
-                                    {deleteButton &&
-                                       (dataUser.role as string) !== 'Staff' &&
-                                       (dataUser.role as string) !==
-                                          'Editor' && (
+                                       {/* Chỉnh sửa sản phẩm  */}
+                                       {editButton &&
+                                          (dataUser.role as string) !==
+                                             'Staff' && (
+                                             <Button
+                                                to={`${path}/${item._id}`}
+                                                className="edit-btn"
+                                             >
+                                                <FontAwesomeIcon icon={faPen} />
+                                             </Button>
+                                          )}
+                                       {/* Xóa sản phẩm  */}
+                                       {deleteButton &&
+                                          (dataUser.role as string) !==
+                                             'Staff' &&
+                                          (dataUser.role as string) !==
+                                             'Editor' && (
+                                             <Button
+                                                onClick={() => {
+                                                   if (
+                                                      !deleteButtonOnclick &&
+                                                      handleDeteleToastify
+                                                   ) {
+                                                      handleDeteleToastify(
+                                                         item?.name as string,
+                                                         item?._id as string,
+                                                         path,
+                                                         SetDeleteButtonOnclick,
+                                                      );
+                                                      SetDeleteButtonOnclick(
+                                                         true,
+                                                      );
+                                                   }
+                                                }}
+                                                className="delete-btn"
+                                             >
+                                                <FontAwesomeIcon
+                                                   icon={faTrash}
+                                                />
+                                             </Button>
+                                          )}
+                                       {/* Copy email Newletter */}
+                                       {copyButton && (
                                           <Button
                                              onClick={() => {
-                                                if (
-                                                   !deleteButtonOnclick &&
-                                                   handleDeteleToastify
-                                                ) {
-                                                   handleDeteleToastify(
-                                                      item?.name as string,
-                                                      item?._id as string,
-                                                      path,
-                                                      SetDeleteButtonOnclick,
+                                                if (item?.emailNewletter) {
+                                                   navigator.clipboard.writeText(
+                                                      item?.emailNewletter as string,
                                                    );
-                                                   SetDeleteButtonOnclick(true);
                                                 }
                                              }}
-                                             className="delete-btn"
+                                             className="copy-btn"
                                           >
-                                             <FontAwesomeIcon icon={faTrash} />
+                                             <FontAwesomeIcon icon={faCopy} />
                                           </Button>
                                        )}
-                                    {/* Copy email Newletter */}
-                                    {copyButton && (
-                                       <Button
-                                          onClick={() => {
-                                             if (item?.emailNewletter) {
-                                                navigator.clipboard.writeText(
-                                                   item?.emailNewletter as string,
-                                                );
-                                             }
-                                          }}
-                                          className="copy-btn"
-                                       >
-                                          <FontAwesomeIcon icon={faCopy} />
-                                       </Button>
-                                    )}
-                                    {lockButton && (
-                                       <Button className="lock-btn">
-                                          <FontAwesomeIcon icon={faLock} />
-                                       </Button>
-                                    )}
-                                 </div>
-                              </td>
-                           )}
-                        </tr>
-                     ))}
+                                       {lockButton && (
+                                          <Button className="lock-btn">
+                                             <FontAwesomeIcon icon={faLock} />
+                                          </Button>
+                                       )}
+                                    </div>
+                                 </td>
+                              )}
+                           </tr>
+                        ))
+                     ) : (
+                        <RowTableSkeleton
+                           numberOfcolumn={headers?.length as number}
+                        />
+                     )}
                   </tbody>
                </table>
             </div>

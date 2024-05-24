@@ -30,7 +30,7 @@ function MainCategoriesEdit(): JSX.Element {
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
-      document.title = 'Edit Category | NextStore';
+      document.title = 'Edit Category | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

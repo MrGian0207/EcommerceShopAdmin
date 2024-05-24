@@ -21,7 +21,7 @@ function BrandsAdd(): JSX.Element {
    const nameButtonSubmit = 'Create Brands';
 
    useEffect(() => {
-      document.title = 'Add Brand | NextStore';
+      document.title = 'Add Brand | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

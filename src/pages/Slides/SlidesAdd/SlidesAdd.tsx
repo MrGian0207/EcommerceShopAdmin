@@ -24,7 +24,7 @@ function SlidesAdd(): JSX.Element {
    const nameButtonSubmit = 'Create Slide';
 
    useEffect(() => {
-      document.title = 'Add Slide | NextStore';
+      document.title = 'Add Slide | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

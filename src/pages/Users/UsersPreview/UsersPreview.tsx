@@ -20,7 +20,7 @@ function UsersPreview(): JSX.Element {
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
-      document.title = 'Preview User | NextStore';
+      document.title = 'Preview User | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

@@ -191,7 +191,7 @@ function ProductEdit(): JSX.Element {
    };
 
    useEffect(() => {
-      document.title = 'Edit Product | NextStore';
+      document.title = 'Edit Product | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

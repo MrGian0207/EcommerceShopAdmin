@@ -107,7 +107,7 @@ function OrdersPreview(): JSX.Element {
    const [deleteButtonOnclick, SetDeleteButtonOnclick] = useState(false);
 
    useEffect(() => {
-      document.title = 'Preview Order | NextStore';
+      document.title = 'Preview Order | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

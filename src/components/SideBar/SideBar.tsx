@@ -46,7 +46,7 @@ function SideBar({ active, handleCloseSideBar }: SideBarType): JSX.Element {
       <div ref={sideBarRef} className={cx('sidebar')}>
          <div className={cx('logo')}>
             <div>
-               <span className={cx('style-logo')}>Next</span>
+               <span className={cx('style-logo')}>MrGian</span>
                store
             </div>
             <span

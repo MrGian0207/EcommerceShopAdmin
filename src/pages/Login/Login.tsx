@@ -26,7 +26,7 @@ function Login(): JSX.Element {
    };
 
    useEffect(() => {
-      document.title = 'Login | NextStore';
+      document.title = 'Login | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

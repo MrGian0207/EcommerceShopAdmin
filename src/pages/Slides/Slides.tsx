@@ -32,7 +32,7 @@ function Slides(): JSX.Element {
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
-      document.title = 'Slide | NextStore';
+      document.title = 'Slide | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

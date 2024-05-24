@@ -33,7 +33,7 @@ function SubCategoriesEdit() {
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
-      document.title = 'Edit Sub Category | NextStore';
+      document.title = 'Edit Sub Category | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

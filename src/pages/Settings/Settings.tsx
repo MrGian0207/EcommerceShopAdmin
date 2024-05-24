@@ -24,7 +24,7 @@ function Settings(): JSX.Element {
    const { dataUser } = useUser()!;
 
    useEffect(() => {
-      document.title = 'Setting | NextStore';
+      document.title = 'Setting | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

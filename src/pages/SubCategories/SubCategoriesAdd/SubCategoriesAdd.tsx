@@ -27,7 +27,7 @@ function SubCategoriesAdd() {
    const CategoryOptionSelectRef = useRef<HTMLSelectElement>(null);
 
    useEffect(() => {
-      document.title = 'Add Sub Category | NextStore';
+      document.title = 'Add Sub Category | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

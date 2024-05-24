@@ -424,6 +424,7 @@ function DefaultLayout({
                      </div>
                   )}
                </div>
+
                <div className={cx('content')}>{children}</div>
             </div>
          </div>

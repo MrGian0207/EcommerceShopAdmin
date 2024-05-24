@@ -52,7 +52,7 @@ function AddRole(): JSX.Element {
    };
 
    useEffect(() => {
-      document.title = 'Add Role | NextStore';
+      document.title = 'Add Role | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

@@ -13,7 +13,7 @@ function ChangePassword(): JSX.Element {
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
-      document.title = 'Change Password | NextStore';
+      document.title = 'Change Password | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

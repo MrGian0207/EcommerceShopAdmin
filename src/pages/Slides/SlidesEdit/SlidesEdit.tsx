@@ -29,7 +29,7 @@ function SlidesEdit() {
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
-      document.title = 'Edit Slide | NextStore';
+      document.title = 'Edit Slide | MrGianStore';
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
