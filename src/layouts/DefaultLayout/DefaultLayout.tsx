@@ -79,7 +79,7 @@ function DefaultLayout({
       setSideBarModalToggle(false);
    };
 
-   const { dataUser } = useUser()!;
+   const { dataUser } = useUser();
    const { searchText, setSearchText } = useSearch()!;
 
    useEffect(() => {
@@ -434,6 +434,7 @@ function DefaultLayout({
                   <SideBar
                      active={active}
                      handleCloseSideBar={handleCloseSideBar}
+                     backGroundColor="white"
                   />
                </div>
             </div>

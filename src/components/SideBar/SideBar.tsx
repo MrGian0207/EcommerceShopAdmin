@@ -21,10 +21,22 @@ const cx = classNames.bind(styles);
 type SideBarType = {
    active?: string;
    handleCloseSideBar?: () => void;
+   backGroundColor?: string;
 };
 
-function SideBar({ active, handleCloseSideBar }: SideBarType): JSX.Element {
+function SideBar({
+   active,
+   handleCloseSideBar,
+   backGroundColor,
+}: SideBarType): JSX.Element {
    const sideBarRef = useRef<HTMLDivElement>(null);
+
+   useEffect(() => {
+      if (backGroundColor && sideBarRef.current) {
+         sideBarRef.current.style.backgroundColor = backGroundColor;
+      }
+   }, [backGroundColor]);
+
    useEffect(() => {
       function handleClickOutside(event: MouseEvent) {
          if (

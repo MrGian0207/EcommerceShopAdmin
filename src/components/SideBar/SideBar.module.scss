@@ -1,8 +1,8 @@
 .sidebar {
-   position: sticky;
-
+   position: fixed;
    height: 100%;
    width: 220px;
+   border-right: 1px solid rgb(196, 205, 213);
 }
 
 .logo {
@@ -56,6 +56,17 @@
    box-sizing: border-box;
    font-weight: var(--font-weight-black);
    font-size: 1.5rem;
+}
+
+@media screen and (max-width: 1230px) {
+   .logo {
+      & .icon-toggleSideBar {
+         display: inline-flex;
+      }
+   }
+   .sideBarModal {
+      display: none !important;
+   }
 }
 
 @media screen and (max-width: 1230px) {

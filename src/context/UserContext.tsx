@@ -26,8 +26,8 @@ type User = {
 
 const UserContext = createContext<UserContextType | null>(null);
 
-export const useUser = () => {
-   return useContext(UserContext);
+export const useUser = (): { dataUser: User } => {
+   return useContext(UserContext) as { dataUser: User };
 };
 
 export const UserContextProvider: React.FC<{ children: ReactNode }> = memo(
@@ -40,23 +40,30 @@ export const UserContextProvider: React.FC<{ children: ReactNode }> = memo(
             const id_user: string = localStorage.getItem('id_user')
                ? (localStorage.getItem('id_user') as string)
                : '';
-            try {
-               const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${id_user}`,
-                  {
-                     method: 'GET',
-                     headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${
-                           accessToken ? accessToken : 'null'
-                        }`,
+            if (
+               id_user !== undefined ||
+               id_user !== null ||
+               (id_user as string).length === 0
+            ) {
+               try {
+                  const res = await fetch(
+                     `${process.env.REACT_APP_BACKEND_URL}/users/${id_user}`,
+                     {
+                        method: 'GET',
+                        headers: {
+                           'Content-Type': 'application/json',
+                           Authorization: `Bearer ${
+                              accessToken ? accessToken : 'null'
+                           }`,
+                        },
+                        credentials: 'include',
                      },
-                     credentials: 'include',
-                  },
-               );
-               const resData = await res.json();
-               setdataUser(resData.data);
-            } catch (error) {
-               console.log(error);
+                  );
+                  const resData = await res.json();
+                  setdataUser(resData.data);
+               } catch (error) {
+                  console.log(error);
+               }
             }
          };
          fetchData();
