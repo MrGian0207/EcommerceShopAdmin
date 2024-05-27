@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import { useState, useEffect } from 'react';
 import * as Toastify from '~/services/Toastify';
 import { useAuth } from '~/context/AuthContext';
+import Spinner from '~/components/Spinner';
 
 const cx = classNames.bind(styles);
 
@@ -10,6 +11,7 @@ function ChangePassword(): JSX.Element {
    const [oldPassword, setOldPassword] = useState<string>('');
    const [newPassword, setNewPassword] = useState<string>('');
    const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
+   const [isLoading, setIsLoading] = useState<Boolean>(false);
    const { accessToken } = useAuth()!;
 
    useEffect(() => {
@@ -19,6 +21,7 @@ function ChangePassword(): JSX.Element {
    }, []);
 
    const handleSubmit = async () => {
+      setIsLoading(true);
       const id_user: string = (await localStorage.getItem('id_user'))
          ? (localStorage.getItem('id_user') as string)
          : '';
@@ -41,9 +44,12 @@ function ChangePassword(): JSX.Element {
       );
       const resData = await res.json();
       if (resData) {
+         setIsLoading(false);
          if (resData?.status === 'Success') {
             Toastify.showToastMessageSuccessfully(resData.message);
          }
+      } else {
+         setIsLoading(false);
       }
    };
 
@@ -94,7 +100,7 @@ function ChangePassword(): JSX.Element {
                />
             </div>
             <button onClick={handleSubmit} className={cx('submitChangebtn')}>
-               Save changes
+               {isLoading ? <Spinner /> : 'Save changes'}
             </button>
          </div>
       </div>

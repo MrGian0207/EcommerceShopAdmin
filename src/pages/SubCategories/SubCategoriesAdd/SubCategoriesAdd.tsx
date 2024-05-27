@@ -174,17 +174,11 @@ function SubCategoriesAdd() {
                      </div>
                   </>
                }
-               SetImageUrl={setImageUrl}
                name={name}
-               SetName={setName}
                metaTitle={metaTitle}
-               SetMetaTitle={setMetaTitle}
                slug={slug}
-               SetSlug={setSlug}
                description={description}
-               SetDescription={setDescription}
                Categories={parentCategories}
-               SetCategories={setParentCategories}
                ImageFile={imageFile}
                NameImageFile={nameImageFile}
                nameButtonSubmit={nameButtonSubmit}

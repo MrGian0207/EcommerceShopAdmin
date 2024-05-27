@@ -14,6 +14,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import api from '~/api/api';
 import * as Toastify from '~/services/Toastify';
+import Spinner from '~/components/Spinner';
 
 const cx = classNames.bind(styles);
 
@@ -24,6 +25,7 @@ function Register(): JSX.Element {
    const [emailAddress, setEmailAddress] = useState<string | number>('');
    const [password, setPassword] = useState<string | number>('');
    const [isSubmitted, setIsSubmitted] = useState(false);
+   const [isLoading, setIsLoading] = useState<boolean>(false);
 
    const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
@@ -38,6 +40,7 @@ function Register(): JSX.Element {
 
    useEffect(() => {
       if (isSubmitted) {
+         setIsLoading(true);
          Toastify.showToastMessagePending();
          fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {
             method: 'POST',
@@ -57,6 +60,7 @@ function Register(): JSX.Element {
                return res.json();
             })
             .then((data) => {
+               setIsLoading(false);
                if (data?.status === 'Success') {
                   Toastify.showToastMessageSuccessfully(data?.message);
                } else {
@@ -64,6 +68,7 @@ function Register(): JSX.Element {
                }
             })
             .catch((e) => {
+               setIsLoading(false);
                setIsSubmitted(false);
                console.log(e);
             });
@@ -152,7 +157,7 @@ function Register(): JSX.Element {
                      onClick={handleSubmit}
                      className={cx('auth-button')}
                   >
-                     Register
+                     {isLoading ? <Spinner /> : 'Register'}
                   </button>
                </form>
             </FormAuth>

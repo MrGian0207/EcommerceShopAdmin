@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '~/context/AuthContext';
 import * as Toastify from '~/services/Toastify';
 import api from '~/api/api';
+import Spinner from '~/components/Spinner';
 
 const cx = classNames.bind(styles);
 
@@ -17,6 +18,7 @@ function Login(): JSX.Element {
    const [emailAddress, setEmailAddress] = useState<string | number>('');
    const [password, setPassword] = useState<string | number>('');
    const [isSubmitted, setIsSubmitted] = useState(false);
+   const [isLoading, setIsLoading] = useState<boolean>(false);
    const navigate = useNavigate();
    const { login } = useAuth()!;
 
@@ -33,6 +35,7 @@ function Login(): JSX.Element {
 
    useEffect(() => {
       if (isSubmitted) {
+         setIsLoading(true);
          Toastify.showToastMessagePending();
          fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
             method: 'POST',
@@ -51,6 +54,7 @@ function Login(): JSX.Element {
                return res.json();
             })
             .then((data) => {
+               setIsLoading(false);
                const { accessToken, idUser, response } = data;
                if (accessToken && idUser && response) {
                   localStorage.setItem('access_token', accessToken);
@@ -63,6 +67,7 @@ function Login(): JSX.Element {
                }
             })
             .catch((err) => {
+               setIsLoading(false);
                console.log(err);
             });
       }
@@ -128,7 +133,7 @@ function Login(): JSX.Element {
                      type="submit"
                      onClick={handleSubmit}
                   >
-                     Login
+                     {isLoading ? <Spinner /> : 'Login'}
                   </button>
                </form>
             </FormAuth>

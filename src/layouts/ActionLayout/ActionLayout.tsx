@@ -2,9 +2,10 @@ import styles from './ActionLayout.module.scss';
 import classNames from 'classnames/bind';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Toastify from '~/services/Toastify';
-import { FormEventHandler, ReactNode, useRef, memo } from 'react';
+import { FormEventHandler, ReactNode, useRef, memo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '~/context/AuthContext';
+import Spinner from '~/components/Spinner';
 
 const cx = classNames.bind(styles);
 
@@ -22,17 +23,11 @@ type VariantType = {
 type ActionLayoutType = {
    leftColumn: ReactNode;
    rightColumn: ReactNode;
-   SetImageUrl?: React.Dispatch<React.SetStateAction<string>>;
    name?: string;
-   SetName?: React.Dispatch<React.SetStateAction<string>>;
    metaTitle?: string;
-   SetMetaTitle?: React.Dispatch<React.SetStateAction<string>>;
    slug?: string;
-   SetSlug?: React.Dispatch<React.SetStateAction<string>>;
    description?: string;
-   SetDescription?: React.Dispatch<React.SetStateAction<string>>;
    Categories?: string;
-   SetCategories?: React.Dispatch<React.SetStateAction<string>>;
    SubCategories?: string;
    Brand?: string;
    Gender?: string;
@@ -58,17 +53,11 @@ type ActionLayoutType = {
 function ActionLayout({
    leftColumn,
    rightColumn,
-   SetImageUrl,
    name,
-   SetName,
    metaTitle,
-   SetMetaTitle,
    slug,
-   SetSlug,
    description,
-   SetDescription,
    Categories,
-   SetCategories,
    SubCategories,
    Brand,
    Gender,
@@ -92,11 +81,16 @@ function ActionLayout({
 }: ActionLayoutType) {
    const location = useLocation();
    let path = location.pathname; // Lấy đường dẫn từ URL
+   const [isLoading, setIsLoading] = useState<boolean>(false);
    const submit_ButtonRef = useRef<HTMLButtonElement>(null);
    const { accessToken } = useAuth()!;
+   const isLoadingButtonStyle = isLoading
+      ? { opacity: '0.5' }
+      : { opacity: '1' };
 
    //Submit Form not varriants
    const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+      setIsLoading(true);
       e.preventDefault();
 
       if (submit_ButtonRef.current) {
@@ -135,6 +129,7 @@ function ActionLayout({
             body: formData,
          })
             .then((res) => {
+               setIsLoading(false);
                return res.json();
             })
             .then((data) => {
@@ -153,6 +148,7 @@ function ActionLayout({
                }
             })
             .catch((err) => {
+               setIsLoading(false);
                console.log(err);
                if (submit_ButtonRef.current) {
                   submit_ButtonRef.current.disabled = false;
@@ -163,23 +159,6 @@ function ActionLayout({
                Toastify.showToastMessageFailure(
                   'Submit Failure !! Try it again',
                );
-            });
-
-         fetch(`${process.env.REACT_APP_BACKEND_URL}${path}/variants`, {
-            method: 'POST',
-            headers: {
-               Authorization: `Bearer ${accessToken}`,
-            },
-            body: formData,
-         })
-            .then((res) => {
-               res.json();
-            })
-            .then((res) => {
-               console.log(res);
-            })
-            .catch((err) => {
-               console.log(err);
             });
       } catch (error) {
          console.log(error);
@@ -333,8 +312,16 @@ function ActionLayout({
                   ref={submit_ButtonRef}
                   type="submit"
                   className={cx('button')}
+                  disabled={isLoading}
+                  style={isLoadingButtonStyle}
                >
-                  {nameButtonSubmit ? nameButtonSubmit : 'Submit'}
+                  {isLoading ? (
+                     <Spinner />
+                  ) : nameButtonSubmit ? (
+                     nameButtonSubmit
+                  ) : (
+                     'Submit'
+                  )}
                </button>
             </div>
          </form>

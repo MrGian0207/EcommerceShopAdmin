@@ -90,6 +90,7 @@
          display: inline-flex;
          height: 34px;
          width: fit-content;
+         min-width: 100px;
          align-items: center;
          justify-content: center;
          position: relative;
@@ -101,7 +102,6 @@
          font-weight: var(--font-weight-semi-bold);
          line-height: 1.71429;
          font-size: var(--font-size-small);
-         min-width: var(--min-width-button);
          padding: 6px 16px;
          border-radius: 3px;
          color: rgb(255, 255, 255);

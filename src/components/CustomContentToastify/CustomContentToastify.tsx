@@ -41,7 +41,6 @@ function CustomContentToastify({
       setDeleteButtonOnclick(true);
       Toastify.showToastMessagePending();
       try {
-         console.log({ path, id });
          await fetch(
             `${process.env.REACT_APP_BACKEND_URL}${path}/delete/${id}`,
             {

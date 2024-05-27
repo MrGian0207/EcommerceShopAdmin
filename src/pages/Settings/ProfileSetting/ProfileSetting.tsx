@@ -8,6 +8,7 @@ import * as HandleImageFile from '~/utils/HandleImageFile';
 import { useState, useEffect } from 'react';
 import * as Toastify from '~/services/Toastify';
 import { useAuth } from '~/context/AuthContext';
+import Spinner from '~/components/Spinner';
 
 const cx = classNames.bind(styles);
 
@@ -24,9 +25,11 @@ function ProfileSetting() {
    const [resizedImageUrl, setResizedImageUrl] = useState<string>('');
    const [imageFile, setImageFile] = useState<File | null>(null);
 
+   const [isLoading, setIsLoading] = useState<boolean>(false);
    const { accessToken } = useAuth()!;
 
    const handleSubmit = async () => {
+      setIsLoading(true);
       const formData = new FormData();
       formData.append(
          'id',
@@ -53,15 +56,17 @@ function ProfileSetting() {
 
       const resData = await res.json();
       if (resData) {
+         setIsLoading(false);
          if (resData?.status === 'Success') {
             Toastify.showToastMessageSuccessfully(resData?.message);
          }
+      } else {
+         setIsLoading(false);
       }
    };
 
    useEffect(() => {
       document.title = 'Profile Setting | MrGianStore';
-
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
@@ -227,7 +232,7 @@ function ProfileSetting() {
             {/* Row for Submit Change */}
             <div className={cx('row')}>
                <button onClick={handleSubmit} className={cx('submitChangebtn')}>
-                  Save Changes
+                  {isLoading ? <Spinner /> : 'Save Changes'}
                </button>
             </div>
          </div>

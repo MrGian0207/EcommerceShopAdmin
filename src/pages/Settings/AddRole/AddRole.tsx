@@ -13,6 +13,7 @@ import {
 import { useState, useEffect } from 'react';
 import * as Toastify from '~/services/Toastify';
 import { useAuth } from '~/context/AuthContext';
+import Spinner from '~/components/Spinner';
 
 const cx = classNames.bind(styles);
 
@@ -24,9 +25,11 @@ function AddRole(): JSX.Element {
    const [phone, setPhone] = useState<string>('');
    const [emailAddress, setEmailAddress] = useState<string>('');
    const [password, setPassword] = useState<string>('');
+   const [isLoading, setIsLoading] = useState<boolean>(false);
    const { accessToken } = useAuth()!;
 
    const handleSubmit = async () => {
+      setIsLoading(true);
       Toastify.showToastMessagePending();
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/settings`, {
          method: 'POST',
@@ -45,9 +48,12 @@ function AddRole(): JSX.Element {
       });
       const resData = await res.json();
       if (resData) {
+         setIsLoading(false);
          if (resData?.status === 'Success') {
             Toastify.showToastMessageSuccessfully(resData?.message);
          }
+      } else {
+         setIsLoading(false);
       }
    };
 
@@ -188,7 +194,7 @@ function AddRole(): JSX.Element {
 
             <div className={cx('row')}>
                <button onClick={handleSubmit} className={cx('submitChangebtn')}>
-                  Save
+                  {isLoading ? <Spinner /> : 'Save'}
                </button>
             </div>
          </div>

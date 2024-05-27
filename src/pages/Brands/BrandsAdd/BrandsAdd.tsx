@@ -114,15 +114,10 @@ function BrandsAdd(): JSX.Element {
                      </div>
                   </>
                }
-               SetImageUrl={setImageUrl}
                name={name}
-               SetName={setName}
                metaTitle={metaTitle}
-               SetMetaTitle={setMetaTitle}
                slug={slug}
-               SetSlug={setSlug}
                description={description}
-               SetDescription={setDescription}
                ImageFile={imageFile}
                NameImageFile={nameImageFile}
                nameButtonSubmit={nameButtonSubmit}

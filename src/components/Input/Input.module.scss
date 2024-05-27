@@ -12,7 +12,7 @@
    border: 1px solid rgb(228, 230, 239);
 
    &:focus-within {
-      border: 2px solid var(--boder-active-color);
+      border: 1px solid var(--boder-active-color);
 
       & .label {
          color: var(--main-color);

@@ -176,7 +176,6 @@ function SlidesAdd(): JSX.Element {
                      </div>
                   </>
                }
-               SetImageUrl={setImageUrl}
                heading={heading}
                primaryButtonText={primaryButtonText}
                primaryButtonLink={primaryButtonLink}

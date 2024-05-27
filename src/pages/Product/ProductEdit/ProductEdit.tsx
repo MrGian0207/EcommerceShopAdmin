@@ -722,13 +722,9 @@ function ProductEdit(): JSX.Element {
                   </>
                }
                name={name}
-               SetName={setName}
                metaTitle={metaTitle}
-               SetMetaTitle={setMetaTitle}
                slug={slug}
-               SetSlug={setSlug}
                description={description}
-               SetDescription={setDescription}
                NameImageFile={nameImageFile}
                nameButtonSubmit={nameButtonSubmit}
                Categories={categories}

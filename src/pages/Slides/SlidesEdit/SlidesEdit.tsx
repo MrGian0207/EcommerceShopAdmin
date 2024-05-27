@@ -209,7 +209,6 @@ function SlidesEdit() {
                      </div>
                   </>
                }
-               SetImageUrl={setImageUrl}
                heading={heading}
                primaryButtonText={primaryButtonText}
                primaryButtonLink={primaryButtonLink}
