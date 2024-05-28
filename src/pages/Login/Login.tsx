@@ -24,7 +24,19 @@ function Login(): JSX.Element {
 
    const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
-      setIsSubmitted(true);
+      switch (true) {
+         case emailAddress === '' && password === '':
+            alert('Please fill in your email address and password');
+            break;
+         case emailAddress === '':
+            alert('Please fill in your email address');
+            break;
+         case password === '':
+            alert('Please fill in your password');
+            break;
+         default:
+            setIsSubmitted(true);
+      }
    };
 
    useEffect(() => {
@@ -94,7 +106,7 @@ function Login(): JSX.Element {
             >
                <form className={cx('formData')}>
                   <Input
-                     name="emailAdress"
+                     name="emailAddressUser"
                      value={emailAddress}
                      setValue={setEmailAddress}
                      index="Email Adress"

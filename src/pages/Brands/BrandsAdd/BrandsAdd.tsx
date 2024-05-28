@@ -173,6 +173,10 @@ function BrandsAdd(): JSX.Element {
                                     512,
                                  );
                                  setIsImageFileTouched(true);
+                                 setErrors((prevErrors) => ({
+                                    ...prevErrors,
+                                    imageFile: e.target.files?.[0],
+                                 }));
                               }}
                            />
                            <div

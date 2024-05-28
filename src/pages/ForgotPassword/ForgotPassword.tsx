@@ -24,35 +24,40 @@ function ForgotPassword() {
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
    ) => {
       e.preventDefault();
-      setIsLoading(false);
-      Toastify.showToastMessagePending();
-      const fetchRequest = await fetch(
-         `${process.env.REACT_APP_BACKEND_URL}/auth/forgot-password`,
-         {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
+
+      if (emailAddress !== '') {
+         setIsLoading(true);
+         Toastify.showToastMessagePending();
+         const fetchRequest = await fetch(
+            `${process.env.REACT_APP_BACKEND_URL}/auth/forgot-password`,
+            {
+               method: 'POST',
+               headers: {
+                  'Content-Type': 'application/json',
+               },
+               body: JSON.stringify({
+                  email: emailAddress,
+               }),
+               credentials: 'include',
+               mode: 'cors',
             },
-            body: JSON.stringify({
-               email: emailAddress,
-            }),
-            credentials: 'include',
-            mode: 'cors',
-         },
-      );
+         );
 
-      const resData = await fetchRequest.json();
+         const resData = await fetchRequest.json();
 
-      if (resData) {
-         setIsLoading(false);
-         if (resData?.status === 'Success') {
-            console.log(resData?.data);
-            Toastify.showToastMessageSuccessfully(resData?.message);
+         if (resData) {
+            setIsLoading(false);
+            if (resData?.status === 'Success') {
+               console.log(resData?.data);
+               Toastify.showToastMessageSuccessfully(resData?.message);
+            } else {
+               Toastify.showToastMessageFailure(resData?.message);
+            }
          } else {
-            Toastify.showToastMessageFailure(resData?.message);
+            setIsLoading(false);
          }
       } else {
-         setIsLoading(false);
+         alert('Please fill in email address');
       }
    };
 
@@ -70,23 +75,25 @@ function ForgotPassword() {
                back={'Back'}
                navigatorLink={api.login}
             >
-               <Input
-                  name="emailAddress"
-                  value={emailAddress}
-                  setValue={setEmailAddress}
-                  index="Email Address"
-                  label="Email Address"
-                  iconLeft={faEnvelope}
-                  type="email"
-                  autocomplete="email"
-               />
-               <button
-                  type="submit"
-                  className={cx('auth-button')}
-                  onClick={handleSubmit}
-               >
-                  {isLoading ? <Spinner /> : 'Forgot Password'}
-               </button>
+               <form className={cx('formData')}>
+                  <Input
+                     name="emailAddressUser"
+                     value={emailAddress}
+                     setValue={setEmailAddress}
+                     index="Email Address"
+                     label="Email Address"
+                     iconLeft={faEnvelope}
+                     type="email"
+                     autocomplete="email"
+                  />
+                  <button
+                     type="submit"
+                     className={cx('auth-button')}
+                     onClick={handleSubmit}
+                  >
+                     {isLoading ? <Spinner /> : 'Forgot Password'}
+                  </button>
+               </form>
             </FormAuth>
          </div>
       </div>

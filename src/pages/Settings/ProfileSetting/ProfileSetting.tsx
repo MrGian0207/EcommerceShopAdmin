@@ -9,6 +9,8 @@ import { useState, useEffect } from 'react';
 import * as Toastify from '~/services/Toastify';
 import { useAuth } from '~/context/AuthContext';
 import Spinner from '~/components/Spinner';
+import checkError, { propsType } from '~/utils/InputError';
+import ErrorInput from '~/components/ErrorInput';
 
 const cx = classNames.bind(styles);
 
@@ -28,40 +30,67 @@ function ProfileSetting() {
    const [isLoading, setIsLoading] = useState<boolean>(false);
    const { accessToken } = useAuth()!;
 
+   const [Errors, setErrors] = useState<propsType>({
+      nameUser: '',
+      emailAddressUser: '',
+      phoneUser: '',
+   });
+
+   const [isNameUserTouched, setIsNameUserTouched] = useState<boolean>(false);
+   const [isEmailAddressUserTouched, setIsEmailAddressUserTouched] =
+      useState<boolean>(false);
+   const [isPhoneUserTouched, setIsPhoneUserTouched] = useState<boolean>(false);
+
+   const handleInputChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      setState: React.Dispatch<React.SetStateAction<string>>,
+      fieldName: keyof propsType,
+      setTouched: React.Dispatch<React.SetStateAction<boolean>>,
+   ) => {
+      setErrors((prevErrors) => ({
+         ...prevErrors,
+         [fieldName]: e.target.value,
+      }));
+      setState(e.target.value);
+      setTouched(true);
+   };
+
    const handleSubmit = async () => {
-      setIsLoading(true);
-      const formData = new FormData();
-      formData.append(
-         'id',
-         localStorage.getItem('id_user')
-            ? (localStorage.getItem('id_user') as string)
-            : '',
-      );
-      formData.append('name', name);
-      formData.append('emailAddress', emailAddress);
-      formData.append('phone', phone);
-      formData.append('gender', gender);
-      formData.append('about', about);
-      formData.append('users-image', imageFile as File);
+      if (name && emailAddress && phone) {
+         setIsLoading(true);
+         const formData = new FormData();
+         formData.append(
+            'id',
+            localStorage.getItem('id_user')
+               ? (localStorage.getItem('id_user') as string)
+               : '',
+         );
+         formData.append('name', name);
+         formData.append('emailAddress', emailAddress);
+         formData.append('phone', phone);
+         formData.append('gender', gender);
+         formData.append('about', about);
+         formData.append('users-image', imageFile as File);
 
-      Toastify.showToastMessagePending();
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
-         method: 'PUT',
-         credentials: 'include',
-         headers: {
-            Authorization: `Bearer ${accessToken}`,
-         },
-         body: formData,
-      });
+         Toastify.showToastMessagePending();
+         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+               Authorization: `Bearer ${accessToken}`,
+            },
+            body: formData,
+         });
 
-      const resData = await res.json();
-      if (resData) {
-         setIsLoading(false);
-         if (resData?.status === 'Success') {
-            Toastify.showToastMessageSuccessfully(resData?.message);
+         const resData = await res.json();
+         if (resData) {
+            setIsLoading(false);
+            if (resData?.status === 'Success') {
+               Toastify.showToastMessageSuccessfully(resData?.message);
+            }
+         } else {
+            setIsLoading(false);
          }
-      } else {
-         setIsLoading(false);
       }
    };
 
@@ -151,87 +180,138 @@ function ProfileSetting() {
          <div className={cx('user-update-info')}>
             {/* Row for userName and EmailAdress */}
             <div className={cx('row')}>
-               <div className={cx('user-name')}>
-                  <label className={cx('label')} htmlFor="user-name">
-                     Name
-                  </label>
-                  <input
-                     value={name}
-                     onChange={(e) => {
-                        setName(e.target.value);
-                     }}
-                     id="user-name"
-                     type="text"
-                  />
+               <div>
+                  <div className={cx('user-name')}>
+                     <label className={cx('label')} htmlFor="user-name">
+                        Name
+                     </label>
+                     <input
+                        value={name}
+                        onChange={(e) => {
+                           handleInputChange(
+                              e,
+                              setName,
+                              'nameUser',
+                              setIsNameUserTouched,
+                           );
+                        }}
+                        id="user-name"
+                        type="text"
+                     />
+                  </div>
+                  {isNameUserTouched && checkError(Errors).nameUser && (
+                     <ErrorInput
+                        nameError={checkError(Errors).nameUser as string}
+                     />
+                  )}
                </div>
-               <div className={cx('user-email-address')}>
-                  <label className={cx('label')} htmlFor="user-email-address">
-                     Email Address
-                  </label>
-                  <input
-                     value={emailAddress}
-                     onChange={(e) => {
-                        setEmailAddress(e.target.value);
-                     }}
-                     id="user-email-address"
-                     type="email"
-                     placeholder="MrGianStore@gmail.com"
-                  />
+               <div>
+                  <div className={cx('user-email-address')}>
+                     <label
+                        className={cx('label')}
+                        htmlFor="user-email-address"
+                     >
+                        Email Address
+                     </label>
+                     <input
+                        value={emailAddress}
+                        onChange={(e) => {
+                           handleInputChange(
+                              e,
+                              setEmailAddress,
+                              'emailAddressUser',
+                              setIsEmailAddressUserTouched,
+                           );
+                        }}
+                        id="user-email-address"
+                        type="email"
+                        placeholder="MrGianStore@gmail.com"
+                     />
+                  </div>
+                  {isEmailAddressUserTouched &&
+                     checkError(Errors).emailAddressUser && (
+                        <ErrorInput
+                           nameError={
+                              checkError(Errors).emailAddressUser as string
+                           }
+                        />
+                     )}
                </div>
             </div>
             {/* Row for userPhone and userGender */}
             <div className={cx('row')}>
-               <div className={cx('user-phone')}>
-                  <label className={cx('label')} htmlFor="user-phone">
-                     Phone
-                  </label>
-                  <input
-                     value={phone}
-                     onChange={(e) => {
-                        setPhone(e.target.value);
-                     }}
-                     id="user-phone"
-                     type="text"
-                  />
+               <div>
+                  <div className={cx('user-phone')}>
+                     <label className={cx('label')} htmlFor="user-phone">
+                        Phone
+                     </label>
+                     <input
+                        value={phone}
+                        onChange={(e) => {
+                           handleInputChange(
+                              e,
+                              setPhone,
+                              'phoneUser',
+                              setIsPhoneUserTouched,
+                           );
+                        }}
+                        id="user-phone"
+                        type="text"
+                     />
+                  </div>
+                  {isPhoneUserTouched && checkError(Errors).phoneUser && (
+                     <ErrorInput
+                        nameError={checkError(Errors).phoneUser as string}
+                     />
+                  )}
                </div>
-               <div className={cx('user-gender')}>
-                  <label className={cx('label')} htmlFor="user-gender">
-                     Gender
-                  </label>
-                  <select
-                     value={gender}
-                     onChange={(e) => {
-                        setGender(e.target.value);
-                     }}
-                     name="user-gender"
-                     id="user-gender"
-                  >
-                     <option value="Male">Male</option>
-                     <option value="Female">Female</option>
-                  </select>
+               <div>
+                  <div className={cx('user-gender')}>
+                     <label className={cx('label')} htmlFor="user-gender">
+                        Gender
+                     </label>
+                     <select
+                        value={gender}
+                        onChange={(e) => {
+                           setGender(e.target.value);
+                        }}
+                        name="user-gender"
+                        id="user-gender"
+                     >
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                     </select>
+                  </div>
                </div>
             </div>
             {/* Row for user about */}
             <div className={cx('row')}>
-               <div className={cx('user-about')}>
-                  <label className={cx('label')} htmlFor="user-about">
-                     About
-                  </label>
-                  <textarea
-                     value={about}
-                     onChange={(e) => {
-                        setAbout(e.target.value);
-                     }}
-                     name="user-about"
-                     id="user-about"
-                     cols={10}
-                     rows={5}
-                  ></textarea>
+               <div style={{ width: '100%' }}>
+                  <div className={cx('user-about')}>
+                     <label className={cx('label')} htmlFor="user-about">
+                        About
+                     </label>
+                     <textarea
+                        value={about}
+                        onChange={(e) => {
+                           setAbout(e.target.value);
+                        }}
+                        name="user-about"
+                        id="user-about"
+                        cols={10}
+                        rows={5}
+                        spellCheck="false"
+                     ></textarea>
+                  </div>
                </div>
             </div>
             {/* Row for Submit Change */}
             <div className={cx('row')}>
-               <button onClick={handleSubmit} className={cx('submitChangebtn')}>
+               <button
+                  style={{ width: '100%' }}
+                  onClick={handleSubmit}
+                  className={cx('submitChangebtn')}
+               >
                   {isLoading ? <Spinner /> : 'Save Changes'}
                </button>
             </div>

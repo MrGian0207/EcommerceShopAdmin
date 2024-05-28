@@ -8,6 +8,21 @@ export type propsType = {
    heading?: string;
    primaryButtonText?: string;
    primaryButtonLink?: string;
+   productCode?: string;
+   variantName?: string;
+   variantSize?: string;
+   variantColor?: string;
+   variantProductSKU?: string;
+   variantQuantity?: string;
+   variantRegularPrice?: string;
+   variantSalePrice?: string;
+   nameUser?: string;
+   emailAddressUser?: string;
+   phoneUser?: string;
+   oldPassword?: string;
+   password?: string;
+   newPassword?: string;
+   confirmPassword?: string;
 };
 
 type Errors = {
@@ -20,10 +35,26 @@ type Errors = {
    heading?: string;
    primaryButtonText?: string;
    primaryButtonLink?: string;
+   productCode?: string;
+   variantName?: string;
+   variantSize?: string;
+   variantColor?: string;
+   variantProductSKU?: string;
+   variantQuantity?: string;
+   variantRegularPrice?: string;
+   variantSalePrice?: string;
+   nameUser?: string;
+   emailAddressUser?: string;
+   phoneUser?: string;
+   oldPassword?: string;
+   password?: string;
+   newPassword?: string;
+   confirmPassword?: string;
 };
 
 const checkError = (props: propsType): Errors => {
    const newErrors: Errors = {};
+   console.log(props);
    if (props.name?.length === 0) {
       newErrors.name = 'Please fill in the input box';
    }
@@ -58,6 +89,66 @@ const checkError = (props: propsType): Errors => {
 
    if (props.primaryButtonLink?.length === 0) {
       newErrors.primaryButtonLink = 'Please fill in the input box';
+   }
+
+   if (props.productCode?.length === 0) {
+      newErrors.productCode = 'Please fill in the input box';
+   }
+
+   if (props.variantName?.length === 0) {
+      newErrors.variantName = 'Please fill in the input box';
+   }
+
+   if (props.variantSize?.length === 0) {
+      newErrors.variantSize = 'Please fill in the input box';
+   }
+
+   if (props.variantColor?.length === 0) {
+      newErrors.variantColor = 'Please fill in the input box';
+   }
+
+   if (props.variantProductSKU?.length === 0) {
+      newErrors.variantProductSKU = 'Please fill in the input box';
+   }
+
+   if (props.variantQuantity?.length === 0) {
+      newErrors.variantQuantity = 'Please fill in the input box';
+   }
+
+   if (props.variantRegularPrice?.length === 0) {
+      newErrors.variantRegularPrice = 'Please fill in the input box';
+   }
+
+   if (props.variantSalePrice?.length === 0) {
+      newErrors.variantSalePrice = 'Please fill in the input box';
+   }
+
+   if (props.nameUser?.length === 0) {
+      newErrors.nameUser = 'Please fill in the input box';
+   }
+
+   if (props.emailAddressUser?.length === 0) {
+      newErrors.emailAddressUser = 'Please fill in the input box';
+   }
+
+   if (props.phoneUser?.length === 0) {
+      newErrors.phoneUser = 'Please fill in the input box';
+   }
+
+   if (props.oldPassword?.length === 0) {
+      newErrors.oldPassword = 'Please fill in the input box';
+   }
+
+   if (props.newPassword?.length === 0) {
+      newErrors.newPassword = 'Please fill in the input box';
+   }
+
+   if (props.confirmPassword?.length === 0) {
+      newErrors.confirmPassword = 'Please fill in the input box';
+   }
+
+   if (props.password?.length === 0) {
+      newErrors.password = 'Please fill in the input box';
    }
 
    return newErrors;

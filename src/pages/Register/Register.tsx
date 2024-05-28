@@ -29,7 +29,22 @@ function Register(): JSX.Element {
 
    const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
-      setIsSubmitted(true);
+      switch (true) {
+         case fullName === '':
+            alert('Full name is required');
+            break;
+         case phoneNumber === '':
+            alert('Phone number is required');
+            break;
+         case emailAddress === '':
+            alert('Email address is required');
+            break;
+         case password === '':
+            alert('Password is required');
+            break;
+         default:
+            setIsSubmitted(true);
+      }
    };
 
    useEffect(() => {
@@ -93,7 +108,7 @@ function Register(): JSX.Element {
             >
                <form className={cx('formData')}>
                   <Input
-                     name="fullName"
+                     name="nameUser"
                      value={fullName}
                      setValue={setFullName}
                      index="Full Name"
@@ -103,37 +118,42 @@ function Register(): JSX.Element {
                      autocomplete="name"
                   />
                   <div
+                     className={cx('row')}
                      style={{
                         display: 'inline-flex',
                         width: '100%',
                      }}
                   >
-                     <Input
-                        name="gender"
-                        value={gender}
-                        setValue={setGender}
-                        space="space"
-                        index="Gender"
-                        label="Gender"
-                        iconLeft={faVenus}
-                        iconRight={faAngleDown}
-                        onclick={true}
-                        type="text"
-                        autocomplete="name"
-                     />
-                     <Input
-                        name="phoneNumber"
-                        value={phoneNumber}
-                        setValue={setPhoneNumber}
-                        index="Phone"
-                        label="Phone"
-                        iconLeft={faPhone}
-                        type="text"
-                        autocomplete="name"
-                     />
+                     <div>
+                        <Input
+                           name="gender"
+                           value={gender}
+                           setValue={setGender}
+                           space="space"
+                           index="Gender"
+                           label="Gender"
+                           iconLeft={faVenus}
+                           iconRight={faAngleDown}
+                           onclick={true}
+                           type="text"
+                           autocomplete="name"
+                        />
+                     </div>
+                     <div>
+                        <Input
+                           name="phoneUser"
+                           value={phoneNumber}
+                           setValue={setPhoneNumber}
+                           index="Phone"
+                           label="Phone"
+                           iconLeft={faPhone}
+                           type="text"
+                           autocomplete="name"
+                        />
+                     </div>
                   </div>
                   <Input
-                     name="emailAddress"
+                     name="emailAddressUser"
                      value={emailAddress}
                      setValue={setEmailAddress}
                      index="Email Address"

@@ -10,6 +10,8 @@ import ReactModal from 'react-modal';
 import VariantItems from '~/components/VariantItems';
 import VariantForm from '~/components/VariantForm';
 import { useAuth } from '~/context/AuthContext';
+import checkError, { propsType } from '~/utils/InputError';
+import ErrorInput from '~/components/ErrorInput';
 
 const cx = classNames.bind(styles);
 
@@ -36,12 +38,42 @@ function ProductAdd(): JSX.Element {
    const [brand, setBrand] = useState('');
    const [gender, setGender] = useState('None');
    const [status, setStatus] = useState('Sale');
-   const [productCode, setProductCode] = useState('');
+   const [productCode, setProductCode] = useState<string>('');
    const [tags, setTags] = useState<string[]>([]);
    const [featureProduct, setFeatureProduct] = useState('deactive');
    const [toggleModalVariant, setToggleModalVariant] = useState<boolean>(false);
    const [toggleModalVariantEdit, setToggleModalVariantEdit] =
       useState<boolean>(false);
+
+   const [Errors, setErrors] = useState<propsType>({
+      name: '',
+      metaTitle: '',
+      slug: '',
+      description: '',
+      productCode: '',
+   });
+
+   const [isNameTouched, setIsNameTouched] = useState<boolean>(false);
+   const [isMetaTitleTouched, setIsMetaTitleTouched] = useState<boolean>(false);
+   const [isSlugTouched, setIsSlugTouched] = useState<boolean>(false);
+   const [isDescriptionTouched, setIsDescriptionTouched] =
+      useState<boolean>(false);
+   const [isProductCodeTouched, setIsProductCodeTouched] =
+      useState<boolean>(false);
+
+   const handleInputChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      setState: React.Dispatch<React.SetStateAction<string>>,
+      fieldName: keyof propsType,
+      setTouched: React.Dispatch<React.SetStateAction<boolean>>,
+   ) => {
+      setErrors((prevErrors) => ({
+         ...prevErrors,
+         [fieldName]: e.target.value,
+      }));
+      setState(e.target.value);
+      setTouched(true);
+   };
 
    /// Set state for input inside the Modal Variant
    const [indexVariantEdit, setIndexVariantEdit] = useState<number>(0);
@@ -97,23 +129,41 @@ function ProductAdd(): JSX.Element {
    ) => {
       e.preventDefault();
       e.stopPropagation();
-      setVariantArray((prevVariantArray) => {
-         return [
-            ...prevVariantArray,
-            {
-               variantName: variantName,
-               variantSize: size,
-               variantColor: color,
-               variantProductSKU: productSKU,
-               variantQuantity: quantity,
-               variantRegularPrice: regularPrice,
-               variantSalePrice: salePrice,
-               variantImagesFile: imageFileArray,
-            },
-         ];
-      });
-      HandleResetValueVariantModal();
-      closeModalVariant();
+      if (
+         (!variantName || variantName !== ' ') &&
+         (!size || size !== ' ') &&
+         (!color || color !== ' ') &&
+         (!productSKU || productSKU !== ' ') &&
+         (!quantity || quantity !== ' ') &&
+         (!regularPrice || regularPrice !== ' ') &&
+         (!salePrice || salePrice !== ' ')
+      ) {
+         console.log({
+            variantName,
+            size,
+            color,
+            quantity,
+            regularPrice,
+            salePrice,
+         });
+         setVariantArray((prevVariantArray) => {
+            return [
+               ...prevVariantArray,
+               {
+                  variantName: variantName,
+                  variantSize: size,
+                  variantColor: color,
+                  variantProductSKU: productSKU,
+                  variantQuantity: quantity,
+                  variantRegularPrice: regularPrice,
+                  variantSalePrice: salePrice,
+                  variantImagesFile: imageFileArray,
+               },
+            ];
+         });
+         HandleResetValueVariantModal();
+         closeModalVariant();
+      }
    };
 
    const handleSaveEditModal = (
@@ -324,9 +374,21 @@ function ProductAdd(): JSX.Element {
                            name="product-name"
                            id="product-name"
                            type="text"
-                           onChange={(e) => setName(e.target.value)}
+                           onChange={(e) =>
+                              handleInputChange(
+                                 e,
+                                 setName,
+                                 'name',
+                                 setIsNameTouched,
+                              )
+                           }
                            value={name}
                         />
+                        {isNameTouched && checkError(Errors).name && (
+                           <ErrorInput
+                              nameError={checkError(Errors).name as string}
+                           />
+                        )}
                      </div>
                      {/* TODO: Input product title */}
                      <div className={cx('meta-title')}>
@@ -335,9 +397,21 @@ function ProductAdd(): JSX.Element {
                            name="meta-title"
                            id="meta-title"
                            type="text"
-                           onChange={(e) => setMetaTitle(e.target.value)}
+                           onChange={(e) =>
+                              handleInputChange(
+                                 e,
+                                 setMetaTitle,
+                                 'metaTitle',
+                                 setIsMetaTitleTouched,
+                              )
+                           }
                            value={metaTitle}
                         />
+                        {isMetaTitleTouched && checkError(Errors).metaTitle && (
+                           <ErrorInput
+                              nameError={checkError(Errors).metaTitle as string}
+                           />
+                        )}
                      </div>
                      {/* TODO: Input product Categories and Sub Categories*/}
                      <div className={cx('row')}>
@@ -383,9 +457,24 @@ function ProductAdd(): JSX.Element {
                               name="product-code"
                               id="product-code"
                               type="text"
-                              onChange={(e) => setProductCode(e.target.value)}
+                              onChange={(e) =>
+                                 handleInputChange(
+                                    e,
+                                    setProductCode,
+                                    'productCode',
+                                    setIsProductCodeTouched,
+                                 )
+                              }
                               value={productCode}
                            />
+                           {isProductCodeTouched &&
+                              checkError(Errors).productCode && (
+                                 <ErrorInput
+                                    nameError={
+                                       checkError(Errors).productCode as string
+                                    }
+                                 />
+                              )}
                         </div>
                      </div>
                      {/* TODO: Input product Tag*/}
@@ -472,9 +561,21 @@ function ProductAdd(): JSX.Element {
                               name="slug"
                               id="slug"
                               type="text"
-                              onChange={(e) => setSlug(e.target.value)}
+                              onChange={(e) =>
+                                 handleInputChange(
+                                    e,
+                                    setSlug,
+                                    'slug',
+                                    setIsSlugTouched,
+                                 )
+                              }
                               value={slug}
                            />
+                           {isSlugTouched && checkError(Errors).slug && (
+                              <ErrorInput
+                                 nameError={checkError(Errors).slug as string}
+                              />
+                           )}
                         </div>
                         {/* TODO: Input product Description*/}
                         <div className={cx('description')}>
@@ -482,10 +583,25 @@ function ProductAdd(): JSX.Element {
                            <textarea
                               name="description"
                               id="description"
-                              onChange={(e) => setDescription(e.target.value)}
+                              onChange={(e) =>
+                                 handleInputChange(
+                                    e,
+                                    setDescription,
+                                    'description',
+                                    setIsDescriptionTouched,
+                                 )
+                              }
                               value={description}
                               rows={9}
                            ></textarea>
+                           {isDescriptionTouched &&
+                              checkError(Errors).description && (
+                                 <ErrorInput
+                                    nameError={
+                                       checkError(Errors).description as string
+                                    }
+                                 />
+                              )}
                         </div>
                         {/* TODO: Input product Feature*/}
                         <div className={cx('feature-product')}>
@@ -636,6 +752,11 @@ function ProductAdd(): JSX.Element {
                FeatureProduct={featureProduct}
                DefaultVariant={defaultVariant}
                VariantArray={variantArray}
+               setIsNameTouched={setIsNameTouched}
+               setIsMetaTitleTouched={setIsMetaTitleTouched}
+               setIsSlugTouched={setIsSlugTouched}
+               setIsDescriptionTouched={setIsDescriptionTouched}
+               setIsProductCodeTouched={setIsProductCodeTouched}
             />
          </DefaultLayout>
       </div>

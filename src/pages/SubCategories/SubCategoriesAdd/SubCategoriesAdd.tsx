@@ -7,6 +7,8 @@ import { useRef, useState, useEffect } from 'react';
 import * as HandleImageFile from '~/utils/HandleImageFile';
 import OptionSelect from '~/components/OptionSelect';
 import { useAuth } from '~/context/AuthContext';
+import checkError, { propsType } from '~/utils/InputError';
+import ErrorInput from '~/components/ErrorInput';
 
 const cx = classNames.bind(styles);
 
@@ -24,6 +26,21 @@ function SubCategoriesAdd() {
    const nameButtonSubmit = 'Create Sub Category';
    const { accessToken } = useAuth()!;
 
+   const [Errors, setErrors] = useState<propsType>({
+      name: '',
+      metaTitle: '',
+      slug: '',
+      description: '',
+      imageFile: null,
+   });
+
+   const [isNameTouched, setIsNameTouched] = useState<boolean>(false);
+   const [isMetaTitleTouched, setIsMetaTitleTouched] = useState<boolean>(false);
+   const [isSlugTouched, setIsSlugTouched] = useState<boolean>(false);
+   const [isDescriptionTouched, setIsDescriptionTouched] =
+      useState<boolean>(false);
+   const [isImageFileTouched, setIsImageFileTouched] = useState<boolean>(false);
+
    const CategoryOptionSelectRef = useRef<HTMLSelectElement>(null);
 
    useEffect(() => {
@@ -31,6 +48,20 @@ function SubCategoriesAdd() {
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
+
+   const handleInputChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      setState: React.Dispatch<React.SetStateAction<string>>,
+      fieldName: keyof propsType,
+      setTouched: React.Dispatch<React.SetStateAction<boolean>>,
+   ) => {
+      setErrors((prevErrors) => ({
+         ...prevErrors,
+         [fieldName]: e.target.value,
+      }));
+      setState(e.target.value);
+      setTouched(true);
+   };
 
    useEffect(() => {
       fetch(
@@ -90,9 +121,21 @@ function SubCategoriesAdd() {
                            name="category-name"
                            id="category-name"
                            type="text"
-                           onChange={(e) => setName(e.target.value)}
+                           onChange={(e) =>
+                              handleInputChange(
+                                 e,
+                                 setName,
+                                 'name',
+                                 setIsNameTouched,
+                              )
+                           }
                            value={name}
                         />
+                        {isNameTouched && checkError(Errors).name && (
+                           <ErrorInput
+                              nameError={checkError(Errors).name as string}
+                           />
+                        )}
                      </div>
                      <div className={cx('meta-title')}>
                         <label htmlFor="meta-title">Meta Title</label>
@@ -100,9 +143,21 @@ function SubCategoriesAdd() {
                            name="meta-title"
                            id="meta-title"
                            type="text"
-                           onChange={(e) => setMetaTitle(e.target.value)}
+                           onChange={(e) =>
+                              handleInputChange(
+                                 e,
+                                 setMetaTitle,
+                                 'metaTitle',
+                                 setIsMetaTitleTouched,
+                              )
+                           }
                            value={metaTitle}
                         />
+                        {isMetaTitleTouched && checkError(Errors).metaTitle && (
+                           <ErrorInput
+                              nameError={checkError(Errors).metaTitle as string}
+                           />
+                        )}
                      </div>
                      <div className={cx('slug')}>
                         <label htmlFor="slug">Slug</label>
@@ -110,19 +165,46 @@ function SubCategoriesAdd() {
                            name="slug"
                            id="slug"
                            type="text"
-                           onChange={(e) => setSlug(e.target.value)}
+                           onChange={(e) =>
+                              handleInputChange(
+                                 e,
+                                 setSlug,
+                                 'slug',
+                                 setIsSlugTouched,
+                              )
+                           }
                            value={slug}
                         />
+                        {isSlugTouched && checkError(Errors).slug && (
+                           <ErrorInput
+                              nameError={checkError(Errors).slug as string}
+                           />
+                        )}
                      </div>
                      <div className={cx('description')}>
                         <label htmlFor="description">Description</label>
                         <textarea
                            name="description"
                            id="description"
-                           onChange={(e) => setDescription(e.target.value)}
+                           onChange={(e) =>
+                              handleInputChange(
+                                 e,
+                                 setDescription,
+                                 'description',
+                                 setIsDescriptionTouched,
+                              )
+                           }
                            value={description}
                            rows={9}
                         ></textarea>
+                        {isDescriptionTouched &&
+                           checkError(Errors).description && (
+                              <ErrorInput
+                                 nameError={
+                                    checkError(Errors).description as string
+                                 }
+                              />
+                           )}
                      </div>
                   </>
                }
@@ -152,6 +234,11 @@ function SubCategoriesAdd() {
                                     setResizedImageUrl,
                                     512,
                                  );
+                                 setIsImageFileTouched(true);
+                                 setErrors((prevErrors) => ({
+                                    ...prevErrors,
+                                    imageFile: e.target.files?.[0],
+                                 }));
                               }}
                            />
                            <div
@@ -170,6 +257,14 @@ function SubCategoriesAdd() {
                                  )}
                               </div>
                            </div>
+                           {isImageFileTouched &&
+                              checkError(Errors).imageFile && (
+                                 <ErrorInput
+                                    nameError={
+                                       checkError(Errors).imageFile as string
+                                    }
+                                 />
+                              )}
                         </div>
                      </div>
                   </>
@@ -182,6 +277,11 @@ function SubCategoriesAdd() {
                ImageFile={imageFile}
                NameImageFile={nameImageFile}
                nameButtonSubmit={nameButtonSubmit}
+               setIsNameTouched={setIsNameTouched}
+               setIsMetaTitleTouched={setIsMetaTitleTouched}
+               setIsSlugTouched={setIsSlugTouched}
+               setIsDescriptionTouched={setIsDescriptionTouched}
+               setIsImageFileTouched={setIsImageFileTouched}
             />
          </DefaultLayout>
       </div>

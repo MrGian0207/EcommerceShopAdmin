@@ -4,7 +4,7 @@
    width: 100%;
    align-items: center;
    height: fit-content;
-   margin-bottom: var(--margin-vertical);
+   // margin-bottom: var(--margin-vertical);
    font-size: var(--font-size-medium);
    font-weight: var(--font-weight-semi-bold);
    color: var(--text-color);
@@ -41,11 +41,16 @@
       color: var(--icon-label-color);
    }
 
+   & .input {
+      flex-grow: 100;
+   }
+
    & > .iconRight {
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      justify-content: flex-end;
+      flex-grow: 1;
+      // max-width: fit-content;
       font-size: 1.3rem;
       padding-right: 17px;
       margin-left: 8px;
@@ -72,7 +77,7 @@
 .gender {
    display: inline-flex;
    align-items: center;
-   justify-content: center;
+   justify-content: flex-start;
    padding: 10px 15px 10px 15px;
    font-size: var(--font-size-medium);
    font-weight: var(--font-weight-semi-bold);

@@ -28,6 +28,10 @@
          gap: 20px;
          width: 100%;
 
+         & > * {
+            width: calc(100% / 2);
+         }
+
          & .submitChangebtn {
             display: inline-flex;
             height: 50px;
