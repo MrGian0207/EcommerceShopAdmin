@@ -5,6 +5,8 @@ import ActionLayout from '~/layouts/ActionLayout';
 import images from '~/assets/Image';
 import { useRef, useState, useEffect } from 'react';
 import * as HandleImageFile from '~/utils/HandleImageFile';
+import checkError, { propsType } from '~/utils/InputError';
+import ErrorInput from '~/components/ErrorInput';
 
 const cx = classNames.bind(styles);
 
@@ -17,14 +19,41 @@ function BrandsAdd(): JSX.Element {
    const [slug, setSlug] = useState<string>('');
    const [description, setDescription] = useState<string>('');
    const [imageFile, setImageFile] = useState<File | null>(null);
+   const [Errors, setErrors] = useState<propsType>({
+      name: '',
+      metaTitle: '',
+      slug: '',
+      description: '',
+      imageFile: null,
+   });
+
+   const [isNameTouched, setIsNameTouched] = useState<boolean>(false);
+   const [isMetaTitleTouched, setIsMetaTitleTouched] = useState<boolean>(false);
+   const [isSlugTouched, setIsSlugTouched] = useState<boolean>(false);
+   const [isDescriptionTouched, setIsDescriptionTouched] =
+      useState<boolean>(false);
+   const [isImageFileTouched, setIsImageFileTouched] = useState<boolean>(false);
+
    const nameImageFile = 'brands-image';
    const nameButtonSubmit = 'Create Brands';
 
    useEffect(() => {
       document.title = 'Add Brand | MrGianStore';
-
-      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
+
+   const handleInputChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      setState: React.Dispatch<React.SetStateAction<string>>,
+      fieldName: keyof propsType,
+      setTouched: React.Dispatch<React.SetStateAction<boolean>>,
+   ) => {
+      setErrors((prevErrors) => ({
+         ...prevErrors,
+         [fieldName]: e.target.value,
+      }));
+      setState(e.target.value);
+      setTouched(true);
+   };
 
    return (
       <div className={cx('add')}>
@@ -38,9 +67,21 @@ function BrandsAdd(): JSX.Element {
                            name="brands-name"
                            id="brands-name"
                            type="text"
-                           onChange={(e) => setName(e.target.value)}
+                           onChange={(e) =>
+                              handleInputChange(
+                                 e,
+                                 setName,
+                                 'name',
+                                 setIsNameTouched,
+                              )
+                           }
                            value={name}
                         />
+                        {isNameTouched && checkError(Errors).name && (
+                           <ErrorInput
+                              nameError={checkError(Errors).name as string}
+                           />
+                        )}
                      </div>
                      <div className={cx('meta-title')}>
                         <label htmlFor="meta-title">Meta Title</label>
@@ -48,9 +89,21 @@ function BrandsAdd(): JSX.Element {
                            name="meta-title"
                            id="meta-title"
                            type="text"
-                           onChange={(e) => setMetaTitle(e.target.value)}
+                           onChange={(e) =>
+                              handleInputChange(
+                                 e,
+                                 setMetaTitle,
+                                 'metaTitle',
+                                 setIsMetaTitleTouched,
+                              )
+                           }
                            value={metaTitle}
                         />
+                        {isMetaTitleTouched && checkError(Errors).metaTitle && (
+                           <ErrorInput
+                              nameError={checkError(Errors).metaTitle as string}
+                           />
+                        )}
                      </div>
                      <div className={cx('slug')}>
                         <label htmlFor="slug">Slug</label>
@@ -58,19 +111,46 @@ function BrandsAdd(): JSX.Element {
                            name="slug"
                            id="slug"
                            type="text"
-                           onChange={(e) => setSlug(e.target.value)}
+                           onChange={(e) =>
+                              handleInputChange(
+                                 e,
+                                 setSlug,
+                                 'slug',
+                                 setIsSlugTouched,
+                              )
+                           }
                            value={slug}
                         />
+                        {isSlugTouched && checkError(Errors).slug && (
+                           <ErrorInput
+                              nameError={checkError(Errors).slug as string}
+                           />
+                        )}
                      </div>
                      <div className={cx('description')}>
                         <label htmlFor="description">Description</label>
                         <textarea
                            name="description"
                            id="description"
-                           onChange={(e) => setDescription(e.target.value)}
+                           onChange={(e) =>
+                              handleInputChange(
+                                 e,
+                                 setDescription,
+                                 'description',
+                                 setIsDescriptionTouched,
+                              )
+                           }
                            value={description}
                            rows={9}
                         ></textarea>
+                        {isDescriptionTouched &&
+                           checkError(Errors).description && (
+                              <ErrorInput
+                                 nameError={
+                                    checkError(Errors).description as string
+                                 }
+                              />
+                           )}
                      </div>
                   </>
                }
@@ -92,6 +172,7 @@ function BrandsAdd(): JSX.Element {
                                     setResizedImageUrl,
                                     512,
                                  );
+                                 setIsImageFileTouched(true);
                               }}
                            />
                            <div
@@ -110,6 +191,14 @@ function BrandsAdd(): JSX.Element {
                                  )}
                               </div>
                            </div>
+                           {isImageFileTouched &&
+                              checkError(Errors).imageFile && (
+                                 <ErrorInput
+                                    nameError={
+                                       checkError(Errors).imageFile as string
+                                    }
+                                 />
+                              )}
                         </div>
                      </div>
                   </>
@@ -121,6 +210,11 @@ function BrandsAdd(): JSX.Element {
                ImageFile={imageFile}
                NameImageFile={nameImageFile}
                nameButtonSubmit={nameButtonSubmit}
+               setIsNameTouched={setIsNameTouched}
+               setIsMetaTitleTouched={setIsMetaTitleTouched}
+               setIsSlugTouched={setIsSlugTouched}
+               setIsDescriptionTouched={setIsDescriptionTouched}
+               setIsImageFileTouched={setIsImageFileTouched}
             />
          </DefaultLayout>
       </div>

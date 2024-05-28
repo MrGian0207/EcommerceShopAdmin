@@ -48,6 +48,11 @@ type ActionLayoutType = {
    secondaryButtonText?: string;
    secondaryButtonLink?: string;
    displaySlide?: string;
+   setIsNameTouched?: React.Dispatch<React.SetStateAction<boolean>>;
+   setIsMetaTitleTouched?: React.Dispatch<React.SetStateAction<boolean>>;
+   setIsSlugTouched?: React.Dispatch<React.SetStateAction<boolean>>;
+   setIsDescriptionTouched?: React.Dispatch<React.SetStateAction<boolean>>;
+   setIsImageFileTouched?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function ActionLayout({
@@ -78,6 +83,11 @@ function ActionLayout({
    secondaryButtonText,
    secondaryButtonLink,
    displaySlide,
+   setIsNameTouched,
+   setIsMetaTitleTouched,
+   setIsSlugTouched,
+   setIsDescriptionTouched,
+   setIsImageFileTouched,
 }: ActionLayoutType) {
    const location = useLocation();
    let path = location.pathname; // Lấy đường dẫn từ URL
@@ -88,83 +98,110 @@ function ActionLayout({
       ? { opacity: '0.5' }
       : { opacity: '1' };
 
+   //Check if input is empty or not
+   const isEmpty = (): boolean => {
+      if (
+         name === '' ||
+         metaTitle === '' ||
+         slug === '' ||
+         description === '' ||
+         Categories === '' ||
+         ImageFile === null ||
+         heading === '' ||
+         primaryButtonText === '' ||
+         primaryButtonLink === ''
+      ) {
+         return true;
+      } else {
+         return false;
+      }
+   };
+
    //Submit Form not varriants
    const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-      setIsLoading(true);
       e.preventDefault();
+      setIsNameTouched && setIsNameTouched(true);
+      setIsMetaTitleTouched && setIsMetaTitleTouched(true);
+      setIsSlugTouched && setIsSlugTouched(true);
+      setIsDescriptionTouched && setIsDescriptionTouched(true);
+      setIsImageFileTouched && setIsImageFileTouched(true);
+      if (isEmpty() === false) {
+         setIsLoading(true);
 
-      if (submit_ButtonRef.current) {
-         submit_ButtonRef.current.disabled = true;
-         submit_ButtonRef.current.classList.add(cx('disable_button'));
-      }
+         if (submit_ButtonRef.current) {
+            submit_ButtonRef.current.disabled = true;
+            submit_ButtonRef.current.classList.add(cx('disable_button'));
+         }
 
-      Toastify.showToastMessagePending();
-      const formData = new FormData();
+         Toastify.showToastMessagePending();
+         const formData = new FormData();
 
-      // Insert data into the form to request
-      name && formData.append('name', name || '');
-      metaTitle && formData.append('title', metaTitle || '');
-      slug && formData.append('slug', slug || '');
-      description && formData.append('description', description || '');
-      Categories && formData.append('category', Categories);
-      ImageFile && formData.append(NameImageFile as string, ImageFile || null);
+         // Insert data into the form to request
+         name && formData.append('name', name || '');
+         metaTitle && formData.append('title', metaTitle || '');
+         slug && formData.append('slug', slug || '');
+         description && formData.append('description', description || '');
+         Categories && formData.append('category', Categories);
+         ImageFile &&
+            formData.append(NameImageFile as string, ImageFile || null);
 
-      heading && formData.append('heading', heading);
-      primaryButtonText &&
-         formData.append('primaryButtonText', primaryButtonText);
-      primaryButtonLink &&
-         formData.append('primaryButtonLink', primaryButtonLink);
-      secondaryButtonText &&
-         formData.append('secondaryButtonText', secondaryButtonText);
-      secondaryButtonLink &&
-         formData.append('secondaryButtonLink', secondaryButtonLink);
-      displaySlide && formData.append('displaySlide', displaySlide);
+         heading && formData.append('heading', heading);
+         primaryButtonText &&
+            formData.append('primaryButtonText', primaryButtonText);
+         primaryButtonLink &&
+            formData.append('primaryButtonLink', primaryButtonLink);
+         secondaryButtonText &&
+            formData.append('secondaryButtonText', secondaryButtonText);
+         secondaryButtonLink &&
+            formData.append('secondaryButtonLink', secondaryButtonLink);
+         displaySlide && formData.append('displaySlide', displaySlide);
 
-      try {
-         fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
-            method: 'POST',
-            headers: {
-               Authorization: `Bearer ${accessToken}`,
-            },
-            body: formData,
-         })
-            .then((res) => {
-               setIsLoading(false);
-               return res.json();
+         try {
+            fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
+               method: 'POST',
+               headers: {
+                  Authorization: `Bearer ${accessToken}`,
+               },
+               body: formData,
             })
-            .then((data) => {
-               if (data) {
+               .then((res) => {
+                  setIsLoading(false);
+                  return res.json();
+               })
+               .then((data) => {
+                  if (data) {
+                     if (submit_ButtonRef.current) {
+                        submit_ButtonRef.current.disabled = false;
+                        submit_ButtonRef.current.classList.remove(
+                           cx('disable_button'),
+                        );
+                     }
+                     if (data.status === 'Success') {
+                        Toastify.showToastMessageSuccessfully(data?.message);
+                     } else {
+                        Toastify.showToastMessageFailure(data?.message);
+                     }
+                  }
+               })
+               .catch((err) => {
+                  setIsLoading(false);
+                  console.log(err);
                   if (submit_ButtonRef.current) {
                      submit_ButtonRef.current.disabled = false;
                      submit_ButtonRef.current.classList.remove(
                         cx('disable_button'),
                      );
                   }
-                  if (data.status === 'Success') {
-                     Toastify.showToastMessageSuccessfully(data?.message);
-                  } else {
-                     Toastify.showToastMessageFailure(data?.message);
-                  }
-               }
-            })
-            .catch((err) => {
-               setIsLoading(false);
-               console.log(err);
-               if (submit_ButtonRef.current) {
-                  submit_ButtonRef.current.disabled = false;
-                  submit_ButtonRef.current.classList.remove(
-                     cx('disable_button'),
+                  Toastify.showToastMessageFailure(
+                     'Submit Failure !! Try it again',
                   );
-               }
-               Toastify.showToastMessageFailure(
-                  'Submit Failure !! Try it again',
-               );
-            });
-      } catch (error) {
-         console.log(error);
-         Toastify.showToastMessageFailure(
-            'Data Loaded Failure !! Try it again',
-         );
+               });
+         } catch (error) {
+            console.log(error);
+            Toastify.showToastMessageFailure(
+               'Data Loaded Failure !! Try it again',
+            );
+         }
       }
    };
 
