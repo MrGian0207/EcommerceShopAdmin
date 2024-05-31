@@ -8,19 +8,9 @@ import { useUpdateLayout } from '~/context/UpdateLayoutContext';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '~/context/AuthContext';
+import { CustomContentToastifyType } from '~/types/CustomContentToastifyType';
 
 const cx = classNames.bind(styles);
-
-type CustomContentToastifyType = {
-   title?: string | null;
-   button?: boolean;
-   confirmButton?: string | null;
-   rejectButton?: string | null;
-   id?: string | null;
-   path?: string | null;
-   handleReject?: () => void;
-   navigate?: boolean;
-};
 
 function CustomContentToastify({
    title = 'Notifications',

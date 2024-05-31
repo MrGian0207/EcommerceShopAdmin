@@ -15,14 +15,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef } from 'react';
+import { SideBarType } from '~/types/SideBarType';
 
 const cx = classNames.bind(styles);
-
-type SideBarType = {
-   active?: string;
-   handleCloseSideBar?: () => void;
-   backGroundColor?: string;
-};
 
 function SideBar({
    active,

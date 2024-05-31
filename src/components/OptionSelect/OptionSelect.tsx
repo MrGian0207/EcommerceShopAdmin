@@ -2,15 +2,10 @@ import styles from './OptionSelect.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import React, { forwardRef, ForwardRefRenderFunction } from 'react';
-const cx = classNames.bind(styles);
+import { forwardRef, ForwardRefRenderFunction } from 'react';
+import { OptionSelectProps } from '~/types/InputType';
 
-// Định nghĩa kiểu dữ liệu cho props của OptionSelect
-type OptionSelectProps = {
-   dataOptions?: string;
-   setDataOptions?: React.Dispatch<React.SetStateAction<string>>;
-   labelName?: string;
-};
+const cx = classNames.bind(styles);
 
 // Thêm kiểu dữ liệu cho ref
 const OptionSelect: ForwardRefRenderFunction<

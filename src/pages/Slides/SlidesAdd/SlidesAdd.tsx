@@ -5,7 +5,8 @@ import ActionLayout from '~/layouts/ActionLayout';
 import images from '~/assets/Image';
 import { useRef, useState, useEffect } from 'react';
 import * as HandleImageFile from '~/utils/HandleImageFile';
-import checkError, { propsType } from '~/utils/InputError';
+import { propsType } from '~/types/ErrorType';
+import checkError from '~/utils/InputError';
 import ErrorInput from '~/components/ErrorInput';
 
 const cx = classNames.bind(styles);

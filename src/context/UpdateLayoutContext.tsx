@@ -5,11 +5,7 @@ import React, {
    useState,
    memo,
 } from 'react';
-
-interface UpdateLayoutContextType {
-   updateLayout: boolean | null;
-   SetUpdateLayout: () => void;
-}
+import { UpdateLayoutContextType } from '~/types/ContextType';
 
 const UpdateLayoutContext = createContext<UpdateLayoutContextType | null>(null);
 

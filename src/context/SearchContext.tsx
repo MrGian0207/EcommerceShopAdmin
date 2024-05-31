@@ -6,12 +6,7 @@ import React, {
    memo,
 } from 'react';
 import { useDebounce } from '~/hooks';
-
-type SearchContextType = {
-   searchText: string;
-   debouncedSearchText: string;
-   setSearchText: React.Dispatch<React.SetStateAction<string>>;
-};
+import { SearchContextType } from '~/types/ContextType';
 
 const SearchContext = createContext<SearchContextType | null>(null);
 

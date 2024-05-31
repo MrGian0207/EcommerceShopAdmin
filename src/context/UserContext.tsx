@@ -7,22 +7,8 @@ import React, {
    useEffect,
 } from 'react';
 import { useAuth } from './AuthContext';
-
-type UserContextType = {
-   dataUser: User;
-};
-
-type User = {
-   fullName?: string;
-   gender?: string;
-   phoneNumber?: number;
-   emailAddress?: string;
-   password?: string;
-   status?: string;
-   role?: string;
-   about?: string;
-   image?: string;
-};
+import { User } from '~/types/UserType';
+import { UserContextType } from '~/types/ContextType';
 
 const UserContext = createContext<UserContextType | null>(null);
 
@@ -40,11 +26,7 @@ export const UserContextProvider: React.FC<{ children: ReactNode }> = memo(
             const id_user: string = localStorage.getItem('id_user')
                ? (localStorage.getItem('id_user') as string)
                : '';
-            if (
-               id_user !== undefined ||
-               id_user !== null ||
-               (id_user as string).length === 0
-            ) {
+            if (id_user !== '') {
                try {
                   const res = await fetch(
                      `${process.env.REACT_APP_BACKEND_URL}/users/${id_user}`,

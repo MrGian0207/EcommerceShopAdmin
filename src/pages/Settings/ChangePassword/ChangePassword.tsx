@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import * as Toastify from '~/services/Toastify';
 import { useAuth } from '~/context/AuthContext';
 import Spinner from '~/components/Spinner';
-import checkError, { propsType } from '~/utils/InputError';
+import { propsType } from '~/types/ErrorType';
+import checkError from '~/utils/InputError';
 import ErrorInput from '~/components/ErrorInput';
 
 const cx = classNames.bind(styles);

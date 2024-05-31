@@ -290,7 +290,7 @@
    max-width: 900px;
    width: 900px;
    max-height: fit-content;
-   height: 650px;
+   height: 600px;
    padding: 24px;
    overflow-y: scroll;
    background-color: white;
@@ -322,4 +322,16 @@
 
 .body-open-custom {
    overflow: hidden;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1230px) {
+   .custom-modal {
+      width: 500px;
+   }
+}
+
+@media screen and (max-width: 768px) {
+   .custom-modal {
+      width: 400px;
+   }
 }

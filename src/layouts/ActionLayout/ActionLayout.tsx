@@ -2,66 +2,13 @@ import styles from './ActionLayout.module.scss';
 import classNames from 'classnames/bind';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Toastify from '~/services/Toastify';
-import { FormEventHandler, ReactNode, useRef, memo, useState } from 'react';
+import { FormEventHandler, useRef, memo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '~/context/AuthContext';
 import Spinner from '~/components/Spinner';
+import { ActionLayoutType } from '~/types/LayoutType';
 
 const cx = classNames.bind(styles);
-
-type VariantType = {
-   variantName?: string;
-   variantSize?: string;
-   variantColor?: string;
-   variantProductSKU?: string;
-   variantQuantity?: string;
-   variantRegularPrice?: string;
-   variantSalePrice?: string;
-   variantImagesFile?: File[];
-};
-
-type ActionLayoutType = {
-   leftColumn: ReactNode;
-   rightColumn: ReactNode;
-   name?: string;
-   metaTitle?: string;
-   slug?: string;
-   description?: string;
-   Categories?: string;
-   SubCategories?: string;
-   Brand?: string;
-   Gender?: string;
-   Status?: string;
-   ProductCode?: string;
-   FeatureProduct?: string;
-   Tag?: string[];
-   ImageFile?: File | null;
-   NameImageFile?: string | null;
-   DefaultVariant?: string;
-   VariantArray?: VariantType[];
-   idVariantArray?: string[];
-   idVariantDeletedArray?: string[];
-   nameButtonSubmit?: string;
-   heading?: string;
-   primaryButtonText?: string;
-   primaryButtonLink?: string;
-   secondaryButtonText?: string;
-   secondaryButtonLink?: string;
-   displaySlide?: string;
-   setIsNameTouched?: React.Dispatch<React.SetStateAction<boolean>>;
-   setIsMetaTitleTouched?: React.Dispatch<React.SetStateAction<boolean>>;
-   setIsSlugTouched?: React.Dispatch<React.SetStateAction<boolean>>;
-   setIsDescriptionTouched?: React.Dispatch<React.SetStateAction<boolean>>;
-   setIsImageFileTouched?: React.Dispatch<React.SetStateAction<boolean>>;
-   setIsHeadingTouched?: React.Dispatch<React.SetStateAction<boolean>>;
-   setIsPrimaryButtonTextTouched?: React.Dispatch<
-      React.SetStateAction<boolean>
-   >;
-   setIsPrimaryButtonLinkTouched?: React.Dispatch<
-      React.SetStateAction<boolean>
-   >;
-   setIsProductCodeTouched?: React.Dispatch<React.SetStateAction<boolean>>;
-};
 
 function ActionLayout({
    leftColumn,

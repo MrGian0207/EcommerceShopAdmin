@@ -7,7 +7,8 @@ import { useRef, useState, useEffect } from 'react';
 import * as HandleImageFile from '~/utils/HandleImageFile';
 import OptionSelect from '~/components/OptionSelect';
 import { useAuth } from '~/context/AuthContext';
-import checkError, { propsType } from '~/utils/InputError';
+import { propsType } from '~/types/ErrorType';
+import checkError from '~/utils/InputError';
 import ErrorInput from '~/components/ErrorInput';
 
 const cx = classNames.bind(styles);

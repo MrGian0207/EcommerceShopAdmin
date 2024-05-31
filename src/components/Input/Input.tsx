@@ -7,29 +7,17 @@ import {
    faAngleUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { useState, useRef, useEffect, memo } from 'react';
-import checkError, { propsType } from '~/utils/InputError';
+import { propsType } from '~/types/ErrorType';
+import checkError from '~/utils/InputError';
 import ErrorInput from '~/components/ErrorInput';
 import React from 'react';
+import { InputType } from '~/types/InputType';
 
 const cx = classNames.bind(styles);
 
 const Option = {
    Up: faAngleDown,
    Down: faAngleUp,
-};
-
-type InputType = {
-   name: string;
-   value?: string | number;
-   setValue?: React.Dispatch<React.SetStateAction<string | number>>;
-   space?: string;
-   index: string | number;
-   label?: string;
-   iconLeft?: IconDefinition;
-   iconRight?: IconDefinition;
-   type?: string;
-   onclick?: boolean;
-   autocomplete?: string;
 };
 
 function Input({

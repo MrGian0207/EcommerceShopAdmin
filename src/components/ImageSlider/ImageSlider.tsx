@@ -5,24 +5,13 @@ import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import * as Toastify from '~/services/Toastify';
+import { Slide } from '~/types/ImageSliderType';
 
 const cx = classNames.bind(styles);
 
-type Slide = {
-   _id?: string;
-   heading?: string;
-   primaryButtonText?: string;
-   primaryButtonLink?: string;
-   secondaryButtonText?: string;
-   secondaryButtonLink?: string;
-   description?: string;
-   displaySlide?: string;
-   image?: string;
-};
-
-interface ImageSliderProps {
+type ImageSliderProps = {
    data: Slide[];
-}
+};
 
 function ImageSlider({ data }: ImageSliderProps): JSX.Element {
    const slideRef = useRef<HTMLDivElement>(null);

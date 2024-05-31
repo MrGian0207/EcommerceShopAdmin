@@ -11,58 +11,10 @@ import * as Toastify from '~/services/Toastify';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { useAuth } from '~/context/AuthContext';
-
-interface Variant {
-   variantName?: string;
-   variantSize?: string;
-   variantColor?: string;
-   variantProductSKU?: string;
-   variantQuantity?: string;
-   variantRegularPrice?: string;
-   variantSalePrice?: string;
-   variantImagesFile?: string[];
-   product?: Product;
-}
-
-interface Product {
-   name?: string;
-   title?: string;
-   slug?: string;
-   description?: string;
-   category?: string;
-   subCategory?: string;
-   brand?: string;
-   gender?: string;
-   status?: string;
-   productCode?: string;
-   tag?: string;
-   featureProduct?: string;
-   defaultVariant?: string;
-   variants?: Variant[];
-}
-
-interface Order {
-   _id?: string;
-   createdAt?: string;
-   customerName?: string;
-   customerPhone?: string;
-   customerEmail?: string;
-   customerAddress?: string;
-   methodDelivery?: string;
-   statusDelivery?: string;
-   shippingFee?: number;
-   imageDefault?: string;
-   colorProducts?: string[];
-   quantityProducts?: number[];
-   sizeProducts?: string[];
-   priceProducts?: number[];
-   subtotal?: number;
-   total?: number;
-   products?: Product[];
-}
+import { OrderType } from '~/types/OrderType';
 
 type DataType = {
-   order?: Order;
+   order?: OrderType;
    imagesOfProduct?: string[];
 };
 
@@ -322,7 +274,6 @@ function OrdersPreview(): JSX.Element {
                      <table className={cx('total')}>
                         <tbody>
                            <tr>
-                              <td></td>
                               <td>
                                  <p>Subtotal</p>
                               </td>
@@ -331,7 +282,6 @@ function OrdersPreview(): JSX.Element {
                               </td>
                            </tr>
                            <tr>
-                              <td></td>
                               <td>
                                  <p>Shipping Fee</p>
                               </td>
@@ -340,7 +290,6 @@ function OrdersPreview(): JSX.Element {
                               </td>
                            </tr>
                            <tr>
-                              <td></td>
                               <td>
                                  <p>Total</p>
                               </td>

@@ -11,20 +11,9 @@ import VariantItems from '~/components/VariantItems';
 import VariantForm from '~/components/VariantForm';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '~/context/AuthContext';
+import { VariantType } from '~/types/VariantType';
 
 const cx = classNames.bind(styles);
-
-type VariantType = {
-   variantName?: string;
-   variantSize?: string;
-   variantColor?: string;
-   variantProductSKU?: string;
-   variantQuantity?: string;
-   variantRegularPrice?: string;
-   variantSalePrice?: string;
-   variantImagesFile?: File[];
-   _id?: string;
-};
 
 function ProductEdit(): JSX.Element {
    const location = useLocation();

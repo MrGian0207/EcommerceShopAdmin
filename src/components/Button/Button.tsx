@@ -6,29 +6,9 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useState, memo } from 'react';
 import * as Toastify from '~/services/Toastify';
 import { useAuth } from '~/context/AuthContext';
+import { ButtonProps } from '~/types/ButtonType';
 
 const cx = classNames.bind(styles);
-
-type ButtonProps = {
-   selectedOption?: string;
-   setSelectedOption?: React.Dispatch<React.SetStateAction<string>>;
-   type?: string;
-   to?: string | null | undefined;
-   href?: string;
-   select?: boolean;
-   className?: string;
-   primary?: boolean;
-   outline?: boolean;
-   text?: boolean;
-   disabled?: boolean;
-   small?: boolean;
-   large?: boolean;
-   rounded?: boolean;
-   children?: React.ReactNode;
-   leftIcon?: React.ReactNode;
-   rightIcon?: React.ReactNode;
-   onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-};
 
 const Button: React.FC<ButtonProps> = ({
    selectedOption,

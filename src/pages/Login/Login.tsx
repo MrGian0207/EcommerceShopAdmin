@@ -68,6 +68,7 @@ function Login(): JSX.Element {
             .then((data) => {
                setIsLoading(false);
                const { accessToken, idUser, response } = data;
+               console.log(data);
                if (accessToken && idUser && response) {
                   localStorage.setItem('access_token', accessToken);
                   localStorage.setItem('id_user', idUser);

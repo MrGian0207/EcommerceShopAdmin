@@ -10,21 +10,12 @@ import ReactModal from 'react-modal';
 import VariantItems from '~/components/VariantItems';
 import VariantForm from '~/components/VariantForm';
 import { useAuth } from '~/context/AuthContext';
-import checkError, { propsType } from '~/utils/InputError';
+import { propsType } from '~/types/ErrorType';
+import checkError from '~/utils/InputError';
 import ErrorInput from '~/components/ErrorInput';
+import { VariantType } from '~/types/VariantType';
 
 const cx = classNames.bind(styles);
-
-type VariantType = {
-   variantName?: string;
-   variantSize?: string;
-   variantColor?: string;
-   variantProductSKU?: string;
-   variantQuantity?: string;
-   variantRegularPrice?: string;
-   variantSalePrice?: string;
-   variantImagesFile?: File[];
-};
 
 function ProductAdd(): JSX.Element {
    // Set state for input belonging to the product

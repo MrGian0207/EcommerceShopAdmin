@@ -8,12 +8,7 @@ import React, {
 } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Toastify from '~/services/Toastify';
-
-interface AuthContextType {
-   accessToken: string | null;
-   login: (accessToken: string) => void;
-   logout: () => void;
-}
+import { AuthContextType } from '~/types/ContextType';
 
 // Create the AuthContext with a default value
 const AuthContext = createContext<AuthContextType | null>(null);

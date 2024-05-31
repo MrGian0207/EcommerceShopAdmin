@@ -9,16 +9,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import { useState, memo } from 'react';
+import { SideBarItemsType } from '~/types/SideBarType';
 
 const cx = classNames.bind(styles);
-
-type SideBarItemsType = {
-   iconLeft: IconDefinition;
-   children: string[];
-   iconRight?: boolean;
-   active?: boolean;
-   title?: string;
-};
 
 function SideBarItems({
    iconLeft,

@@ -9,26 +9,15 @@ import { useLocation } from 'react-router-dom';
 import ImageSlider from '~/components/ImageSlider';
 import { useUpdateLayout } from '~/context/UpdateLayoutContext';
 import { useAuth } from '~/context/AuthContext';
+import { SlideType } from '~/types/SlideType';
 
 const cx = classNames.bind(styles);
-
-type Slide = {
-   _id?: string;
-   heading?: string;
-   primaryButtonText?: string;
-   primaryButtonLink?: string;
-   secondaryButtonText?: string;
-   secondaryButtonLink?: string;
-   description?: string;
-   displaySlide?: string;
-   image?: string;
-};
 
 function Slides(): JSX.Element {
    const { updateLayout } = useUpdateLayout()!;
    const location = useLocation();
    const path = location.pathname;
-   const [data, setData] = useState<Slide[]>([]);
+   const [data, setData] = useState<SlideType[]>([]);
    const { accessToken } = useAuth()!;
 
    useEffect(() => {

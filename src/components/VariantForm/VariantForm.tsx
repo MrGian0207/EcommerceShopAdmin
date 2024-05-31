@@ -5,47 +5,12 @@ import * as HandleImageFile from '~/utils/HandleImageFile';
 import images from '~/assets/Image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleMinus } from '@fortawesome/free-solid-svg-icons';
-import checkError, { propsType } from '~/utils/InputError';
+import { propsType } from '~/types/ErrorType';
+import checkError from '~/utils/InputError';
 import ErrorInput from '~/components/ErrorInput';
+import { VariantFormType } from '~/types/VariantType';
 
 const cx = classNames.bind(styles);
-
-type VariantType = {
-   variantName?: string;
-   variantSize?: string;
-   variantColor?: string;
-   variantProductSKU?: string;
-   variantQuantity?: string;
-   variantRegularPrice?: string;
-   variantSalePrice?: string;
-   variantImagesFile?: File[];
-};
-
-type VariantFormType = {
-   nameForm: string;
-   setVariantName: React.Dispatch<React.SetStateAction<string>>;
-   setSize: React.Dispatch<React.SetStateAction<string>>;
-   setColor: React.Dispatch<React.SetStateAction<string>>;
-   setProductSKU: React.Dispatch<React.SetStateAction<string>>;
-   setQuantity: React.Dispatch<React.SetStateAction<string>>;
-   setRegularPrice: React.Dispatch<React.SetStateAction<string>>;
-   setSalePrice: React.Dispatch<React.SetStateAction<string>>;
-   setImageFileArray: React.Dispatch<React.SetStateAction<File[]>>;
-   setImagePreviewArray: React.Dispatch<React.SetStateAction<string[]>>;
-   imagePreviewArray: string[];
-   fileInputRef: React.MutableRefObject<HTMLInputElement | null>;
-   savedImageVariant?: string[];
-   setSavedImageVariant?: React.Dispatch<React.SetStateAction<string[]>>;
-   variantArray?: VariantType[];
-   indexVariantEdit?: number;
-   handleCancelModal: (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-   ) => void;
-
-   handleSaveModal: (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-   ) => void;
-};
 
 function VariantForm({
    nameForm,

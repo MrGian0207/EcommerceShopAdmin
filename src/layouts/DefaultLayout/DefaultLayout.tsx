@@ -13,7 +13,7 @@ import {
    faSun,
    faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { ReactNode, useEffect, useRef, useState, memo } from 'react';
+import { useEffect, useRef, useState, memo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import SideBar from '../../components/SideBar';
@@ -22,16 +22,9 @@ import { useNavigate } from 'react-router-dom';
 import { useSearch } from '~/context/SearchContext';
 import { useUser } from '~/context/UserContext';
 import images from '~/assets/Image';
+import { DefaultLayoutType } from '~/types/LayoutType';
 
 const cx = classNames.bind(styles);
-
-type DefaultLayoutType = {
-   active?: string;
-   page: string[];
-   children?: ReactNode;
-   searchEngine?: boolean;
-   buttons?: JSX.Element[];
-};
 
 function DefaultLayout({
    active,
@@ -153,210 +146,214 @@ function DefaultLayout({
                         </div>
                      )}
                      {/*End SearchEngine */}
-
-                     {/* Language */}
-                     <div
-                        ref={languageTitleRef}
-                        onClick={() => {
-                           setLanguageToggle((prevState) => !prevState);
-                        }}
-                        className={cx('language')}
-                     >
-                        English
-                        <span>
-                           <FontAwesomeIcon icon={faChevronDown} />
-                        </span>
+                     <div style={{display: "flex", justifyContent: "flex-end"}}>
+                        {/* Language */}
                         <div
-                           ref={languageRef}
-                           className={cx('language-popper')}
-                           style={{
-                              display: languageToggle ? 'block' : 'none',
+                           ref={languageTitleRef}
+                           onClick={() => {
+                              setLanguageToggle((prevState) => !prevState);
                            }}
+                           className={cx('language')}
                         >
+                           English
+                           <span>
+                              <FontAwesomeIcon icon={faChevronDown} />
+                           </span>
                            <div
-                              onClick={(e) => e.stopPropagation()}
-                              className={cx('title')}
+                              ref={languageRef}
+                              className={cx('language-popper')}
+                              style={{
+                                 display: languageToggle ? 'block' : 'none',
+                              }}
                            >
-                              <h6>Select Language</h6>
-                           </div>
-                           <ul
-                              onClick={(e) => e.stopPropagation()}
-                              className={cx('list-lang')}
-                           >
-                              <li>
-                                 <span className={cx('nation-flag')}>
-                                    <img
-                                       src="https://i.pinimg.com/736x/47/29/c1/4729c12f2d0c55ab7aaba63e09cb5f67.jpg"
-                                       alt="Nation Flag"
-                                    />
-                                 </span>
-                                 <p>English</p>
-                                 <span className={cx('check')}>
-                                    <FontAwesomeIcon icon={faCheck} />
-                                 </span>
-                              </li>
-                              <li>
-                                 <span className={cx('nation-flag')}>
-                                    <img
-                                       src="https://i.pinimg.com/564x/96/ed/5b/96ed5b109524a2705a4e3aaeaa9048f6.jpg"
-                                       alt="Nation Flag"
-                                    />
-                                 </span>
-                                 <p>Viet Nam</p>
-                                 <span className={cx('check')}>
-                                    <FontAwesomeIcon icon={faCheck} />
-                                 </span>
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                     {/* END Language */}
-
-                     {/* Notification */}
-                     <div
-                        ref={notificationIconRef}
-                        onClick={() => {
-                           setNotificationToggle((prevState) => !prevState);
-                        }}
-                        className={cx('notification')}
-                     >
-                        <FontAwesomeIcon className={cx('icon')} icon={faBell} />
-                        <span className={cx('quantity-noti')}>2</span>
-                        <div
-                           ref={notificationRef}
-                           style={{
-                              display: notificationToggle ? 'block' : 'none',
-                           }}
-                           className={cx('notification-popper')}
-                        >
-                           <div
-                              onClick={(e) => e.stopPropagation()}
-                              className={cx('title')}
-                           >
-                              <h6>Notifications</h6>
-                           </div>
-                           <ul
-                              onClick={(e) => e.stopPropagation()}
-                              className={cx('list-nofi')}
-                           >
-                              <li>
-                                 <span className={cx('user-img')}>
-                                    <img
-                                       src="https://i.pinimg.com/564x/ed/5a/15/ed5a159c5812ac0f16b620b082a816e7.jpg"
-                                       alt="User"
-                                    />
-                                 </span>
-                                 <div className={cx('content-nofi')}>
-                                    <p className={cx('content')}>
-                                       <b>MrGian</b> is placed an order from
-                                       Viet Nam
-                                    </p>
-                                    <div className={cx('time')}>
-                                       <FontAwesomeIcon icon={faClock} />
-                                       <span
-                                          style={{
-                                             marginLeft: '5px',
-                                          }}
-                                       >
-                                          3 days
-                                       </span>
-                                    </div>
-                                 </div>
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                     {/* END Notification */}
-
-                     {/* Theme Mode */}
-                     <div
-                        onClick={() => {
-                           setChangeTheme((prevState) => !prevState);
-                        }}
-                        className={cx('theme-mode')}
-                     >
-                        <FontAwesomeIcon
-                           className={cx('icon')}
-                           icon={changeTheme ? faSun : faMoon}
-                        />
-                     </div>
-                     {/* END Theme Mode */}
-
-                     {/* User Menu */}
-                     <div
-                        ref={imageMenuRef}
-                        onClick={() => {
-                           setMenuToggle((prevState) => !prevState);
-                        }}
-                        className={cx('user-menu')}
-                     >
-                        <img
-                           src={
-                              dataUser?.image
-                                 ? dataUser.image
-                                 : images.userDefaults
-                           }
-                           alt="user"
-                        />
-                        <div
-                           onClick={(e) => {
-                              e.stopPropagation();
-                           }}
-                           style={{
-                              display: menuToggle ? 'block' : 'none',
-                           }}
-                           ref={menuRef}
-                           className={cx('menu-popper')}
-                        >
-                           <div
-                              onClick={(e) => e.stopPropagation()}
-                              className={cx('title')}
-                           >
-                              <b>
-                                 {dataUser?.fullName
-                                    ? dataUser?.fullName
-                                    : images.userDefaults}
-                              </b>
-                              <p>
-                                 {dataUser?.emailAddress
-                                    ? dataUser?.emailAddress
-                                    : ''}
-                              </p>
-                           </div>
-                           <ul className={cx('list-options-menu')}>
-                              <li>
-                                 <Link to="/dashboard">
-                                    <FontAwesomeIcon
-                                       className={cx('icon')}
-                                       icon={faHome}
-                                    />
-                                    <p>Home</p>
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/settings">
-                                    <FontAwesomeIcon
-                                       className={cx('icon')}
-                                       icon={faUser}
-                                    />
-                                    <p>Profile Setting</p>
-                                 </Link>
-                              </li>
-                           </ul>
-                           <div className={cx('logout')}>
-                              <button
-                                 onClick={() => {
-                                    logout();
-                                    navigate('/auth/login');
-                                 }}
-                                 className={cx('button-logout')}
+                              <div
+                                 onClick={(e) => e.stopPropagation()}
+                                 className={cx('title')}
                               >
-                                 Logout
-                              </button>
+                                 <h6>Select Language</h6>
+                              </div>
+                              <ul
+                                 onClick={(e) => e.stopPropagation()}
+                                 className={cx('list-lang')}
+                              >
+                                 <li>
+                                    <span className={cx('nation-flag')}>
+                                       <img
+                                          src="https://i.pinimg.com/736x/47/29/c1/4729c12f2d0c55ab7aaba63e09cb5f67.jpg"
+                                          alt="Nation Flag"
+                                       />
+                                    </span>
+                                    <p>English</p>
+                                    <span className={cx('check')}>
+                                       <FontAwesomeIcon icon={faCheck} />
+                                    </span>
+                                 </li>
+                                 <li>
+                                    <span className={cx('nation-flag')}>
+                                       <img
+                                          src="https://i.pinimg.com/564x/96/ed/5b/96ed5b109524a2705a4e3aaeaa9048f6.jpg"
+                                          alt="Nation Flag"
+                                       />
+                                    </span>
+                                    <p>Viet Nam</p>
+                                    <span className={cx('check')}>
+                                       <FontAwesomeIcon icon={faCheck} />
+                                    </span>
+                                 </li>
+                              </ul>
                            </div>
                         </div>
+                        {/* END Language */}
+
+                        {/* Notification */}
+                        <div
+                           ref={notificationIconRef}
+                           onClick={() => {
+                              setNotificationToggle((prevState) => !prevState);
+                           }}
+                           className={cx('notification')}
+                        >
+                           <FontAwesomeIcon
+                              className={cx('icon')}
+                              icon={faBell}
+                           />
+                           <span className={cx('quantity-noti')}>2</span>
+                           <div
+                              ref={notificationRef}
+                              style={{
+                                 display: notificationToggle ? 'block' : 'none',
+                              }}
+                              className={cx('notification-popper')}
+                           >
+                              <div
+                                 onClick={(e) => e.stopPropagation()}
+                                 className={cx('title')}
+                              >
+                                 <h6>Notifications</h6>
+                              </div>
+                              <ul
+                                 onClick={(e) => e.stopPropagation()}
+                                 className={cx('list-nofi')}
+                              >
+                                 <li>
+                                    <span className={cx('user-img')}>
+                                       <img
+                                          src="https://i.pinimg.com/564x/ed/5a/15/ed5a159c5812ac0f16b620b082a816e7.jpg"
+                                          alt="User"
+                                       />
+                                    </span>
+                                    <div className={cx('content-nofi')}>
+                                       <p className={cx('content')}>
+                                          <b>MrGian</b> is placed an order from
+                                          Viet Nam
+                                       </p>
+                                       <div className={cx('time')}>
+                                          <FontAwesomeIcon icon={faClock} />
+                                          <span
+                                             style={{
+                                                marginLeft: '5px',
+                                             }}
+                                          >
+                                             3 days
+                                          </span>
+                                       </div>
+                                    </div>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                        {/* END Notification */}
+
+                        {/* Theme Mode */}
+                        <div
+                           onClick={() => {
+                              setChangeTheme((prevState) => !prevState);
+                           }}
+                           className={cx('theme-mode')}
+                        >
+                           <FontAwesomeIcon
+                              className={cx('icon')}
+                              icon={changeTheme ? faSun : faMoon}
+                           />
+                        </div>
+                        {/* END Theme Mode */}
+
+                        {/* User Menu */}
+                        <div
+                           ref={imageMenuRef}
+                           onClick={() => {
+                              setMenuToggle((prevState) => !prevState);
+                           }}
+                           className={cx('user-menu')}
+                        >
+                           <img
+                              src={
+                                 dataUser?.image
+                                    ? dataUser.image
+                                    : images.userDefaults
+                              }
+                              alt="user"
+                           />
+                           <div
+                              onClick={(e) => {
+                                 e.stopPropagation();
+                              }}
+                              style={{
+                                 display: menuToggle ? 'block' : 'none',
+                              }}
+                              ref={menuRef}
+                              className={cx('menu-popper')}
+                           >
+                              <div
+                                 onClick={(e) => e.stopPropagation()}
+                                 className={cx('title')}
+                              >
+                                 <b>
+                                    {dataUser?.fullName
+                                       ? dataUser?.fullName
+                                       : images.userDefaults}
+                                 </b>
+                                 <p>
+                                    {dataUser?.emailAddress
+                                       ? dataUser?.emailAddress
+                                       : ''}
+                                 </p>
+                              </div>
+                              <ul className={cx('list-options-menu')}>
+                                 <li>
+                                    <Link to="/dashboard">
+                                       <FontAwesomeIcon
+                                          className={cx('icon')}
+                                          icon={faHome}
+                                       />
+                                       <p>Home</p>
+                                    </Link>
+                                 </li>
+                                 <li>
+                                    <Link to="/settings">
+                                       <FontAwesomeIcon
+                                          className={cx('icon')}
+                                          icon={faUser}
+                                       />
+                                       <p>Profile Setting</p>
+                                    </Link>
+                                 </li>
+                              </ul>
+                              <div className={cx('logout')}>
+                                 <button
+                                    onClick={() => {
+                                       logout();
+                                       navigate('/auth/login');
+                                    }}
+                                    className={cx('button-logout')}
+                                 >
+                                    Logout
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+                        {/* End User Menu */}
                      </div>
-                     {/* End User Menu */}
                   </div>
                </div>
 

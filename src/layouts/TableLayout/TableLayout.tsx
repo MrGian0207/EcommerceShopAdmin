@@ -25,98 +25,15 @@ import { useSearchParams } from 'react-router-dom';
 import { useSearch } from '~/context/SearchContext';
 import { useUser } from '~/context/UserContext';
 import RowTableSkeleton from '~/components/RowTableSkeleton';
+import { TableLayoutType } from '~/types/LayoutType';
+import { VariantType } from '~/types/VariantType';
+import { DataType } from '~/types/DataType';
 
 const cx = classNames.bind(styles);
 
 type TotalProductArrayType = {
    name: string;
    total: number;
-};
-
-type ProductType = {
-   name?: string;
-   title?: string;
-   slug?: string;
-   description?: string;
-   category?: string;
-   subCategory?: string;
-   brand?: string;
-   gender?: string;
-   status?: string;
-   productCode?: string;
-   tag?: string;
-   featureProduct?: string;
-   defaultVariant?: string;
-   variants?: Variant[];
-};
-
-type Variant = {
-   variantName?: string;
-   variantSize?: string;
-   variantColor?: string;
-   variantProductSKU?: string;
-   variantQuantity?: string;
-   variantRegularPrice?: string;
-   variantSalePrice?: string;
-   variantImagesFile?: string[];
-   product?: ProductType;
-};
-
-type TableLayoutType = {
-   headers?: string[];
-   category?: boolean;
-   name?: boolean;
-   role?: boolean;
-   user?: boolean;
-   email?: boolean;
-   phone?: boolean;
-   joined?: boolean;
-   parentCategory?: boolean;
-   totalItems?: boolean;
-   description?: boolean;
-   createdAt?: boolean;
-   status?: boolean;
-   rating?: boolean;
-   quantity?: boolean;
-   price?: boolean;
-   featured?: boolean;
-   actions?: boolean;
-   editButton?: boolean;
-   deleteButton?: boolean;
-   previewButton?: boolean;
-   lockButton?: boolean;
-   copyButton?: boolean;
-   handleDeteleToastify?: (
-      name: string,
-      id: string,
-      path: string,
-      SetDeleteButtonOnclick?: React.Dispatch<React.SetStateAction<boolean>>,
-   ) => void;
-};
-
-type DataType = {
-   _id?: string;
-   name?: string;
-   role?: string;
-   fullName?: string;
-   customerName?: string;
-   emailNewletter?: string;
-   emailAddress?: string;
-   phoneNumber?: number;
-   title?: string;
-   slug?: string;
-   description?: string;
-   image?: string;
-   imageDefault?: string;
-   createdAt?: string;
-   status?: string;
-   rating?: number;
-   price?: string;
-   total?: number;
-   quantityProducts?: number[];
-   statusDelivery?: string;
-   featureProduct?: string;
-   parentCategory?: string;
 };
 
 type featureType = {
@@ -157,7 +74,7 @@ function TableLayout({
    const [totalProductArray, setTotalProductArray] = useState<
       TotalProductArrayType[]
    >([]);
-   const [variantArray, setVariantArray] = useState<Variant[]>([]);
+   const [variantArray, setVariantArray] = useState<VariantType[]>([]);
    const [quantityArray, setQuantityArray] = useState<number[]>([]);
    const [deleteButtonOnclick, SetDeleteButtonOnclick] = useState(false);
    const { updateLayout } = useUpdateLayout()!;
