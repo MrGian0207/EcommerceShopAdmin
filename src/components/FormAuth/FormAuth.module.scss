@@ -1,89 +1,91 @@
 .wrapper {
-   --subtitle-margin-bottom: 40px;
-   --height-button: 48px;
-   --button-hover-color: rgb(0, 100, 202);
-   background-color: var(--white-color);
-   box-shadow: rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
-      rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
-   border-radius: var(--small-border-radius);
-   width: var(--form-with);
-   max-width: 100%;
-   padding: var(--padding-form) var(--padding-form);
-   margin-bottom: 30px;
+  --subtitle-margin-bottom: 40px;
+  --height-button: 48px;
+  --button-hover-color: rgb(0, 100, 202);
+  background-color: var(--white-color);
+  box-shadow:
+    rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
+    rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
+  border-radius: var(--small-border-radius);
+  width: var(--form-with);
+  max-width: 100%;
+  padding: var(--padding-form) var(--padding-form);
+  margin-bottom: 30px;
 }
 
 .title {
-   margin: 0 0 var(--margin-small);
-   font-size: var(--font-size-large);
-   font-weight: 700;
-   text-align: center;
+  margin: 0 0 var(--margin-small);
+  font-size: var(--font-size-large);
+  font-weight: 700;
+  text-align: center;
 }
 
 .subtitle {
-   margin: 0px 0px var(--subtitle-margin-bottom);
-   font-size: var(--font-size-medium);
-   color: var(--sub-title-color);
-   text-align: center;
+  margin: 0px 0px var(--subtitle-margin-bottom);
+  font-size: var(--font-size-medium);
+  color: var(--sub-title-color);
+  text-align: center;
 }
 
 .back-button {
-   user-select: none;
-   width: 100%;
-   font-size: var(--font-size-extra-small);
-   padding: 8px 22px;
-   height: var(--height-button);
-   border-radius: var(--mini-border-radius);
-   font-weight: 700;
-   cursor: pointer;
-   color: var(--white-color);
-   background-color: var(--main-color);
-   box-shadow: rgba(82, 95, 225, 0.24) 0px 8px 16px 0px;
+  user-select: none;
+  width: 100%;
+  font-size: var(--font-size-extra-small);
+  padding: 8px 22px;
+  height: var(--height-button);
+  border-radius: var(--mini-border-radius);
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--white-color);
+  background-color: var(--main-color);
+  box-shadow: rgba(82, 95, 225, 0.24) 0px 8px 16px 0px;
 
-   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-      box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-      border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition:
+    background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 
-   &:hover {
-      background-color: var(--button-hover-color);
-      box-shadow: none;
-   }
+  &:hover {
+    background-color: var(--button-hover-color);
+    box-shadow: none;
+  }
 }
 
 .back-button {
-   background-color: var(--white-color);
-   margin-top: 5px;
-   box-shadow: none;
-   padding: 0;
+  background-color: var(--white-color);
+  margin-top: 5px;
+  box-shadow: none;
+  padding: 0;
 
-   &:hover {
-      background-color: rgb(241, 242, 253, 1);
-      box-shadow: none;
-   }
+  &:hover {
+    background-color: rgb(241, 242, 253, 1);
+    box-shadow: none;
+  }
 
-   & a {
-      color: var(--main-color);
-   }
+  & a {
+    color: var(--main-color);
+  }
 }
 
 .navigator {
-   margin-top: 24px;
-   width: 100%;
-   text-align: center;
-   font-weight: 600;
-   font-size: var(--font-size-small);
+  margin-top: 24px;
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+  font-size: var(--font-size-small);
 
-   & a {
-      margin-left: 3px;
-      color: var(--main-color);
-   }
+  & a {
+    margin-left: 3px;
+    color: var(--main-color);
+  }
 
-   & button {
-      margin-left: 3px;
-      color: var(--main-color);
-   }
+  & button {
+    margin-left: 3px;
+    color: var(--main-color);
+  }
 
-   & Link {
-      margin-left: 3px;
-      color: var(--main-color);
-   }
+  & Link {
+    margin-left: 3px;
+    color: var(--main-color);
+  }
 }

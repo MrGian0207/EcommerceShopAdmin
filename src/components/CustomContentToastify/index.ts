@@ -1,1 +1,1 @@
-export { default } from './CustomContentToastify';
+export { default } from './CustomContentToastify'

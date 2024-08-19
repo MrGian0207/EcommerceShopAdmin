@@ -1,1 +1,1 @@
-export { default } from './ActionLayout';
+export { default } from './ActionLayout'

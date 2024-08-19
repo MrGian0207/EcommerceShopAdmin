@@ -1,14 +1,14 @@
 .spinner {
-   scale: 1.2;
-   color: rgba(22, 24, 35);
-   animation: spinner 0.8s linear infinite;
+  scale: 1.2;
+  color: rgba(22, 24, 35);
+  animation: spinner 0.8s linear infinite;
 }
 
 @keyframes spinner {
-   from {
-      transform: rotate(0);
-   }
-   to {
-      transform: rotate(360deg);
-   }
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

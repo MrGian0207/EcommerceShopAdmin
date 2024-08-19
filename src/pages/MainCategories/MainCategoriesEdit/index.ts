@@ -1,1 +1,1 @@
-export { default } from './MainCategoriesEdit';
+export { default } from './MainCategoriesEdit'

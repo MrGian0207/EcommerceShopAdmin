@@ -1,8 +1,9 @@
-import { ReactNode } from 'react';
-import './GlobalStyles.module.scss';
+import { ReactNode } from 'react'
+
+import './GlobalStyles.module.scss'
 
 function GlobalStyles(props: { children: ReactNode }): JSX.Element {
-   return <>{props.children}</>;
+  return <>{props.children}</>
 }
 
-export default GlobalStyles;
+export default GlobalStyles
