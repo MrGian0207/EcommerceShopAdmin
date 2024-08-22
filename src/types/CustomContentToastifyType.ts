@@ -1,5 +1,5 @@
 export type CustomContentToastifyType = {
   title?: string | null
-  handleConfirm: (path: string) => void
+  handleConfirm: () => void
   handleCancel: () => void
 }

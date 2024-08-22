@@ -19,8 +19,6 @@ function DashBoard(): JSX.Element {
 
   useEffect(() => {
     document.title = 'Dashboard | MrGianStore'
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -72,8 +70,7 @@ function DashBoard(): JSX.Element {
     } else {
       navigate('/auth/login')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken])
+  }, [accessToken, login, navigate])
 
   const [incomeReportChart, setIncomeReportChart] = useState<string>('week')
 
@@ -105,7 +102,7 @@ function DashBoard(): JSX.Element {
             <StatisticItems title="Daily Orders" quantity="0" icon={faWallet} />
           </div>
           <div className={cx('statisticItem')}>
-            <StatisticItems title="Signup Users" quantity="14" icon={faUser} />
+            <StatisticItems title="SignUp Users" quantity="14" icon={faUser} />
           </div>
           <div className={cx('statisticItem')}>
             <StatisticItems title="Total Product" quantity="8" icon={faShop} />

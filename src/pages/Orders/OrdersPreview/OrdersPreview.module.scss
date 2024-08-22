@@ -1,19 +1,23 @@
 .ordersPreview {
   display: flex;
   flex-direction: column;
-  gap: var(--small-gap);
+  margin: 24px 16px;
+  background-color: transparent;
 }
 
 .previewDetail {
-  background-color: rgb(255, 255, 255);
+  background-color: transparent;
+  margin-bottom: 10px;
   color: var(--text-color);
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 8px;
-  box-shadow:
-    rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
-    rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
 
   & .content-wrapper {
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    box-shadow:
+      rgba(19, 25, 39, 0.1) 0px 10px 32px -4px,
+      rgba(19, 25, 39, 0.12) 0px 6px 14px -6px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
     padding: 24px;
     display: flex;
     flex-direction: column;
@@ -120,7 +124,7 @@
 }
 
 .previewProduct {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   background-color: rgb(255, 255, 255);
   color: var(--text-color);
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -157,7 +161,7 @@
       }
 
       & td {
-        text-align: center;
+        text-align: left;
         font-size: var(--font-size-small);
         font-weight: var(--font-weight-semi-bold);
         vertical-align: inherit;
@@ -190,38 +194,30 @@
 
       & tr {
         width: 100%;
+        border-bottom: 1px solid rgb(196, 205, 213);
+
+        & td {
+          line-height: 1.57143;
+          font-size: var(--font-size-small);
+          font-weight: var(--font-weight-semi-bold);
+          display: table-cell;
+          vertical-align: inherit;
+          padding: 8px 16px;
+          color: var(--text-color);
+          text-align: right;
+        }
+
+        & td:first-child {
+          width: 75%;
+        }
       }
 
       & tr:first-child {
         background-color: rgb(243, 244, 248);
       }
 
-      td:first-child {
-        width: 10%;
-      }
-
-      td:nth-child(2) {
-        width: 55%;
-      }
-
-      td:last-child {
-        width: 35%;
-        padding-right: 30px;
-      }
-      & td {
-        line-height: 1.57143;
-        font-size: var(--font-size-small);
-        font-weight: var(--font-weight-semi-bold);
-        display: table-cell;
-        vertical-align: inherit;
-        text-align: left;
-        padding: 8px 16px;
-        color: var(--text-color);
-        border-bottom: 1px solid rgb(196, 205, 213);
-
-        & p {
-          text-align: right;
-        }
+      & tr:last-child {
+        border-bottom: none;
       }
     }
   }

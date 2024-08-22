@@ -9,24 +9,33 @@ function Loading() {
   const loadingRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (loadingRef.current) {
-      const interval = setInterval(() => {
+    let frameId: number
+
+    const updateProgress = () => {
+      if (loadingRef.current) {
         // Lấy giá trị hiện tại của biến CSS --progress-width
-        let currentWidth = parseInt(
-          window.getComputedStyle(loadingRef.current!).getPropertyValue('--progress-width') || '0',
-          10
-        )
+        const computedStyle = window.getComputedStyle(loadingRef.current)
+        let currentWidth = parseInt(computedStyle.getPropertyValue('--progress-width') || '0', 10)
 
-        // Kiểm tra nếu đã đạt 100% thì dừng lại
-        if (currentWidth > 100 && currentWidth) currentWidth = 0
+        // Reset width khi vượt quá 100%
+        if (currentWidth >= 100) {
+          currentWidth = 0
+        }
+
         // Cập nhật giá trị mới cho biến CSS --progress-width
-        loadingRef.current!.style.setProperty('--progress-width', `${currentWidth + 3}%`)
-      }, 100)
+        loadingRef.current.style.setProperty('--progress-width', `${currentWidth + 3}%`)
 
-      // Xóa interval khi component unmount
-      return () => {
-        clearInterval(interval)
+        // Gọi lại requestAnimationFrame để tiếp tục cập nhật
+        frameId = requestAnimationFrame(updateProgress)
       }
+    }
+
+    // Bắt đầu animation
+    frameId = requestAnimationFrame(updateProgress)
+
+    // Cleanup khi component unmount
+    return () => {
+      cancelAnimationFrame(frameId)
     }
   }, [])
 

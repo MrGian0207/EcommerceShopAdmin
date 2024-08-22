@@ -21,7 +21,7 @@ import classNames from 'classnames/bind'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import SideBar from '../../components/SideBar'
-import styles from './DefautLayout.module.scss'
+import styles from './DefaultLayout.module.scss'
 
 const cx = classNames.bind(styles)
 
@@ -48,7 +48,7 @@ function DefaultLayout({
   const inputSearchRef = useRef<HTMLInputElement>(null)
   const sideBarRef = useRef<HTMLDivElement>(null)
   const sideBarModalRef = useRef<HTMLDivElement>(null)
-  const defautLayoutRef = useRef<HTMLDivElement>(null)
+  const defaultLayoutRef = useRef<HTMLDivElement>(null)
   const contentLayoutRef = useRef<HTMLDivElement>(null)
   const modalSidebarRef = useRef<HTMLDivElement>(null)
 
@@ -57,7 +57,6 @@ function DefaultLayout({
   let titleNavigator: string = ''
 
   const handleSearchButtonClick = () => {
-    // Kiểm tra inputRef có tồn tại trước khi focus
     if (inputSearchRef.current) {
       inputSearchRef.current.focus()
     }
@@ -105,7 +104,7 @@ function DefaultLayout({
 
   return (
     <div style={{ height: 'fit-content' }}>
-      <div ref={defautLayoutRef} className={cx('default-layout')}>
+      <div ref={defaultLayoutRef} className={cx('default-layout')}>
         <div ref={sideBarRef} className={cx('sideBar', 'active')}>
           <SideBar active={active} />
         </div>
@@ -277,8 +276,8 @@ function DefaultLayout({
                     className={cx('menu-popper')}
                   >
                     <div onClick={(e) => e.stopPropagation()} className={cx('title')}>
-                      <b>{dataUser?.fullName ? dataUser?.fullName : images.userDefaults}</b>
-                      <p>{dataUser?.emailAddress ? dataUser?.emailAddress : ''}</p>
+                      <b>{dataUser?.name ? dataUser?.name : images.userDefaults}</b>
+                      <p>{dataUser?.email ? dataUser?.email : ''}</p>
                     </div>
                     <ul className={cx('list-options-menu')}>
                       <li>

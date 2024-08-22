@@ -1,29 +1,23 @@
 import { memo, useEffect, useRef, useState } from 'react'
-import { faDownload, faTrash, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '~/components/Button'
 import { useAuth } from '~/context/AuthContext'
+import { useDeleteData } from '~/context/DeleteDataContext'
+import { usePath } from '~/context/PathContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
-import * as Toastify from '~/services/Toastify'
 import { OrderType } from '~/types/OrderType'
 import classNames from 'classnames/bind'
-import { format } from 'date-fns'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
-import { useLocation } from 'react-router-dom'
 
+import { PreviewDetail, PreviewProduct } from './OrdersComponent'
 import styles from './OrdersPreview.module.scss'
-
-type DataType = {
-  order?: OrderType
-  imagesOfProduct?: string[]
-}
+import Loading from '~/components/Loading'
 
 const cx = classNames.bind(styles)
 
 function OrdersPreview(): JSX.Element {
-  const pdfRef = useRef<HTMLDivElement>(null)
-
   const downloadPdf = async () => {
     const input = pdfRef.current
     if (pdfRef.current) {
@@ -43,23 +37,42 @@ function OrdersPreview(): JSX.Element {
     })
   }
 
-  const { accessToken } = useAuth()
+  const pdfRef = useRef<HTMLDivElement>(null)
 
-  const location = useLocation()
-  const path = location.pathname
+  const { setDeletedData } = useDeleteData()
+  const { accessToken } = useAuth()
+  const { path } = usePath()
 
   const [selectedOption, setSelectedOption] = useState<string>('Loading')
-  const [data, setData] = useState<DataType>({})
-  const [deleteButtonOnclick, SetDeleteButtonOnclick] = useState(false)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [data, setData] = useState<OrderType>({
+    _id: '',
+    createdAt: '',
+    customerName: '',
+    customerPhone: '',
+    customerEmail: '',
+    customerAddress: '',
+    methodDelivery: '',
+    statusDelivery: '',
+    shippingFee: 0,
+    imageDefault: '',
+    colorProducts: [],
+    quantityProducts: [],
+    sizeProducts: [],
+    priceProducts: [],
+    subtotal: 0,
+    total: 0,
+    products: [],
+    imagesProductOfOrder: [],
+  })
 
   useEffect(() => {
     document.title = 'Preview Order | MrGianStore'
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       try {
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
           headers: {
@@ -67,27 +80,18 @@ function OrdersPreview(): JSX.Element {
           },
         })
         const resData = await res.json()
-        setData({ ...resData?.data })
-        setSelectedOption(resData?.data?.order?.statusDelivery as string)
+        setData(resData)
+        setSelectedOption(resData.statusDelivery)
       } catch (error) {
         console.log(error)
+      } finally {
+        setLoading(false)
       }
     }
     fetchData()
   }, [path, accessToken])
 
-  const handleDelete = async () => {
-    // if (!deleteButtonOnclick) {
-    //   Toastify.handleDeleteToastify(
-    //     data?.order?.customerName as string,
-    //     data?.order?._id as string,
-    //     '/orders',
-    //     SetDeleteButtonOnclick,
-    //     true
-    //   )
-    //   SetDeleteButtonOnclick(true)
-    // }
-  }
+  if (loading) return <Loading />
 
   return (
     <div className={cx('brands')}>
@@ -99,7 +103,16 @@ function OrdersPreview(): JSX.Element {
             <FontAwesomeIcon icon={faDownload} />
             Download
           </Button>,
-          <Button onClick={handleDelete} className="button-delete">
+          <Button
+            onClick={() => {
+              setDeletedData({
+                id: data._id,
+                name: `Order ${data._id}`,
+                path: path.replace(/\/[a-zA-Z0-9]+$/, ''),
+              })
+            }}
+            className="button-delete"
+          >
             <FontAwesomeIcon icon={faTrash} />
             Delete
           </Button>,
@@ -109,156 +122,13 @@ function OrdersPreview(): JSX.Element {
         <div className={cx('ordersPreview')} ref={pdfRef}>
           {/* Orders Detail */}
           <div className={cx('previewDetail')}>
-            <div className={cx('content-wrapper')}>
-              {/* Title preview orders */}
-              <div className={cx('title')}>
-                <h6>Order Details</h6>
-                <p>Order ID: {data?.order?._id}</p>
-              </div>
-              {/* Card box preview orders */}
-              <div className={cx('card-box')}>
-                {/* Customer Details */}
-                <div className={cx('card-item')}>
-                  <div className={cx('content-card')}>
-                    <div className={cx('title-card')}>
-                      <div className={cx('icon-card')}>
-                        <FontAwesomeIcon icon={faUser} />
-                      </div>
-                      <h6>Customer Details</h6>
-                    </div>
-                    <div className={cx('card-information')}>
-                      <p>
-                        <strong>Name:</strong> {data?.order?.customerName}
-                      </p>
-                      <p>
-                        <strong>Phone:</strong> {data?.order?.customerPhone}
-                      </p>
-                      <p>
-                        <strong>Email:</strong> {data?.order?.customerEmail}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                {/* Shipping Address */}
-                <div className={cx('card-item')}>
-                  <div className={cx('content-card')}>
-                    <div className={cx('title-card')}>
-                      <div className={cx('icon-card')}>
-                        <FontAwesomeIcon icon={faUser} />
-                      </div>
-                      <h6>Shipping Address</h6>
-                    </div>
-                    <div className={cx('card-information')}>
-                      <p>
-                        <strong>Address:</strong> {data?.order?.customerAddress}
-                      </p>
-                      <p>
-                        <strong>Order Data: </strong>
-                        {data?.order?.createdAt &&
-                          format(new Date(data?.order?.createdAt), 'dd MMM yyyy')}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                {/* Customer Details */}
-                <div className={cx('card-item')}>
-                  <div className={cx('content-card')}>
-                    <div className={cx('title-card')}>
-                      <div className={cx('icon-card')}>
-                        <FontAwesomeIcon icon={faUser} />
-                      </div>
-                      <h6>Customer Details</h6>
-                    </div>
-                    <div className={cx('card-information')}>
-                      <p>
-                        <strong>Method: </strong>
-                        {data?.order?.methodDelivery}
-                      </p>
-                      <p>
-                        <strong>Status: </strong>
-                        {data?.order?.statusDelivery}
-                      </p>
-                      <p>
-                        <strong>Shipping Fee: </strong> US$ {data?.order?.shippingFee}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            <PreviewDetail orderData={data} />
 
-          {/* Product Preview In Orders */}
-          <div className={cx('previewProduct')}>
-            <h5 className={cx('product-quantity')}>
-              {data?.order?.quantityProducts &&
-                (data?.order?.quantityProducts as number[]).reduce(
-                  (acc, value) => acc + value
-                )}{' '}
-              item
-            </h5>
-            {/* Table preview product */}
-            <div className={cx('product-table')}>
-              <table className={cx('product')}>
-                <thead>
-                  <tr>
-                    <th>Product</th>
-                    <th>Color</th>
-                    <th>Quantity</th>
-                    <th>Size</th>
-                    <th>Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data?.order?.products &&
-                    data?.order?.products.map((product, index) => {
-                      return (
-                        <tr key={product?.name}>
-                          <td>
-                            <div className={cx('image-product')}>
-                              <img src={data?.imagesOfProduct?.[index]} alt="product" />
-                            </div>
-                          </td>
-                          <td>{data?.order?.colorProducts && data?.order?.colorProducts[index]}</td>
-                          <td>
-                            {data?.order?.quantityProducts && data?.order?.quantityProducts[index]}
-                          </td>
-                          <td>{data?.order?.sizeProducts && data?.order?.sizeProducts[index]}</td>
-                          <td>{data?.order?.priceProducts && data?.order?.priceProducts[index]}</td>
-                        </tr>
-                      )
-                    })}
-                </tbody>
-              </table>
-              {/* Table total price */}
-              <table className={cx('total')}>
-                <tbody>
-                  <tr>
-                    <td>
-                      <p>Subtotal</p>
-                    </td>
-                    <td>
-                      <p>US$ {data?.order?.subtotal}</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p>Shipping Fee</p>
-                    </td>
-                    <td>
-                      <p>US$ {data?.order?.shippingFee}</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p>Total</p>
-                    </td>
-                    <td>
-                      <p>$ {data?.order?.total}</p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            {/* Product Preview In Orders */}
+            <div className={cx('previewProduct')}>
+              <div className={cx('product-table')}>
+                <PreviewProduct orderData={data} />
+              </div>
             </div>
           </div>
         </div>

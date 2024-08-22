@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from 'react'
 
 export interface ProductType {
+  _id: string
   name: string
   title: string
   slug: string
@@ -40,6 +41,7 @@ export interface VariantType {
 }
 
 const emptyProduct: ProductType = {
+  _id: '',
   name: '',
   title: '',
   slug: '',

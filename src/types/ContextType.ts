@@ -1,7 +1,7 @@
 import { User } from './UserType'
 
 export type AuthContextType = {
-  accessToken: string | null
+  accessToken: string
   login: (accessToken: string) => void
   logout: () => void
 }

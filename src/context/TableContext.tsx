@@ -7,11 +7,21 @@ import { useSearch } from './SearchContext'
 import { useUpdateLayout } from './UpdateLayoutContext'
 
 interface DataTableType {
-  id: string
+  _id: string
   name: string
   description: string
   image: string
+  totalProducts: number
+  parentCategory: string
   createdAt: string
+  priceDefault: number
+  totalPrice: number
+  statusDelivery: string
+  email: string
+  phone: string
+  statusUser: string
+  featureProduct: string
+  role: string
 }
 
 interface TableContextType {
@@ -20,9 +30,28 @@ interface TableContextType {
   dataTable: DataTableType[]
   setDataTable: React.Dispatch<React.SetStateAction<DataTableType[]>>
   setSearchParams: SetURLSearchParams
+  numbersOfPage: number
 }
 
-const emptyDataTable: DataTableType[] = []
+const emptyDataTable: DataTableType[] = [
+  {
+    _id: '',
+    name: '',
+    description: '',
+    image: '',
+    totalProducts: 0,
+    parentCategory: '',
+    createdAt: '',
+    priceDefault: 0,
+    totalPrice: 0,
+    statusDelivery: 'Pending',
+    email: '',
+    phone: '',
+    statusUser: '',
+    featureProduct: '',
+    role: '',
+  },
+]
 
 const TableContext = createContext<TableContextType>({
   loading: true,
@@ -30,6 +59,7 @@ const TableContext = createContext<TableContextType>({
   dataTable: emptyDataTable,
   setDataTable: () => {},
   setSearchParams: () => {},
+  numbersOfPage: 1,
 })
 
 export const useTable = () => {
@@ -44,6 +74,7 @@ export const TableContextProvider = ({ children }: { children: React.ReactNode }
   const [loading, setLoading] = useState(true)
   const [dataTable, setDataTable] = useState(emptyDataTable)
   const [searchParams, setSearchParams] = useSearchParams({ page: '1' })
+  const [numbersOfPage, setNumberOfPage] = useState(1)
 
   // Danh sách các path được phép gọi API
   const allowedPaths = useMemo(
@@ -88,18 +119,36 @@ export const TableContextProvider = ({ children }: { children: React.ReactNode }
         }
 
         const responseData = await response.json()
-        const dataTable: DataTableType[] = responseData.data.map((data: any) => ({
-          id: data._id,
-          name: data.name,
-          description: data.description,
-          image: data.image,
-          createdAt: data.createdAt,
+        const dataTable: DataTableType[] = responseData.data.map((data: DataTableType) => ({
+          _id: data._id,
+          name: data.name || 'None',
+          description: data.description || 'None',
+          image: data.image || 'None',
+          totalProducts: Number(data.totalProducts)
+            ? `${Number(data.totalProducts)}`
+            : 'Updating ...',
+          parentCategory: data.parentCategory || 'None',
+          priceDefault: Number(data.priceDefault)
+            ? `$${Number(data.priceDefault).toFixed(1)}`
+            : 'Updating ...',
+          createdAt: data.createdAt || 'None',
+          totalPrice: Number(data.totalPrice) ? `USD$ ${Number(data.totalPrice)}` : 'Updating ...',
+          statusDelivery: data.statusDelivery || 'None',
+          email: data.email || 'None',
+          phone: data.phone || 'None',
+          statusUser: data.statusUser || 'None',
+          featureProduct: data.featureProduct || 'off',
+          role: data.role || 'None',
         }))
 
-        setTimeout(() => {
-          setLoading(false)
-        }, 3000)
         setDataTable(dataTable)
+        setNumberOfPage(responseData.numbers)
+
+        const timeoutLoading = setTimeout(() => {
+          setLoading(false)
+        }, 1000)
+
+        return () => clearTimeout(timeoutLoading)
       } catch (error) {
         console.log(error)
       }
@@ -126,6 +175,7 @@ export const TableContextProvider = ({ children }: { children: React.ReactNode }
         dataTable,
         setDataTable,
         setSearchParams,
+        numbersOfPage,
       }}
     >
       {children}

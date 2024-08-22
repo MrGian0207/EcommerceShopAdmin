@@ -4,20 +4,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '~/components/Button'
 import ImageSlider from '~/components/ImageSlider'
 import { useAuth } from '~/context/AuthContext'
+import { usePath } from '~/context/PathContext'
 import { useUpdateLayout } from '~/context/UpdateLayoutContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import { SlideType } from '~/types/SlideType'
 import classNames from 'classnames/bind'
-import { useLocation } from 'react-router-dom'
 
 import styles from './Slides.module.scss'
+import Loading from '~/components/Loading'
 
 const cx = classNames.bind(styles)
 
 function Slides(): JSX.Element {
   const { updateLayout } = useUpdateLayout()
-  const location = useLocation()
-  const path = location.pathname
+  const { path } = usePath()
+  const [loading, setLoading] = useState(true)
   const [data, setData] = useState<SlideType[]>([])
   const { accessToken } = useAuth()
 
@@ -27,17 +28,25 @@ function Slides(): JSX.Element {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      const resData = await res.json()
-      setData(resData.data)
+      setLoading(true)
+      try {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        const resData = await res.json()
+        setData(resData.data)
+      } catch (error) {
+      } finally {
+        setLoading(false)
+      }
     }
     fetchData()
   }, [path, updateLayout, accessToken])
+
+  if (loading) return <Loading />
 
   return (
     <div className={cx('slides')}>
@@ -52,7 +61,7 @@ function Slides(): JSX.Element {
           </Button>,
         ]}
       >
-        {data.length > 0 && <ImageSlider data={data} />}
+        <ImageSlider data={data} />
       </DefaultLayout>
     </div>
   )

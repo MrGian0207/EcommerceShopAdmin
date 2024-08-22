@@ -1,4 +1,12 @@
-import React, { createContext, memo, ReactNode, useContext, useEffect, useState } from 'react'
+import React, {
+  createContext,
+  memo,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import * as Toastify from '~/services/Toastify'
 import { AuthContextType } from '~/types/ContextType'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -17,9 +25,7 @@ export const useAuth = () => {
 
 // AuthProvider component
 export const AuthProvider: React.FC<{ children: ReactNode }> = memo(({ children }) => {
-  const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem('access_token') ? localStorage.getItem('access_token') : null
-  )
+  const [accessToken, setAccessToken] = useState<string>(localStorage.getItem('access_token') || '')
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -40,9 +46,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = memo(({ children 
     }
   }, [accessToken, navigate, path])
 
-  const login = (accessToken: string) => {
+  const login = useCallback((accessToken: string) => {
     setAccessToken(accessToken)
-  }
+  }, [])
 
   const logout = async () => {
     Toastify.showToastMessagePending()
@@ -61,7 +67,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = memo(({ children 
         if (data.status === 'Success') {
           localStorage.removeItem('access_token')
           localStorage.removeItem('id_user')
-          setAccessToken(null)
+          setAccessToken('')
           Toastify.showToastMessageSuccessfully(data.message)
         } else {
           Toastify.showToastMessageFailure(data.message)

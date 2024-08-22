@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { DescriptionInput, ImageInput, NameInput, SlugInput, TitleInput } from '~/components/common'
+import { ImageInput, Input } from '~/components/common/Type1'
+import Loading from '~/components/Loading'
 import { useAuth } from '~/context/AuthContext'
 import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
@@ -69,7 +70,7 @@ function MainCategoriesEdit(): JSX.Element {
     document.title = 'Edit Category | MrGianStore'
   }, [])
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <Loading />
 
   return (
     <div className={cx('edit')}>
@@ -77,10 +78,10 @@ function MainCategoriesEdit(): JSX.Element {
         <ActionLayout
           leftColumn={
             <React.Fragment>
-              <NameInput label="Category Name" defaultValue={category.name} />
-              <TitleInput label="Meta Title" defaultValue={category.title} />
-              <SlugInput label="Slug" defaultValue={category.slug} />
-              <DescriptionInput label="Description" defaultValue={category.description} />
+              <Input name="name" label="Category Name" defaultValue={category.name} />
+              <Input name="title" label="Meta Title" defaultValue={category.title} />
+              <Input name="slug" label="Slug" defaultValue={category.slug} />
+              <Input name="description" label="Description" defaultValue={category.description} />
             </React.Fragment>
           }
           rightColumn={

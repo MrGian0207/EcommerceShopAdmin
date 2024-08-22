@@ -1,11 +1,6 @@
 import { memo, useEffect, useState } from 'react'
-import {
-  DescriptionInput,
-  NameInput,
-  ProductCodeInput,
-  SlugInput,
-  TitleInput,
-} from '~/components/common'
+import { Input } from '~/components/common/Type1'
+import Loading from '~/components/Loading'
 import OptionSelect from '~/components/OptionSelect'
 import VariantForm from '~/components/VariantForm'
 import { useAuth } from '~/context/AuthContext'
@@ -130,7 +125,7 @@ function ProductAdd(): JSX.Element {
     document.title = 'Add Product | MrGianStore'
   }, [])
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <Loading />
 
   return (
     <div className={cx('add')}>
@@ -139,8 +134,8 @@ function ProductAdd(): JSX.Element {
           // Left Column
           leftColumn={
             <>
-              <NameInput label="Product Name" />
-              <TitleInput label="Meta Title" />
+              <Input name="name" label="Product Name" />
+              <Input name="title" label="Meta Title" />
 
               <div className={cx('row')}>
                 <OptionSelect
@@ -163,7 +158,7 @@ function ProductAdd(): JSX.Element {
               <div className={cx('row')}>
                 <OptionSelect labelName="Status" name="status" options={statusOptions} />
 
-                <ProductCodeInput label="Product Code" />
+                <Input name="productCode" label="Product Code" />
               </div>
 
               <Tag tags={tags} setTags={setTags} />
@@ -173,11 +168,11 @@ function ProductAdd(): JSX.Element {
           rightColumn={
             <>
               <div className={cx('right-column')}>
-                <SlugInput label="Slug" />
+                <Input name="slug" label="Slug" />
 
-                <DescriptionInput label="Description" />
+                <Input name="description" label="Description" />
 
-                <FeatureProduct />
+                <FeatureProduct label="Feature Product" id={'new-Add-Feature'} />
 
                 <VariantBox variantArray={variants} />
 

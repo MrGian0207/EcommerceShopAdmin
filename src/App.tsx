@@ -38,8 +38,8 @@ function App() {
                         </Routes>
                       </Suspense>
                     </div>
+                    <ToastContainer role="alert" />
                   </DeleteDataContextProvider>
-                  <ToastContainer role="alert" />
                 </TableContextProvider>
               </ProductContextProvider>
             </ModalContextProvider>

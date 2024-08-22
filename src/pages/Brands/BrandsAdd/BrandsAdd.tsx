@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { DescriptionInput, ImageInput, NameInput, SlugInput, TitleInput } from '~/components/common'
+import { ImageInput, Input } from '~/components/common/Type1'
 import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
@@ -21,10 +21,10 @@ function BrandsAdd(): JSX.Element {
         <ActionLayout
           leftColumn={
             <React.Fragment>
-              <NameInput label="Brand Name" />
-              <TitleInput label="Meta Title" />
-              <SlugInput label="Slug" />
-              <DescriptionInput label="Description" />
+              <Input name="name" label="Brand Name" />
+              <Input name="title" label="Meta Title" />
+              <Input name="slug" label="Slug" />
+              <Input name="description" label="Description" />
             </React.Fragment>
           }
           rightColumn={

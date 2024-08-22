@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify'
+import { toast, TypeOptions } from 'react-toastify'
 
 let toastId: any = null
 
@@ -23,6 +23,14 @@ export const showToastMessageFailure = (message: string) => {
     render: `${message}`,
     type: 'error',
     isLoading: false,
+    autoClose: 1000,
+    position: 'top-center',
+  })
+}
+
+export const showToast = (message: string, type: TypeOptions | undefined) => {
+  toast(message, {
+    type: type || 'success',
     autoClose: 1000,
     position: 'top-center',
   })

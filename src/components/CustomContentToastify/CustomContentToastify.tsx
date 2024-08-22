@@ -1,6 +1,5 @@
 import { faCancel, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { usePath } from '~/context/PathContext'
 import { CustomContentToastifyType } from '~/types/CustomContentToastifyType'
 import classNames from 'classnames/bind'
 
@@ -14,15 +13,12 @@ function CustomContentToastify({
   handleConfirm,
   handleCancel,
 }: CustomContentToastifyType) {
-  const { path } = usePath()
   return (
     <div className={cx('msg-container')}>
       <p className={cx('msg-title')}>{title}</p>
       <div className={cx('msg-button')}>
         <Button
-          onClick={() => {
-            handleConfirm(path)
-          }}
+          onClick={handleConfirm}
           className={cx('msg-confirm-button')}
           rightIcon={<FontAwesomeIcon icon={faTrash} />}
         >

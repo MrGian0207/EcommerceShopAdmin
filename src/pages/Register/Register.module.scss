@@ -25,7 +25,8 @@
 }
 
 .row {
-  gap: 30px;
+  display: inline-flex;
+  gap: 15px;
   & > * {
     width: calc(100% / 2);
   }

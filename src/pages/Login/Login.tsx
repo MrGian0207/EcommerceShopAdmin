@@ -3,8 +3,8 @@ import { faEnvelope, faEye, faLock } from '@fortawesome/free-solid-svg-icons'
 import api from '~/api/api'
 import AuthHeader from '~/components/AuthHeader'
 import Button from '~/components/Button'
+import { Input } from '~/components/common/Type2'
 import FormAuth from '~/components/FormAuth'
-import Input from '~/components/Input'
 import Spinner from '~/components/Spinner'
 import { useAuth } from '~/context/AuthContext'
 import * as Toastify from '~/services/Toastify'
@@ -16,87 +16,58 @@ import styles from './Login.module.scss'
 const cx = classNames.bind(styles)
 
 function Login(): JSX.Element {
-  const [emailAddress, setEmailAddress] = useState<string | number>('')
-  const [password, setPassword] = useState<string | number>('')
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [Loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate()
   const { login } = useAuth()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    switch (true) {
-      case emailAddress === '' && password === '':
-        alert('Please fill in your email address and password')
-        break
-      case emailAddress === '':
-        alert('Please fill in your email address')
-        break
-      case password === '':
-        alert('Please fill in your password')
-        break
-      default:
-        setIsSubmitted(true)
-    }
-  }
-
-  useEffect(() => {
-    document.title = 'Login | MrGianStore'
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    if (isSubmitted) {
-      setIsLoading(true)
+    setLoading(true)
+    try {
+      const formData = new FormData(e.currentTarget)
       Toastify.showToastMessagePending()
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
+      const loginRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          emailAddress,
-          password,
+          email: formData.get('email'),
+          password: formData.get('password'),
         }),
         credentials: 'include',
         mode: 'cors',
       })
-        .then((res) => {
-          setIsSubmitted(false)
-          return res.json()
-        })
-        .then((data) => {
-          setIsLoading(false)
-          const { accessToken, idUser, response } = data
-          console.log(data)
-          if (accessToken && idUser && response) {
-            localStorage.setItem('access_token', accessToken)
-            localStorage.setItem('id_user', idUser)
-            login(accessToken)
-            navigate('/dashboard')
-            Toastify.showToastMessageSuccessfully(response?.message)
-          } else {
-            Toastify.showToastMessageFailure(data?.message)
-          }
-        })
-        .catch((err) => {
-          setIsLoading(false)
-          console.log(err)
-        })
+
+      const res = await loginRes.json()
+
+      if (loginRes.ok) {
+        const { accessToken, idUser, message } = res
+        localStorage.setItem('access_token', accessToken)
+        localStorage.setItem('id_user', idUser)
+        login(accessToken)
+        navigate('/dashboard')
+        Toastify.showToastMessageSuccessfully(message)
+      } else {
+        Toastify.showToastMessageFailure(res.message)
+      }
+    } catch (error) {
+      Toastify.showToast('Submitted failed', 'error')
+    } finally {
+      setLoading(false)
     }
-    return () => {
-      setIsSubmitted(false)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSubmitted])
+  }
+
+  useEffect(() => {
+    document.title = 'Login | MrGianStore'
+  }, [])
 
   return (
     <div className={cx('wrapper')}>
       <AuthHeader
         welcome="Welcome to the"
         nameStore="MrGianStore"
-        description="Reactjs Ecommerce script you need"
+        description="ReactJS Ecommerce script you need"
       />
       <div className={cx('content')}>
         <FormAuth
@@ -106,27 +77,14 @@ function Login(): JSX.Element {
           navigator="Get started"
           navigatorLink={api.register}
         >
-          <form className={cx('formData')}>
+          <form onSubmit={handleSubmit} className={cx('formData')}>
+            <Input name="email" iconLeft={faEnvelope} label="Email Address" />
             <Input
-              name="emailAddressUser"
-              value={emailAddress}
-              setValue={setEmailAddress}
-              index="Email Adress"
-              label="Email Adress"
-              iconLeft={faEnvelope}
-              type={'text'}
-              autocomplete="email"
-            />
-            <Input
-              name="password"
-              value={password}
-              setValue={setPassword}
-              index="Password"
-              label="Password"
               iconLeft={faLock}
               iconRight={faEye}
-              type={'password'}
-              autocomplete="current-password"
+              type="password"
+              name="password"
+              label="Password"
             />
             <div className={cx('option')}>
               <div className={cx('remember-me')}>
@@ -139,8 +97,8 @@ function Login(): JSX.Element {
                 <Button to={api.forgetPassword} children={'Forgot Password'} />
               </span>
             </div>
-            <button className={cx('auth-button')} type="submit" onClick={handleSubmit}>
-              {isLoading ? <Spinner /> : 'Login'}
+            <button className={cx('auth-button')} type="submit">
+              {Loading ? <Spinner /> : 'Login'}
             </button>
           </form>
         </FormAuth>

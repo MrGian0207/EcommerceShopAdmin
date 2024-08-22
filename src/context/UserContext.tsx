@@ -4,33 +4,46 @@ import { User } from '~/types/UserType'
 
 import { useAuth } from './AuthContext'
 
-const UserContext = createContext<UserContextType | null>(null)
+const emptyDataUser = {
+  _id: '',
+  name: '',
+  gender: '',
+  phone: '',
+  email: '',
+  password: '',
+  status: '',
+  role: '',
+  about: '',
+  image: '',
+}
 
-export const useUser = (): { dataUser: User } => {
-  return useContext(UserContext) as { dataUser: User }
+const UserContext = createContext<UserContextType>({
+  dataUser: emptyDataUser,
+})
+
+export const useUser = () => {
+  return useContext(UserContext)
 }
 
 export const UserContextProvider: React.FC<{ children: ReactNode }> = memo(({ children }) => {
   const { accessToken } = useAuth()
-  const [dataUser, setdataUser] = useState<User>({})
+  const [dataUser, setdataUser] = useState<User>(emptyDataUser)
 
   useEffect(() => {
     const fetchData = async () => {
-      const id_user: string = localStorage.getItem('id_user')
-        ? (localStorage.getItem('id_user') as string)
-        : ''
+      const id_user = localStorage.getItem('id_user') || ''
       if (id_user !== '') {
         try {
           const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${id_user}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessToken ? accessToken : 'null'}`,
+              Authorization: `Bearer ${accessToken}`,
             },
             credentials: 'include',
           })
           const resData = await res.json()
-          setdataUser(resData.data)
+          setdataUser(resData)
         } catch (error) {
           console.log(error)
         }

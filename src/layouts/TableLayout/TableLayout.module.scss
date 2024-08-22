@@ -100,9 +100,7 @@
           font-size: var(--font-size-small);
           color: var(--text-color);
           font-weight: 500;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+          z-index: -1;
           max-width: 600px;
 
           & .description {

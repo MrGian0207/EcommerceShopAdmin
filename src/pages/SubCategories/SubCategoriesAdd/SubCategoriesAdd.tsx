@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { DescriptionInput, ImageInput, NameInput, SlugInput, TitleInput } from '~/components/common'
+import React, { useEffect, useState } from 'react'
+import { ImageInput, Input } from '~/components/common/Type1'
+import Loading from '~/components/Loading'
 import OptionSelect from '~/components/OptionSelect'
 import { useAuth } from '~/context/AuthContext'
 import ActionLayout from '~/layouts/ActionLayout'
@@ -59,7 +60,7 @@ function SubCategoriesAdd() {
     document.title = 'Add Sub Category | MrGianStore'
   }, [])
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <Loading />
 
   return (
     <div className={cx('edit')}>
@@ -67,10 +68,10 @@ function SubCategoriesAdd() {
         <ActionLayout
           leftColumn={
             <React.Fragment>
-              <NameInput label="Sub Category Name" />
-              <TitleInput label="Meta Title" />
-              <SlugInput label="Slug" />
-              <DescriptionInput label="Description" />
+              <Input name="name" label="Sub Category Name" />
+              <Input name="title" label="Meta Title" />
+              <Input name="slug" label="Slug" />
+              <Input name="description" label="Description" />
             </React.Fragment>
           }
           rightColumn={

@@ -22,6 +22,7 @@ export default function ImageInput({ imageSaved }: { imageSaved?: string }) {
     typeof imageSelected === 'string'
       ? imageSelected
       : imageSelected && URL.createObjectURL(imageSelected)
+
   return (
     <div className={cx('image-container')}>
       <div className={cx('image')}>

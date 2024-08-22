@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import CustomContentToastify from '~/components/CustomContentToastify'
 import * as Toastify from '~/services/Toastify'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { useUpdateLayout } from './UpdateLayoutContext'
@@ -18,11 +19,13 @@ const emptyResult: resultType = {
 interface deletedDataType {
   id: string
   name: string
+  path: string
 }
 
 const emptyDeleteResult: deletedDataType = {
   id: '',
   name: '',
+  path: '',
 }
 
 interface DeleteDataContextType {
@@ -52,13 +55,13 @@ export const DeleteDataContextProvider = ({ children }: { children: React.ReactN
   const [isDeleting, setIsDeleting] = useState(false)
   const [deletedData, setDeletedData] = useState(emptyDeleteResult)
   const [result, setResult] = useState(emptyResult)
+  const navigator = useNavigate()
 
   const handleDeleteData = useCallback(
     async (path: string) => {
       setIsDeleting(true)
       try {
         Toastify.showToastMessagePending()
-        console.log(deletedData.id)
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_URL}${path}/delete/${deletedData.id}`,
           {
@@ -74,6 +77,7 @@ export const DeleteDataContextProvider = ({ children }: { children: React.ReactN
         if (response.ok) {
           handleUpdateLayoutApp()
           Toastify.showToastMessageSuccessfully(data.message)
+          navigator(path)
         } else {
           Toastify.showToastMessageFailure(data?.message)
         }
@@ -85,7 +89,7 @@ export const DeleteDataContextProvider = ({ children }: { children: React.ReactN
         setDeletedData(emptyDeleteResult)
       }
     },
-    [deletedData.id]
+    [deletedData.id, handleUpdateLayoutApp, navigator]
   )
 
   useEffect(() => {
@@ -98,7 +102,9 @@ export const DeleteDataContextProvider = ({ children }: { children: React.ReactN
       const ToastId = toast(
         <CustomContentToastify
           title={`Do you wanna delete ${deletedData.name}`}
-          handleConfirm={handleDeleteData}
+          handleConfirm={() => {
+            handleDeleteData(deletedData.path)
+          }}
           handleCancel={handleCancel}
         />,
         {
@@ -112,7 +118,7 @@ export const DeleteDataContextProvider = ({ children }: { children: React.ReactN
         toast.dismiss(ToastId)
       }
     }
-  }, [deletedData.id, deletedData.name, handleDeleteData])
+  }, [deletedData.id, deletedData.name, deletedData.path, handleDeleteData])
 
   return (
     <DeleteDataContext.Provider

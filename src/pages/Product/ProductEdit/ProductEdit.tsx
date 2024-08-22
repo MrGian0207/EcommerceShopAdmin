@@ -1,21 +1,16 @@
 import { memo, useEffect, useState } from 'react'
-import {
-  DescriptionInput,
-  NameInput,
-  ProductCodeInput,
-  SlugInput,
-  TitleInput,
-} from '~/components/common'
+import { Input } from '~/components/common/Type1'
+import Loading from '~/components/Loading'
 import OptionSelect from '~/components/OptionSelect'
 import VariantForm from '~/components/VariantForm'
 import { useAuth } from '~/context/AuthContext'
 import { useModal } from '~/context/ModalContext'
+import { usePath } from '~/context/PathContext'
 import { useProduct } from '~/context/ProductContext'
 import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
 import ReactModal from 'react-modal'
-import { useLocation } from 'react-router-dom'
 
 import FeatureProduct from '../FeatureProduct'
 import Tag from '../Tag'
@@ -23,6 +18,7 @@ import VariantBox from '../VariantBox'
 import styles from './ProductEdit.module.scss'
 
 interface ProductType {
+  _id: string
   name: string
   title: string
   slug: string
@@ -59,8 +55,7 @@ interface OptionType {
 const cx = classNames.bind(styles)
 
 function ProductEdit(): JSX.Element {
-  const location = useLocation()
-  const path = location.pathname
+  const { path } = usePath()
   const { accessToken } = useAuth()
   const { isEdit, setIsEdit, toggleModal, setToggleModal } = useModal()
   const { product, setProduct, variants, setVariantImage, setVariants } = useProduct()
@@ -73,7 +68,6 @@ function ProductEdit(): JSX.Element {
   const [genderOptions, setGenderOptions] = useState<OptionType[]>([])
   const [statusOptions, setStatusOptions] = useState<OptionType[]>([])
   const [tags, setTags] = useState<string[]>([])
-  const featureProduct: boolean = product.featureProduct === 'on' ? true : false
 
   const handleAddVariant = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
@@ -150,7 +144,7 @@ function ProductEdit(): JSX.Element {
           { value: 'Regular', label: 'Regular' },
           { value: 'Disabled', label: 'Disabled' },
         ]
-        const data: ProductType = productData.data
+        const data: ProductType = productData
 
         handleSetDataOptions(mainCategories, setMainCategoriesOptions)
         handleSetDataOptions(subCategories, setSubCategoriesOptions)
@@ -173,7 +167,7 @@ function ProductEdit(): JSX.Element {
     document.title = 'Edit Product | MrGianStore'
   }, [])
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <Loading />
 
   return (
     <div className={cx('add')}>
@@ -182,8 +176,8 @@ function ProductEdit(): JSX.Element {
           // Left Column
           leftColumn={
             <>
-              <NameInput label="Product Name" defaultValue={product.name} />
-              <TitleInput label="Meta Title" defaultValue={product.title} />
+              <Input name="name" label="Product Name" defaultValue={product.name} />
+              <Input name="title" label="Meta Title" defaultValue={product.title} />
 
               <div className={cx('row')}>
                 <OptionSelect
@@ -217,7 +211,7 @@ function ProductEdit(): JSX.Element {
                   defaultValue={product.status}
                   options={statusOptions}
                 />
-                <ProductCodeInput label="Product Code" defaultValue={product.productCode} />
+                <Input name="productCode" label="Product Code" defaultValue={product.productCode} />
               </div>
 
               <Tag tags={tags} setTags={setTags} />
@@ -227,11 +221,15 @@ function ProductEdit(): JSX.Element {
             // Right Column
             <>
               <div className={cx('right-column')}>
-                <SlugInput label="Slug" defaultValue={product.slug} />
+                <Input name="slug" label="Slug" defaultValue={product.slug} />
 
-                <DescriptionInput label="Description" defaultValue={product.description} />
+                <Input name="description" label="Description" defaultValue={product.description} />
 
-                <FeatureProduct defaultChecked={featureProduct} />
+                <FeatureProduct
+                  defaultChecked={product.featureProduct === 'on'}
+                  label="Feature Product"
+                  id={product._id}
+                />
 
                 <VariantBox variantArray={variants} defaultVariant={product.defaultVariant} />
 

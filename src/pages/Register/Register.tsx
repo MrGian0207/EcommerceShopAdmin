@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
-  faAngleDown,
   faEnvelope,
+  faEye,
   faLock,
   faPhone,
   faUser,
@@ -9,8 +9,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import api from '~/api/api'
 import AuthHeader from '~/components/AuthHeader'
+import { GenderSelect, Input } from '~/components/common/Type2'
 import FormAuth from '~/components/FormAuth'
-import Input from '~/components/Input'
 import Spinner from '~/components/Spinner'
 import * as Toastify from '~/services/Toastify'
 import classNames from 'classnames/bind'
@@ -20,84 +20,51 @@ import styles from './Register.module.scss'
 const cx = classNames.bind(styles)
 
 function Register(): JSX.Element {
-  const [fullName, setFullName] = useState<string | number>('')
-  const [gender, setGender] = useState<string | number>('Male')
-  const [phoneNumber, setPhoneNumber] = useState<string | number>('')
-  const [emailAddress, setEmailAddress] = useState<string | number>('')
-  const [password, setPassword] = useState<string | number>('')
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [Loading, setLoading] = useState<boolean>(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    switch (true) {
-      case fullName === '':
-        alert('Full name is required')
-        break
-      case phoneNumber === '':
-        alert('Phone number is required')
-        break
-      case emailAddress === '':
-        alert('Email address is required')
-        break
-      case password === '':
-        alert('Password is required')
-        break
-      default:
-        setIsSubmitted(true)
-    }
-  }
-
-  useEffect(() => {
-    document.title = 'Register | MrGianStore'
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    if (isSubmitted) {
-      setIsLoading(true)
+    setLoading(true)
+    try {
       Toastify.showToastMessagePending()
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {
+      const formData = new FormData(e.currentTarget)
+      const register = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          fullName,
-          gender,
-          phoneNumber,
-          emailAddress,
-          password,
+          name: formData.get('name'),
+          gender: formData.get('gender'),
+          phone: formData.get('phone'),
+          email: formData.get('email'),
+          password: formData.get('password'),
         }),
       })
-        .then((res) => {
-          setIsSubmitted(false)
-          return res.json()
-        })
-        .then((data) => {
-          setIsLoading(false)
-          if (data?.status === 'Success') {
-            Toastify.showToastMessageSuccessfully(data?.message)
-          } else {
-            Toastify.showToastMessageFailure(data?.message)
-          }
-        })
-        .catch((e) => {
-          setIsLoading(false)
-          setIsSubmitted(false)
-          console.log(e)
-        })
+
+      const res = await register.json()
+      if (register.ok) {
+        Toastify.showToastMessageSuccessfully(res.message)
+      } else {
+        Toastify.showToastMessageFailure(res.message)
+      }
+    } catch (error) {
+      Toastify.showToast('Submitted form failed', 'error')
+    } finally {
+      setLoading(false)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSubmitted])
+  }
+
+  useEffect(() => {
+    document.title = 'Register | MrGianStore'
+  }, [])
 
   return (
     <div className={cx('wrapper')}>
       <AuthHeader
         welcome="Welcome to the"
         nameStore="MrGianStore"
-        description="Reactjs Ecommerce script you need"
+        description="ReactJS Ecommerce script you need"
       />
       <div className={cx('content')}>
         <FormAuth
@@ -107,74 +74,27 @@ function Register(): JSX.Element {
           navigator="Login"
           navigatorLink={api.login}
         >
-          <form className={cx('formData')}>
-            <Input
-              name="nameUser"
-              value={fullName}
-              setValue={setFullName}
-              index="Full Name"
-              label="Full Name"
-              iconLeft={faUser}
-              type="text"
-              autocomplete="name"
-            />
-            <div
-              className={cx('row')}
-              style={{
-                display: 'inline-flex',
-                width: '100%',
-              }}
-            >
-              <div>
-                <Input
-                  name="gender"
-                  value={gender}
-                  setValue={setGender}
-                  space="space"
-                  index="Gender"
-                  label="Gender"
-                  iconLeft={faVenus}
-                  iconRight={faAngleDown}
-                  onclick={true}
-                  type="text"
-                  autocomplete="name"
-                />
-              </div>
-              <div>
-                <Input
-                  name="phoneUser"
-                  value={phoneNumber}
-                  setValue={setPhoneNumber}
-                  index="Phone"
-                  label="Phone"
-                  iconLeft={faPhone}
-                  type="text"
-                  autocomplete="name"
-                />
-              </div>
+          <form onSubmit={handleSubmit} className={cx('formData')}>
+            <Input iconLeft={faUser} name="name" label="Full Name" />
+            <div className={cx('row')}>
+              <GenderSelect
+                icon={faVenus}
+                name="gender"
+                label="Gender"
+                options={['Male', 'Female']}
+              />
+              <Input iconLeft={faPhone} name="phone" label="Phone" />
             </div>
+            <Input iconLeft={faEnvelope} name="email" label="Email Address" />
             <Input
-              name="emailAddressUser"
-              value={emailAddress}
-              setValue={setEmailAddress}
-              index="Email Address"
-              label="Email Address"
-              iconLeft={faEnvelope}
-              type="email"
-              autocomplete="email"
-            />
-            <Input
-              name="password"
-              value={password}
-              setValue={setPassword}
-              index="Password"
-              label="Password"
               iconLeft={faLock}
+              iconRight={faEye}
+              name="password"
+              label="Password"
               type="password"
-              autocomplete="current-password"
             />
-            <button type="submit" onClick={handleSubmit} className={cx('auth-button')}>
-              {isLoading ? <Spinner /> : 'Register'}
+            <button type="submit" className={cx('auth-button')}>
+              {Loading ? <Spinner /> : 'Register'}
             </button>
           </form>
         </FormAuth>
