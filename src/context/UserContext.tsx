@@ -1,59 +1,55 @@
-import React, {
-   ReactNode,
-   createContext,
-   useContext,
-   useState,
-   memo,
-   useEffect,
-} from 'react';
-import { useAuth } from './AuthContext';
-import { User } from '~/types/UserType';
-import { UserContextType } from '~/types/ContextType';
+import React, { createContext, memo, ReactNode, useContext, useEffect, useState } from 'react'
+import { UserContextType } from '~/types/ContextType'
+import { User } from '~/types/UserType'
 
-const UserContext = createContext<UserContextType | null>(null);
+import { useAuth } from './AuthContext'
 
-export const useUser = (): { dataUser: User } => {
-   return useContext(UserContext) as { dataUser: User };
-};
+const emptyDataUser = {
+  _id: '',
+  name: '',
+  gender: '',
+  phone: '',
+  email: '',
+  password: '',
+  status: '',
+  role: '',
+  about: '',
+  image: '',
+}
 
-export const UserContextProvider: React.FC<{ children: ReactNode }> = memo(
-   ({ children }) => {
-      const { accessToken } = useAuth()!;
-      const [dataUser, setdataUser] = useState<User>({});
+const UserContext = createContext<UserContextType>({
+  dataUser: emptyDataUser,
+})
 
-      useEffect(() => {
-         const fetchData = async () => {
-            const id_user: string = localStorage.getItem('id_user')
-               ? (localStorage.getItem('id_user') as string)
-               : '';
-            if (id_user !== '') {
-               try {
-                  const res = await fetch(
-                     `${process.env.REACT_APP_BACKEND_URL}/users/${id_user}`,
-                     {
-                        method: 'GET',
-                        headers: {
-                           'Content-Type': 'application/json',
-                           Authorization: `Bearer ${
-                              accessToken ? accessToken : 'null'
-                           }`,
-                        },
-                        credentials: 'include',
-                     },
-                  );
-                  const resData = await res.json();
-                  setdataUser(resData.data);
-               } catch (error) {
-                  console.log(error);
-               }
-            }
-         };
-         fetchData();
-      }, [accessToken]);
-      return (
-         <UserContext.Provider value={{ dataUser }}>
-            {children}
-         </UserContext.Provider>
-      );
-   },
-);
+export const useUser = () => {
+  return useContext(UserContext)
+}
+
+export const UserContextProvider: React.FC<{ children: ReactNode }> = memo(({ children }) => {
+  const { accessToken } = useAuth()
+  const [dataUser, setdataUser] = useState<User>(emptyDataUser)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const id_user = localStorage.getItem('id_user') || ''
+      if (id_user !== '') {
+        try {
+          const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${id_user}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+            credentials: 'include',
+          })
+          const resData = await res.json()
+          setdataUser(resData)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
+    fetchData()
+  }, [accessToken])
+  return <UserContext.Provider value={{ dataUser }}>{children}</UserContext.Provider>
+})

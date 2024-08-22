@@ -1,51 +1,105 @@
-import styles from './Brands.module.scss';
-import classNames from 'classnames/bind';
-import DefaultLayout from '~/layouts/DefaultLayout';
-import Button from '~/components/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import 'react-toastify/dist/ReactToastify.css';
-import * as Toastify from '~/services/Toastify';
-import { useEffect, lazy, Suspense } from 'react';
-import Loading from '~/components/Loading';
+import { lazy, Suspense, useEffect } from 'react'
+import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Button from '~/components/Button'
+import Loading from '~/components/Loading'
+import RowTableSkeleton from '~/components/RowTableSkeleton'
+import CustomTooltip from '~/components/Tooltip/CustomTooltip'
+import { useDeleteData } from '~/context/DeleteDataContext'
+import { usePath } from '~/context/PathContext'
+import { useTable } from '~/context/TableContext'
+import DefaultLayout from '~/layouts/DefaultLayout'
+import {
+  TableBody,
+  TableCustomActionsCell,
+  TableCustomDataCell,
+  TableDataCell,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+} from '~/layouts/TableLayout'
+import classNames from 'classnames/bind'
+import { format } from 'date-fns'
 
-const TableLayout = lazy(() => import('~/layouts/TableLayout'));
-const cx = classNames.bind(styles);
+import styles from './Brands.module.scss'
+
+const TableLayout = lazy(() => import('~/layouts/TableLayout'))
+
+const cx = classNames.bind(styles)
 
 function Brands() {
-   useEffect(() => {
-      document.title = 'Brand | MrGianStore';
+  const { path } = usePath()
+  const { loading, dataTable } = useTable()
+  const { isDeleting, setDeletedData } = useDeleteData()
 
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
-   return (
-      <div className={cx('brands')}>
-         <DefaultLayout
-            active={'brands'}
-            page={['Dashboard', 'Brands']}
-            searchEngine={true}
-            buttons={[
-               <Button to={'/brands/add'} className="button-add">
-                  <FontAwesomeIcon icon={faPlus} />
-                  Add Brand
-               </Button>,
-            ]}
-         >
-            <Suspense fallback={<Loading />}>
-               <TableLayout
-                  headers={['Category', 'Description', 'Created at', 'Actions']}
-                  category
-                  description
-                  createdAt
-                  actions
-                  editButton
-                  deleteButton
-                  handleDeteleToastify={Toastify.handleDeteleToastify}
-               />
-            </Suspense>
-         </DefaultLayout>
-      </div>
-   );
+  useEffect(() => {
+    document.title = 'Brand | MrGianStore'
+  }, [])
+
+  return (
+    <div className={cx('brands')}>
+      <DefaultLayout
+        active={'brands'}
+        page={['Dashboard', 'Brands']}
+        searchEngine={true}
+        buttons={[
+          <Button to={'/brands/add'} className="button-add">
+            <FontAwesomeIcon icon={faPlus} />
+            Add Brand
+          </Button>,
+        ]}
+      >
+        <Suspense fallback={<Loading />}>
+          <TableLayout>
+            <TableHeader>
+              <TableRow>
+                <TableHeaderCell>Category</TableHeaderCell>
+                <TableHeaderCell>Description</TableHeaderCell>
+                <TableHeaderCell>Created at</TableHeaderCell>
+                <TableHeaderCell>Actions</TableHeaderCell>
+              </TableRow>
+            </TableHeader>
+
+            <TableBody>
+              {loading ? (
+                <RowTableSkeleton numberOfColumn={4} />
+              ) : (
+                dataTable.map((data) => (
+                  <TableRow key={data._id}>
+                    <TableCustomDataCell imageSrc={data.image}>{data.name}</TableCustomDataCell>
+                    <TableDataCell>{data.description}</TableDataCell>
+                    <TableDataCell>{format(new Date(data.createdAt), 'dd MMM yyyy')}</TableDataCell>
+                    <TableCustomActionsCell>
+                      <CustomTooltip message="Edit">
+                        <Button to={`${path}/${data._id}`} className="edit-btn">
+                          <FontAwesomeIcon icon={faPen} />
+                        </Button>
+                      </CustomTooltip>
+                      <CustomTooltip message="Delete">
+                        <Button
+                          className="delete-btn"
+                          disabled={isDeleting}
+                          onClick={() => {
+                            setDeletedData({
+                              id: data._id,
+                              name: data.name,
+                              path,
+                            })
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </Button>
+                      </CustomTooltip>
+                    </TableCustomActionsCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </TableLayout>
+        </Suspense>
+      </DefaultLayout>
+    </div>
+  )
 }
 
-export default Brands;
+export default Brands

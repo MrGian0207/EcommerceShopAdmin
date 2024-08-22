@@ -1,1 +1,1 @@
-export { default } from './BrandsEdit';
+export { default } from './BrandsEdit'

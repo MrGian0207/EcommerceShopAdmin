@@ -1,1 +1,1 @@
-export { default } from './FormAuth';
+export { default } from './FormAuth'

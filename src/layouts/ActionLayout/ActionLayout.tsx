@@ -1,340 +1,195 @@
-import styles from './ActionLayout.module.scss';
-import classNames from 'classnames/bind';
-import 'react-toastify/dist/ReactToastify.css';
-import * as Toastify from '~/services/Toastify';
-import { FormEventHandler, useRef, memo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useAuth } from '~/context/AuthContext';
-import Spinner from '~/components/Spinner';
-import { ActionLayoutType } from '~/types/LayoutType';
+import classNames from 'classnames/bind'
 
-const cx = classNames.bind(styles);
+import styles from './ActionLayout.module.scss'
+
+import 'react-toastify/dist/ReactToastify.css'
+
+import { FormEvent, memo, useRef, useState } from 'react'
+import Spinner from '~/components/Spinner'
+import { useAuth } from '~/context/AuthContext'
+import { useProduct } from '~/context/ProductContext'
+import * as Toastify from '~/services/Toastify'
+import { ActionLayoutType } from '~/types/LayoutType'
+import { useLocation } from 'react-router-dom'
+
+const cx = classNames.bind(styles)
 
 function ActionLayout({
-   leftColumn,
-   rightColumn,
-   name,
-   metaTitle,
-   slug,
-   description,
-   Categories,
-   SubCategories,
-   Brand,
-   Gender,
-   Status,
-   ProductCode,
-   FeatureProduct,
-   Tag,
-   DefaultVariant,
-   VariantArray,
-   idVariantArray,
-   idVariantDeletedArray,
-   ImageFile,
-   NameImageFile = '',
-   nameButtonSubmit = '',
-   heading,
-   primaryButtonText,
-   primaryButtonLink,
-   secondaryButtonText,
-   secondaryButtonLink,
-   displaySlide,
-   setIsNameTouched,
-   setIsMetaTitleTouched,
-   setIsSlugTouched,
-   setIsDescriptionTouched,
-   setIsImageFileTouched,
-   setIsHeadingTouched,
-   setIsPrimaryButtonTextTouched,
-   setIsProductCodeTouched,
+  leftColumn,
+  rightColumn,
+  nameButtonSubmit = '',
+  tags,
+  hasVariant = false,
 }: ActionLayoutType) {
-   const location = useLocation();
-   let path = location.pathname; // Lấy đường dẫn từ URL
-   const [isLoading, setIsLoading] = useState<boolean>(false);
-   const submit_ButtonRef = useRef<HTMLButtonElement>(null);
-   const { accessToken } = useAuth()!;
-   const isLoadingButtonStyle = isLoading
-      ? { opacity: '0.5' }
-      : { opacity: '1' };
+  const location = useLocation()
+  let path = location.pathname // Lấy đường dẫn từ URL
+  const { accessToken } = useAuth()
+  const { variants } = useProduct()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const submit_ButtonRef = useRef<HTMLButtonElement>(null)
+  const isLoadingButtonStyle = isLoading ? { opacity: '0.5' } : { opacity: '1' }
 
-   //Check if input is empty or not
-   const isEmpty = (): boolean => {
-      if (
-         name === '' ||
-         metaTitle === '' ||
-         slug === '' ||
-         description === '' ||
-         Categories === '' ||
-         ImageFile === null ||
-         heading === '' ||
-         primaryButtonText === '' ||
-         primaryButtonLink === '' ||
-         ProductCode === ''
-      ) {
-         return true;
-      } else {
-         return false;
-      }
-   };
+  //Submit Form not varriants
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsLoading(true)
 
-   //Submit Form not varriants
-   const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-      e.preventDefault();
-      setIsNameTouched && setIsNameTouched(true);
-      setIsMetaTitleTouched && setIsMetaTitleTouched(true);
-      setIsSlugTouched && setIsSlugTouched(true);
-      setIsDescriptionTouched && setIsDescriptionTouched(true);
-      setIsImageFileTouched && setIsImageFileTouched(true);
-      setIsHeadingTouched && setIsHeadingTouched(true);
-      setIsPrimaryButtonTextTouched && setIsPrimaryButtonTextTouched(true);
-      if (isEmpty() === false) {
-         setIsLoading(true);
+    if (submit_ButtonRef.current) {
+      submit_ButtonRef.current.disabled = true
+      submit_ButtonRef.current.classList.add(cx('disable_button'))
+    }
 
-         if (submit_ButtonRef.current) {
-            submit_ButtonRef.current.disabled = true;
-            submit_ButtonRef.current.classList.add(cx('disable_button'));
-         }
+    Toastify.showToastMessagePending()
+    const formData = new FormData(e.currentTarget)
 
-         Toastify.showToastMessagePending();
-         const formData = new FormData();
-
-         // Insert data into the form to request
-         name && formData.append('name', name || '');
-         metaTitle && formData.append('title', metaTitle || '');
-         slug && formData.append('slug', slug || '');
-         description && formData.append('description', description || '');
-         Categories && formData.append('category', Categories);
-         ImageFile &&
-            formData.append(NameImageFile as string, ImageFile || null);
-
-         heading && formData.append('heading', heading);
-         primaryButtonText &&
-            formData.append('primaryButtonText', primaryButtonText);
-         primaryButtonLink &&
-            formData.append('primaryButtonLink', primaryButtonLink);
-         secondaryButtonText &&
-            formData.append('secondaryButtonText', secondaryButtonText);
-         secondaryButtonLink &&
-            formData.append('secondaryButtonLink', secondaryButtonLink);
-         displaySlide && formData.append('displaySlide', displaySlide);
-
-         try {
-            fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
-               method: 'POST',
-               headers: {
-                  Authorization: `Bearer ${accessToken}`,
-               },
-               body: formData,
-            })
-               .then((res) => {
-                  setIsLoading(false);
-                  return res.json();
-               })
-               .then((data) => {
-                  if (data) {
-                     if (submit_ButtonRef.current) {
-                        submit_ButtonRef.current.disabled = false;
-                        submit_ButtonRef.current.classList.remove(
-                           cx('disable_button'),
-                        );
-                     }
-                     if (data.status === 'Success') {
-                        Toastify.showToastMessageSuccessfully(data?.message);
-                     } else {
-                        Toastify.showToastMessageFailure(data?.message);
-                     }
-                  }
-               })
-               .catch((err) => {
-                  setIsLoading(false);
-                  console.log(err);
-                  if (submit_ButtonRef.current) {
-                     submit_ButtonRef.current.disabled = false;
-                     submit_ButtonRef.current.classList.remove(
-                        cx('disable_button'),
-                     );
-                  }
-                  Toastify.showToastMessageFailure(
-                     'Submit Failure !! Try it again',
-                  );
-               });
-         } catch (error) {
-            console.log(error);
-            Toastify.showToastMessageFailure(
-               'Data Loaded Failure !! Try it again',
-            );
-         }
-      }
-   };
-
-   //Submit Form with varriants
-   const handleFormSubmitWithVariant: FormEventHandler<HTMLFormElement> = (
-      e,
-   ) => {
-      e.preventDefault();
-      setIsNameTouched && setIsNameTouched(true);
-      setIsMetaTitleTouched && setIsMetaTitleTouched(true);
-      setIsSlugTouched && setIsSlugTouched(true);
-      setIsDescriptionTouched && setIsDescriptionTouched(true);
-      setIsProductCodeTouched && setIsProductCodeTouched(true);
-      if (isEmpty() === false) {
-         setIsLoading(true);
-         if (submit_ButtonRef.current) {
-            submit_ButtonRef.current.disabled = true;
-            submit_ButtonRef.current.classList.add(cx('disable_button'));
-         }
-
-         Toastify.showToastMessagePending();
-         const formData = new FormData();
-
-         let variantNumberImagesOfVariant: string = '';
-         let variantAllImagesFile: File[] = [];
-
-         VariantArray &&
-            VariantArray.forEach((Variant) => {
-               variantNumberImagesOfVariant += `${Variant.variantImagesFile?.length?.toString()} `;
-               (Variant.variantImagesFile as []).length > 0 &&
-                  (Variant.variantImagesFile as []).forEach((image) => {
-                     variantAllImagesFile.push(image);
-                  });
-            });
-
-         //Insert data into the form to request
-         name && formData.append('name', name);
-         metaTitle && formData.append('title', metaTitle);
-         slug && formData.append('slug', slug);
-         description && formData.append('description', description);
-         Categories && formData.append('category', Categories);
-         SubCategories && formData.append('subCategory', SubCategories);
-         Brand && formData.append('brand', Brand);
-         Gender && formData.append('gender', Gender);
-         Status && formData.append('status', Status);
-         ProductCode && formData.append('productCode', ProductCode);
-         Tag && formData.append('tag', Tag.join(' '));
-         FeatureProduct && formData.append('featureProduct', FeatureProduct);
-         DefaultVariant && formData.append('defaultVariant', DefaultVariant);
-         if (idVariantArray && idVariantArray.length > 0) {
-            idVariantArray.forEach((variantId) => {
-               formData.append('idVariantArray', variantId);
-            });
-         }
-         if (idVariantDeletedArray && idVariantDeletedArray.length > 0) {
-            idVariantDeletedArray.forEach((variantId) => {
-               formData.append('idVariantDeletedArray', variantId);
-            });
-         }
-         if (VariantArray && VariantArray.length > 0) {
-            formData.append(
-               'variantNumberImagesOfVariants',
-               variantNumberImagesOfVariant,
-            );
-            VariantArray.forEach((variant) => {
-               formData.append('variantName', variant.variantName as string);
-               formData.append('variantSize', variant.variantSize as string);
-               formData.append('variantColor', variant.variantColor as string);
-               formData.append(
-                  'variantProductSKU',
-                  variant.variantProductSKU as string,
-               );
-               formData.append(
-                  'variantQuantity',
-                  variant.variantQuantity as string,
-               );
-               formData.append(
-                  'variantRegularPrice',
-                  variant.variantRegularPrice as string,
-               );
-               formData.append(
-                  'variantSalePrice',
-                  variant.variantSalePrice as string,
-               );
-               variant.variantImagesFile &&
-                  variant.variantImagesFile?.length > 0 &&
-                  variant.variantImagesFile?.forEach((image) => {
-                     formData.append(NameImageFile as string, image);
-                  });
-            });
-         }
-
-         try {
-            fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
-               method: 'POST',
-               headers: {
-                  Authorization: `Bearer ${accessToken}`,
-               },
-               body: formData,
-            })
-               .then((res) => {
-                  return res.json();
-               })
-               .then((data) => {
-                  setIsLoading(false);
-                  if (data) {
-                     if (submit_ButtonRef.current) {
-                        submit_ButtonRef.current.disabled = false;
-                        submit_ButtonRef.current.classList.remove(
-                           cx('disable_button'),
-                        );
-                     }
-                     if (data.status === 'Success') {
-                        Toastify.showToastMessageSuccessfully(data?.message);
-                     } else {
-                        Toastify.showToastMessageFailure(data?.message);
-                     }
-                  }
-               })
-               .catch((err) => {
-                  setIsLoading(false);
-                  console.log(err);
-                  if (submit_ButtonRef.current) {
-                     submit_ButtonRef.current.disabled = false;
-                     submit_ButtonRef.current.classList.remove(
-                        cx('disable_button'),
-                     );
-                  }
-                  Toastify.showToastMessageFailure(
-                     'Submit Failure !! Try it again',
-                  );
-               });
-         } catch (error) {
-            setIsLoading(false);
-            console.log(error);
-            Toastify.showToastMessageFailure(
-               'Data Loaded Failure !! Try it again',
-            );
-         }
-      }
-   };
-
-   return (
-      <>
-         <form
-            className={cx('add-layout')}
-            onSubmit={
-               VariantArray ? handleFormSubmitWithVariant : handleFormSubmit
+    try {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: formData,
+      })
+        .then((res) => {
+          setIsLoading(false)
+          return res.json()
+        })
+        .then((data) => {
+          if (data) {
+            if (submit_ButtonRef.current) {
+              submit_ButtonRef.current.disabled = false
+              submit_ButtonRef.current.classList.remove(cx('disable_button'))
             }
-         >
-            <div className={cx('left-column')}>{leftColumn}</div>
-            <div className={cx('right-column')}>
-               {rightColumn}
-               <button
-                  ref={submit_ButtonRef}
-                  type="submit"
-                  className={cx('button')}
-                  disabled={isLoading}
-                  style={isLoadingButtonStyle}
-               >
-                  {isLoading ? (
-                     <Spinner />
-                  ) : nameButtonSubmit ? (
-                     nameButtonSubmit
-                  ) : (
-                     'Submit'
-                  )}
-               </button>
-            </div>
-         </form>
-      </>
-   );
+            if (data.status === 'Success') {
+              Toastify.showToastMessageSuccessfully(data?.message)
+            } else {
+              Toastify.showToastMessageFailure(data?.message)
+            }
+          }
+        })
+        .catch((err) => {
+          setIsLoading(false)
+          console.log(err)
+          if (submit_ButtonRef.current) {
+            submit_ButtonRef.current.disabled = false
+            submit_ButtonRef.current.classList.remove(cx('disable_button'))
+          }
+          Toastify.showToastMessageFailure('Submit Failure !! Try it again')
+        })
+    } catch (error) {
+      console.log(error)
+      Toastify.showToastMessageFailure('Data Loaded Failure !! Try it again')
+    }
+  }
+
+  //Submit Form with varriants
+  const handleFormSubmitWithVariant = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsLoading(true)
+    if (submit_ButtonRef.current) {
+      submit_ButtonRef.current.disabled = true
+      submit_ButtonRef.current.classList.add(cx('disable_button'))
+    }
+    Toastify.showToastMessagePending()
+    const form = new FormData(e.currentTarget)
+    const payload = {
+      name: form.get('name'),
+      title: form.get('title'),
+      slug: form.get('slug'),
+      description: form.get('description'),
+      category: form.get('category'),
+      subCategory: form.get('subCategory'),
+      brand: form.get('brand'),
+      gender: form.get('gender'),
+      status: form.get('status'),
+      productCode: form.get('productCode'),
+      tags: tags,
+      featureProduct: form.get('featureProduct'),
+      defaultVariant: form.get('defaultVariant'),
+      variants: variants.map((variant) => ({
+        variantID: variant.variantID,
+        variantName: variant.variantName,
+        variantSize: variant.variantSize,
+        variantColor: variant.variantColor,
+        variantProductSKU: variant.variantProductSKU,
+        variantQuantity: variant.variantQuantity,
+        variantRegularPrice: variant.variantRegularPrice,
+        variantSalePrice: variant.variantSalePrice,
+        numberOfImages: variant.variantImages.length,
+      })),
+    }
+
+    const formData = new FormData()
+    formData.append('payload', JSON.stringify(payload))
+    variants.forEach((variant, index) => {
+      variant.variantImages.forEach((file, fileIndex) => {
+        formData.append('variantImages', file)
+      })
+    })
+
+    try {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: formData,
+      })
+        .then((res) => {
+          return res.json()
+        })
+        .then((data) => {
+          setIsLoading(false)
+          if (data) {
+            if (submit_ButtonRef.current) {
+              submit_ButtonRef.current.disabled = false
+              submit_ButtonRef.current.classList.remove(cx('disable_button'))
+            }
+            if (data.status === 'Success') {
+              Toastify.showToastMessageSuccessfully(data?.message)
+            } else {
+              Toastify.showToastMessageFailure(data?.message)
+            }
+          }
+        })
+        .catch((err) => {
+          setIsLoading(false)
+          console.log(err)
+          if (submit_ButtonRef.current) {
+            submit_ButtonRef.current.disabled = false
+            submit_ButtonRef.current.classList.remove(cx('disable_button'))
+          }
+          Toastify.showToastMessageFailure('Submit Failure !! Try it again')
+        })
+    } catch (error) {
+      setIsLoading(false)
+      console.log(error)
+      Toastify.showToastMessageFailure('Data Loaded Failure !! Try it again')
+    }
+  }
+
+  return (
+    <>
+      <form
+        className={cx('add-layout')}
+        onSubmit={hasVariant ? handleFormSubmitWithVariant : handleFormSubmit}
+      >
+        <div className={cx('left-column')}>{leftColumn}</div>
+        <div className={cx('right-column')}>
+          {rightColumn}
+          <button
+            ref={submit_ButtonRef}
+            type="submit"
+            className={cx('button')}
+            disabled={isLoading}
+            style={isLoadingButtonStyle}
+          >
+            {isLoading ? <Spinner /> : nameButtonSubmit ? nameButtonSubmit : 'Submit'}
+          </button>
+        </div>
+      </form>
+    </>
+  )
 }
 
-export default memo(ActionLayout);
+export default memo(ActionLayout)

@@ -1,9 +1,9 @@
 .apexcharts-legend-text {
-   color: rgb(55, 61, 63);
-   font-size: 12px;
-   font-weight: 600 !important;
+  color: rgb(55, 61, 63);
+  font-size: 12px;
+  font-weight: 600 !important;
 }
 
 .apexcharts-text.apexcharts-datalabel-value {
-   fill: #000000 !important;
+  fill: #000000 !important;
 }

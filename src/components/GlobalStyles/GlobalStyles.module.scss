@@ -1,131 +1,131 @@
 @import 'normalize.css';
 
 :root {
-   --font-family: 'Poppins', sans-serif;
-   --main-color: rgb(82, 95, 225);
-   --white-color: rgb(255, 255, 255);
-   --black-color: #000000;
-   --boder-active-color: #39429b;
-   --text-color: rgb(33, 43, 54);
-   --sub-title-color: rgb(99, 115, 129);
-   --icon-label-color: rgb(145, 158, 171);
-   --main-border-color: rgb(82, 95, 225);
-   --main-border-color-blur: rgba(82, 95, 225, 0.5);
-   --sub-main-border-color: rgba(145, 158, 171, 0.32);
-   --sub-main-border-color-hover: rgba(145, 158, 171, 0.08);
-   --navigator-border-color: rgba(82, 95, 225, 0.24);
-   --navigator-background-hover-color: rgba(82, 95, 225, 0.24);
-   --background-color-blur: rgba(82, 95, 225, 0.08);
-   --background-color-download: rgb(24, 144, 255);
-   --background-color-download-hover: rgb(12, 83, 183);
-   --background-color-delete-hover: rgb(0, 100, 202);
-   --content-padding-horizontal: 48px;
-   --margin-vertical: 24px;
-   --margin-small: 8px;
-   --padding-form: 24px;
+  --font-family: 'Poppins', sans-serif;
+  --main-color: rgb(82, 95, 225);
+  --white-color: rgb(255, 255, 255);
+  --black-color: #000000;
+  --border-active-color: #39429b;
+  --text-color: rgb(33, 43, 54);
+  --sub-title-color: rgb(99, 115, 129);
+  --icon-label-color: rgb(145, 158, 171);
+  --main-border-color: rgb(82, 95, 225);
+  --main-border-color-blur: rgba(82, 95, 225, 0.5);
+  --sub-main-border-color: rgba(145, 158, 171, 0.32);
+  --sub-main-border-color-hover: rgba(145, 158, 171, 0.08);
+  --navigator-border-color: rgba(82, 95, 225, 0.24);
+  --navigator-background-hover-color: rgba(82, 95, 225, 0.24);
+  --background-color-blur: rgba(82, 95, 225, 0.08);
+  --background-color-download: rgb(24, 144, 255);
+  --background-color-download-hover: rgb(12, 83, 183);
+  --background-color-delete-hover: rgb(0, 100, 202);
+  --content-padding-horizontal: 48px;
+  --margin-vertical: 24px;
+  --margin-small: 8px;
+  --padding-form: 24px;
 
-   --font-size-small: 0.875rem;
-   --font-size-extra-small: 0.9375rem;
-   --font-size-medium: 1rem;
-   --font-size-extra-medium: 1.3rem;
-   --font-size-large: 1.5rem;
-   --font-size-extra-large: 2rem;
-   --font-size-biggest: 3rem;
+  --font-size-small: 0.875rem;
+  --font-size-extra-small: 0.9375rem;
+  --font-size-medium: 1rem;
+  --font-size-extra-medium: 1.3rem;
+  --font-size-large: 1.5rem;
+  --font-size-extra-large: 2rem;
+  --font-size-biggest: 3rem;
 
-   --mini-border-radius: 3px;
-   --small-border-radius: 8px;
-   --big-boder-radius: 40px;
+  --mini-border-radius: 3px;
+  --small-border-radius: 8px;
+  --big-boder-radius: 40px;
 
-   --form-with: 552px;
+  --form-with: 552px;
 
-   --font-weight-light: 600;
-   --font-weight-medium: 400;
-   --font-weight-semi-bold: 500;
-   --font-weight-bold: 700;
-   --font-weight-black: 900;
+  --font-weight-light: 600;
+  --font-weight-medium: 400;
+  --font-weight-semi-bold: 500;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
 
-   --big-gap: 30px;
-   --semi-big-gap: 25px;
-   --medium-gap: 16px;
-   --semi-medium-gap: 15px;
-   --small-gap: 10px;
-   --semi-small-gap: 8px;
-   --tag-gap: 5px;
-   --user-image-gap: 2px;
+  --big-gap: 30px;
+  --semi-big-gap: 25px;
+  --medium-gap: 16px;
+  --semi-medium-gap: 15px;
+  --small-gap: 10px;
+  --semi-small-gap: 8px;
+  --tag-gap: 5px;
+  --user-image-gap: 2px;
 
-   --min-width-button: 64px;
+  --min-width-button: 64px;
 }
 
 html {
-   -webkit-text-size-adjust: 100%;
-   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
 @font-face {
-   font-family: 'Poppins';
-   src: url(../../assets/Font/Poppins-Light.ttf);
-   font-weight: 300;
+  font-family: 'Poppins';
+  src: url(../../assets/Font/Poppins-Light.ttf);
+  font-weight: 300;
 }
 
 @font-face {
-   font-family: 'Poppins';
-   src: url(../../assets/Font/Poppins-Medium.ttf);
-   font-weight: var(--font-weight-semi-bold);
+  font-family: 'Poppins';
+  src: url(../../assets/Font/Poppins-Medium.ttf);
+  font-weight: var(--font-weight-semi-bold);
 }
 
 @font-face {
-   font-family: 'Poppins';
-   src: url(../../assets/Font/Poppins-Regular.ttf);
-   font-weight: 500;
+  font-family: 'Poppins';
+  src: url(../../assets/Font/Poppins-Regular.ttf);
+  font-weight: 500;
 }
 
 @font-face {
-   font-family: 'Poppins';
-   src: url(../../assets/Font/Poppins-SemiBold.ttf);
-   font-weight: 700;
+  font-family: 'Poppins';
+  src: url(../../assets/Font/Poppins-SemiBold.ttf);
+  font-weight: 700;
 }
 
 @font-face {
-   font-family: 'Poppins';
-   src: url(../../assets/Font/Poppins-Bold.ttf);
-   font-weight: 800;
+  font-family: 'Poppins';
+  src: url(../../assets/Font/Poppins-Bold.ttf);
+  font-weight: 800;
 }
 
 @font-face {
-   font-family: 'Poppins';
-   src: url(../../assets/Font/Poppins-Black.ttf);
-   font-weight: var(--font-weight-black);
+  font-family: 'Poppins';
+  src: url(../../assets/Font/Poppins-Black.ttf);
+  font-weight: var(--font-weight-black);
 }
 
 * {
-   box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-   box-sizing: border-box;
-   margin: 0;
-   padding: 0;
-   font-family: var(--font-family);
-   font-size: 1rem;
-   line-height: 1.5;
-   text-rendering: optimizeSpeed;
-   color: var(--text-color);
-   font-weight: var(--font-weight-semi-bold);
-   background-color: rgb(243, 244, 248);
-   max-height: 100vh;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-rendering: optimizeSpeed;
+  color: var(--text-color);
+  font-weight: var(--font-weight-semi-bold);
+  background-color: rgb(243, 244, 248);
+  max-height: 100vh;
 }
 
 button,
 input,
 [tabindex] {
-   outline: none;
-   border: none;
+  outline: none;
+  border: none;
 }
 
 a {
-   // color: var(--text-color);
-   text-decoration: none;
-   color: var(--text-color);
+  // color: var(--text-color);
+  text-decoration: none;
+  color: var(--text-color);
 }
 
 h1,
@@ -135,8 +135,8 @@ h4,
 h5,
 h6,
 p {
-   margin: 0;
-   padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 // // Scrollbar CSS
@@ -155,6 +155,6 @@ p {
 // }
 
 span {
-   padding: 0;
-   margin: 0;
+  padding: 0;
+  margin: 0;
 }

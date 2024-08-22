@@ -1,1 +1,1 @@
-export { default } from './AddRole';
+export { default } from './AddRole'

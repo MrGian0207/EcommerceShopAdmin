@@ -1,1 +1,1 @@
-export { default } from './ErrorInput';
+export { default } from './ErrorInput'

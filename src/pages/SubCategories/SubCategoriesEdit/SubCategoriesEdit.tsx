@@ -1,222 +1,144 @@
-import styles from './SubCategoriesEdit.module.scss';
-import classNames from 'classnames/bind';
-import DefaultLayout from '~/layouts/DefaultLayout';
-import ActionLayout from '~/layouts/ActionLayout';
-import images from '~/assets/Image';
-import { useRef, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import * as HandleImageFile from '~/utils/HandleImageFile';
-import OptionSelect from '~/components/OptionSelect';
-import { useAuth } from '~/context/AuthContext';
+import React, { useEffect, useState } from 'react'
+import { ImageInput, Input } from '~/components/common/Type1'
+import Loading from '~/components/Loading'
+import OptionSelect from '~/components/OptionSelect'
+import { useAuth } from '~/context/AuthContext'
+import ActionLayout from '~/layouts/ActionLayout'
+import DefaultLayout from '~/layouts/DefaultLayout'
+import classNames from 'classnames/bind'
+import { useLocation } from 'react-router-dom'
 
-const cx = classNames.bind(styles);
+import styles from './SubCategoriesEdit.module.scss'
 
-function SubCategoriesEdit() {
-   const fileInputRef = useRef<HTMLInputElement | null>(null);
-   const [imageUrl, setImageUrl] = useState('');
-   const [resizedImageUrl, setResizedImageUrl] = useState<string>('');
-   const [name, setName] = useState<string>('');
-   const [metaTitle, setMetaTitle] = useState<string>('');
-   const [slug, setSlug] = useState<string>('');
-   const [imageSource, setImageSource] = useState<string>('');
-   const [description, setDescription] = useState<string>('');
-   const [imageFile, setImageFile] = useState<File | null>(null);
-   const [parentCategories, setParentCategories] = useState('');
-   const nameImageFile = 'sub-category-image';
-   const nameButtonSubmit = 'Edit Sub Category';
-
-   const CategoryOptionSelectRef = useRef<HTMLSelectElement>(null);
-
-   const location = useLocation();
-   const path = location.pathname;
-
-   const { accessToken } = useAuth()!;
-
-   useEffect(() => {
-      document.title = 'Edit Sub Category | MrGianStore';
-
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
-
-   useEffect(() => {
-      Promise.all([
-         fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/categories/main-categories/name`,
-            {
-               method: 'GET',
-               headers: {
-                  'Content-Type': 'application/json',
-                  Accept: 'application/json',
-                  Authorization: `Bearer ${accessToken}`,
-               },
-            },
-         ).then((res) => res.json()),
-         path &&
-            fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
-               method: 'GET',
-               headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${accessToken}`,
-               },
-            }).then((res) => res.json()),
-      ])
-         .then(([mainCategoriesData, responseData]) => {
-            if (
-               mainCategoriesData?.status === 'Success' &&
-               mainCategoriesData?.data
-            ) {
-               const selectElement = CategoryOptionSelectRef.current;
-               if (selectElement) {
-                  selectElement.innerHTML = '';
-
-                  const option = document.createElement('option');
-                  option.value = 'None';
-                  option.textContent = 'None';
-                  selectElement.appendChild(option);
-
-                  mainCategoriesData.data.forEach((item: string) => {
-                     const option = document.createElement('option');
-                     option.value = item;
-                     option.textContent = item;
-                     selectElement.appendChild(option);
-                  });
-               }
-            }
-
-            if (responseData?.status === 'Success') {
-               const data = responseData.data;
-               setName(data?.name);
-               setMetaTitle(data?.title);
-               setSlug(data?.slug);
-               setDescription(data?.description);
-               setParentCategories(data?.parentCategory);
-               setImageSource(data?.image);
-            }
-         })
-         .catch((err) => {
-            console.log(err);
-         });
-   }, [path, accessToken]);
-
-   return (
-      <div className={cx('edit')}>
-         <DefaultLayout
-            active={'categories'}
-            page={['Dashboard', 'Sub Categories', 'Edit']}
-         >
-            <ActionLayout
-               leftColumn={
-                  <>
-                     <div className={cx('category-name')}>
-                        <label htmlFor="category-name">Category Name</label>
-                        <input
-                           name="category-name"
-                           id="category-name"
-                           type="text"
-                           onChange={(e) => setName(e.target.value)}
-                           value={name}
-                        />
-                     </div>
-                     <div className={cx('meta-title')}>
-                        <label htmlFor="meta-title">Meta Title</label>
-                        <input
-                           name="meta-title"
-                           id="meta-title"
-                           type="text"
-                           onChange={(e) => setMetaTitle(e.target.value)}
-                           value={metaTitle}
-                        />
-                     </div>
-                     <div className={cx('slug')}>
-                        <label htmlFor="slug">Slug</label>
-                        <input
-                           name="slug"
-                           id="slug"
-                           type="text"
-                           onChange={(e) => setSlug(e.target.value)}
-                           value={slug}
-                        />
-                     </div>
-                     <div className={cx('description')}>
-                        <label htmlFor="description">Description</label>
-                        <textarea
-                           name="description"
-                           id="description"
-                           onChange={(e) => setDescription(e.target.value)}
-                           value={description}
-                           rows={9}
-                        ></textarea>
-                     </div>
-                  </>
-               }
-               rightColumn={
-                  <>
-                     <div className={cx('right-column')}>
-                        <OptionSelect
-                           dataOptions={parentCategories}
-                           setDataOptions={setParentCategories}
-                           ref={CategoryOptionSelectRef}
-                           labelName="Parent Category"
-                        />
-
-                        <div className={cx('image')}>
-                           <label htmlFor="sub-category-image">
-                              Image 512 * 512
-                           </label>
-                           <input
-                              ref={fileInputRef}
-                              name="sub-category-image"
-                              id={nameImageFile}
-                              type="file"
-                              onChange={(e) => {
-                                 HandleImageFile.handleFileChange(
-                                    e,
-                                    setImageFile,
-                                    setImageUrl,
-                                    setResizedImageUrl,
-                                    512,
-                                 );
-                              }}
-                           />
-                           <div
-                              onClick={() => {
-                                 HandleImageFile.handleFileSelect(fileInputRef);
-                              }}
-                              className={cx('image-custom')}
-                           >
-                              <div className="box">
-                                 <h4>Drop or Select Images</h4>
-                                 <img src={images.uploadImage} alt="" />
-                              </div>
-                              <div className={cx('preview-image')}>
-                                 {(imageUrl || imageSource) && (
-                                    <img
-                                       src={
-                                          resizedImageUrl
-                                             ? resizedImageUrl
-                                             : imageSource
-                                       }
-                                       alt="preview"
-                                    />
-                                 )}
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </>
-               }
-               name={name}
-               metaTitle={metaTitle}
-               slug={slug}
-               description={description}
-               Categories={parentCategories}
-               ImageFile={imageFile}
-               NameImageFile={nameImageFile}
-               nameButtonSubmit={nameButtonSubmit}
-            />
-         </DefaultLayout>
-      </div>
-   );
+interface SubCategoriesType {
+  name: string
+  title: string
+  slug: string
+  description: string
+  image: string
+  parentCategory: string
 }
 
-export default SubCategoriesEdit;
+interface OptionType {
+  value: string
+  label: string
+}
+
+const cx = classNames.bind(styles)
+
+function SubCategoriesEdit() {
+  const emptySubCategories = {
+    name: '',
+    title: '',
+    slug: '',
+    description: '',
+    image: '',
+    parentCategory: '',
+  }
+  const { accessToken } = useAuth()
+  const location = useLocation()
+  const path = location.pathname
+
+  const [loading, setLoading] = useState(true)
+  const [mainCategoriesOptions, setMainCategoriesOptions] = useState<OptionType[]>([])
+  const [subCategory, setSubCategory] = useState<SubCategoriesType>(emptySubCategories)
+
+  const nameButtonSubmit = 'Edit Sub Category'
+
+  useEffect(() => {
+    const handleSetDataOptions = (
+      dataOptions: OptionType[],
+      setDataOptions: React.Dispatch<React.SetStateAction<OptionType[]>>
+    ) => {
+      setDataOptions(dataOptions)
+    }
+
+    const fetchData = async () => {
+      try {
+        const [mainCategoriesRes, subCategoriesRes] = await Promise.all([
+          fetch(`${process.env.REACT_APP_BACKEND_URL}/categories/main-categories/name`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }),
+          fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }),
+        ])
+
+        const [mainCategoriesData, subCategoriesData] = await Promise.all([
+          mainCategoriesRes.json(),
+          subCategoriesRes.json(),
+        ])
+
+        const mainCategories: OptionType[] = mainCategoriesData.data
+
+        handleSetDataOptions(mainCategories, setMainCategoriesOptions)
+
+        setSubCategory({
+          name: subCategoriesData.data.name,
+          title: subCategoriesData.data.title,
+          slug: subCategoriesData.data.slug,
+          description: subCategoriesData.data.description,
+          image: subCategoriesData.data.image,
+          parentCategory: subCategoriesData.data.parentCategory,
+        })
+      } catch (err) {
+        console.error('Error fetching data:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [path, accessToken])
+
+  useEffect(() => {
+    document.title = 'Edit Sub Category | MrGianStore'
+  }, [])
+
+  if (loading) return <Loading />
+
+  return (
+    <div className={cx('edit')}>
+      <DefaultLayout active={'categories'} page={['Dashboard', 'Sub Categories', 'Edit']}>
+        <ActionLayout
+          leftColumn={
+            <React.Fragment>
+              <Input name="name" label="Sub Category Name" defaultValue={subCategory.name} />
+              <Input name="title" label="Meta Title" defaultValue={subCategory.title} />
+              <Input name="slug" label="Slug" defaultValue={subCategory.slug} />
+              <Input
+                name="description"
+                label="Description"
+                defaultValue={subCategory.description}
+              />
+            </React.Fragment>
+          }
+          rightColumn={
+            <>
+              <div className={cx('right-column')}>
+                <OptionSelect
+                  labelName="Parent Category"
+                  name="category"
+                  options={mainCategoriesOptions}
+                  defaultValue={subCategory.parentCategory}
+                />
+                <ImageInput imageSaved={subCategory.image} />
+              </div>
+            </>
+          }
+          nameButtonSubmit={nameButtonSubmit}
+        />
+      </DefaultLayout>
+    </div>
+  )
+}
+
+export default SubCategoriesEdit

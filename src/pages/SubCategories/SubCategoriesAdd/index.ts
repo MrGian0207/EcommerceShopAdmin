@@ -1,1 +1,1 @@
-export { default } from './SubCategoriesAdd';
+export { default } from './SubCategoriesAdd'

@@ -1,162 +1,164 @@
 .slide {
-   display: flex;
-   flex-direction: row;
-   border-radius: 8px;
-   height: 100%;
-   width: 100%;
-   overflow: hidden;
-   box-shadow: rgba(145, 158, 171, 0.2) 0px 11px 15px -7px,
-      rgba(145, 158, 171, 0.14) 0px 24px 38px 3px,
-      rgba(145, 158, 171, 0.12) 0px 9px 46px 8px;
-   cursor: pointer;
-   padding: 20px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 8px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  box-shadow:
+    rgba(145, 158, 171, 0.2) 0px 11px 15px -7px,
+    rgba(145, 158, 171, 0.14) 0px 24px 38px 3px,
+    rgba(145, 158, 171, 0.12) 0px 9px 46px 8px;
+  cursor: pointer;
+  padding: 20px;
 }
 
 .image-slide {
-   user-select: none;
-   flex-grow: 0;
-   flex-shrink: 0;
-   position: relative;
-   display: block;
-   border-radius: 8px;
-   height: auto;
-   width: 100%;
-   background-size: cover;
+  user-select: none;
+  flex-grow: 0;
+  flex-shrink: 0;
+  position: relative;
+  display: block;
+  border-radius: 8px;
+  height: auto;
+  width: 100%;
+  background-size: cover;
 }
 
 @keyframes slideInFromRight {
-   0% {
-      transform: translateX(100%);
-   }
+  0% {
+    transform: translateX(100%);
+  }
 
-   100% {
-      transform: translateX(0%);
-   }
+  100% {
+    transform: translateX(0%);
+  }
 }
 
 .animate-slide {
-   animation: slideInFromRight 2s ease;
+  animation: slideInFromRight 2s ease;
 }
 
 .content-slide {
-   display: block;
-   height: fit-content;
-   max-width: 630px;
-   padding: 24px;
-   position: absolute;
-   top: 50%;
-   left: 0px;
-   transform: translateY(-50%);
-   text-align: left;
+  display: block;
+  height: fit-content;
+  max-width: 630px;
+  padding: 24px;
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  transform: translateY(-50%);
+  text-align: left;
 
-   & .title {
-      & h1 {
-         margin: 0px 0px 8px;
-         font-size: 4rem;
-         font-weight: var(--font-weight-semi-bold);
-         color: var(--text-color);
+  & .title {
+    & h1 {
+      margin: 0px 0px 8px;
+      font-size: 4rem;
+      font-weight: var(--font-weight-semi-bold);
+      color: var(--text-color);
+    }
+  }
+
+  & .description {
+    & h6 {
+      font-size: 1.125rem;
+      margin: 8px 0px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text-color);
+      font-weight: 500;
+      pointer-events: none;
+    }
+  }
+
+  & .actions-button {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+
+    & .delete-button,
+    .edit-button {
+      display: inline-flex;
+      height: 48px;
+      gap: var(--small-gap);
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      outline: 0px;
+      border: 0px;
+      margin: 8px 0px 0px;
+      cursor: pointer;
+      user-select: none;
+      vertical-align: middle;
+      appearance: none;
+      text-decoration: none;
+      font-weight: var(--font-weight-semi-bold);
+      font-size: 0.9375rem;
+      min-width: var(--min-width-button);
+      padding: 8px 22px;
+      border-radius: 3px;
+
+      & p {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        align-items: center;
+        line-height: 50%;
       }
-   }
+    }
 
-   & .description {
-      & h6 {
-         font-size: 1.125rem;
-         margin: 8px 0px;
-         overflow: hidden;
-         text-overflow: ellipsis;
-         white-space: nowrap;
-         color: var(--text-color);
-         font-weight: 500;
-         pointer-events: none;
-      }
-   }
+    & .delete-button {
+      color: rgb(255, 255, 255);
+      background-color: var(--main-color);
+    }
 
-   & .actions-button {
-      display: flex;
-      gap: 20px;
-      width: 100%;
-
-      & .delete-button,
-      .edit-button {
-         display: inline-flex;
-         height: 48px;
-         gap: var(--small-gap);
-         align-items: center;
-         justify-content: center;
-         box-sizing: border-box;
-         -webkit-tap-highlight-color: transparent;
-         outline: 0px;
-         border: 0px;
-         margin: 8px 0px 0px;
-         cursor: pointer;
-         user-select: none;
-         vertical-align: middle;
-         appearance: none;
-         text-decoration: none;
-         font-weight: var(--font-weight-semi-bold);
-         font-size: 0.9375rem;
-         min-width: var(--min-width-button);
-         padding: 8px 22px;
-         border-radius: 3px;
-
-         & p {
-            display: flex;
-            height: 100%;
-            width: 100%;
-            align-items: center;
-            line-height: 50%;
-         }
-      }
-
-      & .delete-button {
-         color: rgb(255, 255, 255);
-         background-color: var(--main-color);
-      }
-
-      & .edit-button {
-         background-color: transparent;
-         border: 1px solid rgba(63, 0, 113, 0.5);
-         color: rgb(63, 0, 113);
-      }
-   }
+    & .edit-button {
+      background-color: transparent;
+      border: 1px solid rgba(63, 0, 113, 0.5);
+      color: rgb(63, 0, 113);
+    }
+  }
 }
 
 .slide-navigator {
-   display: flex;
-   gap: 0.5rem;
-   position: absolute;
-   bottom: 0.5rem;
-   left: 50%;
-   translate: '-50%';
+  display: flex;
+  gap: 0.5rem;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  translate: '-50%';
 
-   & .img-dot-btn {
-      all: unset;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 8px;
-      width: 8px;
-      border-radius: 50%;
-      background-color: var(--white-color);
-      border: 2px solid rgb(82, 95, 225);
-      box-shadow: rgba(145, 158, 171, 0.2) 0px 11px 15px -7px,
-         rgba(145, 158, 171, 0.14) 0px 24px 38px 3px,
-         rgba(145, 158, 171, 0.12) 0px 9px 46px 8px;
-      transition: scale 100ms ease-in-out;
+  & .img-dot-btn {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: var(--white-color);
+    border: 2px solid rgb(82, 95, 225);
+    box-shadow:
+      rgba(145, 158, 171, 0.2) 0px 11px 15px -7px,
+      rgba(145, 158, 171, 0.14) 0px 24px 38px 3px,
+      rgba(145, 158, 171, 0.12) 0px 9px 46px 8px;
+    transition: scale 100ms ease-in-out;
 
-      &:hover {
-         scale: 1.5;
-      }
+    &:hover {
+      scale: 1.5;
+    }
 
-      &.active {
-         scale: 1.5;
-      }
-   }
+    &.active {
+      scale: 1.5;
+    }
+  }
 }
 
 @media screen and (max-width: 1230px) {
-   .slide {
-      height: 100%;
-      width: auto;
-   }
+  .slide {
+    height: 100%;
+    width: auto;
+  }
 }

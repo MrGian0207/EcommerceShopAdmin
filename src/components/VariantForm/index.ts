@@ -1,1 +1,1 @@
-export { default } from './VariantForm';
+export { default } from './VariantForm'
