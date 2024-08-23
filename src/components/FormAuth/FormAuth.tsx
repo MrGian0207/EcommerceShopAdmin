@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { FormAuthProps } from '~/types/FormAuthType'
 import classNames from 'classnames/bind'
 
-import Button from '../Button'
+import Button from '../common/Button'
 import styles from './FormAuth.module.scss'
 
 const cx = classNames.bind(styles)

@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--semi-small-gap);
+
+  & .toggle-box {
+    display: flex;
+    align-items: center;
+    & input[type='checkbox'] {
+      display: none;
+    }
+
+    & .toggle-switch {
+      width: 40px;
+      height: 20px;
+      background-color: rgb(145, 158, 171);
+      border-radius: 10px;
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* Thiết lập màu nền khi toggle được bật */
+    & input[type='checkbox']:checked + .toggle-switch {
+      background-color: rgba(168, 175, 240, 1);
+    }
+
+    /* Tạo nút trượt */
+    & .toggle-switch::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translate(0, 0);
+      transition:
+        left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    }
+
+    & .toggle-switch:hover::after {
+      box-shadow: 0 0 20px rgba(160, 162, 165, 1);
+    }
+
+    /* Dịch chuyển nút trượt khi toggle được bật */
+    & input[type='checkbox']:checked + .toggle-switch::after {
+      background-color: var(--main-color);
+      left: 20px;
+    }
+  }
+
+  & label {
+    font-size: var(--font-size-small);
+    font-weight: 500;
+  }
+}

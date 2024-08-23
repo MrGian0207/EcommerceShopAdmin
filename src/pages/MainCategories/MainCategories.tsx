@@ -1,6 +1,6 @@
 import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Button from '~/components/Button'
+import Button from '~/components/common/Button'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
 

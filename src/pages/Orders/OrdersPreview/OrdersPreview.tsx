@@ -1,7 +1,8 @@
 import { memo, useEffect, useRef, useState } from 'react'
 import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Button from '~/components/Button'
+import Button from '~/components/common/Button'
+import Loading from '~/components/Loading'
 import { useAuth } from '~/context/AuthContext'
 import { useDeleteData } from '~/context/DeleteDataContext'
 import { usePath } from '~/context/PathContext'
@@ -13,7 +14,6 @@ import jsPDF from 'jspdf'
 
 import { PreviewDetail, PreviewProduct } from './OrdersComponent'
 import styles from './OrdersPreview.module.scss'
-import Loading from '~/components/Loading'
 
 const cx = classNames.bind(styles)
 

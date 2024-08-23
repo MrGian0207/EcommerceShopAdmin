@@ -1,10 +1,5 @@
 import { memo, useState } from 'react'
-import {
-  faChevronDown,
-  faChevronRight,
-  faCircle,
-  IconDefinition,
-} from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronRight, faCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { SideBarItemsType } from '~/types/SideBarType'
 import classNames from 'classnames/bind'

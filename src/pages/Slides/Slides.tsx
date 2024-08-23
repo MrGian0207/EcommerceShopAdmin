@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Button from '~/components/Button'
+import Button from '~/components/common/Button'
 import ImageSlider from '~/components/ImageSlider'
+import Loading from '~/components/Loading'
 import { useAuth } from '~/context/AuthContext'
 import { usePath } from '~/context/PathContext'
 import { useUpdateLayout } from '~/context/UpdateLayoutContext'
@@ -11,7 +12,6 @@ import { SlideType } from '~/types/SlideType'
 import classNames from 'classnames/bind'
 
 import styles from './Slides.module.scss'
-import Loading from '~/components/Loading'
 
 const cx = classNames.bind(styles)
 

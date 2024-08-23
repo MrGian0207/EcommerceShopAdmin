@@ -1,18 +1,28 @@
 import { useRef, useState } from 'react'
+import { ErrorMessage } from '@hookform/error-message'
 import images from '~/assets/Image'
 import * as HandleImageFile from '~/utils/HandleImageFile'
 import classNames from 'classnames/bind'
+import { Controller, useFormContext } from 'react-hook-form'
 
 import styles from './common.module.scss'
 
 const cx = classNames.bind(styles)
 
+interface IFormValues {
+  name: string
+  title: string
+  slug: string
+  description: string
+  image: FileList
+}
+
 export default function ImageInput({ imageSaved }: { imageSaved?: string }) {
+  const { control, formState } = useFormContext<IFormValues>()
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [imageSelected, setImageSelected] = useState<File | string | undefined>(imageSaved)
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
+  const handleImageChange = (files: FileList | null) => {
     if (files && files.length > 0) {
       setImageSelected(files[0])
     }
@@ -27,12 +37,22 @@ export default function ImageInput({ imageSaved }: { imageSaved?: string }) {
     <div className={cx('image-container')}>
       <div className={cx('image')}>
         <label htmlFor="dataImage">Image 512 * 512</label>
-        <input
-          ref={fileInputRef}
+        <Controller
           name="image"
-          id="dataImage"
-          type="file"
-          onChange={handleImageChange}
+          control={control}
+          rules={{
+            required: 'Image is required',
+          }}
+          render={({ field }) => (
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={(e) => {
+                handleImageChange(e.target.files)
+                field.onChange(e.target.files)
+              }}
+            />
+          )}
         />
         <div
           onClick={() => {
@@ -48,6 +68,9 @@ export default function ImageInput({ imageSaved }: { imageSaved?: string }) {
             {imageSelected && <img src={imagePreview} alt="preview" />}
           </div>
         </div>
+        <p className={cx('errorMessage')}>
+          <ErrorMessage errors={formState.errors} name={'image'} />
+        </p>
       </div>
     </div>
   )

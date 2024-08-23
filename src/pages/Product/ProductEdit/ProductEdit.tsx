@@ -1,7 +1,8 @@
 import { memo, useEffect, useState } from 'react'
+import OptionSelect from '~/components/common/OptionSelect'
+import Toggle from '~/components/common/ToggleButton/Toggle'
 import { Input } from '~/components/common/Type1'
 import Loading from '~/components/Loading'
-import OptionSelect from '~/components/OptionSelect'
 import VariantForm from '~/components/VariantForm'
 import { useAuth } from '~/context/AuthContext'
 import { useModal } from '~/context/ModalContext'
@@ -12,7 +13,6 @@ import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
 import ReactModal from 'react-modal'
 
-import FeatureProduct from '../FeatureProduct'
 import Tag from '../Tag'
 import VariantBox from '../VariantBox'
 import styles from './ProductEdit.module.scss'
@@ -39,9 +39,9 @@ interface ProductType {
       variantSize: string
       variantColor: string
       variantProductSKU: string
-      variantQuantity: string
-      variantRegularPrice: string
-      variantSalePrice: string
+      variantQuantity: number
+      variantRegularPrice: number
+      variantSalePrice: number
       variantImages: string[]
     },
   ]
@@ -181,12 +181,14 @@ function ProductEdit(): JSX.Element {
 
               <div className={cx('row')}>
                 <OptionSelect
-                  labelName="Category"
+                  label="Category"
+                  name="category"
                   defaultValue={product.category}
                   options={mainCategoriesOptions}
                 />
                 <OptionSelect
-                  labelName="Sub Category"
+                  label="Sub Category"
+                  name="subCategory"
                   defaultValue={product.subCategory}
                   options={subCategoriesOptions}
                 />
@@ -194,12 +196,14 @@ function ProductEdit(): JSX.Element {
 
               <div className={cx('row')}>
                 <OptionSelect
-                  labelName="Brand"
+                  label="Brand"
+                  name="brand"
                   defaultValue={product.brand}
                   options={brandOptions}
                 />
                 <OptionSelect
-                  labelName="Gender"
+                  label="Gender"
+                  name="gender"
                   defaultValue={product.gender}
                   options={genderOptions}
                 />
@@ -207,7 +211,8 @@ function ProductEdit(): JSX.Element {
 
               <div className={cx('row')}>
                 <OptionSelect
-                  labelName="Status"
+                  label="Status"
+                  name="status"
                   defaultValue={product.status}
                   options={statusOptions}
                 />
@@ -225,10 +230,10 @@ function ProductEdit(): JSX.Element {
 
                 <Input name="description" label="Description" defaultValue={product.description} />
 
-                <FeatureProduct
-                  defaultChecked={product.featureProduct === 'on'}
+                <Toggle
+                  defaultChecked={product.featureProduct === 'true'}
+                  name="featureProduct"
                   label="Feature Product"
-                  id={product._id}
                 />
 
                 <VariantBox variantArray={variants} defaultVariant={product.defaultVariant} />

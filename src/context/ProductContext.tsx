@@ -21,22 +21,22 @@ export interface ProductType {
     variantSize: string
     variantColor: string
     variantProductSKU: string
-    variantQuantity: string
-    variantRegularPrice: string
-    variantSalePrice: string
+    variantQuantity: number
+    variantRegularPrice: number
+    variantSalePrice: number
     variantImages: string[]
   }[]
 }
 
 export interface VariantType {
-  variantID?: string
+  variantID: string
   variantName: string
   variantSize: string
   variantColor: string
   variantProductSKU: string
-  variantQuantity: string
-  variantRegularPrice: string
-  variantSalePrice: string
+  variantQuantity: number
+  variantRegularPrice: number
+  variantSalePrice: number
   variantImages: File[] | string[]
 }
 
@@ -64,9 +64,9 @@ const emptyVariant: VariantType = {
   variantSize: '',
   variantColor: '',
   variantProductSKU: '',
-  variantQuantity: '',
-  variantRegularPrice: '',
-  variantSalePrice: '',
+  variantQuantity: 0,
+  variantRegularPrice: 0,
+  variantSalePrice: 0,
   variantImages: [],
 }
 

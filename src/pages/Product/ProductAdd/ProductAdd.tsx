@@ -1,7 +1,8 @@
 import { memo, useEffect, useState } from 'react'
+import OptionSelect from '~/components/common/OptionSelect'
+import Toggle from '~/components/common/ToggleButton'
 import { Input } from '~/components/common/Type1'
 import Loading from '~/components/Loading'
-import OptionSelect from '~/components/OptionSelect'
 import VariantForm from '~/components/VariantForm'
 import { useAuth } from '~/context/AuthContext'
 import { useModal } from '~/context/ModalContext'
@@ -11,7 +12,6 @@ import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
 import ReactModal from 'react-modal'
 
-import FeatureProduct from '../FeatureProduct/FeatureProduct'
 import Tag from '../Tag'
 import VariantBox from '../VariantBox'
 import styles from './ProductAdd.module.scss'
@@ -138,25 +138,21 @@ function ProductAdd(): JSX.Element {
               <Input name="title" label="Meta Title" />
 
               <div className={cx('row')}>
+                <OptionSelect label="Category" name="category" options={mainCategoriesOptions} />
                 <OptionSelect
-                  labelName="Category"
-                  name="category"
-                  options={mainCategoriesOptions}
-                />
-                <OptionSelect
-                  labelName="Sub Category"
+                  label="Sub Category"
                   name="subCategory"
                   options={subCategoriesOptions}
                 />
               </div>
 
               <div className={cx('row')}>
-                <OptionSelect labelName="Brand" name="brand" options={brandOptions} />
-                <OptionSelect labelName="Gender" name="gender" options={genderOptions} />
+                <OptionSelect label="Brand" name="brand" options={brandOptions} />
+                <OptionSelect label="Gender" name="gender" options={genderOptions} />
               </div>
 
               <div className={cx('row')}>
-                <OptionSelect labelName="Status" name="status" options={statusOptions} />
+                <OptionSelect label="Status" name="status" options={statusOptions} />
 
                 <Input name="productCode" label="Product Code" />
               </div>
@@ -172,7 +168,7 @@ function ProductAdd(): JSX.Element {
 
                 <Input name="description" label="Description" />
 
-                <FeatureProduct label="Feature Product" id={'new-Add-Feature'} />
+                <Toggle name="featureProduct" label="Feature Product" />
 
                 <VariantBox variantArray={variants} />
 

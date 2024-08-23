@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from 'react'
 import { faEnvelope, faEye, faLock } from '@fortawesome/free-solid-svg-icons'
 import api from '~/api/api'
 import AuthHeader from '~/components/AuthHeader'
-import Button from '~/components/Button'
+import Button from '~/components/common/Button'
 import { Input } from '~/components/common/Type2'
 import FormAuth from '~/components/FormAuth'
 import Spinner from '~/components/Spinner'
@@ -52,7 +52,7 @@ function Login(): JSX.Element {
         Toastify.showToastMessageFailure(res.message)
       }
     } catch (error) {
-      Toastify.showToast('Submitted failed', 'error')
+      Toastify.showToastMessageFailure('Submitted failed')
     } finally {
       setLoading(false)
     }
@@ -97,7 +97,7 @@ function Login(): JSX.Element {
                 <Button to={api.forgetPassword} children={'Forgot Password'} />
               </span>
             </div>
-            <button className={cx('auth-button')} type="submit">
+            <button disabled={Loading} className={cx('auth-button')} type="submit">
               {Loading ? <Spinner /> : 'Login'}
             </button>
           </form>

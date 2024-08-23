@@ -9,13 +9,7 @@
   font-weight: var(--font-weight-semi-bold);
 }
 
-.variant-name-box,
-.variant-size-box,
-.variant-color-box,
-.variant-productSKU-box,
-.variant-quantity-box,
-.variant-regularPrice-box,
-.variant-salePrice-box {
+.variant-input-box {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -46,6 +40,13 @@
 
     &:focus:hover {
       border: 2px solid var(--main-border-color) !important;
+    }
+
+    /* Ẩn nút tăng giảm cho input kiểu số */
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
   }
 }
@@ -205,4 +206,10 @@
   &:hover {
     background-color: rgb(0, 100, 202);
   }
+}
+
+.errorMessage {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
 }

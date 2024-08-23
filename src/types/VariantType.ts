@@ -16,14 +16,14 @@ export type ProductType = {
 }
 
 export interface VariantType {
-  variantID?: string
+  variantID: string
   variantName: string
   variantSize: string
   variantColor: string
   variantProductSKU: string
-  variantQuantity: string
-  variantRegularPrice: string
-  variantSalePrice: string
+  variantQuantity: number
+  variantRegularPrice: number
+  variantSalePrice: number
   variantImages: File[] | string[]
 }
 
@@ -37,6 +37,6 @@ export type VariantItemsType = {
   variantName?: string
   variantColor?: string
   variantSize?: string
-  variantSalePrice?: string
+  variantSalePrice?: number
   isDefaultVariant?: boolean
 }

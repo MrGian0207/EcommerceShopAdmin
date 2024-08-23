@@ -14,13 +14,5 @@ export type InputType = {
   autocomplete?: string
 }
 
-interface OptionType {
-  value: string
-  label: string
-}
 
-export interface OptionSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  name?: string
-  labelName?: string
-  options?: OptionType[]
-}
+

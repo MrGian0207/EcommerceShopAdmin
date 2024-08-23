@@ -12,9 +12,9 @@ export interface VariantType {
   variantSize: string
   variantColor: string
   variantProductSKU: string
-  variantQuantity: string
-  variantRegularPrice: string
-  variantSalePrice: string
+  variantQuantity: number
+  variantRegularPrice: number
+  variantSalePrice: number
   variantImages: File[] | string[]
 }
 

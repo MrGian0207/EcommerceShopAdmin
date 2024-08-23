@@ -4,10 +4,14 @@ import { useModal } from '~/context/ModalContext'
 import { useProduct } from '~/context/ProductContext'
 import { VariantItemsType, VariantType } from '~/types/VariantType'
 import classNames from 'classnames/bind'
+import { useFormContext } from 'react-hook-form'
 
 import styles from './VariantItems.module.scss'
 
 const cx = classNames.bind(styles)
+interface IFormValues {
+  defaultVariant: string
+}
 
 function VariantItems({
   variantID,
@@ -17,6 +21,8 @@ function VariantItems({
   variantSalePrice,
   isDefaultVariant = false,
 }: VariantItemsType): JSX.Element {
+  const { register } = useFormContext<IFormValues>()
+
   const { setIsEdit, setToggleModal } = useModal()
   const { setVariantIsEdit, variants, setVariants, setVariantImage } = useProduct()
 
@@ -39,8 +45,8 @@ function VariantItems({
       <input
         defaultChecked={isDefaultVariant}
         type="radio"
-        name="defaultVariant"
         value={variantName}
+        {...register('defaultVariant')}
       />
       <div className={cx('variant-value')}>
         <div className={cx('column-first')}>

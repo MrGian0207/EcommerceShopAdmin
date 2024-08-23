@@ -210,7 +210,7 @@
       right: 0px;
       position: absolute;
       z-index: 999;
-      height: 157px;
+      height: fit-content;
       width: 300px;
       border: 1px solid var(--sub-main-border-color-hover);
       margin-top: 12px;
@@ -356,6 +356,7 @@
       }
 
       & .list-nofi {
+        padding: 0;
         display: block;
         overflow: auto;
         max-height: calc(460px - 60px);
@@ -505,6 +506,7 @@
         margin-top: 8px;
         padding-top: 8px;
         display: flex;
+        flex-direction: column;
         justify-content: flex-start;
 
         & li {

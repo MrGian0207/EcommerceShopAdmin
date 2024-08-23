@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import OptionSelect from '~/components/common/OptionSelect'
 import { ImageInput, Input } from '~/components/common/Type1'
 import Loading from '~/components/Loading'
-import OptionSelect from '~/components/OptionSelect'
 import { useAuth } from '~/context/AuthContext'
 import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
@@ -125,7 +125,7 @@ function SubCategoriesEdit() {
             <>
               <div className={cx('right-column')}>
                 <OptionSelect
-                  labelName="Parent Category"
+                  label="Parent Category"
                   name="category"
                   options={mainCategoriesOptions}
                   defaultValue={subCategory.parentCategory}

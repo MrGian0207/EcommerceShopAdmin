@@ -1,10 +1,11 @@
 import classNames from 'classnames/bind'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import styles from './ActionLayout.module.scss'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { FormEvent, memo, useRef, useState } from 'react'
+import React, { memo, useRef, useState } from 'react'
 import Spinner from '~/components/Spinner'
 import { useAuth } from '~/context/AuthContext'
 import { useProduct } from '~/context/ProductContext'
@@ -13,6 +14,26 @@ import { ActionLayoutType } from '~/types/LayoutType'
 import { useLocation } from 'react-router-dom'
 
 const cx = classNames.bind(styles)
+interface IFormValues {
+  name: string
+  title: string
+  slug: string
+  description: string
+  image: FileList
+  productCode: string
+  heading: string
+  primaryButtonText: string
+  primaryButtonLink: string
+  secondaryButtonText: string
+  secondaryButtonLink: string
+  category: string
+  subCategory: string
+  brand: string
+  gender: string
+  status: string
+  featureProduct: boolean
+  defaultVariant: string
+}
 
 function ActionLayout({
   leftColumn,
@@ -29,9 +50,10 @@ function ActionLayout({
   const submit_ButtonRef = useRef<HTMLButtonElement>(null)
   const isLoadingButtonStyle = isLoading ? { opacity: '0.5' } : { opacity: '1' }
 
+  const methods = useForm<IFormValues>()
+
   //Submit Form not varriants
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleFormSubmit: SubmitHandler<IFormValues> = (data) => {
     setIsLoading(true)
 
     if (submit_ButtonRef.current) {
@@ -40,7 +62,14 @@ function ActionLayout({
     }
 
     Toastify.showToastMessagePending()
-    const formData = new FormData(e.currentTarget)
+    const formData = new FormData()
+    formData.append('name', data.name)
+    formData.append('title', data.title)
+    formData.append('slug', data.slug)
+    formData.append('description', data.description)
+    if (data.image && data.image.length > 0) {
+      formData.append('image', data.image[0])
+    }
 
     try {
       fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
@@ -83,29 +112,27 @@ function ActionLayout({
   }
 
   //Submit Form with varriants
-  const handleFormSubmitWithVariant = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleFormSubmitWithVariant: SubmitHandler<IFormValues> = (data) => {
     setIsLoading(true)
     if (submit_ButtonRef.current) {
       submit_ButtonRef.current.disabled = true
       submit_ButtonRef.current.classList.add(cx('disable_button'))
     }
     Toastify.showToastMessagePending()
-    const form = new FormData(e.currentTarget)
     const payload = {
-      name: form.get('name'),
-      title: form.get('title'),
-      slug: form.get('slug'),
-      description: form.get('description'),
-      category: form.get('category'),
-      subCategory: form.get('subCategory'),
-      brand: form.get('brand'),
-      gender: form.get('gender'),
-      status: form.get('status'),
-      productCode: form.get('productCode'),
+      name: data.name,
+      title: data.title,
+      slug: data.slug,
+      description: data.description,
+      category: data.category,
+      subCategory: data.subCategory,
+      brand: data.brand,
+      gender: data.gender,
+      status: data.status,
+      productCode: data.productCode,
       tags: tags,
-      featureProduct: form.get('featureProduct'),
-      defaultVariant: form.get('defaultVariant'),
+      featureProduct: data.featureProduct,
+      defaultVariant: data.defaultVariant,
       variants: variants.map((variant) => ({
         variantID: variant.variantID,
         variantName: variant.variantName,
@@ -115,14 +142,22 @@ function ActionLayout({
         variantQuantity: variant.variantQuantity,
         variantRegularPrice: variant.variantRegularPrice,
         variantSalePrice: variant.variantSalePrice,
+        variantImages: (variant.variantImages as string[]).map((image: string) => {
+          if (typeof image === 'string') {
+            return image
+          } else {
+            return 'newImage'
+          }
+        }),
+
         numberOfImages: variant.variantImages.length,
       })),
     }
 
     const formData = new FormData()
     formData.append('payload', JSON.stringify(payload))
-    variants.forEach((variant, index) => {
-      variant.variantImages.forEach((file, fileIndex) => {
+    variants.forEach((variant, _) => {
+      variant.variantImages.forEach((file, _) => {
         formData.append('variantImages', file)
       })
     })
@@ -169,26 +204,32 @@ function ActionLayout({
   }
 
   return (
-    <>
-      <form
-        className={cx('add-layout')}
-        onSubmit={hasVariant ? handleFormSubmitWithVariant : handleFormSubmit}
-      >
-        <div className={cx('left-column')}>{leftColumn}</div>
-        <div className={cx('right-column')}>
-          {rightColumn}
-          <button
-            ref={submit_ButtonRef}
-            type="submit"
-            className={cx('button')}
-            disabled={isLoading}
-            style={isLoadingButtonStyle}
-          >
-            {isLoading ? <Spinner /> : nameButtonSubmit ? nameButtonSubmit : 'Submit'}
-          </button>
-        </div>
-      </form>
-    </>
+    <React.Fragment>
+      <FormProvider {...methods}>
+        <form
+          className={cx('add-layout')}
+          onSubmit={
+            hasVariant
+              ? methods.handleSubmit(handleFormSubmitWithVariant)
+              : methods.handleSubmit(handleFormSubmit)
+          }
+        >
+          <div className={cx('left-column')}>{leftColumn}</div>
+          <div className={cx('right-column')}>
+            {rightColumn}
+            <button
+              ref={submit_ButtonRef}
+              type="submit"
+              className={cx('button')}
+              disabled={isLoading}
+              style={isLoadingButtonStyle}
+            >
+              {isLoading ? <Spinner /> : nameButtonSubmit ? nameButtonSubmit : 'Submit'}
+            </button>
+          </div>
+        </form>
+      </FormProvider>
+    </React.Fragment>
   )
 }
 
