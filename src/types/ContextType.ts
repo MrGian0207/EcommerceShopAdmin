@@ -17,5 +17,6 @@ export type UpdateLayoutContextType = {
 }
 
 export type UserContextType = {
+  loadingUser: boolean
   dataUser: User
 }

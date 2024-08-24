@@ -12,6 +12,7 @@ import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
 import ReactModal from 'react-modal'
 
+import { ProductRules } from '../ProductRules'
 import Tag from '../Tag'
 import VariantBox from '../VariantBox'
 import styles from './ProductAdd.module.scss'
@@ -93,7 +94,6 @@ function ProductAdd(): JSX.Element {
         const subCategories: OptionType[] = subCategoriesData.data
         const brands: OptionType[] = brandsData.data
         const genderOptions: OptionType[] = [
-          { value: 'None', label: 'None' },
           { value: 'Men', label: 'Men' },
           { value: 'Women', label: 'Women' },
           { value: 'Kids', label: 'Kids' },
@@ -134,8 +134,8 @@ function ProductAdd(): JSX.Element {
           // Left Column
           leftColumn={
             <>
-              <Input name="name" label="Product Name" />
-              <Input name="title" label="Meta Title" />
+              <Input name="name" label="Product Name" rules={ProductRules.name} />
+              <Input name="title" label="Meta Title" rules={ProductRules.title} />
 
               <div className={cx('row')}>
                 <OptionSelect label="Category" name="category" options={mainCategoriesOptions} />
@@ -154,7 +154,7 @@ function ProductAdd(): JSX.Element {
               <div className={cx('row')}>
                 <OptionSelect label="Status" name="status" options={statusOptions} />
 
-                <Input name="productCode" label="Product Code" />
+                <Input name="productCode" label="Product Code" rules={ProductRules.productCode} />
               </div>
 
               <Tag tags={tags} setTags={setTags} />
@@ -164,9 +164,9 @@ function ProductAdd(): JSX.Element {
           rightColumn={
             <>
               <div className={cx('right-column')}>
-                <Input name="slug" label="Slug" />
+                <Input name="slug" label="Slug" rules={ProductRules.slug} />
 
-                <Input name="description" label="Description" />
+                <Input name="description" label="Description" rules={ProductRules.description} />
 
                 <Toggle name="featureProduct" label="Feature Product" />
 

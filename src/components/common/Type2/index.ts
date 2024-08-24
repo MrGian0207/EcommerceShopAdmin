@@ -1,5 +1,5 @@
-import GenderSelect from './GenderSelect'
 import Input from './Input'
+import Select from './Select'
 import TextArea from './TextArea'
 
-export { GenderSelect, Input, TextArea }
+export { Select, Input, TextArea }

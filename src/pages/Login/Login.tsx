@@ -9,22 +9,28 @@ import Spinner from '~/components/Spinner'
 import { useAuth } from '~/context/AuthContext'
 import * as Toastify from '~/services/Toastify'
 import classNames from 'classnames/bind'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './Login.module.scss'
+import { LoginRules } from './LoginRules'
+
+interface IFormValues {
+  email: string
+  password: string
+}
 
 const cx = classNames.bind(styles)
 
 function Login(): JSX.Element {
+  const methods = useForm<IFormValues>()
   const [Loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate()
   const { login } = useAuth()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const onSubmit: SubmitHandler<IFormValues> = async (data) => {
     setLoading(true)
     try {
-      const formData = new FormData(e.currentTarget)
       Toastify.showToastMessagePending()
       const loginRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
         method: 'POST',
@@ -32,8 +38,8 @@ function Login(): JSX.Element {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: formData.get('email'),
-          password: formData.get('password'),
+          email: data.email,
+          password: data.password,
         }),
         credentials: 'include',
         mode: 'cors',
@@ -77,30 +83,39 @@ function Login(): JSX.Element {
           navigator="Get started"
           navigatorLink={api.register}
         >
-          <form onSubmit={handleSubmit} className={cx('formData')}>
-            <Input name="email" iconLeft={faEnvelope} label="Email Address" />
-            <Input
-              iconLeft={faLock}
-              iconRight={faEye}
-              type="password"
-              name="password"
-              label="Password"
-            />
-            <div className={cx('option')}>
-              <div className={cx('remember-me')}>
-                <div className={cx('remember-input')}>
-                  <input type="checkbox" id="remember" />
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)} className={cx('formData')}>
+              <Input
+                name="email"
+                type="email"
+                iconLeft={faEnvelope}
+                label="Email Address"
+                rules={LoginRules.email}
+              />
+              <Input
+                iconLeft={faLock}
+                iconRight={faEye}
+                type="password"
+                name="password"
+                label="Password"
+                rules={LoginRules.password}
+              />
+              <div className={cx('option')}>
+                <div className={cx('remember-me')}>
+                  <div className={cx('remember-input')}>
+                    <input type="checkbox" id="remember" />
+                  </div>
+                  <label htmlFor="remember-me">Remember me</label>
                 </div>
-                <label htmlFor="remember-me">Remember me</label>
+                <span className={cx('forgot-password')}>
+                  <Button to={api.forgetPassword} children={'Forgot Password'} />
+                </span>
               </div>
-              <span className={cx('forgot-password')}>
-                <Button to={api.forgetPassword} children={'Forgot Password'} />
-              </span>
-            </div>
-            <button disabled={Loading} className={cx('auth-button')} type="submit">
-              {Loading ? <Spinner /> : 'Login'}
-            </button>
-          </form>
+              <button disabled={Loading} className={cx('auth-button')} type="submit">
+                {Loading ? <Spinner /> : 'Login'}
+              </button>
+            </form>
+          </FormProvider>
         </FormAuth>
       </div>
     </div>

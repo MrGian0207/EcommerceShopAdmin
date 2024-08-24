@@ -7,6 +7,7 @@ import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
 import { useLocation } from 'react-router-dom'
 
+import { BrandRules } from '../BrandRules'
 import styles from './BrandsEdit.module.scss'
 
 const cx = classNames.bind(styles)
@@ -79,10 +80,25 @@ function BrandsEdit(): JSX.Element {
         <ActionLayout
           leftColumn={
             <React.Fragment>
-              <Input name="name" label="Brand Name" defaultValue={branch.name} />
-              <Input name="title" label="Meta Title" defaultValue={branch.title} />
-              <Input name="slug" label="Slug" defaultValue={branch.slug} />
-              <Input name="description" label="Description" defaultValue={branch.description} />
+              <Input
+                name="name"
+                label="Brand Name"
+                defaultValue={branch.name}
+                rules={BrandRules.name}
+              />
+              <Input
+                name="title"
+                label="Meta Title"
+                defaultValue={branch.title}
+                rules={BrandRules.title}
+              />
+              <Input name="slug" label="Slug" defaultValue={branch.slug} rules={BrandRules.slug} />
+              <Input
+                name="description"
+                label="Description"
+                defaultValue={branch.description}
+                rules={BrandRules.description}
+              />
             </React.Fragment>
           }
           rightColumn={

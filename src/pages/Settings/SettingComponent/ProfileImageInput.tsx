@@ -1,19 +1,36 @@
 import { useRef, useState } from 'react'
 import { faCamera } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ErrorMessage } from '@hookform/error-message'
 import * as HandleImageFile from '~/utils/HandleImageFile'
 import classNames from 'classnames/bind'
+import { Controller, RegisterOptions, useFormContext } from 'react-hook-form'
 
 import styles from './SettingComponent.module.scss'
 
+interface IFormValues {
+  image: FileList
+}
+
 const cx = classNames.bind(styles)
 
-export default function ProfileImageInput({ imageSaved }: { imageSaved?: string }) {
+export default function ProfileImageInput({
+  imageSaved,
+  rules,
+}: {
+  imageSaved?: string
+  rules?:
+    | Omit<
+        RegisterOptions<IFormValues, keyof IFormValues>,
+        'setValueAs' | 'disabled' | 'valueAsNumber' | 'valueAsDate'
+      >
+    | undefined
+}) {
+  const { control, formState } = useFormContext<IFormValues>()
   const imageUploadRef = useRef<HTMLInputElement>(null)
   const [imageSelected, setImageSelected] = useState<File | string | undefined>(imageSaved)
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
+  const handleImageChange = (files: FileList | null) => {
     if (files && files.length > 0) {
       setImageSelected(files[0])
     }
@@ -32,13 +49,23 @@ export default function ProfileImageInput({ imageSaved }: { imageSaved?: string 
         }}
         className={cx('image')}
       >
-        <input
-          onChange={handleImageChange}
+        <Controller
           name="image"
-          id="dataImage"
-          ref={imageUploadRef}
-          type="file"
-          hidden
+          control={control}
+          rules={{
+            ...rules,
+          }}
+          render={({ field }) => (
+            <input
+              type="file"
+              ref={imageUploadRef}
+              onChange={(e) => {
+                handleImageChange(e.target.files)
+                field.onChange(e.target.files)
+              }}
+              hidden
+            />
+          )}
         />
         {imageSelected && <img src={imagePreview} alt="Avatar" />}
         <div className={cx('image-input')}>
@@ -51,6 +78,9 @@ export default function ProfileImageInput({ imageSaved }: { imageSaved?: string 
         <br />
         max size of 3145728
       </span>
+      <p className={cx('errorMessage')}>
+        <ErrorMessage errors={formState.errors} name={'image'} />
+      </p>
     </div>
   )
 }

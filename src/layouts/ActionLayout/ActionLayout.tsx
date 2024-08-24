@@ -26,6 +26,7 @@ interface IFormValues {
   primaryButtonLink: string
   secondaryButtonText: string
   secondaryButtonLink: string
+  displaySlide: boolean
   category: string
   subCategory: string
   brand: string
@@ -67,6 +68,12 @@ function ActionLayout({
     formData.append('title', data.title)
     formData.append('slug', data.slug)
     formData.append('description', data.description)
+    formData.append('heading', data.heading)
+    formData.append('primaryButtonText', data.primaryButtonText)
+    formData.append('primaryButtonLink', data.primaryButtonLink)
+    formData.append('secondaryButtonText', data.secondaryButtonText)
+    formData.append('secondaryButtonLink', data.secondaryButtonLink)
+    formData.append('displaySlide', String(data.displaySlide))
     if (data.image && data.image.length > 0) {
       formData.append('image', data.image[0])
     }
@@ -89,11 +96,9 @@ function ActionLayout({
               submit_ButtonRef.current.disabled = false
               submit_ButtonRef.current.classList.remove(cx('disable_button'))
             }
-            if (data.status === 'Success') {
-              Toastify.showToastMessageSuccessfully(data?.message)
-            } else {
-              Toastify.showToastMessageFailure(data?.message)
-            }
+            Toastify.showToastMessageSuccessfully(data?.message)
+          } else {
+            Toastify.showToastMessageFailure(data?.message)
           }
         })
         .catch((err) => {

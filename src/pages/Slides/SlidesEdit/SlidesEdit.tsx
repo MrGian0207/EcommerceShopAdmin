@@ -10,6 +10,7 @@ import classNames from 'classnames/bind'
 import styles from '../Slides.module.scss'
 import DisplaySlide from '../SlidesComponent/DisplaySlide'
 import SlideImage from '../SlidesComponent/SlideImage'
+import { SlidesRules } from '../SlidesRule'
 
 interface SlideType {
   heading: string
@@ -75,26 +76,35 @@ function SlidesEdit() {
         <ActionLayout
           leftColumn={
             <React.Fragment>
-              <Input name="heading" label="Heading" defaultValue={data.heading} />
+              <Input
+                name="heading"
+                label="Heading"
+                defaultValue={data.heading}
+                rules={SlidesRules.heading}
+              />
               <Input
                 name="primaryButtonText"
                 label="Primary Button Text"
                 defaultValue={data.primaryButtonText}
+                rules={SlidesRules.primaryButtonText}
               />
               <Input
                 name="primaryButtonLink"
                 label="Primary Button Link"
                 defaultValue={data.primaryButtonLink}
+                rules={SlidesRules.primaryButtonLink}
               />
               <Input
                 name="secondaryButtonText"
                 label="Secondary Button Text"
                 defaultValue={data.secondaryButtonText}
+                rules={SlidesRules.secondaryButtonText}
               />
               <Input
                 name="secondaryButtonLink"
                 label="Secondary Button Link"
                 defaultValue={data.secondaryButtonLink}
+                rules={SlidesRules.secondaryButtonLink}
               />
             </React.Fragment>
           }
@@ -106,9 +116,10 @@ function SlidesEdit() {
                   rows={9}
                   label="Description"
                   defaultValue={data.description}
+                  rules={SlidesRules.description}
                 />
                 <SlideImage imageSaved={data.image}>
-                  <DisplaySlide defaultChecked={data.displaySlide === 'on'} />
+                  <DisplaySlide defaultChecked={data.displaySlide === 'true'} name="displaySlide" />
                 </SlideImage>
               </div>
             </React.Fragment>

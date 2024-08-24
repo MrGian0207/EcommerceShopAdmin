@@ -3,21 +3,27 @@ import { ErrorMessage } from '@hookform/error-message'
 import images from '~/assets/Image'
 import * as HandleImageFile from '~/utils/HandleImageFile'
 import classNames from 'classnames/bind'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller, RegisterOptions, useFormContext } from 'react-hook-form'
 
 import styles from './common.module.scss'
 
-const cx = classNames.bind(styles)
-
 interface IFormValues {
-  name: string
-  title: string
-  slug: string
-  description: string
   image: FileList
 }
+const cx = classNames.bind(styles)
 
-export default function ImageInput({ imageSaved }: { imageSaved?: string }) {
+export default function ImageInput({
+  imageSaved,
+  rules,
+}: {
+  imageSaved?: string
+  rules?:
+    | Omit<
+        RegisterOptions<IFormValues, keyof IFormValues>,
+        'setValueAs' | 'disabled' | 'valueAsNumber' | 'valueAsDate'
+      >
+    | undefined
+}) {
   const { control, formState } = useFormContext<IFormValues>()
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [imageSelected, setImageSelected] = useState<File | string | undefined>(imageSaved)
@@ -41,7 +47,7 @@ export default function ImageInput({ imageSaved }: { imageSaved?: string }) {
           name="image"
           control={control}
           rules={{
-            required: 'Image is required',
+            ...rules,
           }}
           render={({ field }) => (
             <input

@@ -33,8 +33,9 @@
 .content-layout {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 100dvw;
   height: 100vh;
+  overflow-x: hidden;
 
   & .page-title {
     position: sticky;

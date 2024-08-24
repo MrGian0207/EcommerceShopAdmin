@@ -8,6 +8,7 @@ import classNames from 'classnames/bind'
 import styles from '../Slides.module.scss'
 import DisplaySlide from '../SlidesComponent/DisplaySlide'
 import SlideImage from '../SlidesComponent/SlideImage'
+import { SlidesRules } from '../SlidesRule'
 
 const cx = classNames.bind(styles)
 
@@ -24,19 +25,40 @@ function SlidesAdd(): JSX.Element {
         <ActionLayout
           leftColumn={
             <React.Fragment>
-              <Input name="heading" label="Heading" />
-              <Input name="primaryButtonText" label="Primary Button Text" />
-              <Input name="primaryButtonLink" label="Primary Button Link" />
-              <Input name="secondaryButtonText" label="Secondary Button Text" />
-              <Input name="secondaryButtonLink" label="Secondary Button Link" />
+              <Input name="heading" label="Heading" rules={SlidesRules.heading} />
+              <Input
+                name="primaryButtonText"
+                label="Primary Button Text"
+                rules={SlidesRules.primaryButtonText}
+              />
+              <Input
+                name="primaryButtonLink"
+                label="Primary Button Link"
+                rules={SlidesRules.primaryButtonLink}
+              />
+              <Input
+                name="secondaryButtonText"
+                label="Secondary Button Text"
+                rules={SlidesRules.secondaryButtonText}
+              />
+              <Input
+                name="secondaryButtonLink"
+                label="Secondary Button Link"
+                rules={SlidesRules.secondaryButtonLink}
+              />
             </React.Fragment>
           }
           rightColumn={
             <React.Fragment>
               <div className={cx('image-container')}>
-                <TextArea name="description" rows={9} label="Description" />
-                <SlideImage>
-                  <DisplaySlide />
+                <TextArea
+                  name="description"
+                  rows={9}
+                  label="Description"
+                  rules={SlidesRules.description}
+                />
+                <SlideImage rules={SlidesRules.image}>
+                  <DisplaySlide name="displaySlide" />
                 </SlideImage>
               </div>
             </React.Fragment>

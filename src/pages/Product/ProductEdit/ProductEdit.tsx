@@ -13,6 +13,7 @@ import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
 import ReactModal from 'react-modal'
 
+import { ProductRules } from '../ProductRules'
 import Tag from '../Tag'
 import VariantBox from '../VariantBox'
 import styles from './ProductEdit.module.scss'
@@ -176,8 +177,18 @@ function ProductEdit(): JSX.Element {
           // Left Column
           leftColumn={
             <>
-              <Input name="name" label="Product Name" defaultValue={product.name} />
-              <Input name="title" label="Meta Title" defaultValue={product.title} />
+              <Input
+                name="name"
+                label="Product Name"
+                defaultValue={product.name}
+                rules={ProductRules.name}
+              />
+              <Input
+                name="title"
+                label="Meta Title"
+                defaultValue={product.title}
+                rules={ProductRules.title}
+              />
 
               <div className={cx('row')}>
                 <OptionSelect
@@ -216,7 +227,12 @@ function ProductEdit(): JSX.Element {
                   defaultValue={product.status}
                   options={statusOptions}
                 />
-                <Input name="productCode" label="Product Code" defaultValue={product.productCode} />
+                <Input
+                  name="productCode"
+                  label="Product Code"
+                  defaultValue={product.productCode}
+                  rules={ProductRules.productCode}
+                />
               </div>
 
               <Tag tags={tags} setTags={setTags} />
@@ -226,9 +242,19 @@ function ProductEdit(): JSX.Element {
             // Right Column
             <>
               <div className={cx('right-column')}>
-                <Input name="slug" label="Slug" defaultValue={product.slug} />
+                <Input
+                  name="slug"
+                  label="Slug"
+                  defaultValue={product.slug}
+                  rules={ProductRules.slug}
+                />
 
-                <Input name="description" label="Description" defaultValue={product.description} />
+                <Input
+                  name="description"
+                  label="Description"
+                  defaultValue={product.description}
+                  rules={ProductRules.description}
+                />
 
                 <Toggle
                   defaultChecked={product.featureProduct === 'true'}

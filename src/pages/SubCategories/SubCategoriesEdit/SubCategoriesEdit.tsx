@@ -8,6 +8,7 @@ import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
 import { useLocation } from 'react-router-dom'
 
+import { SubCategoriesRules } from '../SubCategoriesRules'
 import styles from './SubCategoriesEdit.module.scss'
 
 interface SubCategoriesType {
@@ -111,13 +112,29 @@ function SubCategoriesEdit() {
         <ActionLayout
           leftColumn={
             <React.Fragment>
-              <Input name="name" label="Sub Category Name" defaultValue={subCategory.name} />
-              <Input name="title" label="Meta Title" defaultValue={subCategory.title} />
-              <Input name="slug" label="Slug" defaultValue={subCategory.slug} />
+              <Input
+                name="name"
+                label="Sub Category Name"
+                defaultValue={subCategory.name}
+                rules={SubCategoriesRules.name}
+              />
+              <Input
+                name="title"
+                label="Meta Title"
+                defaultValue={subCategory.title}
+                rules={SubCategoriesRules.title}
+              />
+              <Input
+                name="slug"
+                label="Slug"
+                defaultValue={subCategory.slug}
+                rules={SubCategoriesRules.slug}
+              />
               <Input
                 name="description"
                 label="Description"
                 defaultValue={subCategory.description}
+                rules={SubCategoriesRules.description}
               />
             </React.Fragment>
           }
@@ -129,6 +146,7 @@ function SubCategoriesEdit() {
                   name="category"
                   options={mainCategoriesOptions}
                   defaultValue={subCategory.parentCategory}
+                  rules={SubCategoriesRules.parentCategory}
                 />
                 <ImageInput imageSaved={subCategory.image} />
               </div>

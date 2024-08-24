@@ -1,10 +1,17 @@
-import React, { createContext, memo, ReactNode, useContext, useEffect, useState } from 'react'
+import React, {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { UserContextType } from '~/types/ContextType'
 import { User } from '~/types/UserType'
 
 import { useAuth } from './AuthContext'
 
-const emptyDataUser = {
+const emptyDataUser: User = {
   _id: '',
   name: '',
   gender: '',
@@ -18,19 +25,21 @@ const emptyDataUser = {
 }
 
 const UserContext = createContext<UserContextType>({
+  loadingUser: false,
   dataUser: emptyDataUser,
 })
 
-export const useUser = () => {
-  return useContext(UserContext)
-}
+export const useUser = () => useContext(UserContext)
 
-export const UserContextProvider: React.FC<{ children: ReactNode }> = memo(({ children }) => {
+export const UserContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { accessToken } = useAuth()
-  const [dataUser, setdataUser] = useState<User>(emptyDataUser)
+  const [loadingUser, setLoadingUser] = useState(false)
+  const [dataUser, setDataUser] = useState<User>(emptyDataUser)
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = useCallback(
+    async (signal: AbortSignal) => {
+      setLoadingUser(true)
+
       const id_user = localStorage.getItem('id_user') || ''
       if (id_user !== '') {
         try {
@@ -41,15 +50,35 @@ export const UserContextProvider: React.FC<{ children: ReactNode }> = memo(({ ch
               Authorization: `Bearer ${accessToken}`,
             },
             credentials: 'include',
+            signal,
           })
+
           const resData = await res.json()
-          setdataUser(resData)
+          if (!signal.aborted && resData) {
+            setDataUser(resData) // Đặt dữ liệu trước
+          }
         } catch (error) {
           console.log(error)
+        } finally {
+          if (!signal.aborted) {
+            setLoadingUser(false)
+          }
         }
+      } else {
+        setLoadingUser(false)
       }
+    },
+    [accessToken]
+  )
+
+  useEffect(() => {
+    const controller = new AbortController()
+    fetchData(controller.signal)
+
+    return () => {
+      controller.abort()
     }
-    fetchData()
-  }, [accessToken])
-  return <UserContext.Provider value={{ dataUser }}>{children}</UserContext.Provider>
-})
+  }, [fetchData])
+
+  return <UserContext.Provider value={{ dataUser, loadingUser }}>{children}</UserContext.Provider>
+}

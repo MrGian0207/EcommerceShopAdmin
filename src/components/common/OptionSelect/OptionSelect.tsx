@@ -1,4 +1,4 @@
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ErrorMessage } from '@hookform/error-message'
 import classNames from 'classnames/bind'
@@ -14,26 +14,33 @@ interface IFormValues {
   brand: string
   gender: string
   status: string
+  role: string
 }
 
 interface OptionType {
-  value: string
   label: string
+  value: string
 }
 
 interface OptionSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   name: keyof IFormValues
   rules?: RegisterOptions<IFormValues, keyof IFormValues>
   label?: string
+  icon?: IconDefinition
   options?: OptionType[]
 }
 
 // Thêm kiểu dữ liệu cho ref
-const OptionSelect = ({ name, rules, label, options, ...props }: OptionSelectProps) => {
+const OptionSelect = ({ name, rules, label, icon, options, ...props }: OptionSelectProps) => {
   const { register, formState } = useFormContext<IFormValues>()
   return (
     <div className={cx('selected-box')}>
       <label>{label}</label>
+      {icon && (
+        <span className={cx('icon-left')}>
+          <FontAwesomeIcon icon={icon} />
+        </span>
+      )}
       <div className={cx('options-box')}>
         <select className={cx('custom-select')} {...register(name, rules)} {...props}>
           {options?.map((option) => {

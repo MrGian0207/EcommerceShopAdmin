@@ -9,36 +9,45 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import api from '~/api/api'
 import AuthHeader from '~/components/AuthHeader'
-import { GenderSelect, Input } from '~/components/common/Type2'
+import { Input, Select } from '~/components/common/Type2'
 import FormAuth from '~/components/FormAuth'
 import Spinner from '~/components/Spinner'
 import * as Toastify from '~/services/Toastify'
 import classNames from 'classnames/bind'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import styles from './Register.module.scss'
+import { RegisterRules } from './RegisterRules'
+
+interface IFormValues {
+  email: string
+  gender: string
+  phone: string
+  name: string
+  password: string
+}
 
 const cx = classNames.bind(styles)
 
 function Register(): JSX.Element {
+  const methods = useForm<IFormValues>()
   const [Loading, setLoading] = useState<boolean>(false)
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const onSubmit: SubmitHandler<IFormValues> = async (data) => {
     setLoading(true)
     try {
       Toastify.showToastMessagePending()
-      const formData = new FormData(e.currentTarget)
       const register = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: formData.get('name'),
-          gender: formData.get('gender'),
-          phone: formData.get('phone'),
-          email: formData.get('email'),
-          password: formData.get('password'),
+          name: data.name,
+          gender: data.gender,
+          phone: data.phone,
+          email: data.email,
+          password: data.password,
         }),
       })
 
@@ -74,29 +83,32 @@ function Register(): JSX.Element {
           navigator="Login"
           navigatorLink={api.login}
         >
-          <form onSubmit={handleSubmit} className={cx('formData')}>
-            <Input iconLeft={faUser} name="name" label="Full Name" />
-            <div className={cx('row')}>
-              <GenderSelect
-                icon={faVenus}
-                name="gender"
-                label="Gender"
-                options={['Male', 'Female']}
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)} className={cx('formData')}>
+              <Input iconLeft={faUser} name="name" label="Full Name" rules={RegisterRules.name} />
+              <div className={cx('row')}>
+                <Select icon={faVenus} name="gender" label="Gender" options={['Male', 'Female']} />
+                <Input iconLeft={faPhone} name="phone" label="Phone" rules={RegisterRules.phone} />
+              </div>
+              <Input
+                iconLeft={faEnvelope}
+                name="email"
+                label="Email Address"
+                rules={RegisterRules.email}
               />
-              <Input iconLeft={faPhone} name="phone" label="Phone" />
-            </div>
-            <Input iconLeft={faEnvelope} name="email" label="Email Address" />
-            <Input
-              iconLeft={faLock}
-              iconRight={faEye}
-              name="password"
-              label="Password"
-              type="password"
-            />
-            <button type="submit" className={cx('auth-button')}>
-              {Loading ? <Spinner /> : 'Register'}
-            </button>
-          </form>
+              <Input
+                iconLeft={faLock}
+                iconRight={faEye}
+                name="password"
+                label="Password"
+                type="password"
+                rules={RegisterRules.password}
+              />
+              <button type="submit" className={cx('auth-button')}>
+                {Loading ? <Spinner /> : 'Register'}
+              </button>
+            </form>
+          </FormProvider>
         </FormAuth>
       </div>
     </div>

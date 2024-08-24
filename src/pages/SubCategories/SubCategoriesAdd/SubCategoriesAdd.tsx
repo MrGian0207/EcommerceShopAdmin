@@ -7,6 +7,7 @@ import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
 
+import { SubCategoriesRules } from '../SubCategoriesRules'
 import styles from './SubCategoriesAdd.module.scss'
 
 const cx = classNames.bind(styles)
@@ -68,10 +69,14 @@ function SubCategoriesAdd() {
         <ActionLayout
           leftColumn={
             <React.Fragment>
-              <Input name="name" label="Sub Category Name" />
-              <Input name="title" label="Meta Title" />
-              <Input name="slug" label="Slug" />
-              <Input name="description" label="Description" />
+              <Input name="name" label="Sub Category Name" rules={SubCategoriesRules.name} />
+              <Input name="title" label="Meta Title" rules={SubCategoriesRules.title} />
+              <Input name="slug" label="Slug" rules={SubCategoriesRules.slug} />
+              <Input
+                name="description"
+                label="Description"
+                rules={SubCategoriesRules.description}
+              />
             </React.Fragment>
           }
           rightColumn={
@@ -81,8 +86,9 @@ function SubCategoriesAdd() {
                   label="Parent Category"
                   name="category"
                   options={mainCategoriesOptions}
+                  rules={SubCategoriesRules.parentCategory}
                 />
-                <ImageInput />
+                <ImageInput rules={SubCategoriesRules.image} />
               </div>
             </>
           }

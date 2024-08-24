@@ -7,6 +7,7 @@ import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
 import { useLocation } from 'react-router-dom'
 
+import { MainCategoriesRules } from '../MainCategoriesRules'
 import styles from './MainCategoriesEdit.module.scss'
 
 const cx = classNames.bind(styles)
@@ -78,10 +79,30 @@ function MainCategoriesEdit(): JSX.Element {
         <ActionLayout
           leftColumn={
             <React.Fragment>
-              <Input name="name" label="Category Name" defaultValue={category.name} />
-              <Input name="title" label="Meta Title" defaultValue={category.title} />
-              <Input name="slug" label="Slug" defaultValue={category.slug} />
-              <Input name="description" label="Description" defaultValue={category.description} />
+              <Input
+                name="name"
+                label="Category Name"
+                defaultValue={category.name}
+                rules={MainCategoriesRules.name}
+              />
+              <Input
+                name="title"
+                label="Meta Title"
+                defaultValue={category.title}
+                rules={MainCategoriesRules.title}
+              />
+              <Input
+                name="slug"
+                label="Slug"
+                defaultValue={category.slug}
+                rules={MainCategoriesRules.slug}
+              />
+              <Input
+                name="description"
+                label="Description"
+                defaultValue={category.description}
+                rules={MainCategoriesRules.description}
+              />
             </React.Fragment>
           }
           rightColumn={

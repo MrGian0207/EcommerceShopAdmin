@@ -10,6 +10,10 @@ import { useUpdateLayout } from '~/context/UpdateLayoutContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import { SlideType } from '~/types/SlideType'
 import classNames from 'classnames/bind'
+import { Autoplay } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+
+import 'swiper/css'
 
 import styles from './Slides.module.scss'
 
@@ -61,7 +65,30 @@ function Slides(): JSX.Element {
           </Button>,
         ]}
       >
-        <ImageSlider data={data} />
+        <div className={cx('slider-wrapper')}>
+          <Swiper
+            style={{
+              height: '100%',
+            }}
+            autoplay={{
+              delay: 4000,
+              disableOnInteraction: false,
+            }}
+            loop={true}
+            speed={1000}
+            modules={[Autoplay]}
+            spaceBetween={50}
+            slidesPerView={1}
+          >
+            {data.map((slider: any) => {
+              return (
+                <SwiperSlide>
+                  <ImageSlider slider={slider} />
+                </SwiperSlide>
+              )
+            })}
+          </Swiper>
+        </div>
       </DefaultLayout>
     </div>
   )

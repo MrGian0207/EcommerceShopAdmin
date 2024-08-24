@@ -1,5 +1,6 @@
 .slides {
   height: 100%;
+  max-width: 100%;
 }
 
 .image-container {
@@ -130,4 +131,15 @@
     font-size: var(--font-size-small);
     font-weight: 500;
   }
+}
+
+.errorMessage {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.slider-wrapper {
+  height: 100%;
+  max-width: 100%;
 }

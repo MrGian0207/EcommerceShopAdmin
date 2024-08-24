@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { Input } from '~/components/common/Type2'
 import Spinner from '~/components/Spinner'
@@ -6,29 +6,32 @@ import { useAuth } from '~/context/AuthContext'
 import { useUser } from '~/context/UserContext'
 import * as Toastify from '~/services/Toastify'
 import classNames from 'classnames/bind'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
+import { SettingRules } from '../SettingsRules'
 import styles from './ChangePassword.module.scss'
+
+interface IFormValues {
+  oldPassword: string
+  newPassword: string
+  confirmPassword: string
+}
 
 const cx = classNames.bind(styles)
 
 function ChangePassword(): JSX.Element {
+  const methods = useForm<IFormValues>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { accessToken } = useAuth()
   const { dataUser } = useUser()
   const formRef = useRef<HTMLFormElement>(null)
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const onSubmit: SubmitHandler<IFormValues> = async (data) => {
     setIsLoading(true)
     try {
-      const formData = new FormData(e.currentTarget)
       Toastify.showToastMessagePending()
 
-      const oldPassword = formData.get('oldPassword') || ''
-      const newPassword = formData.get('newPassword') || ''
-      const confirmPassword = formData.get('confirmPassword') || ''
-
-      if (String(newPassword).trim() !== String(confirmPassword).trim()) {
+      if (String(data.newPassword).trim() !== String(data.confirmPassword).trim()) {
         Toastify.showToastMessageFailure('new password and confirm password does not match')
         return
       }
@@ -41,8 +44,8 @@ function ChangePassword(): JSX.Element {
         },
         body: JSON.stringify({
           id: dataUser._id,
-          oldPassword: oldPassword,
-          newPassword: newPassword,
+          oldPassword: data.oldPassword,
+          newPassword: data.newPassword,
         }),
       })
 
@@ -68,20 +71,39 @@ function ChangePassword(): JSX.Element {
 
   return (
     <section className={cx('change-password')}>
-      <form ref={formRef} onSubmit={handleSubmit} className={cx('change-password-form')}>
-        <Input type="password" name="oldPassword" label="Old Password" iconRight={faEye} />
-        <Input type="password" name="newPassword" label="New Password" iconRight={faEye} />
-        <Input
-          type="password"
-          name="confirmPassword"
-          label="Confirm New Password"
-          iconRight={faEye}
-        />
+      <FormProvider {...methods}>
+        <form
+          ref={formRef}
+          onSubmit={methods.handleSubmit(onSubmit)}
+          className={cx('change-password-form')}
+        >
+          <Input
+            type="password"
+            name="oldPassword"
+            label="Old Password"
+            iconRight={faEye}
+            rules={SettingRules.password}
+          />
+          <Input
+            type="password"
+            name="newPassword"
+            label="New Password"
+            iconRight={faEye}
+            rules={SettingRules.password}
+          />
+          <Input
+            type="password"
+            name="confirmPassword"
+            label="Confirm New Password"
+            iconRight={faEye}
+            rules={SettingRules.password}
+          />
 
-        <button type="submit" disabled={isLoading} className={cx('submitChangeBtn')}>
-          {isLoading ? <Spinner /> : 'Save changes'}
-        </button>
-      </form>
+          <button type="submit" disabled={isLoading} className={cx('submitChangeBtn')}>
+            {isLoading ? <Spinner /> : 'Save changes'}
+          </button>
+        </form>
+      </FormProvider>
     </section>
   )
 }

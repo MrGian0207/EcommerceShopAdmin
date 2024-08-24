@@ -7,22 +7,27 @@ import FormAuth from '~/components/FormAuth'
 import Spinner from '~/components/Spinner'
 import * as Toastify from '~/services/Toastify'
 import classNames from 'classnames/bind'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import styles from './ForgotPassword.module.scss'
+import { ForgotPasswordRules } from './ForgotPasswordRules'
+
+interface IFormValues {
+  email: string
+}
 
 const cx = classNames.bind(styles)
 function ForgotPassword() {
+  const methods = useForm<IFormValues>()
   const [Loading, setLoading] = useState<Boolean>(false)
 
   useEffect(() => {
     document.title = 'Forgot Password | MrGianStore'
   }, [])
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const onSubmit: SubmitHandler<IFormValues> = async (data) => {
     setLoading(true)
     try {
-      const formData = new FormData(e.currentTarget)
       Toastify.showToastMessagePending()
       const forgotPassword = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/auth/forgot-password`,
@@ -32,7 +37,7 @@ function ForgotPassword() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            email: formData.get('email'),
+            email: data.email,
           }),
           credentials: 'include',
           mode: 'cors',
@@ -51,41 +56,6 @@ function ForgotPassword() {
     } finally {
       setLoading(false)
     }
-
-    // if (emailAddress !== '') {
-    //   setIsLoading(true)
-    //   Toastify.showToastMessagePending()
-    //   const fetchRequest = await fetch(
-    //     `${process.env.REACT_APP_BACKEND_URL}/auth/forgot-password`,
-    //     {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify({
-    //         email: emailAddress,
-    //       }),
-    //       credentials: 'include',
-    //       mode: 'cors',
-    //     }
-    //   )
-
-    //   const resData = await fetchRequest.json()
-
-    //   if (resData) {
-    //     setIsLoading(false)
-    //     if (resData?.status === 'Success') {
-    //       console.log(resData?.data)
-    //       Toastify.showToastMessageSuccessfully(resData?.message)
-    //     } else {
-    //       Toastify.showToastMessageFailure(resData?.message)
-    //     }
-    //   } else {
-    //     setIsLoading(false)
-    //   }
-    // } else {
-    //   alert('Please fill in email address')
-    // }
   }
 
   return (
@@ -102,12 +72,20 @@ function ForgotPassword() {
           back={'Back'}
           navigatorLink={api.login}
         >
-          <form onSubmit={handleSubmit} className={cx('formData')}>
-            <Input iconLeft={faEnvelope} type="email" name="email" label="Email Address" />
-            <button type="submit" className={cx('auth-button')}>
-              {Loading ? <Spinner /> : 'Forgot Password'}
-            </button>
-          </form>
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)} className={cx('formData')}>
+              <Input
+                iconLeft={faEnvelope}
+                type="email"
+                name="email"
+                label="Email Address"
+                rules={ForgotPasswordRules.email}
+              />
+              <button type="submit" className={cx('auth-button')}>
+                {Loading ? <Spinner /> : 'Forgot Password'}
+              </button>
+            </form>
+          </FormProvider>
         </FormAuth>
       </div>
     </div>
