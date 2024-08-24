@@ -22,8 +22,6 @@ function UsersPreview(): JSX.Element {
 
   useEffect(() => {
     document.title = 'Preview User | MrGianStore'
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -37,7 +35,9 @@ function UsersPreview(): JSX.Element {
           },
         })
         const resData = await res.json()
-        setData(resData.data)
+        if (resData) {
+          setData(resData)
+        }
       } catch (error) {
         console.log(error)
       }
