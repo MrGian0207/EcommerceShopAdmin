@@ -8,12 +8,14 @@ import { useAuth } from '~/context/AuthContext'
 import { usePath } from '~/context/PathContext'
 import { useUpdateLayout } from '~/context/UpdateLayoutContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
-import { SlideType } from '~/types/SlideType'
 import classNames from 'classnames/bind'
 import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import 'swiper/css'
+
+import { SlideType } from '~/types/DataType'
+import { Slide } from '~/types/ImageSliderType'
 
 import styles from './Slides.module.scss'
 
@@ -44,13 +46,13 @@ function Slides(): JSX.Element {
         setData(resData.data)
       } catch (error) {
       } finally {
-        setLoading(false)
+        setTimeout(() => {
+          setLoading(false)
+        }, 500)
       }
     }
     fetchData()
   }, [path, updateLayout, accessToken])
-
-  if (loading) return <Loading />
 
   return (
     <div className={cx('slides')}>
@@ -65,30 +67,34 @@ function Slides(): JSX.Element {
           </Button>,
         ]}
       >
-        <div className={cx('slider-wrapper')}>
-          <Swiper
-            style={{
-              height: '100%',
-            }}
-            autoplay={{
-              delay: 4000,
-              disableOnInteraction: false,
-            }}
-            loop={true}
-            speed={1000}
-            modules={[Autoplay]}
-            spaceBetween={50}
-            slidesPerView={1}
-          >
-            {data.map((slider: any) => {
-              return (
-                <SwiperSlide>
-                  <ImageSlider slider={slider} />
-                </SwiperSlide>
-              )
-            })}
-          </Swiper>
-        </div>
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className={cx('slider-wrapper')}>
+            <Swiper
+              style={{
+                height: '100%',
+              }}
+              autoplay={{
+                delay: 4000,
+                disableOnInteraction: false,
+              }}
+              loop={true}
+              speed={1000}
+              modules={[Autoplay]}
+              spaceBetween={50}
+              slidesPerView={1}
+            >
+              {data.map((slider: Slide, index) => {
+                return (
+                  <SwiperSlide key={`slide-${index}`}>
+                    <ImageSlider slider={slider} />
+                  </SwiperSlide>
+                )
+              })}
+            </Swiper>
+          </div>
+        )}
       </DefaultLayout>
     </div>
   )

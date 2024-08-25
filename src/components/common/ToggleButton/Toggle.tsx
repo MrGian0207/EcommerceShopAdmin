@@ -1,19 +1,12 @@
 import React from 'react'
+import { ToggleProps } from '~/types/FormElementType'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { useFormContext } from 'react-hook-form'
 
 import styles from './Toggle.module.scss'
 
 const cx = classNames.bind(styles)
-
-interface IFormValues {
-  featureProduct: boolean
-}
-
-interface ToggleProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string
-  name: keyof IFormValues
-}
 
 export default function Toggle({ label, name, ...props }: ToggleProps) {
   const { register } = useFormContext<IFormValues>()

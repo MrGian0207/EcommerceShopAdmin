@@ -1,7 +1,8 @@
 import { FormEvent } from 'react'
 import { useModal } from '~/context/ModalContext'
 import { useProduct } from '~/context/ProductContext'
-import { VariantFormType, VariantType } from '~/types/VariantType'
+import { emptyVariant, VariantFormType, VariantType } from '~/types/DataType'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
@@ -10,33 +11,10 @@ import { VariantImage, VariantInput } from './VariantInput'
 
 const cx = classNames.bind(styles)
 
-interface IFormValues {
-  variantID: string
-  variantName: string
-  variantSize: string
-  variantColor: string
-  variantProductSKU: string
-  variantQuantity: number
-  variantRegularPrice: number
-  variantSalePrice: number
-}
-
 function VariantForm({ nameForm, isEdit }: VariantFormType): JSX.Element {
   const { setToggleModal } = useModal()
   const { variantIsEdit, variants, setVariants, variantImage } = useProduct()
   const methods = useForm<IFormValues>()
-
-  const emptyVariant: VariantType = {
-    variantID: '',
-    variantName: '',
-    variantSize: '',
-    variantColor: '',
-    variantProductSKU: '',
-    variantQuantity: 0,
-    variantRegularPrice: 0,
-    variantSalePrice: 0,
-    variantImages: [],
-  }
 
   const variant: VariantType = isEdit ? variantIsEdit : emptyVariant
 
@@ -144,7 +122,7 @@ function VariantForm({ nameForm, isEdit }: VariantFormType): JSX.Element {
           />
         </div>
 
-        <VariantImage variantID={variant.variantID} />
+        <VariantImage />
 
         <div className={cx('row-button')}>
           <button className={cx('btn-cancel')} onClick={handleCancelModal}>

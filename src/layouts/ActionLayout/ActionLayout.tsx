@@ -1,40 +1,17 @@
-import classNames from 'classnames/bind'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-
-import styles from './ActionLayout.module.scss'
-
-import 'react-toastify/dist/ReactToastify.css'
-
 import React, { memo, useRef, useState } from 'react'
 import Spinner from '~/components/Spinner'
 import { useAuth } from '~/context/AuthContext'
 import { useProduct } from '~/context/ProductContext'
 import * as Toastify from '~/services/Toastify'
+import { IFormValues } from '~/types/FormValuesType'
 import { ActionLayoutType } from '~/types/LayoutType'
+import classNames from 'classnames/bind'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
 
+import styles from './ActionLayout.module.scss'
+
 const cx = classNames.bind(styles)
-interface IFormValues {
-  name: string
-  title: string
-  slug: string
-  description: string
-  image: FileList
-  productCode: string
-  heading: string
-  primaryButtonText: string
-  primaryButtonLink: string
-  secondaryButtonText: string
-  secondaryButtonLink: string
-  displaySlide: boolean
-  category: string
-  subCategory: string
-  brand: string
-  gender: string
-  status: string
-  featureProduct: boolean
-  defaultVariant: string
-}
 
 function ActionLayout({
   leftColumn,
@@ -54,7 +31,7 @@ function ActionLayout({
   const methods = useForm<IFormValues>()
 
   //Submit Form not varriants
-  const handleFormSubmit: SubmitHandler<IFormValues> = (data) => {
+  const handleFormSubmit: SubmitHandler<IFormValues> = async (data) => {
     setIsLoading(true)
 
     if (submit_ButtonRef.current) {
@@ -74,45 +51,37 @@ function ActionLayout({
     formData.append('secondaryButtonText', data.secondaryButtonText)
     formData.append('secondaryButtonLink', data.secondaryButtonLink)
     formData.append('displaySlide', String(data.displaySlide))
+    formData.append('category', data.category)
+
     if (data.image && data.image.length > 0) {
       formData.append('image', data.image[0])
     }
 
     try {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
+      setIsLoading(true)
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
         body: formData,
       })
-        .then((res) => {
-          setIsLoading(false)
-          return res.json()
-        })
-        .then((data) => {
-          if (data) {
-            if (submit_ButtonRef.current) {
-              submit_ButtonRef.current.disabled = false
-              submit_ButtonRef.current.classList.remove(cx('disable_button'))
-            }
-            Toastify.showToastMessageSuccessfully(data?.message)
-          } else {
-            Toastify.showToastMessageFailure(data?.message)
-          }
-        })
-        .catch((err) => {
-          setIsLoading(false)
-          console.log(err)
-          if (submit_ButtonRef.current) {
-            submit_ButtonRef.current.disabled = false
-            submit_ButtonRef.current.classList.remove(cx('disable_button'))
-          }
-          Toastify.showToastMessageFailure('Submit Failure !! Try it again')
-        })
-    } catch (error) {
-      console.log(error)
-      Toastify.showToastMessageFailure('Data Loaded Failure !! Try it again')
+
+      const resData = await res.json()
+
+      if (res.ok) {
+        Toastify.showToastMessageSuccessfully(resData.message)
+      } else {
+        Toastify.showToastMessageFailure(resData.message)
+      }
+    } catch (err) {
+      Toastify.showToastMessageFailure('Submit Failure !! Try it again')
+    } finally {
+      if (submit_ButtonRef.current) {
+        submit_ButtonRef.current.disabled = false
+        submit_ButtonRef.current.classList.remove(cx('disable_button'))
+      }
+      setIsLoading(false)
     }
   }
 
@@ -212,7 +181,7 @@ function ActionLayout({
     <React.Fragment>
       <FormProvider {...methods}>
         <form
-          className={cx('add-layout')}
+          className={cx('layout')}
           onSubmit={
             hasVariant
               ? methods.handleSubmit(handleFormSubmitWithVariant)

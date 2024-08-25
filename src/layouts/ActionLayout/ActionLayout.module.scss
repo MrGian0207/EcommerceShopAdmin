@@ -1,4 +1,4 @@
-.add-layout {
+.layout {
   padding: 24px 24px 16px 24px;
   width: 100%;
   height: fit-content;
@@ -59,7 +59,7 @@
 }
 
 @media screen and (max-width: 1230px) {
-  .add-layout {
+  .layout {
     flex-direction: column;
   }
 }

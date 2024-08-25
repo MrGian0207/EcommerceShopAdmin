@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import Loading from '~/components/Loading'
 import { useUser } from '~/context/UserContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import AddRole from '~/pages/Settings/AddRole'
@@ -22,12 +23,10 @@ function Settings(): JSX.Element {
   const addRoleRef = useRef<HTMLButtonElement>(null)
   const changePasswordRef = useRef<HTMLButtonElement>(null)
   const activeButtonRef = useRef<HTMLSpanElement>(null)
-  const { dataUser } = useUser()!
+  const { dataUser, loadingUser } = useUser()
 
   useEffect(() => {
     document.title = 'Setting | MrGianStore'
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function LineBreak({ nameRef, activeRef }: LineBreakProp) {
@@ -137,65 +136,71 @@ function Settings(): JSX.Element {
   return (
     <div className={cx('settings-container')}>
       <DefaultLayout active={'settings'} page={['Dashboard', 'Setting']}>
-        <div className={cx('settings')}>
-          <nav className={cx('navigator')}>
-            <button
-              ref={profileSettingRef}
-              className={cx('active')}
-              onClick={() => {
-                profileSettingRef?.current && profileSettingRef?.current.classList.add(cx('active'))
-                setComponent((prevComponet) => {
-                  removeActiveButton(prevComponet)
-                  return 'Profile Setting'
-                })
-              }}
-            >
-              Profile Setting
-            </button>
-            {dataUser?.role === 'Admin' && (
-              <>
-                <button
-                  ref={rolesRef}
-                  onClick={() => {
-                    rolesRef?.current && rolesRef?.current.classList.add(cx('active'))
-                    setComponent((prevComponent) => {
-                      removeActiveButton(prevComponent)
-                      return 'Roles'
-                    })
-                  }}
-                >
-                  Roles
-                </button>
-                <button
-                  ref={addRoleRef}
-                  onClick={() => {
-                    addRoleRef?.current && addRoleRef?.current.classList.add(cx('active'))
-                    setComponent((prevComponent) => {
-                      removeActiveButton(prevComponent)
-                      return 'Add Role'
-                    })
-                  }}
-                >
-                  Add Role
-                </button>
-              </>
-            )}
-            <button
-              ref={changePasswordRef}
-              onClick={() => {
-                changePasswordRef?.current && changePasswordRef?.current.classList.add(cx('active'))
-                setComponent((prevComponent) => {
-                  removeActiveButton(prevComponent)
-                  return 'Change Password'
-                })
-              }}
-            >
-              Change Password
-            </button>
-            <LineBreak nameRef={nameRef} activeRef={activeButtonRef} />
-          </nav>
-          <div className={cx('content')}>{renderComponent()}</div>
-        </div>
+        {loadingUser ? (
+          <Loading />
+        ) : (
+          <div className={cx('settings')}>
+            <nav className={cx('navigator')}>
+              <button
+                ref={profileSettingRef}
+                className={cx('active')}
+                onClick={() => {
+                  profileSettingRef?.current &&
+                    profileSettingRef?.current.classList.add(cx('active'))
+                  setComponent((prevComponent) => {
+                    removeActiveButton(prevComponent)
+                    return 'Profile Setting'
+                  })
+                }}
+              >
+                Profile Setting
+              </button>
+              {dataUser?.role === 'Admin' && (
+                <React.Fragment>
+                  <button
+                    ref={rolesRef}
+                    onClick={() => {
+                      rolesRef?.current && rolesRef?.current.classList.add(cx('active'))
+                      setComponent((prevComponent) => {
+                        removeActiveButton(prevComponent)
+                        return 'Roles'
+                      })
+                    }}
+                  >
+                    Roles
+                  </button>
+                  <button
+                    ref={addRoleRef}
+                    onClick={() => {
+                      addRoleRef?.current && addRoleRef?.current.classList.add(cx('active'))
+                      setComponent((prevComponent) => {
+                        removeActiveButton(prevComponent)
+                        return 'Add Role'
+                      })
+                    }}
+                  >
+                    Add Role
+                  </button>
+                </React.Fragment>
+              )}
+              <button
+                ref={changePasswordRef}
+                onClick={() => {
+                  changePasswordRef?.current &&
+                    changePasswordRef?.current.classList.add(cx('active'))
+                  setComponent((prevComponent) => {
+                    removeActiveButton(prevComponent)
+                    return 'Change Password'
+                  })
+                }}
+              >
+                Change Password
+              </button>
+              <LineBreak nameRef={nameRef} activeRef={activeButtonRef} />
+            </nav>
+            <div className={cx('content')}>{renderComponent()}</div>
+          </div>
+        )}
       </DefaultLayout>
     </div>
   )

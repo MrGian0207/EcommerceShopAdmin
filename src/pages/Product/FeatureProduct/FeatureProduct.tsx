@@ -1,15 +1,12 @@
 import { useAuth } from '~/context/AuthContext'
 import { usePath } from '~/context/PathContext'
 import * as Toastify from '~/services/Toastify'
+import { FeatureProductProps } from '~/types/FormElementType'
 import classNames from 'classnames/bind'
 
 import styles from '../ProductAdd/ProductAdd.module.scss'
 
 const cx = classNames.bind(styles)
-interface FeatureProductProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string
-  id: string
-}
 
 const FeatureProduct = ({ label, id, ...props }: FeatureProductProps) => {
   const { path } = usePath()

@@ -1,9 +1,10 @@
-import { memo, useState } from 'react'
+import React, { memo, useState } from 'react'
 import { faChevronDown, faChevronRight, faCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { usePath } from '~/context/PathContext'
 import { SideBarItemsType } from '~/types/SideBarType'
 import classNames from 'classnames/bind'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import styles from './SideBarItems.module.scss'
 
@@ -17,11 +18,10 @@ function SideBarItems({
   title,
 }: SideBarItemsType): JSX.Element {
   let Button = children.length === 1 ? Link : 'div'
-  const [subNavigator, setSubNavigator] = useState(false)
+  const [toggleSubNavigator, setToggleSubNavigator] = useState(false)
   let childCategoriesIndex: number
   let childCategories: string = ''
-  const location = useLocation()
-  const path = location.pathname // Lấy đường dẫn từ URL
+  const { path } = usePath()
   const pathArray = path.split('/') // Tách đường dẫn thành mảng các phần tử
 
   if (pathArray.includes('categories')) {
@@ -29,10 +29,10 @@ function SideBarItems({
     childCategories = pathArray[childCategoriesIndex]
   }
   return (
-    <>
+    <React.Fragment>
       <Button
         onClick={() => {
-          setSubNavigator((prevState) => !prevState)
+          setToggleSubNavigator((prevState) => !prevState)
         }}
         to={`/${title}`}
         className={cx('items', {
@@ -48,7 +48,7 @@ function SideBarItems({
             <FontAwesomeIcon
               className={cx('iconRight')}
               icon={
-                (subNavigator && !childCategories) || (!subNavigator && childCategories)
+                (toggleSubNavigator && !childCategories) || (!toggleSubNavigator && childCategories)
                   ? faChevronDown
                   : faChevronRight
               }
@@ -56,8 +56,8 @@ function SideBarItems({
           </div>
         )}
       </Button>
-      <>
-        {((subNavigator && !childCategories) || (!subNavigator && childCategories)) && (
+      <React.Fragment>
+        {((toggleSubNavigator && !childCategories) || (!toggleSubNavigator && childCategories)) && (
           <div className={cx('sub-navigator')}>
             {children.slice(1).map((item, index) => (
               <Link
@@ -76,8 +76,8 @@ function SideBarItems({
             ))}
           </div>
         )}
-      </>
-    </>
+      </React.Fragment>
+    </React.Fragment>
   )
 }
 

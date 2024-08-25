@@ -1,0 +1,37 @@
+export interface IFormValues {
+  email: string
+  gender: string
+  phone: string
+  name: string
+  password: string
+  category: string
+  subCategory: string
+  brand: string
+  status: string
+  role: string
+  featureProduct: boolean
+  title: string
+  slug: string
+  description: string
+  image: FileList
+  productCode: string
+  heading: string
+  primaryButtonText: string
+  primaryButtonLink: string
+  secondaryButtonText: string
+  secondaryButtonLink: string
+  about: string
+  oldPassword: string
+  newPassword: string
+  confirmPassword: string
+  variantID: string
+  variantName: string
+  variantSize: string
+  variantColor: string
+  variantProductSKU: string
+  variantQuantity: number
+  variantRegularPrice: number
+  variantSalePrice: number
+  defaultVariant: string
+  displaySlide: boolean
+}

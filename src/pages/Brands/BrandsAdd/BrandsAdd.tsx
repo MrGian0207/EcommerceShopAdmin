@@ -10,8 +10,6 @@ import styles from './BrandsAdd.module.scss'
 const cx = classNames.bind(styles)
 
 function BrandsAdd(): JSX.Element {
-  const nameButtonSubmit = 'Create Brands'
-
   useEffect(() => {
     document.title = 'Add Brand | MrGianStore'
   }, [])
@@ -33,7 +31,7 @@ function BrandsAdd(): JSX.Element {
               <ImageInput rules={BrandRules.image} />
             </React.Fragment>
           }
-          nameButtonSubmit={nameButtonSubmit}
+          nameButtonSubmit={'Create Brands'}
         />
       </DefaultLayout>
     </div>

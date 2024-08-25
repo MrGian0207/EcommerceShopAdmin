@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 
 export type ActionLayoutType = {
-  leftColumn: ReactNode
-  rightColumn: ReactNode
+  leftColumn?: ReactNode
+  rightColumn?: ReactNode
   nameButtonSubmit?: string
   tags?: string[]
   hasVariant?: boolean

@@ -6,13 +6,9 @@ import { format } from 'date-fns'
 import styles from '../OrdersPreview.module.scss'
 import CardItem from './CardItem'
 
-interface PreviewDetailType {
-  orderData: OrderType
-}
-
 const cx = classNames.bind(styles)
 
-export default function PreviewDetail({ orderData }: PreviewDetailType) {
+export default function PreviewDetail({ orderData }: { orderData: OrderType }) {
   return (
     <div className={cx('previewDetail')}>
       <div className={cx('content-wrapper')}>

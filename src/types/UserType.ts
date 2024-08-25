@@ -10,3 +10,16 @@ export type User = {
   about: string
   image: string
 }
+
+export const emptyDataUser: User = {
+  _id: '',
+  name: '',
+  gender: '',
+  phone: '',
+  email: '',
+  password: '',
+  status: '',
+  role: '',
+  about: '',
+  image: '',
+}

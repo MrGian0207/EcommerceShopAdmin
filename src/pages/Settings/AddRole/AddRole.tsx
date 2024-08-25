@@ -12,30 +12,21 @@ import { Input, Select } from '~/components/common/Type2'
 import Spinner from '~/components/Spinner'
 import { useAuth } from '~/context/AuthContext'
 import * as Toastify from '~/services/Toastify'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { SettingRules } from '../SettingsRules'
 import styles from './AddRole.module.scss'
 
-interface IFormValues {
-  name: string
-  email: string
-  phone: string
-  gender: string
-  password: string
-  role: string
-}
-
 const cx = classNames.bind(styles)
 
 function AddRole(): JSX.Element {
   const methods = useForm<IFormValues>()
-  const [Loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const { accessToken } = useAuth()
 
   const onSubmit: SubmitHandler<IFormValues> = async (data) => {
-    console.log(data)
     setLoading(true)
     try {
       Toastify.showToastMessagePending()
@@ -129,8 +120,8 @@ function AddRole(): JSX.Element {
               rules={SettingRules.password}
             />
 
-            <button type="submit" className={cx('submitChangeBtn')}>
-              {Loading ? <Spinner /> : 'Save'}
+            <button type="submit" disabled={loading} className={cx('submitChangeBtn')}>
+              {loading ? <Spinner /> : 'Save'}
             </button>
           </div>
         </section>

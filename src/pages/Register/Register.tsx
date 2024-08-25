@@ -13,25 +13,18 @@ import { Input, Select } from '~/components/common/Type2'
 import FormAuth from '~/components/FormAuth'
 import Spinner from '~/components/Spinner'
 import * as Toastify from '~/services/Toastify'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import styles from './Register.module.scss'
 import { RegisterRules } from './RegisterRules'
 
-interface IFormValues {
-  email: string
-  gender: string
-  phone: string
-  name: string
-  password: string
-}
-
 const cx = classNames.bind(styles)
 
 function Register(): JSX.Element {
   const methods = useForm<IFormValues>()
-  const [Loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const onSubmit: SubmitHandler<IFormValues> = async (data) => {
     setLoading(true)
@@ -104,8 +97,8 @@ function Register(): JSX.Element {
                 type="password"
                 rules={RegisterRules.password}
               />
-              <button type="submit" className={cx('auth-button')}>
-                {Loading ? <Spinner /> : 'Register'}
+              <button type="submit" disabled={loading} className={cx('auth-button')}>
+                {loading ? <Spinner /> : 'Register'}
               </button>
             </form>
           </FormProvider>

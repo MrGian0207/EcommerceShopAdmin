@@ -6,20 +6,17 @@ import { Input } from '~/components/common/Type2'
 import FormAuth from '~/components/FormAuth'
 import Spinner from '~/components/Spinner'
 import * as Toastify from '~/services/Toastify'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import styles from './ForgotPassword.module.scss'
 import { ForgotPasswordRules } from './ForgotPasswordRules'
 
-interface IFormValues {
-  email: string
-}
-
 const cx = classNames.bind(styles)
 function ForgotPassword() {
   const methods = useForm<IFormValues>()
-  const [Loading, setLoading] = useState<Boolean>(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     document.title = 'Forgot Password | MrGianStore'
@@ -81,8 +78,8 @@ function ForgotPassword() {
                 label="Email Address"
                 rules={ForgotPasswordRules.email}
               />
-              <button type="submit" className={cx('auth-button')}>
-                {Loading ? <Spinner /> : 'Forgot Password'}
+              <button type="submit" disabled={loading} className={cx('auth-button')}>
+                {loading ? <Spinner /> : 'Forgot Password'}
               </button>
             </form>
           </FormProvider>

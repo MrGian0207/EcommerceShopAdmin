@@ -7,22 +7,9 @@ import React, {
   useState,
 } from 'react'
 import { UserContextType } from '~/types/ContextType'
-import { User } from '~/types/UserType'
+import { emptyDataUser, User } from '~/types/UserType'
 
 import { useAuth } from './AuthContext'
-
-const emptyDataUser: User = {
-  _id: '',
-  name: '',
-  gender: '',
-  phone: '',
-  email: '',
-  password: '',
-  status: '',
-  role: '',
-  about: '',
-  image: '',
-}
 
 const UserContext = createContext<UserContextType>({
   loadingUser: false,
@@ -61,11 +48,15 @@ export const UserContextProvider: React.FC<{ children: ReactNode }> = ({ childre
           console.log(error)
         } finally {
           if (!signal.aborted) {
-            setLoadingUser(false)
+            setTimeout(() => {
+              setLoadingUser(false)
+            }, 500)
           }
         }
       } else {
-        setLoadingUser(false)
+        setTimeout(() => {
+          setLoadingUser(false)
+        }, 500)
       }
     },
     [accessToken]

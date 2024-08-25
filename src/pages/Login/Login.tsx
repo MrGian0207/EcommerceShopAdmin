@@ -8,6 +8,7 @@ import FormAuth from '~/components/FormAuth'
 import Spinner from '~/components/Spinner'
 import { useAuth } from '~/context/AuthContext'
 import * as Toastify from '~/services/Toastify'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -15,16 +16,11 @@ import { useNavigate } from 'react-router-dom'
 import styles from './Login.module.scss'
 import { LoginRules } from './LoginRules'
 
-interface IFormValues {
-  email: string
-  password: string
-}
-
 const cx = classNames.bind(styles)
 
 function Login(): JSX.Element {
   const methods = useForm<IFormValues>()
-  const [Loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate()
   const { login } = useAuth()
 
@@ -111,8 +107,8 @@ function Login(): JSX.Element {
                   <Button to={api.forgetPassword} children={'Forgot Password'} />
                 </span>
               </div>
-              <button disabled={Loading} className={cx('auth-button')} type="submit">
-                {Loading ? <Spinner /> : 'Login'}
+              <button disabled={loading} className={cx('auth-button')} type="submit">
+                {loading ? <Spinner /> : 'Login'}
               </button>
             </form>
           </FormProvider>

@@ -13,8 +13,6 @@ import { SlidesRules } from '../SlidesRule'
 const cx = classNames.bind(styles)
 
 function SlidesAdd(): JSX.Element {
-  const nameButtonSubmit = 'Create Slide'
-
   useEffect(() => {
     document.title = 'Add Slide | MrGianStore'
   }, [])
@@ -63,7 +61,7 @@ function SlidesAdd(): JSX.Element {
               </div>
             </React.Fragment>
           }
-          nameButtonSubmit={nameButtonSubmit}
+          nameButtonSubmit={'Create Slide'}
         />
       </DefaultLayout>
     </div>

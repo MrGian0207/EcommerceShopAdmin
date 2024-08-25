@@ -1,42 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { ImageInput, Input } from '~/components/common/Type1'
-import Loading from '~/components/Loading'
 import { useAuth } from '~/context/AuthContext'
+import { usePath } from '~/context/PathContext'
 import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
+import { BranchType, emptyBranch } from '~/types/DataType'
 import classNames from 'classnames/bind'
-import { useLocation } from 'react-router-dom'
 
 import { BrandRules } from '../BrandRules'
+import BrandSkeleton from '../BrandSkeleton/BrandSkeleton'
 import styles from './BrandsEdit.module.scss'
 
 const cx = classNames.bind(styles)
 
-interface BranchType {
-  name: string
-  title: string
-  slug: string
-  description: string
-  image: string
-}
-
 function BrandsEdit(): JSX.Element {
-  const location = useLocation()
-  const path = location.pathname
+  const { path } = usePath()
   const { accessToken } = useAuth()
-
-  const emptyBranch = {
-    name: '',
-    title: '',
-    slug: '',
-    description: '',
-    image: '',
-  }
-
   const [loading, setLoading] = useState<boolean>(true)
   const [branch, setBranch] = useState<BranchType>(emptyBranch)
-
-  const nameButtonSubmit: string = 'Edit Brand'
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,18 +30,19 @@ function BrandsEdit(): JSX.Element {
             },
           })
           const resData = await res.json()
-          const branch: BranchType = {
+          setBranch({
             name: resData.data.name,
             title: resData.data.title,
             slug: resData.data.slug,
             description: resData.data.description,
             image: resData.data.image,
-          }
-          setBranch(branch)
+          })
         } catch (error) {
           console.log(error)
         } finally {
-          setLoading(false)
+          setTimeout(() => {
+            setLoading(false)
+          }, 500)
         }
       }
     }
@@ -72,42 +54,49 @@ function BrandsEdit(): JSX.Element {
     document.title = 'Edit Brand | MrGianStore'
   }, [])
 
-  if (loading) return <Loading />
-
   return (
     <div className={cx('add')}>
       <DefaultLayout active={'brands'} page={['Dashboard', 'Brands', 'Edit']}>
-        <ActionLayout
-          leftColumn={
-            <React.Fragment>
-              <Input
-                name="name"
-                label="Brand Name"
-                defaultValue={branch.name}
-                rules={BrandRules.name}
-              />
-              <Input
-                name="title"
-                label="Meta Title"
-                defaultValue={branch.title}
-                rules={BrandRules.title}
-              />
-              <Input name="slug" label="Slug" defaultValue={branch.slug} rules={BrandRules.slug} />
-              <Input
-                name="description"
-                label="Description"
-                defaultValue={branch.description}
-                rules={BrandRules.description}
-              />
-            </React.Fragment>
-          }
-          rightColumn={
-            <React.Fragment>
-              <ImageInput imageSaved={branch.image} />
-            </React.Fragment>
-          }
-          nameButtonSubmit={nameButtonSubmit}
-        />
+        {loading ? (
+          <BrandSkeleton />
+        ) : (
+          <ActionLayout
+            leftColumn={
+              <React.Fragment>
+                <Input
+                  name="name"
+                  label="Brand Name"
+                  defaultValue={branch.name}
+                  rules={BrandRules.name}
+                />
+                <Input
+                  name="title"
+                  label="Meta Title"
+                  defaultValue={branch.title}
+                  rules={BrandRules.title}
+                />
+                <Input
+                  name="slug"
+                  label="Slug"
+                  defaultValue={branch.slug}
+                  rules={BrandRules.slug}
+                />
+                <Input
+                  name="description"
+                  label="Description"
+                  defaultValue={branch.description}
+                  rules={BrandRules.description}
+                />
+              </React.Fragment>
+            }
+            rightColumn={
+              <React.Fragment>
+                <ImageInput imageSaved={branch.image} />
+              </React.Fragment>
+            }
+            nameButtonSubmit={'Edit Brand'}
+          />
+        )}
       </DefaultLayout>
     </div>
   )

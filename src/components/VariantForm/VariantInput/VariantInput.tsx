@@ -1,27 +1,12 @@
 import { ErrorMessage } from '@hookform/error-message'
+import { VariantInputProp } from '~/types/FormElementType'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
-import { RegisterOptions, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
 import styles from '../VariantForm.module.scss'
 
 const cx = classNames.bind(styles)
-
-interface IFormValues {
-  variantID: string
-  variantName: string
-  variantSize: string
-  variantColor: string
-  variantProductSKU: string
-  variantQuantity: number
-  variantRegularPrice: number
-  variantSalePrice: number
-}
-
-interface VariantInputProp extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string
-  name: keyof IFormValues
-  options?: RegisterOptions<IFormValues, keyof IFormValues>
-}
 
 export default function VariantInput({ label, name, options, ...props }: VariantInputProp) {
   const { register, formState } = useFormContext<IFormValues>()

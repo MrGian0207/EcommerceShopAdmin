@@ -1,34 +1,14 @@
-import { faChevronDown, IconDefinition } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ErrorMessage } from '@hookform/error-message'
+import { OptionSelectProps } from '~/types/FormElementType'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
-import { RegisterOptions, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
 import styles from './OptionSelect.module.scss'
 
 const cx = classNames.bind(styles)
-
-interface IFormValues {
-  category: string
-  subCategory: string
-  brand: string
-  gender: string
-  status: string
-  role: string
-}
-
-interface OptionType {
-  label: string
-  value: string
-}
-
-interface OptionSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  name: keyof IFormValues
-  rules?: RegisterOptions<IFormValues, keyof IFormValues>
-  label?: string
-  icon?: IconDefinition
-  options?: OptionType[]
-}
 
 // Thêm kiểu dữ liệu cho ref
 const OptionSelect = ({ name, rules, label, icon, options, ...props }: OptionSelectProps) => {

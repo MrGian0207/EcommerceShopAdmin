@@ -2,16 +2,14 @@ import { faExpand, faPalette, faPen, faTrash, faWallet } from '@fortawesome/free
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useModal } from '~/context/ModalContext'
 import { useProduct } from '~/context/ProductContext'
-import { VariantItemsType, VariantType } from '~/types/VariantType'
+import { VariantItemsType, VariantType } from '~/types/DataType'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { useFormContext } from 'react-hook-form'
 
 import styles from './VariantItems.module.scss'
 
 const cx = classNames.bind(styles)
-interface IFormValues {
-  defaultVariant: string
-}
 
 function VariantItems({
   variantID,

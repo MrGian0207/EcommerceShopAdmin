@@ -1,8 +1,6 @@
-import '../TableLayout.module.scss'
+import { TableRowType } from '~/types/TableType'
 
-interface TableRowType extends React.HTMLAttributes<HTMLTableRowElement> {
-  children: React.ReactNode
-}
+import '../TableLayout.module.scss'
 
 export default function TableRow({ children, ...props }: TableRowType) {
   return <tr {...props}>{children}</tr>

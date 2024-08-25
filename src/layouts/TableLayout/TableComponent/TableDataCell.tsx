@@ -1,8 +1,6 @@
-import '../TableLayout.module.scss'
+import { TableCellType } from '~/types/TableType'
 
-interface TableCellType extends React.HTMLAttributes<HTMLTableCellElement> {
-  children: React.ReactNode
-}
+import '../TableLayout.module.scss'
 
 export default function TableDataCell({ children, ...props }: TableCellType) {
   return <td {...props}>{children}</td>

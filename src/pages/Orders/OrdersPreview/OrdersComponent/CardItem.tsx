@@ -7,13 +7,15 @@ import styles from '../OrdersPreview.module.scss'
 
 const cx = classNames.bind(styles)
 
-interface CardItemType {
+export default function CardItem({
+  label,
+  children,
+  icon,
+}: {
   icon: IconDefinition
   label: string
   children: React.ReactNode
-}
-
-export default function CardItem({ label, children, icon }: CardItemType) {
+}) {
   return (
     <div className={cx('card-item')}>
       <div className={cx('content-card')}>

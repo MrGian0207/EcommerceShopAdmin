@@ -10,8 +10,8 @@ import styles from './UsersPreview.module.scss'
 const cx = classNames.bind(styles)
 
 type DataType = {
-  fullName?: string
-  emailAddress?: string
+  name?: string
+  email?: string
 }
 
 function UsersPreview(): JSX.Element {
@@ -55,8 +55,8 @@ function UsersPreview(): JSX.Element {
                 <img src={images.userDefaults} alt="default" />
               </div>
               <div className={cx('user-name-email')}>
-                <h4>{data.fullName}</h4>
-                <p>{data.emailAddress}</p>
+                <h4>{data.name}</h4>
+                <p>{data.email}</p>
               </div>
             </div>
           </div>

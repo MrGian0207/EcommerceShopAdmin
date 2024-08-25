@@ -1,4 +1,4 @@
-import { ProductType } from '~/types/VariantType'
+import { ProductType } from './DataType'
 
 export type OrderType = {
   _id: string

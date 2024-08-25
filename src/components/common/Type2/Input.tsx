@@ -1,33 +1,14 @@
 import React, { useMemo, useState } from 'react'
-import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ErrorMessage } from '@hookform/error-message'
+import { InputProps } from '~/types/FormElementType'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
-import { RegisterOptions, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
 import styles from './common.module.scss'
 
 const cx = classNames.bind(styles)
-
-interface IFormValues {
-  name: string
-  email: string
-  phone: string
-  gender: string
-  about: string
-  password: string
-  oldPassword: string
-  newPassword: string
-  confirmPassword: string
-}
-
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string
-  name: keyof IFormValues
-  rules?: RegisterOptions<IFormValues>
-  iconLeft?: IconDefinition
-  iconRight?: IconDefinition
-}
 
 export default function Input({
   label,

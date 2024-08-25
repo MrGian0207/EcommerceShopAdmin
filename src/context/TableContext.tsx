@@ -1,28 +1,11 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { DataTableType } from '~/types/TableType'
 import { SetURLSearchParams, useSearchParams } from 'react-router-dom'
 
 import { useAuth } from './AuthContext'
 import { usePath } from './PathContext'
 import { useSearch } from './SearchContext'
 import { useUpdateLayout } from './UpdateLayoutContext'
-
-interface DataTableType {
-  _id: string
-  name: string
-  description: string
-  image: string
-  totalProducts: number
-  parentCategory: string
-  createdAt: string
-  priceDefault: number
-  totalPrice: number
-  statusDelivery: string
-  email: string
-  phone: string
-  statusUser: string
-  featureProduct: string
-  role: string
-}
 
 interface TableContextType {
   loading: boolean
@@ -33,25 +16,7 @@ interface TableContextType {
   numbersOfPage: number
 }
 
-const emptyDataTable: DataTableType[] = [
-  {
-    _id: '',
-    name: '',
-    description: '',
-    image: '',
-    totalProducts: 0,
-    parentCategory: '',
-    createdAt: '',
-    priceDefault: 0,
-    totalPrice: 0,
-    statusDelivery: 'Pending',
-    email: '',
-    phone: '',
-    statusUser: '',
-    featureProduct: '',
-    role: '',
-  },
-]
+const emptyDataTable: DataTableType[] = []
 
 const TableContext = createContext<TableContextType>({
   loading: true,
@@ -82,7 +47,7 @@ export const TableContextProvider = ({ children }: { children: React.ReactNode }
       '/brands',
       '/categories/main-categories',
       '/categories/sub-categories',
-      '/products',
+      '/product',
       '/orders',
       '/users',
       '/newletter',

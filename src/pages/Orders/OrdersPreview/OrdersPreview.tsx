@@ -91,8 +91,6 @@ function OrdersPreview(): JSX.Element {
     fetchData()
   }, [path, accessToken])
 
-  if (loading) return <Loading />
-
   return (
     <div className={cx('brands')}>
       <DefaultLayout
@@ -119,19 +117,23 @@ function OrdersPreview(): JSX.Element {
           <Button select selectedOption={selectedOption} setSelectedOption={setSelectedOption} />,
         ]}
       >
-        <div className={cx('ordersPreview')} ref={pdfRef}>
-          {/* Orders Detail */}
-          <div className={cx('previewDetail')}>
-            <PreviewDetail orderData={data} />
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className={cx('ordersPreview')} ref={pdfRef}>
+            {/* Orders Detail */}
+            <div className={cx('previewDetail')}>
+              <PreviewDetail orderData={data} />
 
-            {/* Product Preview In Orders */}
-            <div className={cx('previewProduct')}>
-              <div className={cx('product-table')}>
-                <PreviewProduct orderData={data} />
+              {/* Product Preview In Orders */}
+              <div className={cx('previewProduct')}>
+                <div className={cx('product-table')}>
+                  <PreviewProduct orderData={data} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </DefaultLayout>
     </div>
   )

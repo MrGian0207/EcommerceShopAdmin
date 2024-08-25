@@ -1,35 +1,31 @@
-import { lazy } from 'react'
 import api from '~/api/api'
+import Brands from '~/pages/Brands'
 import BrandsAdd from '~/pages/Brands/BrandsAdd'
+import BrandsEdit from '~/pages/Brands/BrandsEdit'
+import DashBoard from '~/pages/DashBoard'
 import ForgotPassword from '~/pages/ForgotPassword'
 import Login from '~/pages/Login'
+import MainCategories from '~/pages/MainCategories'
 import MainCategoriesAdd from '~/pages/MainCategories/MainCategoriesAdd'
+import MainCategoriesEdit from '~/pages/MainCategories/MainCategoriesEdit'
+import Newletters from '~/pages/Newletter'
+import Orders from '~/pages/Orders'
+import OrdersPreview from '~/pages/Orders/OrdersPreview'
+import Product from '~/pages/Product'
 import ProductAdd from '~/pages/Product/ProductAdd'
+import ProductEdit from '~/pages/Product/ProductEdit'
 import Register from '~/pages/Register'
+import Settings from '~/pages/Settings'
+import Slides from '~/pages/Slides'
 import SlidesAdd from '~/pages/Slides/SlidesAdd'
+import SlidesEdit from '~/pages/Slides/SlidesEdit'
+import SubCategories from '~/pages/SubCategories'
 import SubCategoriesAdd from '~/pages/SubCategories/SubCategoriesAdd'
+import SubCategoriesEdit from '~/pages/SubCategories/SubCategoriesEdit'
+import Users from '~/pages/Users'
+import UsersPreview from '~/pages/Users/UsersPreview'
 
-const DashBoard = lazy(() => import('~/pages/DashBoard'))
-const MainCategories = lazy(() => import('~/pages/MainCategories'))
-const MainCategoriesEdit = lazy(() => import('~/pages/MainCategories/MainCategoriesEdit'))
-const SubCategories = lazy(() => import('~/pages/SubCategories'))
-const SubCategoriesEdit = lazy(() => import('~/pages/SubCategories/SubCategoriesEdit'))
-const Brands = lazy(() => import('~/pages/Brands'))
-const BrandsEdit = lazy(() => import('~/pages/Brands/BrandsEdit'))
-const Product = lazy(() => import('~/pages/Product'))
-const ProductEdit = lazy(() => import('~/pages/Product/ProductEdit'))
-const Orders = lazy(() => import('~/pages/Orders'))
-const OrdersPreview = lazy(() => import('~/pages/Orders/OrdersPreview'))
-const Slides = lazy(() => import('~/pages/Slides'))
-const SlidesEdit = lazy(() => import('~/pages/Slides/SlidesEdit'))
-const Users = lazy(() => import('~/pages/Users'))
-const UsersPreview = lazy(() => import('~/pages/Users/UsersPreview/UsersPreview'))
-const Newletters = lazy(() => import('~/pages/Newletter'))
-const Settings = lazy(() => import('~/pages/Settings'))
-
-const accessToken: string | null = localStorage.getItem('access_token')
-  ? localStorage.getItem('access_token')
-  : null
+const accessToken: string = localStorage.getItem('access_token') || ''
 
 // Public Routes
 const publicRoutes = [

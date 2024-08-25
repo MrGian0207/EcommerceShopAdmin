@@ -1,17 +1,10 @@
-import React from 'react'
 import { ErrorMessage } from '@hookform/error-message'
+import { DisplaySlideType } from '~/types/FormElementType'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
-import { RegisterOptions, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
 import styles from '../Slides.module.scss'
-
-interface IFormValues {
-  displaySlide: boolean
-}
-interface DisplaySlideType extends React.InputHTMLAttributes<HTMLInputElement> {
-  name: keyof IFormValues
-  rules?: RegisterOptions<IFormValues, keyof IFormValues>
-}
 
 const cx = classNames.bind(styles)
 

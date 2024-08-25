@@ -9,7 +9,7 @@ import styles from '../VariantForm.module.scss'
 
 const cx = classNames.bind(styles)
 
-export default function VariantImage({ variantID }: { variantID: string }) {
+export default function VariantImage() {
   const { variantImage, setVariantImage } = useProduct()
   const fileInputRef = React.useRef<HTMLInputElement>(null)
 

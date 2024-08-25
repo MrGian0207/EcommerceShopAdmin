@@ -10,15 +10,16 @@ import styles from './MainCategoriesAdd.module.scss'
 const cx = classNames.bind(styles)
 
 function MainCategoriesAdd(): JSX.Element {
-  const nameButtonSubmit = 'Create Category'
-
   useEffect(() => {
     document.title = 'Add Category | MrGianStore'
   }, [])
 
   return (
     <div className={cx('add')}>
-      <DefaultLayout active={'categories'} page={['Dashboard', 'Categories', 'Add']}>
+      <DefaultLayout
+        active={'categories'}
+        page={['Dashboard', 'Categories/Main Categories', 'Add']}
+      >
         <ActionLayout
           leftColumn={
             <React.Fragment>
@@ -37,7 +38,7 @@ function MainCategoriesAdd(): JSX.Element {
               <ImageInput rules={MainCategoriesRules.image} />
             </React.Fragment>
           }
-          nameButtonSubmit={nameButtonSubmit}
+          nameButtonSubmit={'Create Category'}
         />
       </DefaultLayout>
     </div>

@@ -37,7 +37,7 @@
   height: 100vh;
   overflow-x: hidden;
 
-  & .page-title {
+  & .navigator {
     position: sticky;
     top: 60px;
     background-color: rgba(243, 244, 248, 0.72);
@@ -62,54 +62,44 @@
       gap: var(--small-gap);
     }
 
-    & .title {
+    & .breadcrumb {
       flex: 1;
-    }
 
-    & .page-title-item-first {
-      margin-right: 24px;
-      position: relative;
+      & .breadcrumb-item {
+        margin-right: 24px;
+        position: relative;
 
-      &::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background-color: rgb(145, 158, 171);
-        right: -14px;
+        &::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background-color: rgb(145, 158, 171);
+          right: -14px;
+        }
+
+        & a:hover {
+          text-decoration: underline;
+        }
+
+        &:last-child {
+          & a {
+            pointer-events: none;
+            color: rgb(145, 158, 171) !important;
+
+            &:hover {
+              text-decoration: none;
+            }
+          }
+
+          &:after {
+            display: none;
+          }
+        }
       }
-
-      & a:hover {
-        text-decoration: underline;
-      }
-    }
-
-    & .page-title-item-middle {
-      position: relative;
-      margin-right: 24px;
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background-color: rgb(145, 158, 171);
-        right: -14px;
-      }
-
-      & a:hover {
-        text-decoration: underline;
-      }
-    }
-
-    & .page-title-item-last {
-      color: rgb(145, 158, 171);
     }
   }
 

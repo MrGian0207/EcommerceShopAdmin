@@ -1,15 +1,13 @@
 import { useRef, useState } from 'react'
 import { ErrorMessage } from '@hookform/error-message'
 import images from '~/assets/Image'
+import { IFormValues } from '~/types/FormValuesType'
 import * as HandleImageFile from '~/utils/HandleImageFile'
 import classNames from 'classnames/bind'
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form'
 
 import styles from './common.module.scss'
 
-interface IFormValues {
-  image: FileList
-}
 const cx = classNames.bind(styles)
 
 export default function ImageInput({
@@ -17,12 +15,7 @@ export default function ImageInput({
   rules,
 }: {
   imageSaved?: string
-  rules?:
-    | Omit<
-        RegisterOptions<IFormValues, keyof IFormValues>,
-        'setValueAs' | 'disabled' | 'valueAsNumber' | 'valueAsDate'
-      >
-    | undefined
+  rules?: RegisterOptions<IFormValues, 'image'>
 }) {
   const { control, formState } = useFormContext<IFormValues>()
   const fileInputRef = useRef<HTMLInputElement | null>(null)

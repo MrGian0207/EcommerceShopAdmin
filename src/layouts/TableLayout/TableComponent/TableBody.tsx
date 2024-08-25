@@ -1,8 +1,6 @@
-import '../TableLayout.module.scss'
+import { TableBodyType } from '~/types/TableType'
 
-interface TableBodyType extends React.HTMLAttributes<HTMLTableSectionElement> {
-  children: React.ReactNode
-}
+import '../TableLayout.module.scss'
 
 export default function TableBody({ children, ...props }: TableBodyType) {
   return <tbody {...props}>{children}</tbody>

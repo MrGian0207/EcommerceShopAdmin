@@ -78,7 +78,7 @@ function SideBar({ active, handleCloseSideBar, backGroundColor }: SideBarType): 
           iconLeft={faStore}
           children={['Product']}
           active={active === 'product' && true}
-          title={'products'}
+          title={'product'}
         />
         <SideBarItems
           iconLeft={faCartShopping}

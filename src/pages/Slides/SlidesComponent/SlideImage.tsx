@@ -1,15 +1,12 @@
 import React, { useRef, useState } from 'react'
 import { ErrorMessage } from '@hookform/error-message'
 import images from '~/assets/Image'
+import { IFormValues } from '~/types/FormValuesType'
 import * as HandleImageFile from '~/utils/HandleImageFile'
 import classNames from 'classnames/bind'
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form'
 
 import styles from '../Slides.module.scss'
-
-interface IFormValues {
-  image: FileList
-}
 
 const cx = classNames.bind(styles)
 
@@ -22,7 +19,7 @@ export default function SlideImage({
   children: React.ReactNode
   rules?:
     | Omit<
-        RegisterOptions<IFormValues, keyof IFormValues>,
+        RegisterOptions<IFormValues, 'image'>,
         'setValueAs' | 'disabled' | 'valueAsNumber' | 'valueAsDate'
       >
     | undefined

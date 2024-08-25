@@ -11,13 +11,9 @@ import classNames from 'classnames/bind'
 
 import styles from '../OrdersPreview.module.scss'
 
-interface PreviewDetailType {
-  orderData: OrderType
-}
-
 const cx = classNames.bind(styles)
 
-export default function PreviewProduct({ orderData }: PreviewDetailType) {
+export default function PreviewProduct({ orderData }: { orderData: OrderType }) {
   return (
     <React.Fragment>
       <h5 className={cx('product-quantity')}>

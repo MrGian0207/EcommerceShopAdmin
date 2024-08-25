@@ -5,21 +5,16 @@ import Spinner from '~/components/Spinner'
 import { useAuth } from '~/context/AuthContext'
 import { useUser } from '~/context/UserContext'
 import * as Toastify from '~/services/Toastify'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { SettingRules } from '../SettingsRules'
 import styles from './ChangePassword.module.scss'
 
-interface IFormValues {
-  oldPassword: string
-  newPassword: string
-  confirmPassword: string
-}
-
 const cx = classNames.bind(styles)
 
-function ChangePassword(): JSX.Element {
+function ChangePassword() {
   const methods = useForm<IFormValues>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { accessToken } = useAuth()

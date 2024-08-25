@@ -1,26 +1,13 @@
-import React from 'react'
-import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ErrorMessage } from '@hookform/error-message'
+import { SelectProps } from '~/types/FormElementType'
+import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
-import { RegisterOptions, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
 import styles from './common.module.scss'
 
 const cx = classNames.bind(styles)
-
-interface IFormValues {
-  gender: string
-  role: string
-}
-
-interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  label: string
-  name: keyof IFormValues
-  rules?: RegisterOptions<IFormValues, keyof IFormValues>
-  icon?: IconDefinition
-  options: string[]
-}
 
 export default function Select({ label, name, rules, icon, options, ...props }: SelectProps) {
   const { register, formState } = useFormContext<IFormValues>()
