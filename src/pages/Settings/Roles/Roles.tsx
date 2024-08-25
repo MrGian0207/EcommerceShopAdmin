@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { faLock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import images from '~/assets/Image'
 import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import CustomTooltip from '~/components/Tooltip/CustomTooltip'
@@ -48,7 +49,11 @@ function Roles(): JSX.Element {
           ) : (
             dataTable.map((data) => (
               <TableRow key={data._id}>
-                <TableCustomDataCell imageSrc={data.image}>{data.name}</TableCustomDataCell>
+                <TableCustomDataCell
+                  imageSrc={data.image !== 'None' ? data.image : images.userDefaults}
+                >
+                  {data.name}
+                </TableCustomDataCell>
                 <TableDataCell>{data.email}</TableDataCell>
                 <TableDataCell>{data.phone}</TableDataCell>
                 <TableDataCell>{data.role}</TableDataCell>

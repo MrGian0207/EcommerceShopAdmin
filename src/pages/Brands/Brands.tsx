@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import images from '~/assets/Image'
 import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import CustomTooltip from '~/components/Tooltip/CustomTooltip'
@@ -62,7 +63,11 @@ function Brands() {
             ) : (
               dataTable.map((data) => (
                 <TableRow key={data._id}>
-                  <TableCustomDataCell imageSrc={data.image}>{data.name}</TableCustomDataCell>
+                  <TableCustomDataCell
+                    imageSrc={data.image !== 'None' ? data.image : images.userDefaults}
+                  >
+                    {data.name}
+                  </TableCustomDataCell>
                   <TableDataCell>{data.description}</TableDataCell>
                   <TableDataCell>{format(new Date(data.createdAt), 'dd MMM yyyy')}</TableDataCell>
                   <TableCustomActionsCell>
