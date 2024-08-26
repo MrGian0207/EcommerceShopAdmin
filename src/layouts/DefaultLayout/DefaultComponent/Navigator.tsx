@@ -1,6 +1,7 @@
 import React from 'react'
 import { useUser } from '~/context/UserContext'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import styles from '../DefaultLayout.module.scss'
@@ -8,6 +9,7 @@ import styles from '../DefaultLayout.module.scss'
 const cx = classNames.bind(styles)
 
 export default function Navigator({ page, buttons }: { page: string[]; buttons?: JSX.Element[] }) {
+  const { t } = useTranslation('common')
   const { dataUser } = useUser()
 
   return (
@@ -18,7 +20,7 @@ export default function Navigator({ page, buttons }: { page: string[]; buttons?:
           const title = value.includes('/') ? value.split('/')[1] : value
           return (
             <span key={index} className={cx('breadcrumb-item')}>
-              <Link to={`/${url}`}>{title}</Link>
+              <Link to={`/${url}`}>{t(`sidebar.${title.toLowerCase().replace(' ', '_')}`)}</Link>
             </span>
           )
         })}
@@ -29,7 +31,7 @@ export default function Navigator({ page, buttons }: { page: string[]; buttons?:
           {buttons && (
             <React.Fragment>
               {buttons?.map((button, index) => {
-                return <div key={`${index}-button-edit`}>{button}</div>
+                return <div key={`${index}-button-actions`}>{button}</div>
               })}
             </React.Fragment>
           )}

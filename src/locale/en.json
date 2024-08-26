@@ -1,0 +1,234 @@
+{
+  "common": {
+    "tooltip": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "preview": "Preview",
+      "copy_email": "Copy Email",
+      "locked": "Locked"
+    },
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "categories": "Categories",
+      "main_categories": "Main Categories",
+      "sub_categories": "Sub Categories",
+      "brands": "Brands",
+      "products": "Product",
+      "product": "Product",
+      "orders": "Orders",
+      "users": "Users",
+      "newletter": "Newletter",
+      "slides": "Slides",
+      "settings": "Setting",
+      "setting": "Setting",
+      "product_list": "Product List",
+      "add": "Add",
+      "edit": "Edit",
+      "details": "Details"
+    },
+    "label": {
+      "select_option": "Select option",
+      "search": "Search",
+      "select_language": "Select language",
+      "notifications": "Notifications",
+      "home": "Home",
+      "profile_setting": "Profile Setting"
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "download": "Download",
+      "delete": "Delete",
+      "edit": "Edit"
+    },
+    "statusDelivery": {
+      "pending": "Pending",
+      "on_the_way": "Ontheway",
+      "delivered": "Delivered",
+      "returned": "Returned",
+      "cancelled": "Cancelled"
+    }
+  },
+  "dashboard": {
+    "daily_earning": "Daily Earning",
+    "daily_orders": "Daily Orders",
+    "signUp_users": "SignUp Users",
+    "total_product": "Total Product",
+    "sales_report": "Sales Report",
+    "order_report": "Order Report",
+    "income_report": "Income Report",
+    "january": "Jan",
+    "february": "Feb",
+    "march": "March",
+    "april": "Apr",
+    "may": "May",
+    "june": "Jun",
+    "july": "Jul",
+    "august": "Aug",
+    "september": "Sep",
+    "october": "Oct",
+    "november": "Nov",
+    "december": "Dec",
+    "income_report_chart": {
+      "week": "Week",
+      "month": "Month",
+      "year": "Year",
+      "income": "Income",
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday",
+      "sun": "Sunday"
+    },
+    "sales_report_chart": {
+      "sales": "Sales"
+    }
+  },
+  "table": {
+    "category": "Category",
+    "totalItems": "Total Items",
+    "description": "Description",
+    "createdAt": "Created at",
+    "actions": "Actions",
+    "parentCategory": "Parent Category",
+    "product": "Product",
+    "status": "Status",
+    "rating": "Rating",
+    "price": "Price",
+    "featured": "Featured",
+    "quantity": "Quantity",
+    "user": "User",
+    "email": "Email",
+    "phone": "Phone",
+    "joined": "Joined",
+    "role": "Role",
+    "name": "Name",
+    "color": "Color",
+    "size": "Size"
+  },
+  "form": {
+    "title": "Meta Title",
+    "category": "Category",
+    "subCategory": "Sub Category",
+    "brand": "Brand",
+    "gender": "Gender",
+    "status": "Status",
+    "productCode": "Product Code",
+    "tags": "Tags",
+    "slug": "Slug",
+    "description": "Description",
+    "feature_product": "Feature Product",
+    "image": "Image {{size}}",
+    "drop_select_image": "Drop or Select Images",
+    "heading": "Heading",
+    "primary_button_text": "Primary Button Text",
+    "primary_button_link": "Primary Button Link",
+    "second_button_text": "Second Button Text",
+    "second_button_link": "Second Button Link",
+    "name": "Name",
+    "email": "Email Address",
+    "phone": "Phone",
+    "about": "About",
+    "full_name": "Full Name",
+    "role": "Role",
+    "password": "Password",
+    "old_password": "Old Password",
+    "new_password": "New Password",
+    "confirm_password": "Confirm New Password",
+    "form_description": {
+      "image": "Drop Images here or click through your machine"
+    }
+  },
+  "mainCategories": {
+    "category_name": "Category Name",
+    "actions": {
+      "add_category": "Add Category",
+      "create_category": "Create Category",
+      "edit_category": "Edit Category"
+    }
+  },
+  "subCategories": {
+    "subCategory_name": "Sub Category Name",
+    "parentCategory": "Parent Category",
+    "actions": {
+      "add_sub_category": "Add Sub Category",
+      "create_sub_category": "Create Sub Category",
+      "edit_sub_category": "Edit Sub Category"
+    }
+  },
+  "brands": {
+    "brands_name": "Brand Name",
+    "actions": {
+      "add_brands": "Add Brand",
+      "create_brands": "Create Brand",
+      "edit_brands": "Edit Brand"
+    }
+  },
+  "product": {
+    "product_name": "Product Name",
+    "variants": "Variants",
+    "variant": {
+      "variant_name": "Variant Name",
+      "variant_size": "Variant Size",
+      "variant_color": "Variant Color",
+      "variant_product_sku": "Variant Product SKU",
+      "variant_quantity": "Variant Quantity",
+      "variant_regular_price": "Variant Regular Price",
+      "variant_sale_price": "Variant Sale Price"
+    },
+    "actions": {
+      "add_product": "Add Product",
+      "create_product": "Create Product",
+      "edit_product": "Edit Product",
+      "add_variant": "Add Variant"
+    }
+  },
+  "orders": {
+    "label": {
+      "order_details": "Order Details",
+      "order_id": "Order ID: {{id}}",
+      "customer_details": "Customer Details",
+      "name": "Name: ",
+      "phone": "Phone: ",
+      "email": "Email: ",
+      "shipping_address": "Shipping Address",
+      "address": "Address: ",
+      "order_date": "Order Date: ",
+      "payment_method": "Payment Method",
+      "method": "Method: ",
+      "status": "Status: ",
+      "shipping_fee": "Shipping Fee: ",
+      "item_one": "{{count}} item",
+      "item_other": "{{count}} items",
+      "subtotal": "Subtotal: ",
+      "total": "Total: "
+    },
+    "actions": {}
+  },
+  "users": {},
+  "newletters": {},
+  "slides": {
+    "actions": {
+      "add_slide": "Add Slide",
+      "create_slide": "Create Slide",
+      "edit_slide": "Edit Slide"
+    }
+  },
+  "settings": {
+    "profile_setting": "Profile Setting",
+    "roles": "Roles",
+    "add_role": "Add Role",
+    "change_password": "Change Password",
+    "update_photo": "Update photo",
+    "allowed": "Allowed",
+    "max_size": "Max size of {{size}}",
+    "actions": {
+      "save_changes": "Save Changes"
+    }
+  },
+  "add_role": {
+    "title": "Add Role"
+  }
+}

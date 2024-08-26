@@ -2,17 +2,19 @@ import { memo, useState } from 'react'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAuth } from '~/context/AuthContext'
+import { usePath } from '~/context/PathContext'
 import * as Toastify from '~/services/Toastify'
-import { ButtonProps } from '~/types/ButtonType'
+import { ButtonProps, SelectedOptionType, StatusDeliveryOption } from '~/types/ButtonType'
 import classNames from 'classnames/bind'
-import { Link, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 
 import styles from './Button.module.scss'
 
 const cx = classNames.bind(styles)
 
 const Button: React.FC<ButtonProps> = ({
-  selectedOption,
+  selectedOption = 'Pending',
   setSelectedOption,
   type,
   to,
@@ -32,8 +34,8 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   ...moreProps
 }) => {
-  const location = useLocation()
-  const path = location.pathname
+  const { t } = useTranslation('common')
+  const { path } = usePath()
   const { accessToken } = useAuth()
 
   let Comp: React.ElementType = 'button'
@@ -75,13 +77,19 @@ const Button: React.FC<ButtonProps> = ({
   // Xử lí đối với thẻ select
   const [isOpen, setIsOpen] = useState(false)
 
-  const options = ['Pending', 'Ontheway', 'Delivered', 'Returned', 'Cancelled']
+  const options: StatusDeliveryOption[] = [
+    { key: 'Pending', value: 'statusDelivery.pending' },
+    { key: 'Ontheway', value: 'statusDelivery.on_the_way' },
+    { key: 'Delivered', value: 'statusDelivery.delivered' },
+    { key: 'Returned', value: 'statusDelivery.returned' },
+    { key: 'Cancelled', value: 'statusDelivery.cancelled' },
+  ]
 
   const handleToggle = () => {
     setIsOpen(!isOpen)
   }
 
-  const handleSelectOption = async (option: string) => {
+  const handleSelectOption = async (option: SelectedOptionType) => {
     Toastify.showToastMessagePending()
     await fetch(`${process.env.REACT_APP_BACKEND_URL}${path}/edit-status`, {
       method: 'PUT',
@@ -100,18 +108,24 @@ const Button: React.FC<ButtonProps> = ({
     setIsOpen(false)
   }
 
+  const selectedOptionData = options.find((option) => option.key === selectedOption)
+
   return select ? (
     <div className={cx('selected-box')}>
       <div className={cx('options-box')}>
         <div className={cx('custom-select')} onClick={handleToggle}>
-          {selectedOption}
+          {selectedOptionData ? t(selectedOptionData.value) : t('label.select_option')}
           <FontAwesomeIcon className={cx('icon')} icon={faChevronDown} />
         </div>
         {isOpen && (
           <div className={cx('options')}>
             {options.map((option) => (
-              <div key={option} onClick={() => handleSelectOption(option)} className={cx('option')}>
-                {option}
+              <div
+                key={option.key}
+                onClick={() => handleSelectOption(option.key)}
+                className={cx('option')}
+              >
+                {t(option.value)}
               </div>
             ))}
           </div>

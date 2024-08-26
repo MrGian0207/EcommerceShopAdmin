@@ -8,6 +8,7 @@ import * as Toastify from '~/services/Toastify'
 import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 import { SettingRules } from '../SettingsRules'
 import styles from './ChangePassword.module.scss'
@@ -15,6 +16,7 @@ import styles from './ChangePassword.module.scss'
 const cx = classNames.bind(styles)
 
 function ChangePassword() {
+  const { t } = useTranslation()
   const methods = useForm<IFormValues>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { accessToken } = useAuth()
@@ -75,21 +77,21 @@ function ChangePassword() {
           <Input
             type="password"
             name="oldPassword"
-            label="Old Password"
+            label={t('old_password', { ns: 'form' })}
             iconRight={faEye}
             rules={SettingRules.password}
           />
           <Input
             type="password"
             name="newPassword"
-            label="New Password"
+            label={t('new_password', { ns: 'form' })}
             iconRight={faEye}
             rules={SettingRules.password}
           />
           <Input
             type="password"
             name="confirmPassword"
-            label="Confirm New Password"
+            label={t('confirm_password', { ns: 'form' })}
             iconRight={faEye}
             rules={SettingRules.password}
           />

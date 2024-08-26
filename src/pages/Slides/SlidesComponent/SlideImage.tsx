@@ -5,6 +5,7 @@ import { IFormValues } from '~/types/FormValuesType'
 import * as HandleImageFile from '~/utils/HandleImageFile'
 import classNames from 'classnames/bind'
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 import styles from '../Slides.module.scss'
 
@@ -24,6 +25,7 @@ export default function SlideImage({
       >
     | undefined
 }) {
+  const { t } = useTranslation('slides')
   const { control, formState } = useFormContext<IFormValues>()
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [imageSelected, setImageSelected] = useState<File | string | undefined>(imageSaved || '')
@@ -42,7 +44,7 @@ export default function SlideImage({
   return (
     <div className={cx('image')}>
       <div className={cx('title')}>
-        <label htmlFor="brands-image">Cover</label>
+        <label htmlFor="brands-image">{t('image', { size: '', ns: 'form' })}</label>
         <p>1920 * 768</p>
       </div>
       <Controller
@@ -70,7 +72,7 @@ export default function SlideImage({
         className={cx('image-custom')}
       >
         <div className="box">
-          <h4>Drop or Select Images</h4>
+          <h4>{t('drop_select_image', { ns: 'form' })}</h4>
           <img src={images.uploadImage} alt="" />
         </div>
         {imageSelected && (

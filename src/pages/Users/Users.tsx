@@ -6,6 +6,8 @@ import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import StatusItems from '~/components/StatusItems'
 import CustomTooltip from '~/components/Tooltip/CustomTooltip'
+import { UsersRoute } from '~/constant/PageRoute'
+import { UsersTableHeader } from '~/constant/Table'
 import { usePath } from '~/context/PathContext'
 import { useTable } from '~/context/TableContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
@@ -20,12 +22,14 @@ import TableLayout, {
 } from '~/layouts/TableLayout'
 import classNames from 'classnames/bind'
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 
 import styles from './Users.module.scss'
 
 const cx = classNames.bind(styles)
 
 function Users(): JSX.Element {
+  const { t } = useTranslation('users')
   const { path } = usePath()
   const { loading, dataTable } = useTable()
 
@@ -35,16 +39,15 @@ function Users(): JSX.Element {
 
   return (
     <div className={cx('users')}>
-      <DefaultLayout active={'users'} page={['Dashboard', 'Users']} searchEngine={true}>
+      <DefaultLayout active={'users'} page={UsersRoute.UsersPage} searchEngine={true}>
         <TableLayout>
           <TableHeader>
             <TableRow>
-              <TableHeaderCell>User</TableHeaderCell>
-              <TableHeaderCell>Email</TableHeaderCell>
-              <TableHeaderCell>Phone</TableHeaderCell>
-              <TableHeaderCell>Status</TableHeaderCell>
-              <TableHeaderCell>Joined</TableHeaderCell>
-              <TableHeaderCell>Actions</TableHeaderCell>
+              {UsersTableHeader.map((header, index) => (
+                <TableHeaderCell key={`header-${index}`}>
+                  {t(header, { ns: 'table' })}
+                </TableHeaderCell>
+              ))}
             </TableRow>
           </TableHeader>
 

@@ -20,3 +20,24 @@ export type OrderType = {
   products: ProductType[]
   imagesProductOfOrder: string[]
 }
+
+export const emptyOrder = {
+  _id: '',
+  createdAt: '',
+  customerName: '',
+  customerPhone: '',
+  customerEmail: '',
+  customerAddress: '',
+  methodDelivery: '',
+  statusDelivery: '',
+  shippingFee: 0,
+  imageDefault: '',
+  colorProducts: [],
+  quantityProducts: [],
+  sizeProducts: [],
+  priceProducts: [],
+  subtotal: 0,
+  total: 0,
+  products: [],
+  imagesProductOfOrder: [],
+}

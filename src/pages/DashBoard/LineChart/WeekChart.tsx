@@ -6,17 +6,19 @@ import './LineChart.css'
 
 import { useEffect, useRef } from 'react'
 import ApexCharts from 'apexcharts'
+import { useTranslation } from 'react-i18next'
 
 const cx = classNames.bind(styles)
 
 function WeekChart(): JSX.Element {
+  const { t } = useTranslation('dashboard')
   const chartRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const options = {
       series: [
         {
-          name: 'Income',
+          name: t('income_report_chart.income'),
           data: [0, 116, 128, 0, 56, 0, 118],
         },
       ],
@@ -97,7 +99,15 @@ function WeekChart(): JSX.Element {
         },
       },
       xaxis: {
-        categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        categories: [
+          t('income_report_chart.mon'),
+          t('income_report_chart.tue'),
+          t('income_report_chart.wed'),
+          t('income_report_chart.thu'),
+          t('income_report_chart.fri'),
+          t('income_report_chart.sat'),
+          t('income_report_chart.sun'),
+        ],
         tooltip: {
           enabled: true,
         },
@@ -127,7 +137,7 @@ function WeekChart(): JSX.Element {
     return () => {
       chart.destroy()
     }
-  })
+  }, [t])
 
   return <div id="chart" className={cx('lineChart')} ref={chartRef}></div>
 }

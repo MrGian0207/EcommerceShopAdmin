@@ -5,6 +5,7 @@ import { IFormValues } from '~/types/FormValuesType'
 import * as HandleImageFile from '~/utils/HandleImageFile'
 import classNames from 'classnames/bind'
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 import styles from './common.module.scss'
 
@@ -17,6 +18,7 @@ export default function ImageInput({
   imageSaved?: string
   rules?: RegisterOptions<IFormValues, 'image'>
 }) {
+  const { t } = useTranslation('form')
   const { control, formState } = useFormContext<IFormValues>()
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [imageSelected, setImageSelected] = useState<File | string | undefined>(imageSaved)
@@ -35,7 +37,7 @@ export default function ImageInput({
   return (
     <div className={cx('image-container')}>
       <div className={cx('image')}>
-        <label htmlFor="dataImage">Image 512 * 512</label>
+        <label htmlFor="dataImage">{t('image', { size: '512 * 512' })}</label>
         <Controller
           name="image"
           control={control}
@@ -60,7 +62,7 @@ export default function ImageInput({
           className={cx('image-custom')}
         >
           <div className="box">
-            <h4>Drop or Select Images</h4>
+            <h4>{t('drop_select_image')}</h4>
             <img src={images.uploadImage} alt="iconImages" />
           </div>
           <div className={cx('preview-image')}>

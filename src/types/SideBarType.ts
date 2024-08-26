@@ -11,5 +11,5 @@ export type SideBarItemsType = {
   children: string[]
   iconRight?: boolean
   active?: boolean
-  title?: string
+  route?: string
 }

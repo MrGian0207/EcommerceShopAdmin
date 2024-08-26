@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { usePath } from '~/context/PathContext'
 import { SideBarItemsType } from '~/types/SideBarType'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import styles from './SideBarItems.module.scss'
@@ -15,8 +16,9 @@ function SideBarItems({
   children,
   iconRight = false,
   active = false,
-  title,
+  route,
 }: SideBarItemsType): JSX.Element {
+  const { t } = useTranslation('common')
   let Button = children.length === 1 ? Link : 'div'
   const [toggleSubNavigator, setToggleSubNavigator] = useState(false)
   let childCategoriesIndex: number
@@ -34,7 +36,7 @@ function SideBarItems({
         onClick={() => {
           setToggleSubNavigator((prevState) => !prevState)
         }}
-        to={`/${title}`}
+        to={`/${route}`}
         className={cx('items', {
           active: active,
         })}
@@ -61,7 +63,7 @@ function SideBarItems({
           <div className={cx('sub-navigator')}>
             {children.slice(1).map((item, index) => (
               <Link
-                to={`/${title}/${item.toLowerCase().trim().replace(' ', '-')}`}
+                to={`/${route}/${item.toLowerCase().trim().replace(' ', '-')}`}
                 className={cx('items', {
                   subactive:
                     item.toLowerCase().trim().replace(' ', '-') === childCategories ? true : false,
@@ -71,7 +73,9 @@ function SideBarItems({
                 <div className={cx('left')}>
                   <FontAwesomeIcon className={cx('iconLeft')} icon={faCircle} />
                 </div>
-                <p className={cx('content')}>{item}</p>
+                <p className={cx('content')}>
+                  {t(`sidebar.${item.toLowerCase().replace(' ', '_')}`)}
+                </p>
               </Link>
             ))}
           </div>

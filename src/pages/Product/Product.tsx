@@ -6,6 +6,8 @@ import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import StatusItems from '~/components/StatusItems'
 import CustomTooltip from '~/components/Tooltip/CustomTooltip'
+import { ProductRoute } from '~/constant/PageRoute'
+import { ProductTableHeader } from '~/constant/Table'
 import { useDeleteData } from '~/context/DeleteDataContext'
 import { usePath } from '~/context/PathContext'
 import { useProduct } from '~/context/ProductContext'
@@ -23,13 +25,15 @@ import TableLayout, {
 } from '~/layouts/TableLayout'
 import classNames from 'classnames/bind'
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 
-import FeatureProduct from './FeatureProduct'
 import styles from './Product.module.scss'
+import FeatureProduct from './ProductComponent/FeatureProduct'
 
 const cx = classNames.bind(styles)
 
 function Product(): JSX.Element {
+  const { t } = useTranslation('product')
   const { path } = usePath()
   const { loading, dataTable } = useTable()
   const { isDeleting, setDeletedData } = useDeleteData()
@@ -43,7 +47,7 @@ function Product(): JSX.Element {
     <div className={cx('product')}>
       <DefaultLayout
         active={'product'}
-        page={['Dashboard', 'Product List']}
+        page={ProductRoute.ProductPage}
         searchEngine={true}
         buttons={[
           <Button
@@ -54,20 +58,18 @@ function Product(): JSX.Element {
             }}
           >
             <FontAwesomeIcon icon={faPlus} />
-            Add Product
+            {t('actions.add_product')}
           </Button>,
         ]}
       >
         <TableLayout>
           <TableHeader>
             <TableRow>
-              <TableHeaderCell>Product</TableHeaderCell>
-              <TableHeaderCell>Created at</TableHeaderCell>
-              <TableHeaderCell>Status</TableHeaderCell>
-              <TableHeaderCell>Rating</TableHeaderCell>
-              <TableHeaderCell>Price</TableHeaderCell>
-              <TableHeaderCell>Featured</TableHeaderCell>
-              <TableHeaderCell>Actions</TableHeaderCell>
+              {ProductTableHeader.map((header, index) => (
+                <TableHeaderCell key={`header-${index}`}>
+                  {t(header, { ns: 'table' })}
+                </TableHeaderCell>
+              ))}
             </TableRow>
           </TableHeader>
 

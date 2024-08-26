@@ -8,6 +8,7 @@ import * as Toastify from '~/services/Toastify'
 import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 import { ProfileImageInput } from '../SettingComponent'
 import { SettingRules } from '../SettingsRules'
@@ -16,6 +17,7 @@ import styles from './ProfileSetting.module.scss'
 const cx = classNames.bind(styles)
 
 function ProfileSetting() {
+  const { t } = useTranslation('settings')
   const { dataUser, loadingUser } = useUser()
   const [loading, setLoading] = useState<boolean>(false)
   const { accessToken } = useAuth()
@@ -79,14 +81,14 @@ function ProfileSetting() {
                   <Input
                     type="text"
                     name="name"
-                    label="Name"
+                    label={t('name', { ns: 'form' })}
                     defaultValue={dataUser.name}
                     rules={SettingRules.name}
                   />
                   <Input
                     type="email"
                     name="email"
-                    label="Email Address"
+                    label={t('email', { ns: 'form' })}
                     defaultValue={dataUser.email}
                     rules={SettingRules.email}
                   />
@@ -96,14 +98,14 @@ function ProfileSetting() {
                   <Input
                     type="text"
                     name="phone"
-                    label="Phone"
+                    label={t('phone', { ns: 'form' })}
                     defaultValue={dataUser.phone}
                     rules={SettingRules.phone}
                   />
                   <Select
                     options={['Male', 'Female']}
                     name="gender"
-                    label="Gender"
+                    label={t('gender', { ns: 'form' })}
                     defaultValue={dataUser.gender}
                   />
                 </div>
@@ -114,7 +116,7 @@ function ProfileSetting() {
                     cols={10}
                     rows={5}
                     spellCheck="false"
-                    label="About"
+                    label={t('about', { ns: 'form' })}
                     defaultValue={dataUser.about}
                     rules={SettingRules.about}
                   />
@@ -127,7 +129,7 @@ function ProfileSetting() {
                     type="submit"
                     className={cx('submitChangeBtn')}
                   >
-                    {loading ? <Spinner /> : 'Save Changes'}
+                    {loading ? <Spinner /> : t('actions.save_changes')}
                   </button>
                 </div>
               </div>

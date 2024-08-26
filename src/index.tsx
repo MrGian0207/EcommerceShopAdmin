@@ -7,6 +7,8 @@ import { SearchContextProvider } from './context/SearchContext'
 import { UpdateLayoutContextProvider } from './context/UpdateLayoutContext'
 import reportWebVitals from './reportWebVitals'
 
+import './i18n'
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   //<React.StrictMode>

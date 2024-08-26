@@ -3,14 +3,17 @@ import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '~/components/common/Button'
 import Loading from '~/components/Loading'
+import { OrdersRoute } from '~/constant/PageRoute'
 import { useAuth } from '~/context/AuthContext'
 import { useDeleteData } from '~/context/DeleteDataContext'
 import { usePath } from '~/context/PathContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
-import { OrderType } from '~/types/OrderType'
+import { SelectedOptionType } from '~/types/ButtonType'
+import { emptyOrder, OrderType } from '~/types/OrderType'
 import classNames from 'classnames/bind'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
+import { useTranslation } from 'react-i18next'
 
 import { PreviewDetail, PreviewProduct } from './OrdersComponent'
 import styles from './OrdersPreview.module.scss'
@@ -18,6 +21,8 @@ import styles from './OrdersPreview.module.scss'
 const cx = classNames.bind(styles)
 
 function OrdersPreview(): JSX.Element {
+  const { t } = useTranslation('orders')
+
   const downloadPdf = async () => {
     const input = pdfRef.current
     if (pdfRef.current) {
@@ -43,28 +48,9 @@ function OrdersPreview(): JSX.Element {
   const { accessToken } = useAuth()
   const { path } = usePath()
 
-  const [selectedOption, setSelectedOption] = useState<string>('Loading')
+  const [selectedOption, setSelectedOption] = useState<SelectedOptionType>('Pending')
   const [loading, setLoading] = useState<boolean>(true)
-  const [data, setData] = useState<OrderType>({
-    _id: '',
-    createdAt: '',
-    customerName: '',
-    customerPhone: '',
-    customerEmail: '',
-    customerAddress: '',
-    methodDelivery: '',
-    statusDelivery: '',
-    shippingFee: 0,
-    imageDefault: '',
-    colorProducts: [],
-    quantityProducts: [],
-    sizeProducts: [],
-    priceProducts: [],
-    subtotal: 0,
-    total: 0,
-    products: [],
-    imagesProductOfOrder: [],
-  })
+  const [data, setData] = useState<OrderType>(emptyOrder)
 
   useEffect(() => {
     document.title = 'Preview Order | MrGianStore'
@@ -95,11 +81,11 @@ function OrdersPreview(): JSX.Element {
     <div className={cx('brands')}>
       <DefaultLayout
         active={'orders'}
-        page={['Dashboard', 'Orders', 'Details']}
+        page={OrdersRoute.OrdersPreviewPage}
         buttons={[
           <Button onClick={downloadPdf} className="button-download">
             <FontAwesomeIcon icon={faDownload} />
-            Download
+            {t('actions.download', { ns: 'common' })}
           </Button>,
           <Button
             onClick={() => {
@@ -112,7 +98,7 @@ function OrdersPreview(): JSX.Element {
             className="button-delete"
           >
             <FontAwesomeIcon icon={faTrash} />
-            Delete
+            {t('actions.delete', { ns: 'common' })}
           </Button>,
           <Button select selectedOption={selectedOption} setSelectedOption={setSelectedOption} />,
         ]}

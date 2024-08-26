@@ -14,6 +14,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { SideBarType } from '~/types/SideBarType'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 
 import SideBarItems from '../SideBarItems'
 import styles from './SideBar.module.scss'
@@ -21,6 +22,7 @@ import styles from './SideBar.module.scss'
 const cx = classNames.bind(styles)
 
 function SideBar({ active, handleCloseSideBar, backGroundColor }: SideBarType): JSX.Element {
+  const { t } = useTranslation('common')
   const sideBarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -57,58 +59,58 @@ function SideBar({ active, handleCloseSideBar, backGroundColor }: SideBarType): 
       <div className={cx('sidebar-navigator')}>
         <SideBarItems
           iconLeft={faGaugeHigh}
-          children={['Dashboard']}
+          children={[t('sidebar.dashboard')]}
           active={active === 'dashboard' && true}
-          title={'dashboard'}
+          route={'dashboard'}
         />
         <SideBarItems
           iconLeft={faLayerGroup}
-          children={['Categories', 'Main Categories', 'Sub Categories']}
+          children={[t('sidebar.categories'), 'Main Categories', 'Sub Categories']}
           iconRight={true}
           active={active === 'categories' && true}
-          title={'categories'}
+          route={'categories'}
         />
         <SideBarItems
           iconLeft={faCopyright}
-          children={['Brands']}
+          children={[t('sidebar.brands')]}
           active={active === 'brands' && true}
-          title={'brands'}
+          route={'brands'}
         />
         <SideBarItems
           iconLeft={faStore}
-          children={['Product']}
+          children={[t('sidebar.products')]}
           active={active === 'product' && true}
-          title={'product'}
+          route={'product'}
         />
         <SideBarItems
           iconLeft={faCartShopping}
-          children={['Orders']}
+          children={[t('sidebar.orders')]}
           active={active === 'orders' && true}
-          title={'orders'}
+          route={'orders'}
         />
         <SideBarItems
           iconLeft={faUsers}
-          children={['Users']}
+          children={[t('sidebar.users')]}
           active={active === 'users' && true}
-          title={'users'}
+          route={'users'}
         />
         <SideBarItems
           iconLeft={faEnvelope}
-          children={['Newletter']}
+          children={[t('sidebar.newletter')]}
           active={active === 'newletter' && true}
-          title={'newletter'}
+          route={'newletter'}
         />
         <SideBarItems
           iconLeft={faImages}
-          children={['Slides']}
+          children={[t('sidebar.slides')]}
           active={active === 'slides' && true}
-          title={'slides'}
+          route={'slides'}
         />
         <SideBarItems
           iconLeft={faGears}
-          children={['Setting']}
+          children={[t('sidebar.setting')]}
           active={active === 'settings' && true}
-          title={'settings'}
+          route={'settings'}
         />
       </div>
     </div>

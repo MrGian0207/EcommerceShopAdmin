@@ -5,6 +5,7 @@ import { usePath } from '~/context/PathContext'
 import * as Toastify from '~/services/Toastify'
 import { Slide } from '~/types/ImageSliderType'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import styles from './ImageSlider.module.scss'
@@ -16,6 +17,7 @@ type ImageSliderProps = {
 }
 
 function ImageSlider({ slider }: ImageSliderProps): JSX.Element {
+  const { t } = useTranslation('slides')
   const { path } = usePath()
   const { accessToken } = useAuth()
 
@@ -73,11 +75,11 @@ function ImageSlider({ slider }: ImageSliderProps): JSX.Element {
               }}
             >
               <FontAwesomeIcon icon={faTrash} />
-              <p>Delete</p>
+              <p>{t('actions.delete', { ns: 'common' })}</p>
             </button>
             <Link to={`/slides/${slider._id}`} className={cx('edit-button')}>
               <FontAwesomeIcon icon={faPen} />
-              <p>Edit</p>
+              <p>{t('actions.edit', { ns: 'common' })}</p>
             </Link>
           </div>
         </div>

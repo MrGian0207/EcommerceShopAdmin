@@ -6,6 +6,8 @@ import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import StatusItems from '~/components/StatusItems'
 import CustomTooltip from '~/components/Tooltip/CustomTooltip'
+import { OrdersRoute } from '~/constant/PageRoute'
+import { OrdersTableHeader } from '~/constant/Table'
 import { usePath } from '~/context/PathContext'
 import { useTable } from '~/context/TableContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
@@ -20,12 +22,14 @@ import TableLayout, {
 } from '~/layouts/TableLayout'
 import classNames from 'classnames/bind'
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 
 import styles from './Orders.module.scss'
 
 const cx = classNames.bind(styles)
 
 function Orders(): JSX.Element {
+  const { t } = useTranslation('orders')
   const { path } = usePath()
   const { loading, dataTable } = useTable()
 
@@ -35,16 +39,15 @@ function Orders(): JSX.Element {
 
   return (
     <div className={cx('orders')}>
-      <DefaultLayout active={'orders'} page={['Dashboard', 'Orders']} searchEngine={true}>
+      <DefaultLayout active={'orders'} page={OrdersRoute.OrdersPage} searchEngine={true}>
         <TableLayout>
           <TableHeader>
             <TableRow>
-              <TableHeaderCell>Product</TableHeaderCell>
-              <TableHeaderCell>Created at</TableHeaderCell>
-              <TableHeaderCell>Status</TableHeaderCell>
-              <TableHeaderCell>Price</TableHeaderCell>
-              <TableHeaderCell>Quantity</TableHeaderCell>
-              <TableHeaderCell>Actions</TableHeaderCell>
+              {OrdersTableHeader.map((header, index) => (
+                <TableHeaderCell key={`header-${index}`}>
+                  {t(header, { ns: 'table' })}
+                </TableHeaderCell>
+              ))}
             </TableRow>
           </TableHeader>
 

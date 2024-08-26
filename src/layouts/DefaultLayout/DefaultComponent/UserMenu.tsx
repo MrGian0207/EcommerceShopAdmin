@@ -5,6 +5,7 @@ import images from '~/assets/Image'
 import { useAuth } from '~/context/AuthContext'
 import { useUser } from '~/context/UserContext'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 
 import styles from '../DefaultLayout.module.scss'
@@ -12,6 +13,7 @@ import styles from '../DefaultLayout.module.scss'
 const cx = classNames.bind(styles)
 
 export default function UserMenu() {
+  const { t } = useTranslation('common')
   const { dataUser } = useUser()
   const { logout } = useAuth()
   const navigate = useNavigate()
@@ -60,13 +62,13 @@ export default function UserMenu() {
           <li>
             <Link to="/dashboard">
               <FontAwesomeIcon className={cx('icon')} icon={faHome} />
-              <p>Home</p>
+              <p>{t('label.home')}</p>
             </Link>
           </li>
           <li>
             <Link to="/settings">
               <FontAwesomeIcon className={cx('icon')} icon={faUser} />
-              <p>Profile Setting</p>
+              <p>{t('label.profile_setting')}</p>
             </Link>
           </li>
         </ul>

@@ -2,15 +2,20 @@ import { useEffect, useRef, useState } from 'react'
 import { faCheck, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 
 import styles from '../DefaultLayout.module.scss'
 
 const cx = classNames.bind(styles)
 
 export default function Language() {
+  const {
+    t,
+    i18n: { changeLanguage, language },
+  } = useTranslation('common')
   const languagePopperRef = useRef<HTMLDivElement>(null)
   const displayLanguageTitleRef = useRef<HTMLDivElement>(null)
-  const [language, setLanguage] = useState('English')
+  const [currentLanguage, setCurrentLanguage] = useState(language === 'en' ? 'EN' : 'VI')
   const [languageToggle, setLanguageToggle] = useState(false)
 
   useEffect(() => {
@@ -36,7 +41,7 @@ export default function Language() {
       }}
       className={cx('language')}
     >
-      {language}
+      {currentLanguage}
       <span>
         <FontAwesomeIcon icon={faChevronDown} />
       </span>
@@ -48,12 +53,14 @@ export default function Language() {
         }}
       >
         <div onClick={(e) => e.stopPropagation()} className={cx('title')}>
-          <h6>Select Language</h6>
+          <h6>{t('label.select_language')}</h6>
         </div>
         <ul onClick={(e) => e.stopPropagation()} className={cx('list-lang')}>
           <li
             onClick={() => {
-              setLanguage('EN')
+              setCurrentLanguage('EN')
+              changeLanguage('en')
+              setLanguageToggle(false)
             }}
           >
             <span className={cx('nation-flag')}>
@@ -63,7 +70,7 @@ export default function Language() {
               />
             </span>
             <p>English</p>
-            {language === 'EN' && (
+            {currentLanguage === 'EN' && (
               <span className={cx('check')}>
                 <FontAwesomeIcon icon={faCheck} />
               </span>
@@ -71,7 +78,9 @@ export default function Language() {
           </li>
           <li
             onClick={() => {
-              setLanguage('VI')
+              setCurrentLanguage('VI')
+              changeLanguage('vi')
+              setLanguageToggle(false)
             }}
           >
             <span className={cx('nation-flag')}>
@@ -81,7 +90,7 @@ export default function Language() {
               />
             </span>
             <p>Việt Nam</p>
-            {language === 'VI' && (
+            {currentLanguage === 'VI' && (
               <span className={cx('check')}>
                 <FontAwesomeIcon icon={faCheck} />
               </span>

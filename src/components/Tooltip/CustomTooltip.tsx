@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Tooltip } from 'react-tooltip'
 
 interface TooltipProps {
@@ -6,6 +7,8 @@ interface TooltipProps {
 }
 
 function CustomTooltip({ children, message }: TooltipProps) {
+  const { t } = useTranslation('common')
+
   return (
     <div data-tooltip-id={`hasTooltip-${message}`}>
       {children}
@@ -18,7 +21,7 @@ function CustomTooltip({ children, message }: TooltipProps) {
           fontSize: '12px',
         }}
       >
-        <p>{message}</p>
+        <p>{t(`tooltip.${message.toLowerCase().replace(' ', '_')}`)}</p>
       </Tooltip>
     </div>
   )

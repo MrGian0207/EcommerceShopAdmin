@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { faEnvelope, faEye, faLock } from '@fortawesome/free-solid-svg-icons'
 import api from '~/api/api'
 import AuthHeader from '~/components/AuthHeader'

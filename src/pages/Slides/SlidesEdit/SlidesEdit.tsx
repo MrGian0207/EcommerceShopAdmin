@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Input, TextArea } from '~/components/common/Type1'
+import { SlidesRoute } from '~/constant/PageRoute'
 import { useAuth } from '~/context/AuthContext'
 import { usePath } from '~/context/PathContext'
 import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import { emptySlide, SlideType } from '~/types/DataType'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 
 import styles from '../Slides.module.scss'
 import DisplaySlide from '../SlidesComponent/DisplaySlide'
@@ -16,6 +18,8 @@ import { SlidesRules } from '../SlidesRule'
 const cx = classNames.bind(styles)
 
 function SlidesEdit() {
+  const { t } = useTranslation('slides')
+
   const { path } = usePath()
   const { accessToken } = useAuth()
   const [loading, setLoading] = useState(true)
@@ -52,7 +56,7 @@ function SlidesEdit() {
 
   return (
     <div className={cx('edit')}>
-      <DefaultLayout active={'slides'} page={['Dashboard', 'Slides', 'Edit']}>
+      <DefaultLayout active={'slides'} page={SlidesRoute.SlidesEditPage}>
         {loading ? (
           <SlideSkeleton />
         ) : (
@@ -61,31 +65,31 @@ function SlidesEdit() {
               <React.Fragment>
                 <Input
                   name="heading"
-                  label="Heading"
+                  label={t('heading', { ns: 'form' })}
                   defaultValue={data.heading}
                   rules={SlidesRules.heading}
                 />
                 <Input
                   name="primaryButtonText"
-                  label="Primary Button Text"
+                  label={t('primary_button_text', { ns: 'form' })}
                   defaultValue={data.primaryButtonText}
                   rules={SlidesRules.primaryButtonText}
                 />
                 <Input
                   name="primaryButtonLink"
-                  label="Primary Button Link"
+                  label={t('primary_button_link', { ns: 'form' })}
                   defaultValue={data.primaryButtonLink}
                   rules={SlidesRules.primaryButtonLink}
                 />
                 <Input
                   name="secondaryButtonText"
-                  label="Secondary Button Text"
+                  label={t('second_button_text', { ns: 'form' })}
                   defaultValue={data.secondaryButtonText}
                   rules={SlidesRules.secondaryButtonText}
                 />
                 <Input
                   name="secondaryButtonLink"
-                  label="Secondary Button Link"
+                  label={t('second_button_link', { ns: 'form' })}
                   defaultValue={data.secondaryButtonLink}
                   rules={SlidesRules.secondaryButtonLink}
                 />
@@ -97,7 +101,7 @@ function SlidesEdit() {
                   <TextArea
                     name="description"
                     rows={9}
-                    label="Description"
+                    label={t('description', { ns: 'form' })}
                     defaultValue={data.description}
                     rules={SlidesRules.description}
                   />
@@ -110,7 +114,7 @@ function SlidesEdit() {
                 </div>
               </React.Fragment>
             }
-            nameButtonSubmit={'Edit Slide'}
+            nameButtonSubmit={t('actions.edit_slide')}
           />
         )}
       </DefaultLayout>

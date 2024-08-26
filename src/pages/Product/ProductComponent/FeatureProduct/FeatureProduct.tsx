@@ -4,7 +4,7 @@ import * as Toastify from '~/services/Toastify'
 import { FeatureProductProps } from '~/types/FormElementType'
 import classNames from 'classnames/bind'
 
-import styles from '../ProductAdd/ProductAdd.module.scss'
+import styles from '../../ProductAdd/ProductAdd.module.scss'
 
 const cx = classNames.bind(styles)
 

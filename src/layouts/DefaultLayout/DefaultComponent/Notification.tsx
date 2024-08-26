@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { faBell, faClock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 
 import styles from '../DefaultLayout.module.scss'
 
 const cx = classNames.bind(styles)
 export default function Notification() {
+  const { t } = useTranslation('common')
   const notificationRef = useRef<HTMLDivElement>(null)
   const notificationIconRef = useRef<HTMLDivElement>(null)
   const [notificationToggle, setNotificationToggle] = useState(false)
@@ -44,7 +46,7 @@ export default function Notification() {
         className={cx('notification-popper')}
       >
         <div onClick={(e) => e.stopPropagation()} className={cx('title')}>
-          <h6>Notifications</h6>
+          <h6>{t('label.notifications')}</h6>
         </div>
         <ul onClick={(e) => e.stopPropagation()} className={cx('list-nofi')}>
           <li>

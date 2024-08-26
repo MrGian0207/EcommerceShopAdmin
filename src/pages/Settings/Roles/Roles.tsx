@@ -5,6 +5,7 @@ import images from '~/assets/Image'
 import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import CustomTooltip from '~/components/Tooltip/CustomTooltip'
+import { RolesTableHeader } from '~/constant/Table'
 import { useTable } from '~/context/TableContext'
 import TableLayout, {
   TableBody,
@@ -17,12 +18,14 @@ import TableLayout, {
 } from '~/layouts/TableLayout'
 import classNames from 'classnames/bind'
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 
 import styles from './Roles.module.scss'
 
 const cx = classNames.bind(styles)
 
 function Roles(): JSX.Element {
+  const { t } = useTranslation('settings')
   const { loading, dataTable } = useTable()
 
   useEffect(() => {
@@ -34,12 +37,11 @@ function Roles(): JSX.Element {
       <TableLayout>
         <TableHeader>
           <TableRow>
-            <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell>Email</TableHeaderCell>
-            <TableHeaderCell>Phone</TableHeaderCell>
-            <TableHeaderCell>Role</TableHeaderCell>
-            <TableHeaderCell>Joined</TableHeaderCell>
-            <TableHeaderCell>Actions</TableHeaderCell>
+            {RolesTableHeader.map((header, index) => (
+              <TableHeaderCell key={`header-${index}`}>
+                {t(header, { ns: 'table' })}
+              </TableHeaderCell>
+            ))}
           </TableRow>
         </TableHeader>
 

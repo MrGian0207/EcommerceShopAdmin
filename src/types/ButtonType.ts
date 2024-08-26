@@ -1,6 +1,6 @@
 export type ButtonProps = {
-  selectedOption?: string
-  setSelectedOption?: React.Dispatch<React.SetStateAction<string>>
+  selectedOption?: SelectedOptionType
+  setSelectedOption?: React.Dispatch<React.SetStateAction<SelectedOptionType>>
   type?: string
   to?: string | null | undefined
   href?: string
@@ -17,4 +17,10 @@ export type ButtonProps = {
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
   onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
+}
+export type SelectedOptionType = 'Pending' | 'Ontheway' | 'Delivered' | 'Returned' | 'Cancelled'
+
+export interface StatusDeliveryOption {
+  key: SelectedOptionType
+  value: string
 }

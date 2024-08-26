@@ -6,17 +6,19 @@ import './LineChart.css'
 
 import { useEffect, useRef } from 'react'
 import ApexCharts from 'apexcharts'
+import { useTranslation } from 'react-i18next'
 
 const cx = classNames.bind(styles)
 
 function MonthChart(): JSX.Element {
+  const { t } = useTranslation('dashboard')
   const chartRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const options = {
       series: [
         {
-          name: 'Income',
+          name: t('income_report_chart.income'),
           data: [
             25, 0, 79, 34, 299, 45, 0, 226, 170, 0, 94, 39, 0, 0, 62, 375, 0, 34, 0, 0, 0, 116, 128,
             0, 56, 0, 118, 0, 0, 0,
@@ -162,7 +164,7 @@ function MonthChart(): JSX.Element {
     return () => {
       chart.destroy()
     }
-  })
+  }, [t])
 
   return <div id="chart" className={cx('lineChart')} ref={chartRef}></div>
 }

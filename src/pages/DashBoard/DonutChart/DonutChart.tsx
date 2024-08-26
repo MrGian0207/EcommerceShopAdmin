@@ -1,18 +1,26 @@
 import { useEffect, useRef } from 'react'
 import ApexCharts from 'apexcharts'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 
 import styles from './DonutChart.module.scss'
 
 const cx = classNames.bind(styles)
 
 function DonutChart(): JSX.Element {
+  const { t } = useTranslation('dashboard')
   const chartRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const options = {
       series: [79, 9, 22, 1, 7],
-      labels: ['Pending', 'On The Way', 'Delivered', 'Returned', 'Cancelled'],
+      labels: [
+        t('statusDelivery.pending', { ns: 'common' }),
+        t('statusDelivery.on_the_way', { ns: 'common' }),
+        t('statusDelivery.delivered', { ns: 'common' }),
+        t('statusDelivery.returned', { ns: 'common' }),
+        t('statusDelivery.cancelled', { ns: 'common' }),
+      ],
       colors: [
         'rgb(24, 144, 255)',
         'rgb(63, 0, 113)',
@@ -55,7 +63,7 @@ function DonutChart(): JSX.Element {
     return () => {
       chart.destroy()
     }
-  }, [])
+  }, [t])
 
   return <div id="chart" className={cx('donutChart')} ref={chartRef}></div>
 }

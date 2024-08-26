@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import CustomTooltip from '~/components/Tooltip'
+import { NewletterRoute } from '~/constant/PageRoute'
+import { NewletterTableHeader } from '~/constant/Table'
 import { useTable } from '~/context/TableContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import TableLayout, {
@@ -17,12 +19,14 @@ import TableLayout, {
 import * as Toastify from '~/services/Toastify'
 import classNames from 'classnames/bind'
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 
 import styles from './Newletter.module.scss'
 
 const cx = classNames.bind(styles)
 
 function Newletters() {
+  const { t } = useTranslation('newletters')
   const { loading, dataTable } = useTable()
 
   useEffect(() => {
@@ -31,13 +35,15 @@ function Newletters() {
 
   return (
     <div className={cx('newletter')}>
-      <DefaultLayout active={'newletter'} page={['Dashboard', 'Newletter']} searchEngine={true}>
+      <DefaultLayout active={'newletter'} page={NewletterRoute.NewletterPage} searchEngine={true}>
         <TableLayout>
           <TableHeader>
             <TableRow>
-              <TableHeaderCell>Email</TableHeaderCell>
-              <TableHeaderCell>Created at</TableHeaderCell>
-              <TableHeaderCell>Actions</TableHeaderCell>
+              {NewletterTableHeader.map((header, index) => (
+                <TableHeaderCell key={`header-${index}`}>
+                  {t(header, { ns: 'table' })}
+                </TableHeaderCell>
+              ))}
             </TableRow>
           </TableHeader>
 

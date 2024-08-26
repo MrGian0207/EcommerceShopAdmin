@@ -5,6 +5,7 @@ import { emptyVariant, VariantFormType, VariantType } from '~/types/DataType'
 import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 import styles from './VariantForm.module.scss'
 import { VariantImage, VariantInput } from './VariantInput'
@@ -12,6 +13,8 @@ import { VariantImage, VariantInput } from './VariantInput'
 const cx = classNames.bind(styles)
 
 function VariantForm({ nameForm, isEdit }: VariantFormType): JSX.Element {
+  const { t } = useTranslation('product')
+
   const { setToggleModal } = useModal()
   const { variantIsEdit, variants, setVariants, variantImage } = useProduct()
   const methods = useForm<IFormValues>()
@@ -22,6 +25,12 @@ function VariantForm({ nameForm, isEdit }: VariantFormType): JSX.Element {
     e.preventDefault()
     e.stopPropagation()
     setToggleModal(false)
+  }
+
+  const handleSaveModal = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    methods.handleSubmit(onSubmit)()
   }
 
   const onSubmit: SubmitHandler<IFormValues> = (data) => {
@@ -58,64 +67,58 @@ function VariantForm({ nameForm, isEdit }: VariantFormType): JSX.Element {
     setToggleModal(false)
   }
 
-  const handleSaveModal = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    methods.handleSubmit(onSubmit)()
-  }
-
   return (
     <FormProvider {...methods}>
       <form className={cx('form-variant')} onSubmit={handleSaveModal}>
         <h2 className={cx('name-modal')}>{nameForm}</h2>
         <VariantInput
-          options={{ required: 'is Required' }}
-          label="Variant Name"
+          rules={{ required: 'is Required' }}
           name="variantName"
+          label={t('variant.variant_name')}
           defaultValue={variant.variantName}
         />
         <div className={cx('row')}>
           <VariantInput
-            options={{ required: 'is Required' }}
-            label="Size"
+            rules={{ required: 'is Required' }}
             name="variantSize"
+            label={t('variant.variant_size')}
             defaultValue={variant.variantSize}
           />
           <VariantInput
-            options={{ required: 'is Required' }}
-            label="Color"
+            rules={{ required: 'is Required' }}
             name="variantColor"
+            label={t('variant.variant_color')}
             defaultValue={variant.variantColor}
           />
           <VariantInput
-            options={{ required: 'is Required' }}
-            label="Product SKU"
+            rules={{ required: 'is Required' }}
             name="variantProductSKU"
+            label={t('variant.variant_product_sku')}
             defaultValue={variant.variantProductSKU}
           />
         </div>
 
         <div className={cx('row')}>
           <VariantInput
-            options={{ required: 'is Required' }}
-            label="Quantity"
+            rules={{ required: 'is Required' }}
             name="variantQuantity"
+            label={t('variant.variant_quantity')}
             type="number"
             min={0}
             defaultValue={variant.variantQuantity}
           />
           <VariantInput
-            options={{ required: 'is Required' }}
-            label="Regular Price"
+            rules={{ required: 'is Required' }}
             name="variantRegularPrice"
+            label={t('variant.variant_regular_price')}
             type="number"
             min={0}
             defaultValue={variant.variantRegularPrice}
           />
           <VariantInput
-            options={{ required: 'is Required' }}
-            label="Sale Price"
+            rules={{ required: 'is Required' }}
             name="variantSalePrice"
+            label={t('variant.variant_sale_price')}
             type="number"
             min={0}
             defaultValue={variant.variantSalePrice}
@@ -126,11 +129,11 @@ function VariantForm({ nameForm, isEdit }: VariantFormType): JSX.Element {
 
         <div className={cx('row-button')}>
           <button className={cx('btn-cancel')} onClick={handleCancelModal}>
-            Cancel
+            {t('actions.cancel', { ns: 'common' })}
           </button>
 
           <button className={cx('btn-save')} type="submit">
-            Save
+            {t('actions.save', { ns: 'common' })}
           </button>
         </div>
       </form>

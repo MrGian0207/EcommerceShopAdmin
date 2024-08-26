@@ -3,11 +3,13 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSearch } from '~/context/SearchContext'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 
 import styles from '../DefaultLayout.module.scss'
 
 const cx = classNames.bind(styles)
 export default function SearchEngine() {
+  const { t } = useTranslation('common')
   const { searchText, setSearchText } = useSearch()
   const inputSearchRef = useRef<HTMLInputElement>(null)
 
@@ -30,7 +32,7 @@ export default function SearchEngine() {
             }}
             ref={inputSearchRef}
             type="text"
-            placeholder="Search"
+            placeholder={t('label.search')}
           />
         </div>
       </div>

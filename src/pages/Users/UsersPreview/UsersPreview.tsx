@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import images from '~/assets/Image'
+import { UsersRoute } from '~/constant/PageRoute'
 import { useAuth } from '~/context/AuthContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
@@ -47,7 +48,7 @@ function UsersPreview(): JSX.Element {
 
   return (
     <div className={cx('users')}>
-      <DefaultLayout active={'users'} page={['Dashboard', 'Users', 'Details']}>
+      <DefaultLayout active={'users'} page={UsersRoute.UsersPreviewPage}>
         <div className={cx('user')}>
           <div className={cx('user-description')}>
             <div className={cx('user-info')}>

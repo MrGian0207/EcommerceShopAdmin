@@ -1,4 +1,5 @@
 import React from 'react'
+import { PreviewOrderTableHeader } from '~/constant/Table'
 import {
   TableBody,
   TableDataCell,
@@ -8,29 +9,32 @@ import {
 } from '~/layouts/TableLayout'
 import { OrderType } from '~/types/OrderType'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 
 import styles from '../OrdersPreview.module.scss'
 
 const cx = classNames.bind(styles)
 
 export default function PreviewProduct({ orderData }: { orderData: OrderType }) {
+  const { t } = useTranslation('orders')
+
   return (
     <React.Fragment>
       <h5 className={cx('product-quantity')}>
         <b>
-          {orderData.quantityProducts &&
-            (orderData.quantityProducts as number[]).reduce((acc, value) => acc + value)}{' '}
-          item
+          {t('label.item', {
+            count: (orderData.quantityProducts as number[]).reduce((acc, value) => acc + value),
+          })}
         </b>
       </h5>
       <table className={cx('product')}>
         <TableHeader>
           <TableRow>
-            <TableHeaderCell>Product</TableHeaderCell>
-            <TableHeaderCell>Color</TableHeaderCell>
-            <TableHeaderCell>Quantity</TableHeaderCell>
-            <TableHeaderCell>Size</TableHeaderCell>
-            <TableHeaderCell>Price</TableHeaderCell>
+            {PreviewOrderTableHeader.map((header, index) => (
+              <TableHeaderCell key={`header-${index}`}>
+                {t(header, { ns: 'table' })}
+              </TableHeaderCell>
+            ))}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -57,7 +61,7 @@ export default function PreviewProduct({ orderData }: { orderData: OrderType }) 
         <TableBody>
           <TableRow>
             <TableDataCell>
-              <b>Subtotal</b>
+              <b>{t('label.subtotal')}</b>
             </TableDataCell>
             <TableDataCell>
               <b>USD ${orderData.subtotal}</b>
@@ -65,7 +69,7 @@ export default function PreviewProduct({ orderData }: { orderData: OrderType }) 
           </TableRow>
           <TableRow>
             <TableDataCell>
-              <b>Shipping Fee</b>
+              <b>{t('label.shipping_fee')}</b>
             </TableDataCell>
             <TableDataCell>
               <b>USD ${orderData.shippingFee}</b>
@@ -73,7 +77,7 @@ export default function PreviewProduct({ orderData }: { orderData: OrderType }) 
           </TableRow>
           <TableRow>
             <TableDataCell>
-              <b>Total</b>
+              <b>{t('label.total')}</b>
             </TableDataCell>
             <TableDataCell>
               <b>${orderData.total}</b>

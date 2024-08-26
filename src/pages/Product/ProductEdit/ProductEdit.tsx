@@ -3,6 +3,8 @@ import OptionSelect from '~/components/common/OptionSelect'
 import Toggle from '~/components/common/ToggleButton/Toggle'
 import { Input } from '~/components/common/Type1'
 import VariantForm from '~/components/VariantForm'
+import { ProductRoute } from '~/constant/PageRoute'
+import { genderOptionsConstant, statusOptionsConstant } from '~/constant/SelectOptions'
 import { useAuth } from '~/context/AuthContext'
 import { useModal } from '~/context/ModalContext'
 import { usePath } from '~/context/PathContext'
@@ -12,17 +14,20 @@ import DefaultLayout from '~/layouts/DefaultLayout'
 import { OptionType, ProductType } from '~/types/DataType'
 import { handleSetDataOptions } from '~/utils/HandleSetDataOptions'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 import ReactModal from 'react-modal'
 
+import ProductSkeleton from '../ProductComponent/ProductSkeleton/ProductSkeleton'
+import Tag from '../ProductComponent/Tag'
+import VariantBox from '../ProductComponent/VariantBox'
 import { ProductRules } from '../ProductRules'
-import ProductSkeleton from '../ProductSkeleton/ProductSkeleton'
-import Tag from '../Tag'
-import VariantBox from '../VariantBox'
 import styles from './ProductEdit.module.scss'
 
 const cx = classNames.bind(styles)
 
 function ProductEdit(): JSX.Element {
+  const { t } = useTranslation('product')
+
   const { path } = usePath()
   const { accessToken } = useAuth()
   const { isEdit, setIsEdit, toggleModal, setToggleModal } = useModal()
@@ -90,19 +95,8 @@ function ProductEdit(): JSX.Element {
         const mainCategories: OptionType[] = mainCategoriesData.data
         const subCategories: OptionType[] = subCategoriesData.data
         const brands: OptionType[] = brandsData.data
-        const genderOptions: OptionType[] = [
-          { value: 'None', label: 'None' },
-          { value: 'Men', label: 'Men' },
-          { value: 'Women', label: 'Women' },
-          { value: 'Kids', label: 'Kids' },
-          { value: 'Others', label: 'Others' },
-        ]
-        const statusOptions: OptionType[] = [
-          { value: 'Sale', label: 'Sale' },
-          { value: 'New', label: 'New' },
-          { value: 'Regular', label: 'Regular' },
-          { value: 'Disabled', label: 'Disabled' },
-        ]
+        const genderOptions: OptionType[] = genderOptionsConstant
+        const statusOptions: OptionType[] = statusOptionsConstant
         const data: ProductType = productData
 
         handleSetDataOptions(mainCategories, setMainCategoriesOptions)
@@ -130,7 +124,7 @@ function ProductEdit(): JSX.Element {
 
   return (
     <div className={cx('add')}>
-      <DefaultLayout active={'product'} page={['Dashboard', 'Product', 'Edit']}>
+      <DefaultLayout active={'product'} page={ProductRoute.ProductEditPage}>
         {loading ? (
           <ProductSkeleton />
         ) : (
@@ -139,27 +133,27 @@ function ProductEdit(): JSX.Element {
               <React.Fragment>
                 <Input
                   name="name"
-                  label="Product Name"
+                  label={t('product_name')}
                   defaultValue={product.name}
                   rules={ProductRules.name}
                 />
                 <Input
                   name="title"
-                  label="Meta Title"
+                  label={t('title', { ns: 'form' })}
                   defaultValue={product.title}
                   rules={ProductRules.title}
                 />
 
                 <div className={cx('row')}>
                   <OptionSelect
-                    label="Category"
                     name="category"
+                    label={t('category', { ns: 'form' })}
                     defaultValue={product.category}
                     options={mainCategoriesOptions}
                   />
                   <OptionSelect
-                    label="Sub Category"
                     name="subCategory"
+                    label={t('subCategory', { ns: 'form' })}
                     defaultValue={product.subCategory}
                     options={subCategoriesOptions}
                   />
@@ -167,14 +161,14 @@ function ProductEdit(): JSX.Element {
 
                 <div className={cx('row')}>
                   <OptionSelect
-                    label="Brand"
                     name="brand"
+                    label={t('brand', { ns: 'form' })}
                     defaultValue={product.brand}
                     options={brandOptions}
                   />
                   <OptionSelect
-                    label="Gender"
                     name="gender"
+                    label={t('gender', { ns: 'form' })}
                     defaultValue={product.gender}
                     options={genderOptions}
                   />
@@ -182,14 +176,14 @@ function ProductEdit(): JSX.Element {
 
                 <div className={cx('row')}>
                   <OptionSelect
-                    label="Status"
                     name="status"
+                    label={t('status', { ns: 'form' })}
                     defaultValue={product.status}
                     options={statusOptions}
                   />
                   <Input
                     name="productCode"
-                    label="Product Code"
+                    label={t('productCode', { ns: 'form' })}
                     defaultValue={product.productCode}
                     rules={ProductRules.productCode}
                   />
@@ -203,14 +197,14 @@ function ProductEdit(): JSX.Element {
                 <div className={cx('right-column')}>
                   <Input
                     name="slug"
-                    label="Slug"
+                    label={t('slug', { ns: 'form' })}
                     defaultValue={product.slug}
                     rules={ProductRules.slug}
                   />
 
                   <Input
                     name="description"
-                    label="Description"
+                    label={t('description', { ns: 'form' })}
                     defaultValue={product.description}
                     rules={ProductRules.description}
                   />
@@ -218,13 +212,13 @@ function ProductEdit(): JSX.Element {
                   <Toggle
                     defaultChecked={product.featureProduct === 'true'}
                     name="featureProduct"
-                    label="Feature Product"
+                    label={t('feature_product', { ns: 'form' })}
                   />
 
                   <VariantBox variantArray={variants} defaultVariant={product.defaultVariant} />
 
                   <button className={cx('button')} onClick={handleAddVariant}>
-                    Add Variant
+                    {t('actions.add_variant')}
                   </button>
 
                   <ReactModal
@@ -242,7 +236,7 @@ function ProductEdit(): JSX.Element {
                 </div>
               </React.Fragment>
             }
-            nameButtonSubmit={'Edit Product'}
+            nameButtonSubmit={t('actions.edit_product')}
             tags={tags}
             hasVariant={true}
           />

@@ -14,14 +14,17 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 import 'swiper/css'
 
+import { SlidesRoute } from '~/constant/PageRoute'
 import { SlideType } from '~/types/DataType'
 import { Slide } from '~/types/ImageSliderType'
+import { useTranslation } from 'react-i18next'
 
 import styles from './Slides.module.scss'
 
 const cx = classNames.bind(styles)
 
 function Slides(): JSX.Element {
+  const { t } = useTranslation('slides')
   const { updateLayout } = useUpdateLayout()
   const { path } = usePath()
   const [loading, setLoading] = useState(true)
@@ -58,12 +61,12 @@ function Slides(): JSX.Element {
     <div className={cx('slides')}>
       <DefaultLayout
         active={'slides'}
-        page={['Dashboard', 'Slides']}
+        page={SlidesRoute.SlidesPage}
         searchEngine={true}
         buttons={[
           <Button to={'/slides/add'} className="button-add">
             <FontAwesomeIcon icon={faPlus} />
-            Add Slide
+            {t('actions.add_slide')}
           </Button>,
         ]}
       >

@@ -5,6 +5,8 @@ import images from '~/assets/Image'
 import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import CustomTooltip from '~/components/Tooltip/CustomTooltip'
+import { MainCategoriesRoute } from '~/constant/PageRoute'
+import { MainCategoriesTableHeader } from '~/constant/Table'
 import { useDeleteData } from '~/context/DeleteDataContext'
 import { usePath } from '~/context/PathContext'
 import { useTable } from '~/context/TableContext'
@@ -20,12 +22,14 @@ import TableLayout, {
 } from '~/layouts/TableLayout'
 import classNames from 'classnames/bind'
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 
 import styles from './MainCategories.module.scss'
 
 const cx = classNames.bind(styles)
 
 function MainCategories() {
+  const { t } = useTranslation('mainCategories')
   const { path } = usePath()
   const { loading, dataTable } = useTable()
   const { isDeleting, setDeletedData } = useDeleteData()
@@ -38,23 +42,23 @@ function MainCategories() {
     <div className={cx('main-categories')}>
       <DefaultLayout
         active={'categories'}
-        page={['Dashboard', 'Categories/Main Categories']}
+        page={MainCategoriesRoute.MainCategoriesPage}
         searchEngine={true}
         buttons={[
           <Button to={'/categories/main-categories/add'} className="button-add">
             <FontAwesomeIcon icon={faPlus} />
-            Add Category
+            {t('actions.add_category')}
           </Button>,
         ]}
       >
         <TableLayout>
           <TableHeader>
             <TableRow>
-              <TableHeaderCell>Category</TableHeaderCell>
-              <TableHeaderCell>Total Items</TableHeaderCell>
-              <TableHeaderCell>Description</TableHeaderCell>
-              <TableHeaderCell>Created at</TableHeaderCell>
-              <TableHeaderCell>Actions</TableHeaderCell>
+              {MainCategoriesTableHeader.map((header, index) => (
+                <TableHeaderCell key={`header-${index}`}>
+                  {t(header, { ns: 'table' })}
+                </TableHeaderCell>
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>

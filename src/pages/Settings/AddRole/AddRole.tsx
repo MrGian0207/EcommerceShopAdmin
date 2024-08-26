@@ -15,6 +15,7 @@ import * as Toastify from '~/services/Toastify'
 import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 import { SettingRules } from '../SettingsRules'
 import styles from './AddRole.module.scss'
@@ -22,6 +23,7 @@ import styles from './AddRole.module.scss'
 const cx = classNames.bind(styles)
 
 function AddRole(): JSX.Element {
+  const { t } = useTranslation('add_role')
   const methods = useForm<IFormValues>()
   const [loading, setLoading] = useState<boolean>(false)
   const { accessToken } = useAuth()
@@ -68,13 +70,13 @@ function AddRole(): JSX.Element {
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <section className={cx('add-role')}>
           <div className={cx('add-role-form')}>
-            <h3>Add Role</h3>
+            <h3>{t('title')}</h3>
 
             <Input
               type="text"
               name="name"
               iconLeft={faUser}
-              label="Full Name"
+              label={t('full_name', { ns: 'form' })}
               rules={SettingRules.name}
             />
 
@@ -82,14 +84,14 @@ function AddRole(): JSX.Element {
               <Select
                 icon={faVenusMars}
                 name="gender"
-                label="Gender"
+                label={t('gender', { ns: 'form' })}
                 options={['Male', 'Female']}
               />
 
               <Select
                 icon={faUserTie}
                 name="role"
-                label="Role"
+                label={t('role', { ns: 'form' })}
                 options={['Staff', 'Admin', 'Manager', 'Editor']}
               />
             </div>
@@ -99,14 +101,14 @@ function AddRole(): JSX.Element {
                 type="text"
                 name="phone"
                 iconLeft={faPhone}
-                label="Phone"
+                label={t('phone', { ns: 'form' })}
                 rules={SettingRules.phone}
               />
               <Input
                 type="text"
                 name="email"
                 iconLeft={faEnvelope}
-                label="Email Address"
+                label={t('email', { ns: 'form' })}
                 rules={SettingRules.email}
               />
             </div>
@@ -116,12 +118,12 @@ function AddRole(): JSX.Element {
               name="password"
               iconLeft={faLock}
               iconRight={faEye}
-              label="Password"
+              label={t('password', { ns: 'form' })}
               rules={SettingRules.password}
             />
 
             <button type="submit" disabled={loading} className={cx('submitChangeBtn')}>
-              {loading ? <Spinner /> : 'Save'}
+              {loading ? <Spinner /> : t('actions.save', { ns: 'common' })}
             </button>
           </div>
         </section>

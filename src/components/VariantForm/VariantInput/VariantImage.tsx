@@ -4,12 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import images from '~/assets/Image'
 import { useProduct } from '~/context/ProductContext'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 
 import styles from '../VariantForm.module.scss'
 
 const cx = classNames.bind(styles)
 
 export default function VariantImage() {
+  const { t } = useTranslation('product')
+
   const { variantImage, setVariantImage } = useProduct()
   const fileInputRef = React.useRef<HTMLInputElement>(null)
 
@@ -36,7 +39,7 @@ export default function VariantImage() {
     <React.Fragment>
       {/* Input field for select new images */}
       <div className={cx('image')}>
-        <label htmlFor="brandImage">Product Images (1080 * 1080)</label>
+        <label htmlFor="brandImage">{t('image', { size: '1080 * 1080', ns: 'form' })}</label>
         <input
           ref={fileInputRef}
           name="brandImage"
@@ -48,8 +51,8 @@ export default function VariantImage() {
           <div className={cx('box')}>
             <img src={images.uploadImage} alt="upload" />
             <span className={cx('image-description')}>
-              <h4>Drop or Select Images</h4>
-              <p>Drop Images here or click through your machine</p>
+              <h4>{t('drop_select_image', { ns: 'form' })}</h4>
+              <p>{t('form_description.image', { ns: 'form' })}</p>
             </span>
           </div>
         </button>
@@ -65,7 +68,6 @@ export default function VariantImage() {
                 <img src={previewImage} alt="preview" />
                 <button
                   onClick={() => {
-                    //Delete image
                     handleDeleteImage(index)
                   }}
                   className={cx('delete-image')}

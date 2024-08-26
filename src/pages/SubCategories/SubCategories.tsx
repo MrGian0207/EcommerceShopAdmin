@@ -5,6 +5,8 @@ import images from '~/assets/Image'
 import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import CustomTooltip from '~/components/Tooltip/CustomTooltip'
+import { SubCategoriesRoute } from '~/constant/PageRoute'
+import { SubCategoriesTableHeader } from '~/constant/Table'
 import { useDeleteData } from '~/context/DeleteDataContext'
 import { usePath } from '~/context/PathContext'
 import { useTable } from '~/context/TableContext'
@@ -20,12 +22,14 @@ import TableLayout, {
 } from '~/layouts/TableLayout'
 import classNames from 'classnames/bind'
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 
 import styles from './SubCategories.module.scss'
 
 const cx = classNames.bind(styles)
 
 function SubCategories(): JSX.Element {
+  const { t } = useTranslation('subCategories')
   const { path } = usePath()
   const { loading, dataTable } = useTable()
   const { isDeleting, setDeletedData } = useDeleteData()
@@ -38,22 +42,23 @@ function SubCategories(): JSX.Element {
     <div className={cx('sub-categories')}>
       <DefaultLayout
         active={'categories'}
-        page={['Dashboard', 'Categories/Sub Categories']}
+        page={SubCategoriesRoute.SubCategoriesPage}
         searchEngine={true}
         buttons={[
           <Button to={'/categories/sub-categories/add'} className="button-add">
             <FontAwesomeIcon icon={faPlus} />
-            Add Sub Category
+            {t('actions.add_sub_category')}
           </Button>,
         ]}
       >
         <TableLayout>
           <TableHeader>
             <TableRow>
-              <TableHeaderCell>Category</TableHeaderCell>
-              <TableHeaderCell>Parent Category</TableHeaderCell>
-              <TableHeaderCell>Created at</TableHeaderCell>
-              <TableHeaderCell>Actions</TableHeaderCell>
+              {SubCategoriesTableHeader.map((header, index) => (
+                <TableHeaderCell key={`header-${index}`}>
+                  {t(header, { ns: 'table' })}
+                </TableHeaderCell>
+              ))}
             </TableRow>
           </TableHeader>
 

@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import { ImageInput, Input } from '~/components/common/Type1'
+import { MainCategoriesRoute } from '~/constant/PageRoute'
 import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 
 import { MainCategoriesRules } from '../MainCategoriesRules'
 import styles from './MainCategoriesAdd.module.scss'
@@ -10,25 +12,32 @@ import styles from './MainCategoriesAdd.module.scss'
 const cx = classNames.bind(styles)
 
 function MainCategoriesAdd(): JSX.Element {
+  const { t } = useTranslation('mainCategories')
+
   useEffect(() => {
     document.title = 'Add Category | MrGianStore'
   }, [])
 
   return (
     <div className={cx('add')}>
-      <DefaultLayout
-        active={'categories'}
-        page={['Dashboard', 'Categories/Main Categories', 'Add']}
-      >
+      <DefaultLayout active={'categories'} page={MainCategoriesRoute.MainCategoriesAddPage}>
         <ActionLayout
           leftColumn={
             <React.Fragment>
-              <Input name="name" label="Category Name" rules={MainCategoriesRules.name} />
-              <Input name="title" label="Meta Title" rules={MainCategoriesRules.title} />
-              <Input name="slug" label="Slug" rules={MainCategoriesRules.slug} />
+              <Input name="name" label={t('category_name')} rules={MainCategoriesRules.name} />
+              <Input
+                name="title"
+                label={t('title', { ns: 'form' })}
+                rules={MainCategoriesRules.title}
+              />
+              <Input
+                name="slug"
+                label={t('slug', { ns: 'form' })}
+                rules={MainCategoriesRules.slug}
+              />
               <Input
                 name="description"
-                label="Description"
+                label={t('description', { ns: 'form' })}
                 rules={MainCategoriesRules.description}
               />
             </React.Fragment>
@@ -38,7 +47,7 @@ function MainCategoriesAdd(): JSX.Element {
               <ImageInput rules={MainCategoriesRules.image} />
             </React.Fragment>
           }
-          nameButtonSubmit={'Create Category'}
+          nameButtonSubmit={t('actions.create_category')}
         />
       </DefaultLayout>
     </div>

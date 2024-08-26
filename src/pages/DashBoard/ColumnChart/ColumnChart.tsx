@@ -5,16 +5,18 @@ import './ColumnChart.css'
 import { useEffect, useRef } from 'react'
 import ApexCharts from 'apexcharts'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 
 const cx = classNames.bind(styles)
 
 function ColumnChart(): JSX.Element {
+  const { t } = useTranslation('dashboard')
   const chartRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const currentChartRef = chartRef.current
     const options = {
-      series: [{ name: 'Sales', data: [25, 33, 32, 28] }],
+      series: [{ name: t('sales_report_chart.sales'), data: [25, 33, 32, 28] }],
       chart: {
         type: 'bar',
         height: 250,
@@ -71,18 +73,18 @@ function ColumnChart(): JSX.Element {
       },
       xaxis: {
         categories: [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
+          t('january'),
+          t('february'),
+          t('march'),
+          t('april'),
+          t('may'),
+          t('june'),
+          t('july'),
+          t('august'),
+          t('september'),
+          t('october'),
+          t('november'),
+          t('december'),
         ],
       },
 
@@ -109,7 +111,7 @@ function ColumnChart(): JSX.Element {
     return () => {
       chart.destroy()
     }
-  }, [])
+  }, [t])
 
   return <div id="chart" className={cx('columnChart')} ref={chartRef}></div>
 }

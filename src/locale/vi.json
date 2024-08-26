@@ -1,0 +1,233 @@
+{
+  "common": {
+    "tooltip": {
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa",
+      "preview": "Xem trước",
+      "copy_email": "Sao chép email",
+      "locked": "Đã khóa"
+    },
+    "sidebar": {
+      "dashboard": "Bảng điều khiển",
+      "categories": "Danh mục",
+      "main_categories": "Danh mục chính",
+      "sub_categories": "Danh mục phụ",
+      "brands": "Nhãn hàng",
+      "products": "Sản phẩm",
+      "product": "Sản phẩm",
+      "orders": "Đơn hàng",
+      "users": "Người dùng",
+      "newletter": "Bản tin",
+      "slides": "Thanh trượt hình ảnh",
+      "settings": "Thiết lập",
+      "setting": "Thiết lập",
+      "product_list": "Danh sách sản phẩm",
+      "details": "Chi tiết",
+      "add": "Thêm",
+      "edit": "Chỉnh sửa"
+    },
+    "label": {
+      "select_option": "Tùy chọn",
+      "search": "Tìm kiếm",
+      "select_language": "Chọn ngôn ngữ",
+      "notifications": "Thông báo",
+      "home": "Bảng điều khiển",
+      "profile_setting": "Thiết lập cá nhân"
+    },
+    "actions": {
+      "cancel": "Hủy bỏ",
+      "save": "Lưu",
+      "download": "Tải xuống",
+      "delete": "Xóa",
+      "edit": "Chỉnh sửa"
+    },
+    "statusDelivery": {
+      "pending": "Chưa giải quyết",
+      "on_the_way": "Trên đường đi",
+      "delivered": "Đã vận chuyển",
+      "returned": "Hoàn trả",
+      "cancelled": "Đã hủy"
+    }
+  },
+  "dashboard": {
+    "daily_earning": "Thu nhập hàng ngày",
+    "daily_orders": "Đơn hàng hàng ngày",
+    "signUp_users": "Số lượng người dùng đăng kí",
+    "total_product": "Tổng số lượng sản phẩm",
+    "sales_report": "Báo cáo doanh số bán hàng",
+    "order_report": "Báo cáo đơn hàng",
+    "income_report": "Báo cáo thu nhập",
+    "january": "Tháng 1",
+    "february": "Tháng 2",
+    "march": "Tháng 3",
+    "april": "Tháng 4",
+    "may": "Tháng 5",
+    "june": "Tháng 6",
+    "july": "Tháng 7",
+    "august": "Tháng 8",
+    "september": "Tháng 8",
+    "october": "Tháng 10",
+    "november": "Tháng 11",
+    "december": "Tháng 12",
+    "income_report_chart": {
+      "week": "Tuần",
+      "month": "Tháng",
+      "year": "Năm",
+      "income": "Thu nhập",
+      "mon": "Thứ Hai",
+      "tue": "Thứ Ba",
+      "wed": "Thứ Tư",
+      "thu": "Thứ Năm",
+      "fri": "Thứ Sáu",
+      "sat": "Thứ Bảy",
+      "sun": "Chủ Nhật"
+    },
+    "sales_report_chart": {
+      "sales": "Bán"
+    }
+  },
+  "table": {
+    "category": "Danh mục",
+    "totalItems": "Tổng số sản phẩm",
+    "description": "Mô tả",
+    "createdAt": "Ngày tạo",
+    "actions": "Hành động",
+    "parentCategory": "Danh mục cha",
+    "product": "Sản phẩm",
+    "status": "Trạng thái",
+    "rating": "Đánh giá",
+    "price": "Giá",
+    "featured": "Hiển thị",
+    "quantity": "Số lượng",
+    "user": "Người dùng",
+    "email": "Email",
+    "phone": "Số điện thoại",
+    "joined": "Tham gia",
+    "role": "Vai trò",
+    "name": "Tên",
+    "color": "Màu",
+    "size": "Kích thước"
+  },
+  "form": {
+    "title": "Tiêu đề",
+    "category": "Danh mục",
+    "subCategory": "Danh mục phụ",
+    "brand": "Nhãn hàng",
+    "gender": "Giới tính",
+    "status": "Trạng thái",
+    "productCode": "Mã sản phẩm",
+    "tags": "Thẻ",
+    "slug": "Đường dẫn ngắn",
+    "description": "Mô tả",
+    "feature_product": "Hiện thị sản phẩm",
+    "image": "Ảnh {{size}}",
+    "drop_select_image": "Thả hoặc chọn hình ảnh",
+    "heading": "Tiêu đề",
+    "primary_button_text": "Nội dung nút chính",
+    "primary_button_link": "Đường dẫn nút chính",
+    "second_button_text": "Nội dung nút phụ",
+    "second_button_link": "Đường dẫn nút phụ",
+    "name": "Tên",
+    "email": "Địa chỉ email ",
+    "phone": "SĐT",
+    "about": "Mô tả bản thân",
+    "full_name": "Họ tên",
+    "role": "Chúc năng",
+    "password": "Mật khẩu",
+    "old_password": "Mật khẩu cũ",
+    "new_password": "Mật khẩu mới",
+    "confirm_password": "Xác nhận mật khẩu mới",
+    "form_description": {
+      "image": "Thả hình ảnh vào đây hoặc nhấp qua máy của bạn"
+    }
+  },
+  "mainCategories": {
+    "category_name": "Tên danh mục",
+    "actions": {
+      "add_category": "Thêm danh mục",
+      "create_category": "Tạo danh mục",
+      "edit_category": "Chỉnh sửa danh mục"
+    }
+  },
+  "subCategories": {
+    "subCategory_name": "Tên danh mục phụ",
+    "parentCategory": "Danh mục cha",
+    "actions": {
+      "add_sub_category": "Thêm danh mục phụ",
+      "create_sub_category": "Tạo danh mục phụ",
+      "edit_sub_category": "Chỉnh sửa danh mục phụ"
+    }
+  },
+  "brands": {
+    "brands_name": "Tên nhãn hàng",
+    "actions": {
+      "add_brands": "Thêm nhãn hàng",
+      "create_brands": "Tạo nhãn hàng",
+      "edit_brands": "Chỉnh sửa nhãn hàng"
+    }
+  },
+  "product": {
+    "product_name": "Tên sản phẩm",
+    "variants": "Những biến thể",
+    "variant": {
+      "variant_name": "Tên biến thể",
+      "variant_size": "Kích thước biến thể",
+      "variant_color": "Màu biến thể",
+      "variant_product_sku": "Mã SKU biến thể",
+      "variant_quantity": "Số lượng biến thể",
+      "variant_regular_price": "Giá bán",
+      "variant_sale_price": "Giá sau khi giảm"
+    },
+    "actions": {
+      "add_product": "Thêm Sản Phẩm",
+      "create_product": "Tạo Sản Phẩm",
+      "edit_product": "Chỉnh sửa Sản Phẩm",
+      "add_variant": "Thêm biến thể"
+    }
+  },
+  "orders": {
+    "label": {
+      "order_details": "Chi tiết đơn hàng",
+      "order_id": "Mã đơn hàng: {{id}}",
+      "customer_details": "Chi tiết khách hàng",
+      "name": "Tên: ",
+      "phone": "SĐT: ",
+      "email": "Email: ",
+      "shipping_address": "Địa chỉ giao hàng",
+      "address": "Địa chỉ: ",
+      "order_date": "Ngày đặt hàng: ",
+      "payment_method": "Phương thức thanh toán",
+      "method": "Phương thức: ",
+      "status": "Trạng thái: ",
+      "shipping_fee": "Chi phí vận chuyển: ",
+      "item": "{{count}} sản phẩm",
+      "subtotal": "Tổng tạm tính: ",
+      "total": "Tổng cộng: "
+    },
+    "actions": {}
+  },
+  "users": {},
+  "newletters": {},
+  "slides": {
+    "actions": {
+      "add_slide": "Thêm thanh trượt hình ảnh",
+      "create_slide": "Tạo thanh trượt hình ảnh",
+      "edit_slide": "Chỉnh sửa thanh trượt hình ảnh"
+    }
+  },
+  "settings": {
+    "profile_setting": "Thông tin cá nhân",
+    "roles": "Tất cả người dùng trang",
+    "add_role": "Thêm người dùng",
+    "change_password": "Thay đổi mật khẩu",
+    "update_photo": "Cập nhật hình ảnh",
+    "allowed": "Cho phép",
+    "max_size": "Kích thước lớn nhất là {{size}}",
+    "actions": {
+      "save_changes": "Lưu thay đổi"
+    }
+  },
+  "add_role": {
+    "title": "Thêm người dùng"
+  }
+}

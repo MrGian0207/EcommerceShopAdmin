@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { ImageInput, Input } from '~/components/common/Type1'
+import { MainCategoriesRoute } from '~/constant/PageRoute'
 import { useAuth } from '~/context/AuthContext'
+import { usePath } from '~/context/PathContext'
 import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import { emptyMainCategory, MainCategoriesType } from '~/types/DataType'
 import classNames from 'classnames/bind'
-import { useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import { MainCategoriesRules } from '../MainCategoriesRules'
 import MainCategoriesSkeleton from '../MainCategoriesSkeleton/MainCategoriesSkeleton'
@@ -14,8 +16,8 @@ import styles from './MainCategoriesEdit.module.scss'
 const cx = classNames.bind(styles)
 
 function MainCategoriesEdit(): JSX.Element {
-  const location = useLocation()
-  const path = location.pathname
+  const { t } = useTranslation('mainCategories')
+  const { path } = usePath()
   const { accessToken } = useAuth()
 
   const [loading, setLoading] = useState<boolean>(true)
@@ -58,10 +60,7 @@ function MainCategoriesEdit(): JSX.Element {
 
   return (
     <div className={cx('edit')}>
-      <DefaultLayout
-        active={'categories'}
-        page={['Dashboard', 'Categories/Main Categories', 'Edit']}
-      >
+      <DefaultLayout active={'categories'} page={MainCategoriesRoute.MainCategoriesEditPage}>
         {loading ? (
           <MainCategoriesSkeleton />
         ) : (
@@ -70,25 +69,25 @@ function MainCategoriesEdit(): JSX.Element {
               <React.Fragment>
                 <Input
                   name="name"
-                  label="Category Name"
+                  label={t('category_name')}
                   defaultValue={category.name}
                   rules={MainCategoriesRules.name}
                 />
                 <Input
                   name="title"
-                  label="Meta Title"
+                  label={t('title', { ns: 'form' })}
                   defaultValue={category.title}
                   rules={MainCategoriesRules.title}
                 />
                 <Input
                   name="slug"
-                  label="Slug"
+                  label={t('slug', { ns: 'form' })}
                   defaultValue={category.slug}
                   rules={MainCategoriesRules.slug}
                 />
                 <Input
                   name="description"
-                  label="Description"
+                  label={t('description', { ns: 'form' })}
                   defaultValue={category.description}
                   rules={MainCategoriesRules.description}
                 />
@@ -99,7 +98,7 @@ function MainCategoriesEdit(): JSX.Element {
                 <ImageInput imageSaved={category.image} />
               </React.Fragment>
             }
-            nameButtonSubmit={'Edit Category'}
+            nameButtonSubmit={t('actions.edit_category')}
           />
         )}
       </DefaultLayout>

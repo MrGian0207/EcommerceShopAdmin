@@ -2,8 +2,9 @@ import React, { useRef } from 'react'
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 
-import styles from '../ProductAdd/ProductAdd.module.scss'
+import styles from '../../ProductAdd/ProductAdd.module.scss'
 
 const cx = classNames.bind(styles)
 
@@ -14,6 +15,8 @@ function Tag({
   tags: string[]
   setTags: React.Dispatch<React.SetStateAction<string[]>>
 }) {
+  const { t } = useTranslation('product')
+
   const TagInputRef = useRef<HTMLInputElement>(null)
   const handleAddNewTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -51,7 +54,7 @@ function Tag({
 
   return (
     <div className={cx('tag')}>
-      <label htmlFor="tag">Tags</label>
+      <label htmlFor="tag">{t('tags', { ns: 'form' })}</label>
       <div className={cx('tag-input-box')}>
         {tags.length > 0 && (
           <ul className={cx('show-tagName')}>

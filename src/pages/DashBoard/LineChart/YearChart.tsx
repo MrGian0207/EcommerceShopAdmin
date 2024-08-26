@@ -6,17 +6,19 @@ import './LineChart.css'
 
 import { useEffect, useRef } from 'react'
 import ApexCharts from 'apexcharts'
+import { useTranslation } from 'react-i18next'
 
 const cx = classNames.bind(styles)
 
 function YearChart(): JSX.Element {
+  const { t } = useTranslation('dashboard')
   const chartRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const options = {
       series: [
         {
-          name: 'Income',
+          name: t('income_report_chart.income'),
           data: [9.182, 13.71, 6.222, 1.9, 0, 0, 0, 0, 0, 0, 0, 0],
         },
       ],
@@ -98,18 +100,18 @@ function YearChart(): JSX.Element {
       },
       xaxis: {
         categories: [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
+          t('january'),
+          t('february'),
+          t('march'),
+          t('april'),
+          t('may'),
+          t('june'),
+          t('july'),
+          t('august'),
+          t('september'),
+          t('october'),
+          t('november'),
+          t('december'),
         ],
         tooltip: {
           enabled: true,

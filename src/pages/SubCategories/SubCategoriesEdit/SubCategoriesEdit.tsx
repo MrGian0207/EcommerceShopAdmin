@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import OptionSelect from '~/components/common/OptionSelect'
 import { ImageInput, Input } from '~/components/common/Type1'
+import { SubCategoriesRoute } from '~/constant/PageRoute'
 import { useAuth } from '~/context/AuthContext'
 import { usePath } from '~/context/PathContext'
 import ActionLayout from '~/layouts/ActionLayout'
@@ -8,6 +9,7 @@ import DefaultLayout from '~/layouts/DefaultLayout'
 import { emptySubCategories, OptionType, SubCategoriesType } from '~/types/DataType'
 import { handleSetDataOptions } from '~/utils/HandleSetDataOptions'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 
 import { SubCategoriesRules } from '../SubCategoriesRules'
 import SubCategoriesSkeleton from '../SubCategoriesSkeleton/SubCategoriesSkeleton'
@@ -16,6 +18,8 @@ import styles from './SubCategoriesEdit.module.scss'
 const cx = classNames.bind(styles)
 
 function SubCategoriesEdit() {
+  const { t } = useTranslation('subCategories')
+
   const { accessToken } = useAuth()
   const { path } = usePath()
 
@@ -79,10 +83,7 @@ function SubCategoriesEdit() {
 
   return (
     <div className={cx('edit')}>
-      <DefaultLayout
-        active={'categories'}
-        page={['Dashboard', 'Categories/Sub Categories', 'Edit']}
-      >
+      <DefaultLayout active={'categories'} page={SubCategoriesRoute.SubCategoriesEditPage}>
         {loading ? (
           <SubCategoriesSkeleton />
         ) : (
@@ -91,25 +92,25 @@ function SubCategoriesEdit() {
               <React.Fragment>
                 <Input
                   name="name"
-                  label="Sub Category Name"
+                  label={t('subCategory_name')}
                   defaultValue={subCategory.name}
                   rules={SubCategoriesRules.name}
                 />
                 <Input
                   name="title"
-                  label="Meta Title"
+                  label={t('title', { ns: 'form' })}
                   defaultValue={subCategory.title}
                   rules={SubCategoriesRules.title}
                 />
                 <Input
                   name="slug"
-                  label="Slug"
+                  label={t('slug', { ns: 'form' })}
                   defaultValue={subCategory.slug}
                   rules={SubCategoriesRules.slug}
                 />
                 <Input
                   name="description"
-                  label="Description"
+                  label={t('description', { ns: 'form' })}
                   defaultValue={subCategory.description}
                   rules={SubCategoriesRules.description}
                 />
@@ -119,8 +120,8 @@ function SubCategoriesEdit() {
               <React.Fragment>
                 <div className={cx('right-column')}>
                   <OptionSelect
-                    label="Parent Category"
                     name="category"
+                    label={t('parentCategory')}
                     options={mainCategoriesOptions}
                     defaultValue={subCategory.parentCategory}
                     rules={SubCategoriesRules.parentCategory}
@@ -129,7 +130,7 @@ function SubCategoriesEdit() {
                 </div>
               </React.Fragment>
             }
-            nameButtonSubmit={'Edit Sub Category'}
+            nameButtonSubmit={t('actions.edit_sub_category')}
           />
         )}
       </DefaultLayout>

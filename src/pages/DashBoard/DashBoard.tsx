@@ -1,9 +1,11 @@
 import { memo, useEffect, useState } from 'react'
 import { faFileInvoiceDollar, faShop, faUser, faWallet } from '@fortawesome/free-solid-svg-icons'
 import StatisticItems from '~/components/StatisticItems'
+import { DashBoardRoute } from '~/constant/PageRoute'
 import { useAuth } from '~/context/AuthContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import ColumnChart from './ColumnChart'
@@ -14,6 +16,7 @@ import { MonthChart, WeekChart, YearChart } from './LineChart'
 const cx = classNames.bind(styles)
 
 function DashBoard(): JSX.Element {
+  const { t } = useTranslation('dashboard')
   const { accessToken, login } = useAuth()
   const navigate = useNavigate()
 
@@ -93,25 +96,25 @@ function DashBoard(): JSX.Element {
 
   return (
     <div className={cx('dashboard')}>
-      <DefaultLayout active={'dashboard'} page={['Dashboard']}>
+      <DefaultLayout active={'dashboard'} page={DashBoardRoute.DashBoardPage}>
         <div className={cx('row-statistics')}>
           <div className={cx('statisticItem')}>
-            <StatisticItems title="Daily Earning" quantity="$0.0" icon={faFileInvoiceDollar} />
+            <StatisticItems title={t('daily_earning')} quantity="$0.0" icon={faFileInvoiceDollar} />
           </div>
           <div className={cx('statisticItem')}>
-            <StatisticItems title="Daily Orders" quantity="0" icon={faWallet} />
+            <StatisticItems title={t('daily_orders')} quantity="0" icon={faWallet} />
           </div>
           <div className={cx('statisticItem')}>
-            <StatisticItems title="SignUp Users" quantity="14" icon={faUser} />
+            <StatisticItems title={t('signUp_users')} quantity="14" icon={faUser} />
           </div>
           <div className={cx('statisticItem')}>
-            <StatisticItems title="Total Product" quantity="8" icon={faShop} />
+            <StatisticItems title={t('total_product')} quantity="8" icon={faShop} />
           </div>
         </div>
         <div className={cx('row-statistics')}>
           <div className={cx('sales-report')}>
             <div className={cx('title')}>
-              <h3>Sales Report</h3>
+              <h3>{t('sales_report')}</h3>
             </div>
             <div className={cx('chart')}>
               <ColumnChart />
@@ -119,7 +122,7 @@ function DashBoard(): JSX.Element {
           </div>
           <div className={cx('order-report')}>
             <div className={cx('title')}>
-              <h3>Order Report</h3>
+              <h3>{t('order_report')}</h3>
             </div>
             <div className={cx('chart')}>
               <DonutChart />
@@ -129,7 +132,7 @@ function DashBoard(): JSX.Element {
         <div className={cx('row-statistics')}>
           <div className={cx('income-report')}>
             <div className={cx('title-income-report')}>
-              <h3>Income Report</h3>
+              <h3>{t('income_report')}</h3>
               <div className={cx('navigator-report-buttons')}>
                 <button
                   onClick={() => {
@@ -137,7 +140,7 @@ function DashBoard(): JSX.Element {
                   }}
                   className={cx('week', incomeReportChart === 'week' && 'active')}
                 >
-                  Week
+                  {t('income_report_chart.week')}
                   {incomeReportChart === 'week' && <span className={cx('tab-line')}></span>}
                 </button>
                 <button
@@ -146,7 +149,8 @@ function DashBoard(): JSX.Element {
                   }}
                   className={cx('month', incomeReportChart === 'month' && 'active')}
                 >
-                  Month
+                  {t('income_report_chart.month')}
+
                   {incomeReportChart === 'month' && <span className={cx('tab-line')}></span>}
                 </button>
                 <button
@@ -155,7 +159,7 @@ function DashBoard(): JSX.Element {
                   }}
                   className={cx('year', incomeReportChart === 'year' && 'active')}
                 >
-                  Year
+                  {t('income_report_chart.year')}
                   {incomeReportChart === 'year' && <span className={cx('tab-line')}></span>}
                 </button>
               </div>

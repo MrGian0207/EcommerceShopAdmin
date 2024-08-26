@@ -42,7 +42,7 @@ export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElemen
 export interface VariantInputProp extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string
   name: keyof IFormValues
-  options?: RegisterOptions<IFormValues, keyof IFormValues>
+  rules?: RegisterOptions<IFormValues, keyof IFormValues>
 }
 
 export interface FeatureProductProps extends React.InputHTMLAttributes<HTMLInputElement> {
