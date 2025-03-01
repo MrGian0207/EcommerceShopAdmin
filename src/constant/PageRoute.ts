@@ -54,3 +54,7 @@ export const SettingsRoute = {
 export const SettingsRouteTest = {
   SettingsPage: ['Dashboard', 'Settings'],
 }
+
+export const SettingsRouteTest1 = {
+  SettingsPage: ['Dashboard', 'Settings'],
+}
