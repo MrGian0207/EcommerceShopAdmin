@@ -42,8 +42,11 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
     "babel-plugin-module-resolver": "^5.0.0",
     "customize-cra": "^1.0.0",
+    "husky": "^9.1.7",
     "prettier": "^3.3.2",
     "prettier-plugin-import-sort": "^0.0.7",
     "react-app-rewired": "^2.2.1",
@@ -53,7 +56,9 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
+    "eject": "react-app-rewired eject",
+    "prepare": "husky",
+    "commit": "commit"
   },
   "eslintConfig": {
     "extends": [
