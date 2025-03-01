@@ -49,3 +49,8 @@ export const DashBoardRoute = {
 export const SettingsRoute = {
   SettingsPage: ['Dashboard', 'Settings'],
 }
+
+
+export const SettingsRouteTest = {
+  SettingsPage: ['Dashboard', 'Settings'],
+}
