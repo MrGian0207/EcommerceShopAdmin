@@ -54,6 +54,7 @@ function Login(): JSX.Element {
         Toastify.showToastMessageFailure(res.message)
       }
     } catch (error) {
+      console.log(error)
       Toastify.showToastMessageFailure('Submitted failed')
     } finally {
       setLoading(false)

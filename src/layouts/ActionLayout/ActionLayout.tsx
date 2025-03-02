@@ -21,7 +21,7 @@ function ActionLayout({
   hasVariant = false,
 }: ActionLayoutType) {
   const location = useLocation()
-  let path = location.pathname // Lấy đường dẫn từ URL
+  const path = location.pathname // Lấy đường dẫn từ URL
   const { accessToken } = useAuth()
   const { variants } = useProduct()
   const [isLoading, setIsLoading] = useState<boolean>(false)

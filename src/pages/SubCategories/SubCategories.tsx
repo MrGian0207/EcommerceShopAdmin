@@ -45,7 +45,11 @@ function SubCategories(): JSX.Element {
         page={SubCategoriesRoute.SubCategoriesPage}
         searchEngine={true}
         buttons={[
-          <Button to={'/categories/sub-categories/add'} className="button-add">
+          <Button
+            key="button-categories-add"
+            to={'/categories/sub-categories/add'}
+            className="button-add"
+          >
             <FontAwesomeIcon icon={faPlus} />
             {t('actions.add_sub_category')}
           </Button>,

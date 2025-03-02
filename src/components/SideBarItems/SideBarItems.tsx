@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { JSX, memo, useState } from 'react'
 import { faChevronDown, faChevronRight, faCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { usePath } from '~/context/PathContext'
@@ -19,7 +19,7 @@ function SideBarItems({
   route,
 }: SideBarItemsType): JSX.Element {
   const { t } = useTranslation('common')
-  let Button = children.length === 1 ? Link : 'div'
+  const Button = children.length === 1 ? Link : 'div'
   const [toggleSubNavigator, setToggleSubNavigator] = useState(false)
   let childCategoriesIndex: number
   let childCategories: string = ''

@@ -12,20 +12,19 @@ module.exports = {
   bracketSpacing: true,
   bracketSameLine: false,
   importOrder: [
-    '^(react/(.*)$)|^(react$)',
-    '<THIRD_PARTY_MODULES>',
+    '^(react/(.*)$)|^(react$)', // React và các thư viện liên quan
+    '<THIRD_PARTY_MODULES>', // Các module bên thứ ba (npm)
     '',
-    '^types$',
-    '^@(server|trpc)/(.*)$',
-    '^@/(.*)$',
+    '^types$', // Các loại dữ liệu (TypeScript)
+    '^@(server|trpc)/(.*)$', // Các module server hoặc TRPC
+    '^@/(.*)$', // Import nội bộ (có @)
     '',
-    '^[./]',
+    '^[./]', // Các import từ thư mục hiện tại hoặc cha
   ],
-  importOrderSeparation: false,
-  importOrderSortSpecifiers: true,
-  importOrderBuiltinModulesToTop: true,
-  importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
-  importOrderMergeDuplicateImports: true,
-  importOrderCombineTypeAndValueImports: true,
+  importOrderSeparation: true, // Thêm dòng trống giữa từng nhóm import
+  importOrderSortSpecifiers: true, // Sắp xếp destructured imports theo ABC
+  importOrderBuiltinModulesToTop: true, // Đưa các module của Node.js lên trên cùng
+  importOrderMergeDuplicateImports: true, // Gộp các import trùng lặp
+  importOrderCombineTypeAndValueImports: true, // Gộp import kiểu TypeScript
   plugins: ['@ianvs/prettier-plugin-sort-imports'],
 }

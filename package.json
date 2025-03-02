@@ -6,7 +6,6 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@hookform/error-message": "^2.0.1",
-    "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -44,13 +43,22 @@
   "devDependencies": {
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
+    "@eslint/js": "^9.21.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
     "babel-plugin-module-resolver": "^5.0.0",
     "customize-cra": "^1.0.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.0.2",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^16.0.0",
     "husky": "^9.1.7",
     "prettier": "^3.3.2",
     "prettier-plugin-import-sort": "^0.0.7",
     "react-app-rewired": "^2.2.1",
-    "sass": "^1.72.0"
+    "sass": "^1.72.0",
+    "typescript-eslint": "^8.25.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -58,7 +66,9 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "prepare": "husky",
-    "commit": "commit"
+    "commit": "commit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "eslintConfig": {
     "extends": [

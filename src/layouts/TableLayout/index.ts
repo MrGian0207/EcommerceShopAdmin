@@ -15,6 +15,6 @@ export {
   TableDataCell,
   TableCustomDataCell,
   TableCustomActionsCell,
-  TableCustomRatingCell
+  TableCustomRatingCell,
 }
 export { default } from './TableLayout'

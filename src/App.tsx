@@ -32,7 +32,7 @@ function App() {
                     >
                       <Routes>
                         {publicRoutes.map((route, index) => {
-                          let Page = route.component
+                          const Page = route.component
                           return <Route key={index} path={route.path} element={<Page />} />
                         })}
                       </Routes>

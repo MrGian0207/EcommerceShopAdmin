@@ -5,9 +5,9 @@ import styles from './AuthHeader.module.scss'
 const cx = classNames.bind(styles)
 
 function AuthHeader(props: {
-  welcome: String
-  nameStore: String
-  description: String
+  welcome: string
+  nameStore: string
+  description: string
 }): JSX.Element {
   return (
     <div className={cx('wrapper')}>
