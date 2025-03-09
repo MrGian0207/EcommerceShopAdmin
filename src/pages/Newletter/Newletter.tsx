@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import classNames from 'classnames'
+import classNames from 'classnames/bind'
 import { format } from 'date-fns'
 import { useTranslation } from 'react-i18next'
 

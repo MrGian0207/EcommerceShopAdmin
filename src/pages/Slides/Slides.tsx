@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import classNames from 'classnames'
+import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'

@@ -2,7 +2,7 @@ import React, { memo, useState } from 'react'
 
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import classNames from 'classnames'
+import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 

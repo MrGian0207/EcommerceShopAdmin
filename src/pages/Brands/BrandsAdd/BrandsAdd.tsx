@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import classNames from 'classnames'
+import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 
 import { ImageInput, Input } from '~/components/common/Type1'

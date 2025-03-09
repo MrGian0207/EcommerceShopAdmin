@@ -32,7 +32,7 @@ export default [
   {
     files: ['**/*.{ts,tsx}'],
     rules: {
-      ...tseslint.configs.recommended.rules, // ✅ FIXED: Only use rules
+      ...tseslint.configs.recommended.rules,
     },
     languageOptions: {
       parser: tseslint.parser,

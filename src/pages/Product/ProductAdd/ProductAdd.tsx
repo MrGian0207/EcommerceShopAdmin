@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react'
 
-import classNames from 'classnames'
+import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 import ReactModal from 'react-modal'
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { faEye } from '@fortawesome/free-solid-svg-icons'
-import classNames from 'classnames'
+import classNames from 'classnames/bind'
 import { SubmitHandler, useForm, FormProvider } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 

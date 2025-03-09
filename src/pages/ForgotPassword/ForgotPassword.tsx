@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import classNames from 'classnames'
+import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import AuthHeader from '~/components/AuthHeader'

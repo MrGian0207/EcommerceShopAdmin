@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import classNames from 'classnames'
+import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 
 import OptionSelect from '~/components/common/OptionSelect'

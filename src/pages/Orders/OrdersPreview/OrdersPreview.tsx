@@ -2,7 +2,7 @@ import { memo, useEffect, useRef, useState } from 'react'
 
 import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import classNames from 'classnames'
+import classNames from 'classnames/bind'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 import { useTranslation } from 'react-i18next'

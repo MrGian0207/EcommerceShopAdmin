@@ -1,6 +1,6 @@
 import React, { memo, useRef, useState } from 'react'
 
-import classNames from 'classnames'
+import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
 
