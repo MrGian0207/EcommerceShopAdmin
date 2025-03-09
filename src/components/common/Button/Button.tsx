@@ -1,5 +1,3 @@
-import process from 'process'
-
 import React, { memo, useState } from 'react'
 
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'

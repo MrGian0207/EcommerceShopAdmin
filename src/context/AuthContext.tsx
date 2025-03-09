@@ -1,5 +1,3 @@
-import process from 'process'
-
 import React, { createContext, memo, ReactNode, useContext, useEffect, useState } from 'react'
 
 import { useLocation, useNavigate } from 'react-router-dom'

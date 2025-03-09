@@ -1,5 +1,3 @@
-import process from 'process'
-
 import React, { memo, useRef, useState } from 'react'
 
 import classNames from 'classnames'
