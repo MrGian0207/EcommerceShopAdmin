@@ -1,29 +1,31 @@
+import process from 'process'
+
 import { useEffect, useState } from 'react'
+
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
+import { Autoplay } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+
 import Button from '~/components/common/Button'
 import ImageSlider from '~/components/ImageSlider'
 import Loading from '~/components/Loading'
+
+import styles from './Slides.module.scss'
+
+import { SlidesRoute } from '~/constant/PageRoute'
 import { useAuth } from '~/context/AuthContext'
 import { usePath } from '~/context/PathContext'
 import { useUpdateLayout } from '~/context/UpdateLayoutContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
-import classNames from 'classnames/bind'
-import { Autoplay } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/react'
-
-import 'swiper/css'
-
-import { SlidesRoute } from '~/constant/PageRoute'
 import { SlideType } from '~/types/DataType'
 import { Slide } from '~/types/ImageSliderType'
-import { useTranslation } from 'react-i18next'
-
-import styles from './Slides.module.scss'
 
 const cx = classNames.bind(styles)
 
-function Slides(): JSX.Element {
+function Slides() {
   const { t } = useTranslation('slides')
   const { updateLayout } = useUpdateLayout()
   const { path } = usePath()
@@ -48,6 +50,7 @@ function Slides(): JSX.Element {
         const resData = await res.json()
         setData(resData.data)
       } catch (error) {
+        console.log(error)
       } finally {
         setTimeout(() => {
           setLoading(false)
@@ -64,7 +67,7 @@ function Slides(): JSX.Element {
         page={SlidesRoute.SlidesPage}
         searchEngine={true}
         buttons={[
-          <Button to={'/slides/add'} className="button-add">
+          <Button key={0} to={'/slides/add'} className="button-add">
             <FontAwesomeIcon icon={faPlus} />
             {t('actions.add_slide')}
           </Button>,

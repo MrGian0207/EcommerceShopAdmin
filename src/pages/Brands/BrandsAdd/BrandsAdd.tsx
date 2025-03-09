@@ -1,17 +1,21 @@
 import React, { useEffect } from 'react'
+
+import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
+
 import { ImageInput, Input } from '~/components/common/Type1'
+
+import { BrandRules } from '../BrandRules'
+
+import styles from './BrandsAdd.module.scss'
+
 import { BrandRoute } from '~/constant/PageRoute'
 import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
-import classNames from 'classnames/bind'
-import { useTranslation } from 'react-i18next'
-
-import { BrandRules } from '../BrandRules'
-import styles from './BrandsAdd.module.scss'
 
 const cx = classNames.bind(styles)
 
-function BrandsAdd(): JSX.Element {
+function BrandsAdd() {
   const { t } = useTranslation('brands')
 
   useEffect(() => {

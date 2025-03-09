@@ -1,20 +1,23 @@
 import React, { useEffect } from 'react'
-import { TextArea } from '~/components/common/Type1'
-import Input from '~/components/common/Type1/Input'
-import { SlidesRoute } from '~/constant/PageRoute'
-import ActionLayout from '~/layouts/ActionLayout'
-import DefaultLayout from '~/layouts/DefaultLayout'
+
 import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
+
+import { TextArea } from '~/components/common/Type1'
+import Input from '~/components/common/Type1/Input'
 
 import styles from '../Slides.module.scss'
 import DisplaySlide from '../SlidesComponent/DisplaySlide'
 import SlideImage from '../SlidesComponent/SlideImage'
 import { SlidesRules } from '../SlidesRule'
 
+import { SlidesRoute } from '~/constant/PageRoute'
+import ActionLayout from '~/layouts/ActionLayout'
+import DefaultLayout from '~/layouts/DefaultLayout'
+
 const cx = classNames.bind(styles)
 
-function SlidesAdd(): JSX.Element {
+function SlidesAdd() {
   const { t } = useTranslation('slides')
 
   useEffect(() => {

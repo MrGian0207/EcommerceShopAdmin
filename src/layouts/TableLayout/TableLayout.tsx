@@ -1,16 +1,18 @@
 import { memo } from 'react'
+
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useTable } from '~/context/TableContext'
-import { TableLayoutType } from '~/types/LayoutType'
 import classNames from 'classnames/bind'
 import { useSearchParams } from 'react-router-dom'
 
 import styles from './TableLayout.module.scss'
 
+import { useTable } from '~/context/TableContext'
+import { TableLayoutType } from '~/types/LayoutType'
+
 const cx = classNames.bind(styles)
 
-function TableLayout({ children }: TableLayoutType): JSX.Element {
+function TableLayout({ children }: TableLayoutType) {
   const { numbersOfPage } = useTable()
   const numbersPage = Array.from({ length: numbersOfPage }, (_, index) => index + 1)
   const [searchParams, setSearchParams] = useSearchParams()

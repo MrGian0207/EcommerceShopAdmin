@@ -1,15 +1,20 @@
+import process from 'process'
+
 import React, { memo, useRef, useState } from 'react'
+
+import classNames from 'classnames'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { useLocation } from 'react-router-dom'
+
 import Spinner from '~/components/Spinner'
+
+import styles from './ActionLayout.module.scss'
+
 import { useAuth } from '~/context/AuthContext'
 import { useProduct } from '~/context/ProductContext'
 import * as Toastify from '~/services/Toastify'
 import { IFormValues } from '~/types/FormValuesType'
 import { ActionLayoutType } from '~/types/LayoutType'
-import classNames from 'classnames/bind'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { useLocation } from 'react-router-dom'
-
-import styles from './ActionLayout.module.scss'
 
 const cx = classNames.bind(styles)
 
@@ -130,11 +135,10 @@ function ActionLayout({
 
     const formData = new FormData()
     formData.append('payload', JSON.stringify(payload))
-    variants.forEach((variant, _) => {
-      variant.variantImages.forEach((file, _) => {
-        formData.append('variantImages', file)
-      })
-    })
+    variants.reduce((acc, variant) => {
+      variant.variantImages.forEach((file) => acc.append('variantImages', file))
+      return acc
+    }, formData)
 
     try {
       fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, {

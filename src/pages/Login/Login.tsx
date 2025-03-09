@@ -1,28 +1,33 @@
+import process from 'process'
+
 import { memo, useEffect, useState } from 'react'
+
 import { faEnvelope, faEye, faLock } from '@fortawesome/free-solid-svg-icons'
-import api from '~/api/api'
+import classNames from 'classnames'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+
 import AuthHeader from '~/components/AuthHeader'
 import Button from '~/components/common/Button'
 import { Input } from '~/components/common/Type2'
 import FormAuth from '~/components/FormAuth'
 import Spinner from '~/components/Spinner'
-import { useAuth } from '~/context/AuthContext'
-import * as Toastify from '~/services/Toastify'
-import { IFormValues } from '~/types/FormValuesType'
-import classNames from 'classnames/bind'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 
 import styles from './Login.module.scss'
 import { LoginRules } from './LoginRules'
 
+import api from '~/api/api'
+import { useAuth } from '~/context/AuthContext'
+import * as Toastify from '~/services/Toastify'
+import { IFormValues } from '~/types/FormValuesType'
+
 const cx = classNames.bind(styles)
 
-function Login(): JSX.Element {
+function Login() {
   const methods = useForm<IFormValues>()
   const [loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { setAccessToken } = useAuth()
 
   const onSubmit: SubmitHandler<IFormValues> = async (data) => {
     setLoading(true)
@@ -47,7 +52,7 @@ function Login(): JSX.Element {
         const { accessToken, idUser, message } = res
         localStorage.setItem('access_token', accessToken)
         localStorage.setItem('id_user', idUser)
-        login(accessToken)
+        setAccessToken(accessToken)
         navigate('/dashboard')
         Toastify.showToastMessageSuccessfully(message)
       } else {
@@ -105,7 +110,7 @@ function Login(): JSX.Element {
                   <label htmlFor="remember-me">Remember me</label>
                 </div>
                 <span className={cx('forgot-password')}>
-                  <Button to={api.forgetPassword} children={'Forgot Password'} />
+                  <Button to={api.forgetPassword}>Forgot Password</Button>
                 </span>
               </div>
               <button disabled={loading} className={cx('auth-button')} type="submit">

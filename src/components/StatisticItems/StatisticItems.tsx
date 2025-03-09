@@ -13,7 +13,7 @@ type StatisticItemsType = {
   icon: IconDefinition
 }
 
-function StatisticItems({ title, quantity, icon }: StatisticItemsType): JSX.Element {
+function StatisticItems({ title, quantity, icon }: StatisticItemsType) {
   return (
     <div className={cx('column-items')}>
       <div className={cx('item-content')}>

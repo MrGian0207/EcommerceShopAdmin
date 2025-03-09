@@ -1,11 +1,20 @@
 import { useEffect } from 'react'
+
 import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import images from '~/assets/Image'
+import classNames from 'classnames/bind'
+import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
+
 import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import StatusItems from '~/components/StatusItems'
 import CustomTooltip from '~/components/Tooltip/CustomTooltip'
+
+import styles from './Product.module.scss'
+import FeatureProduct from './ProductComponent/FeatureProduct'
+
+import images from '~/assets/Image'
 import { ProductRoute } from '~/constant/PageRoute'
 import { ProductTableHeader } from '~/constant/Table'
 import { useDeleteData } from '~/context/DeleteDataContext'
@@ -23,16 +32,10 @@ import TableLayout, {
   TableHeaderCell,
   TableRow,
 } from '~/layouts/TableLayout'
-import classNames from 'classnames/bind'
-import { format } from 'date-fns'
-import { useTranslation } from 'react-i18next'
-
-import styles from './Product.module.scss'
-import FeatureProduct from './ProductComponent/FeatureProduct'
 
 const cx = classNames.bind(styles)
 
-function Product(): JSX.Element {
+function Product() {
   const { t } = useTranslation('product')
   const { path } = usePath()
   const { loading, dataTable } = useTable()
@@ -51,6 +54,7 @@ function Product(): JSX.Element {
         searchEngine={true}
         buttons={[
           <Button
+            key={0}
             to={'/product/add'}
             className="button-add"
             onClick={() => {

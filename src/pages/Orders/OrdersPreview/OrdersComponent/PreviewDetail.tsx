@@ -1,11 +1,13 @@
 import { faTruck, faUser, faWallet } from '@fortawesome/free-solid-svg-icons'
-import { OrderType } from '~/types/OrderType'
 import classNames from 'classnames/bind'
 import { format } from 'date-fns'
 import { useTranslation } from 'react-i18next'
 
 import styles from '../OrdersPreview.module.scss'
+
 import CardItem from './CardItem'
+
+import { OrderType } from '~/types/OrderType'
 
 const cx = classNames.bind(styles)
 

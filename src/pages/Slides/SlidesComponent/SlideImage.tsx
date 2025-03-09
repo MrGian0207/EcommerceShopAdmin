@@ -1,13 +1,15 @@
 import React, { useRef, useState } from 'react'
+
 import { ErrorMessage } from '@hookform/error-message'
-import images from '~/assets/Image'
-import { IFormValues } from '~/types/FormValuesType'
-import * as HandleImageFile from '~/utils/HandleImageFile'
 import classNames from 'classnames/bind'
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 import styles from '../Slides.module.scss'
+
+import images from '~/assets/Image'
+import { IFormValues } from '~/types/FormValuesType'
+import * as HandleImageFile from '~/utils/HandleImageFile'
 
 const cx = classNames.bind(styles)
 

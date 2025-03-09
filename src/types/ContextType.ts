@@ -1,10 +1,13 @@
+import React from 'react'
+
 import { User } from './UserType'
 
 export type AuthContextType = {
   accessToken: string
-  login: (accessToken: string) => void
-  logout: () => void
+  setAccessToken: React.Dispatch<React.SetStateAction<string>>
+  logout: () => Promise<void>
 }
+
 export type SearchContextType = {
   searchText: string
   debouncedSearchText: string

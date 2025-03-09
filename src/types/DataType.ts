@@ -149,8 +149,3 @@ export const emptySlide = {
   displaySlide: 'off',
   image: '',
 }
-
-export interface OptionType {
-  value: string
-  label: string
-}

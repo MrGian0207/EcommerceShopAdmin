@@ -1,12 +1,13 @@
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ErrorMessage } from '@hookform/error-message'
-import { OptionSelectProps } from '~/types/FormElementType'
-import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { useFormContext } from 'react-hook-form'
 
 import styles from './OptionSelect.module.scss'
+
+import { OptionSelectProps } from '~/types/FormElementType'
+import { IFormValues } from '~/types/FormValuesType'
 
 const cx = classNames.bind(styles)
 

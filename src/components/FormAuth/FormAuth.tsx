@@ -1,9 +1,12 @@
 import { memo } from 'react'
-import { FormAuthProps } from '~/types/FormAuthType'
+
 import classNames from 'classnames/bind'
 
 import Button from '../common/Button'
+
 import styles from './FormAuth.module.scss'
+
+import { FormAuthProps } from '~/types/FormAuthType'
 
 const cx = classNames.bind(styles)
 
@@ -15,7 +18,7 @@ function FormAuth({
   navigator,
   navigatorLink,
   back,
-}: FormAuthProps): JSX.Element {
+}: FormAuthProps) {
   return (
     <div className={cx('wrapper')}>
       <h4 className={cx('title')}>{title}</h4>
@@ -24,12 +27,14 @@ function FormAuth({
       {!!suggestion && (
         <h6 className={cx('navigator')}>
           {suggestion}
-          {!!navigator && <Button to={navigatorLink} children={navigator} />}
+          {!!navigator && <Button to={navigatorLink}>{navigator}</Button>}
         </h6>
       )}
       {!!back && (
         <button className={cx('back-button')}>
-          <Button to={navigatorLink} children={back} large={true} />
+          <Button to={navigatorLink} large={true}>
+            {back}
+          </Button>
         </button>
       )}
     </div>

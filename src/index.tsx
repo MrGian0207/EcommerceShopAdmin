@@ -1,6 +1,8 @@
 import React from 'react'
-import GlobalStyles from '~/components/GlobalStyles'
+
 import ReactDOM from 'react-dom/client'
+
+import GlobalStyles from '~/components/GlobalStyles'
 
 import App from './App'
 import { SearchContextProvider } from './context/SearchContext'

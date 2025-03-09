@@ -1,18 +1,24 @@
+import process from 'process'
+
 import React, { useEffect, useState } from 'react'
+
+import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
+
 import OptionSelect from '~/components/common/OptionSelect'
 import { ImageInput, Input } from '~/components/common/Type1'
+
+import { SubCategoriesRules } from '../SubCategoriesRules'
+import SubCategoriesSkeleton from '../SubCategoriesSkeleton/SubCategoriesSkeleton'
+
+import styles from './SubCategoriesAdd.module.scss'
+
 import { SubCategoriesRoute } from '~/constant/PageRoute'
 import { useAuth } from '~/context/AuthContext'
 import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import { OptionType } from '~/types/DataType'
 import { handleSetDataOptions } from '~/utils/HandleSetDataOptions'
-import classNames from 'classnames/bind'
-import { useTranslation } from 'react-i18next'
-
-import { SubCategoriesRules } from '../SubCategoriesRules'
-import SubCategoriesSkeleton from '../SubCategoriesSkeleton/SubCategoriesSkeleton'
-import styles from './SubCategoriesAdd.module.scss'
 
 const cx = classNames.bind(styles)
 

@@ -1,4 +1,10 @@
 import React from 'react'
+
+import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next'
+
+import styles from '../OrdersPreview.module.scss'
+
 import { PreviewOrderTableHeader } from '~/constant/Table'
 import {
   TableBody,
@@ -8,10 +14,6 @@ import {
   TableRow,
 } from '~/layouts/TableLayout'
 import { OrderType } from '~/types/OrderType'
-import classNames from 'classnames/bind'
-import { useTranslation } from 'react-i18next'
-
-import styles from '../OrdersPreview.module.scss'
 
 const cx = classNames.bind(styles)
 

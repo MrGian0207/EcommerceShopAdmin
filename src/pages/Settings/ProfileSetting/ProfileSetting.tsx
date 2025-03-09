@@ -1,18 +1,24 @@
+import process from 'process'
+
 import React, { useEffect, useState } from 'react'
+
+import classNames from 'classnames'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+
 import { Input, Select, TextArea } from '~/components/common/Type2'
 import Loading from '~/components/Loading'
 import Spinner from '~/components/Spinner'
+
+import { ProfileImageInput } from '../SettingComponent'
+import { SettingRules } from '../SettingsRules'
+
+import styles from './ProfileSetting.module.scss'
+
 import { useAuth } from '~/context/AuthContext'
 import { useUser } from '~/context/UserContext'
 import * as Toastify from '~/services/Toastify'
 import { IFormValues } from '~/types/FormValuesType'
-import classNames from 'classnames/bind'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
-
-import { ProfileImageInput } from '../SettingComponent'
-import { SettingRules } from '../SettingsRules'
-import styles from './ProfileSetting.module.scss'
 
 const cx = classNames.bind(styles)
 

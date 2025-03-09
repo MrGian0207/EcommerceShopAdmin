@@ -1,17 +1,22 @@
+import process from 'process'
+
 import { useEffect, useState } from 'react'
+
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import api from '~/api/api'
+import classNames from 'classnames'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+
 import AuthHeader from '~/components/AuthHeader'
 import { Input } from '~/components/common/Type2'
 import FormAuth from '~/components/FormAuth'
 import Spinner from '~/components/Spinner'
-import * as Toastify from '~/services/Toastify'
-import { IFormValues } from '~/types/FormValuesType'
-import classNames from 'classnames/bind'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import styles from './ForgotPassword.module.scss'
 import { ForgotPasswordRules } from './ForgotPasswordRules'
+
+import api from '~/api/api'
+import * as Toastify from '~/services/Toastify'
+import { IFormValues } from '~/types/FormValuesType'
 
 const cx = classNames.bind(styles)
 function ForgotPassword() {

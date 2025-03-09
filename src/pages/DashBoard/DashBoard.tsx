@@ -1,23 +1,28 @@
+import process from 'process'
+
 import { memo, useEffect, useState } from 'react'
+
 import { faFileInvoiceDollar, faShop, faUser, faWallet } from '@fortawesome/free-solid-svg-icons'
-import StatisticItems from '~/components/StatisticItems'
-import { DashBoardRoute } from '~/constant/PageRoute'
-import { useAuth } from '~/context/AuthContext'
-import DefaultLayout from '~/layouts/DefaultLayout'
 import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+
+import StatisticItems from '~/components/StatisticItems'
 
 import ColumnChart from './ColumnChart'
 import styles from './DashBoard.module.scss'
 import DonutChart from './DonutChart'
 import { MonthChart, WeekChart, YearChart } from './LineChart'
 
+import { DashBoardRoute } from '~/constant/PageRoute'
+import { useAuth } from '~/context/AuthContext'
+import DefaultLayout from '~/layouts/DefaultLayout'
+
 const cx = classNames.bind(styles)
 
-function DashBoard(): JSX.Element {
+function DashBoard() {
   const { t } = useTranslation('dashboard')
-  const { accessToken, login } = useAuth()
+  const { accessToken, setAccessToken } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -56,7 +61,7 @@ function DashBoard(): JSX.Element {
                   console.log('Gọi refresh token thành công')
                   localStorage.removeItem('access_token')
                   localStorage.setItem('access_token', accessToken)
-                  login(accessToken)
+                  setAccessToken(accessToken)
                 } else if (status === 'Error') {
                   navigate('/auth/login')
                   console.log('Cannot make AccessToken request')
@@ -73,7 +78,7 @@ function DashBoard(): JSX.Element {
     } else {
       navigate('/auth/login')
     }
-  }, [accessToken, login, navigate])
+  }, [accessToken, setAccessToken, navigate])
 
   const [incomeReportChart, setIncomeReportChart] = useState<string>('week')
 

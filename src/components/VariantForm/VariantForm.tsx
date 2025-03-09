@@ -1,8 +1,5 @@
-import { FormEvent } from 'react'
-import { useModal } from '~/context/ModalContext'
-import { useProduct } from '~/context/ProductContext'
-import { emptyVariant, VariantFormType, VariantType } from '~/types/DataType'
-import { IFormValues } from '~/types/FormValuesType'
+import React, { FormEvent } from 'react'
+
 import classNames from 'classnames/bind'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -10,9 +7,14 @@ import { useTranslation } from 'react-i18next'
 import styles from './VariantForm.module.scss'
 import { VariantImage, VariantInput } from './VariantInput'
 
+import { useModal } from '~/context/ModalContext'
+import { useProduct } from '~/context/ProductContext'
+import { emptyVariant, VariantFormType, VariantType } from '~/types/DataType'
+import { IFormValues } from '~/types/FormValuesType'
+
 const cx = classNames.bind(styles)
 
-function VariantForm({ nameForm, isEdit }: VariantFormType): JSX.Element {
+function VariantForm({ nameForm, isEdit }: VariantFormType) {
   const { t } = useTranslation('product')
 
   const { setToggleModal } = useModal()
@@ -46,24 +48,22 @@ function VariantForm({ nameForm, isEdit }: VariantFormType): JSX.Element {
       variantImages: variantImage,
     }
 
-    switch (true) {
-      case variants.length === 0:
-        setVariants([variant])
-        break
-      default:
-        const indexExistedVariant: number = isEdit
-          ? variants.findIndex((variant) => variant.variantID === variantIsEdit.variantID)
+    if (variants.length === 0) {
+      setVariants([variant])
+    } else {
+      setVariants((prevVariants) => {
+        const indexExistedVariant = isEdit
+          ? prevVariants.findIndex((v) => v.variantID === variantIsEdit.variantID)
           : -1
 
         if (indexExistedVariant === -1) {
-          setVariants((prevVariants) => [...prevVariants, variant])
+          return [...prevVariants, variant] // Thêm mới
         } else {
-          setVariants((prevVariants) => {
-            prevVariants[indexExistedVariant] = variant
-            return prevVariants
-          })
+          return prevVariants.map((v, i) => (i === indexExistedVariant ? variant : v)) // Cập nhật phần tử
         }
+      })
     }
+
     setToggleModal(false)
   }
 

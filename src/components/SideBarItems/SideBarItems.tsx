@@ -1,25 +1,27 @@
-import React, { JSX, memo, useState } from 'react'
+import React, { memo, useState } from 'react'
+
 import { faChevronDown, faChevronRight, faCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { usePath } from '~/context/PathContext'
-import { SideBarItemsType } from '~/types/SideBarType'
 import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import styles from './SideBarItems.module.scss'
 
+import { usePath } from '~/context/PathContext'
+import { SideBarItemsType } from '~/types/SideBarType'
+
 const cx = classNames.bind(styles)
 
 function SideBarItems({
   iconLeft,
-  children,
+  labels,
   iconRight = false,
   active = false,
   route,
-}: SideBarItemsType): JSX.Element {
+}: SideBarItemsType) {
   const { t } = useTranslation('common')
-  const Button = children.length === 1 ? Link : 'div'
+  const Button = labels.length === 1 ? Link : 'div'
   const [toggleSubNavigator, setToggleSubNavigator] = useState(false)
   let childCategoriesIndex: number
   let childCategories: string = ''
@@ -44,7 +46,7 @@ function SideBarItems({
         <div className={cx('left')}>
           <FontAwesomeIcon className={cx('iconLeft')} icon={iconLeft} />
         </div>
-        <p className={cx('content')}>{children[0]}</p>
+        <p className={cx('content')}>{labels[0]}</p>
         {iconRight && (
           <div className={cx('right')}>
             <FontAwesomeIcon
@@ -61,7 +63,7 @@ function SideBarItems({
       <React.Fragment>
         {((toggleSubNavigator && !childCategories) || (!toggleSubNavigator && childCategories)) && (
           <div className={cx('sub-navigator')}>
-            {children.slice(1).map((item, index) => (
+            {labels.slice(1).map((item, index) => (
               <Link
                 to={`/${route}/${item.toLowerCase().trim().replace(' ', '-')}`}
                 className={cx('items', {

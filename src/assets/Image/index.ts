@@ -1,7 +1,11 @@
+import noDataUser from '~/assets/Image/noDataUser.svg'
+import uploadImage from '~/assets/Image/upload.svg'
+import userDefaults from '~/assets/Image/userDefault.jpg'
+
 const images = {
-  uploadImage: require('~/assets/Image/upload.svg').default,
-  userDefaults: require('~/assets/Image/userDefault.jpg'),
-  noDataUser: require('~/assets/Image/noDataUser.svg').default,
+  uploadImage: uploadImage,
+  userDefaults: userDefaults,
+  noDataUser: noDataUser,
 }
 
 export default images

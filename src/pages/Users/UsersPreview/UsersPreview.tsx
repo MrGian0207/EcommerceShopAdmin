@@ -1,12 +1,16 @@
+import process from 'process'
+
 import { useEffect, useState } from 'react'
-import images from '~/assets/Image'
-import { UsersRoute } from '~/constant/PageRoute'
-import { useAuth } from '~/context/AuthContext'
-import DefaultLayout from '~/layouts/DefaultLayout'
+
 import classNames from 'classnames/bind'
 import { useLocation } from 'react-router-dom'
 
 import styles from './UsersPreview.module.scss'
+
+import images from '~/assets/Image'
+import { UsersRoute } from '~/constant/PageRoute'
+import { useAuth } from '~/context/AuthContext'
+import DefaultLayout from '~/layouts/DefaultLayout'
 
 const cx = classNames.bind(styles)
 
@@ -15,7 +19,7 @@ type DataType = {
   email?: string
 }
 
-function UsersPreview(): JSX.Element {
+function UsersPreview() {
   const location = useLocation()
   const path = location.pathname
   const [data, setData] = useState<DataType>({})

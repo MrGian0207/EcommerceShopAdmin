@@ -1,17 +1,21 @@
 import React, { useEffect } from 'react'
+
+import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
+
 import { ImageInput, Input } from '~/components/common/Type1'
+
+import { MainCategoriesRules } from '../MainCategoriesRules'
+
+import styles from './MainCategoriesAdd.module.scss'
+
 import { MainCategoriesRoute } from '~/constant/PageRoute'
 import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
-import classNames from 'classnames/bind'
-import { useTranslation } from 'react-i18next'
-
-import { MainCategoriesRules } from '../MainCategoriesRules'
-import styles from './MainCategoriesAdd.module.scss'
 
 const cx = classNames.bind(styles)
 
-function MainCategoriesAdd(): JSX.Element {
+function MainCategoriesAdd() {
   const { t } = useTranslation('mainCategories')
 
   useEffect(() => {

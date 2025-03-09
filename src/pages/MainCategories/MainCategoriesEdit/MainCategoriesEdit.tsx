@@ -1,21 +1,27 @@
+import process from 'process'
+
 import React, { useEffect, useState } from 'react'
+
+import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
+
 import { ImageInput, Input } from '~/components/common/Type1'
+
+import { MainCategoriesRules } from '../MainCategoriesRules'
+import MainCategoriesSkeleton from '../MainCategoriesSkeleton/MainCategoriesSkeleton'
+
+import styles from './MainCategoriesEdit.module.scss'
+
 import { MainCategoriesRoute } from '~/constant/PageRoute'
 import { useAuth } from '~/context/AuthContext'
 import { usePath } from '~/context/PathContext'
 import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import { emptyMainCategory, MainCategoriesType } from '~/types/DataType'
-import classNames from 'classnames/bind'
-import { useTranslation } from 'react-i18next'
-
-import { MainCategoriesRules } from '../MainCategoriesRules'
-import MainCategoriesSkeleton from '../MainCategoriesSkeleton/MainCategoriesSkeleton'
-import styles from './MainCategoriesEdit.module.scss'
 
 const cx = classNames.bind(styles)
 
-function MainCategoriesEdit(): JSX.Element {
+function MainCategoriesEdit() {
   const { t } = useTranslation('mainCategories')
   const { path } = usePath()
   const { accessToken } = useAuth()

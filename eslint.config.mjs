@@ -9,7 +9,7 @@ import * as tseslint from 'typescript-eslint'
 export default [
   // Base configuration for all files
   {
-    files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
+    files: ['src/**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -30,7 +30,9 @@ export default [
   // TypeScript configuration
   {
     files: ['**/*.{ts,tsx}'],
-    ...tseslint.configs.recommended[0],
+    rules: {
+      ...tseslint.configs.recommended.rules, // ✅ FIXED: Only use rules
+    },
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
@@ -47,7 +49,7 @@ export default [
     },
     settings: {
       react: {
-        version: 'detect', // Tự động phát hiện phiên bản React
+        version: 'detect',
       },
     },
     rules: {
@@ -64,6 +66,7 @@ export default [
     },
     rules: {
       'prettier/prettier': 'error',
+      'no-duplicate-imports': 'error',
       'import/order': [
         'error',
         {
@@ -80,6 +83,7 @@ export default [
           pathGroups: [
             { pattern: 'react', group: 'external', position: 'before' },
             { pattern: '@/**', group: 'internal', position: 'before' },
+            { pattern: '~/components/**', group: 'internal', position: 'before' },
           ],
           pathGroupsExcludedImportTypes: ['builtin'],
           'newlines-between': 'always',

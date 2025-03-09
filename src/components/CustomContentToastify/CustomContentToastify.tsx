@@ -1,10 +1,12 @@
 import { faCancel, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { CustomContentToastifyType } from '~/types/CustomContentToastifyType'
 import classNames from 'classnames/bind'
 
 import Button from '../common/Button'
+
 import styles from './CustomContentToastify.module.scss'
+
+import { CustomContentToastifyType } from '~/types/CustomContentToastifyType'
 
 const cx = classNames.bind(styles)
 

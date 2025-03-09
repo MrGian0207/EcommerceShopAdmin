@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+
 import ApexCharts from 'apexcharts'
 import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
@@ -7,7 +8,7 @@ import styles from './DonutChart.module.scss'
 
 const cx = classNames.bind(styles)
 
-function DonutChart(): JSX.Element {
+function DonutChart() {
   const { t } = useTranslation('dashboard')
   const chartRef = useRef<HTMLDivElement>(null)
 

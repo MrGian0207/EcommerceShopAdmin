@@ -1,8 +1,20 @@
+import process from 'process'
+
 import { memo, useEffect, useRef, useState } from 'react'
+
 import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classNames from 'classnames'
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
+import { useTranslation } from 'react-i18next'
+
 import Button from '~/components/common/Button'
 import Loading from '~/components/Loading'
+
+import { PreviewDetail, PreviewProduct } from './OrdersComponent'
+import styles from './OrdersPreview.module.scss'
+
 import { OrdersRoute } from '~/constant/PageRoute'
 import { useAuth } from '~/context/AuthContext'
 import { useDeleteData } from '~/context/DeleteDataContext'
@@ -10,24 +22,18 @@ import { usePath } from '~/context/PathContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import { SelectedOptionType } from '~/types/ButtonType'
 import { emptyOrder, OrderType } from '~/types/OrderType'
-import classNames from 'classnames/bind'
-import html2canvas from 'html2canvas'
-import jsPDF from 'jspdf'
-import { useTranslation } from 'react-i18next'
-
-import { PreviewDetail, PreviewProduct } from './OrdersComponent'
-import styles from './OrdersPreview.module.scss'
 
 const cx = classNames.bind(styles)
 
-function OrdersPreview(): JSX.Element {
+function OrdersPreview() {
   const { t } = useTranslation('orders')
 
   const downloadPdf = async () => {
     const input = pdfRef.current
     if (pdfRef.current) {
+      return null
     }
-    await html2canvas(input as HTMLDivElement).then((canvas) => {
+    await html2canvas(input as HTMLDivElement).then((canvas: any) => {
       const imgData = canvas.toDataURL('image/png')
       const pdf = new jsPDF('p', 'mm', 'a4', true)
       const pdfWidth = pdf.internal.pageSize.getWidth()
@@ -83,11 +89,12 @@ function OrdersPreview(): JSX.Element {
         active={'orders'}
         page={OrdersRoute.OrdersPreviewPage}
         buttons={[
-          <Button onClick={downloadPdf} className="button-download">
+          <Button key={0} onClick={downloadPdf} className="button-download">
             <FontAwesomeIcon icon={faDownload} />
             {t('actions.download', { ns: 'common' })}
           </Button>,
           <Button
+            key={1}
             onClick={() => {
               setDeletedData({
                 id: data._id,
@@ -100,7 +107,12 @@ function OrdersPreview(): JSX.Element {
             <FontAwesomeIcon icon={faTrash} />
             {t('actions.delete', { ns: 'common' })}
           </Button>,
-          <Button select selectedOption={selectedOption} setSelectedOption={setSelectedOption} />,
+          <Button
+            key={2}
+            select
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />,
         ]}
       >
         {loading ? (

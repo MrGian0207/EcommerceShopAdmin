@@ -1,8 +1,7 @@
+import classNames from 'classnames/bind'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 
 import 'react-loading-skeleton/dist/skeleton.css'
-
-import classNames from 'classnames/bind'
 
 import styles from './RowTableSkeleton.module.scss'
 

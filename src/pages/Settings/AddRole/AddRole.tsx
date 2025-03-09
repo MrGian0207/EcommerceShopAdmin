@@ -1,4 +1,7 @@
+import process from 'process'
+
 import { useEffect, useState } from 'react'
+
 import {
   faEnvelope,
   faEye,
@@ -8,21 +11,24 @@ import {
   faUserTie,
   faVenusMars,
 } from '@fortawesome/free-solid-svg-icons'
-import { Input, Select } from '~/components/common/Type2'
-import Spinner from '~/components/Spinner'
-import { useAuth } from '~/context/AuthContext'
-import * as Toastify from '~/services/Toastify'
-import { IFormValues } from '~/types/FormValuesType'
-import classNames from 'classnames/bind'
+import classNames from 'classnames'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
+import { Input, Select } from '~/components/common/Type2'
+import Spinner from '~/components/Spinner'
+
 import { SettingRules } from '../SettingsRules'
+
 import styles from './AddRole.module.scss'
+
+import { useAuth } from '~/context/AuthContext'
+import * as Toastify from '~/services/Toastify'
+import { IFormValues } from '~/types/FormValuesType'
 
 const cx = classNames.bind(styles)
 
-function AddRole(): JSX.Element {
+function AddRole() {
   const { t } = useTranslation('add_role')
   const methods = useForm<IFormValues>()
   const [loading, setLoading] = useState<boolean>(false)

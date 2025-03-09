@@ -1,14 +1,17 @@
+import process from 'process'
+
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useAuth } from '~/context/AuthContext'
-import { usePath } from '~/context/PathContext'
-import * as Toastify from '~/services/Toastify'
-import { Slide } from '~/types/ImageSliderType'
 import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import styles from './ImageSlider.module.scss'
+
+import { useAuth } from '~/context/AuthContext'
+import { usePath } from '~/context/PathContext'
+import * as Toastify from '~/services/Toastify'
+import { Slide } from '~/types/ImageSliderType'
 
 const cx = classNames.bind(styles)
 
@@ -16,7 +19,7 @@ type ImageSliderProps = {
   slider: Slide
 }
 
-function ImageSlider({ slider }: ImageSliderProps): JSX.Element {
+function ImageSlider({ slider }: ImageSliderProps) {
   const { t } = useTranslation('slides')
   const { path } = usePath()
   const { accessToken } = useAuth()

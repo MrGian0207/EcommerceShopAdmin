@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 import './GlobalStyles.module.scss'
 
-function GlobalStyles(props: { children: ReactNode }): JSX.Element {
+function GlobalStyles(props: { children: ReactNode }) {
   return <>{props.children}</>
 }
 

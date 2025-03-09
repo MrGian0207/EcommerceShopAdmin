@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 
 export type ActionLayoutType = {
   leftColumn?: ReactNode
@@ -13,7 +13,7 @@ export type DefaultLayoutType = {
   page: string[]
   children?: ReactNode
   searchEngine?: boolean
-  buttons?: JSX.Element[]
+  buttons?: React.JSX.Element[]
 }
 
 export type TableLayoutType = {

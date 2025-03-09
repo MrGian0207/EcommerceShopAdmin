@@ -1,12 +1,14 @@
 import React from 'react'
+
 import { faCircleMinus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import images from '~/assets/Image'
-import { useProduct } from '~/context/ProductContext'
 import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 
 import styles from '../VariantForm.module.scss'
+
+import images from '~/assets/Image'
+import { useProduct } from '~/context/ProductContext'
 
 const cx = classNames.bind(styles)
 

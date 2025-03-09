@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
+
+import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
+
 import Loading from '~/components/Loading'
+
+import styles from './Setting.module.scss'
+
 import { SettingsRoute } from '~/constant/PageRoute'
 import { useUser } from '~/context/UserContext'
 import DefaultLayout from '~/layouts/DefaultLayout'
@@ -7,13 +14,9 @@ import AddRole from '~/pages/Settings/AddRole'
 import ChangePassword from '~/pages/Settings/ChangePassword'
 import ProfileSetting from '~/pages/Settings/ProfileSetting'
 import Roles from '~/pages/Settings/Roles'
-import classNames from 'classnames/bind'
-import { useTranslation } from 'react-i18next'
-
-import styles from './Setting.module.scss'
 
 const cx = classNames.bind(styles)
-function Settings(): JSX.Element {
+function Settings() {
   const { t } = useTranslation('settings')
   const [component, setComponent] = useState<string>('Profile Setting')
   const profileSettingRef = useRef<HTMLButtonElement>(null)

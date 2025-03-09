@@ -1,3 +1,5 @@
+import React from 'react'
+
 export type ButtonProps = {
   selectedOption?: SelectedOptionType
   setSelectedOption?: React.Dispatch<React.SetStateAction<SelectedOptionType>>

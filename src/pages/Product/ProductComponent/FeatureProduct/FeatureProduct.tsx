@@ -1,14 +1,17 @@
-import { useAuth } from '~/context/AuthContext'
-import { usePath } from '~/context/PathContext'
-import * as Toastify from '~/services/Toastify'
-import { FeatureProductProps } from '~/types/FormElementType'
+import process from 'process'
+
 import classNames from 'classnames/bind'
 
 import styles from '../../ProductAdd/ProductAdd.module.scss'
 
+import { useAuth } from '~/context/AuthContext'
+import { usePath } from '~/context/PathContext'
+import * as Toastify from '~/services/Toastify'
+import { FeatureProductProps } from '~/types/FormElementType'
+
 const cx = classNames.bind(styles)
 
-const FeatureProduct = ({ label, id, ...props }: FeatureProductProps) => {
+const FeatureProduct = ({ id, ...props }: FeatureProductProps) => {
   const { path } = usePath()
   const { accessToken } = useAuth()
 

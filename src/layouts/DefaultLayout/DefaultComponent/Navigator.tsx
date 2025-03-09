@@ -1,14 +1,22 @@
 import React from 'react'
-import { useUser } from '~/context/UserContext'
+
 import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import styles from '../DefaultLayout.module.scss'
 
+import { useUser } from '~/context/UserContext'
+
 const cx = classNames.bind(styles)
 
-export default function Navigator({ page, buttons }: { page: string[]; buttons?: JSX.Element[] }) {
+export default function Navigator({
+  page,
+  buttons,
+}: {
+  page: string[]
+  buttons?: React.JSX.Element[]
+}) {
   const { t } = useTranslation('common')
   const { dataUser } = useUser()
 

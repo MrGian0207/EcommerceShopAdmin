@@ -6,7 +6,7 @@ import styles from './Spinner.module.scss'
 
 const cx = classNames.bind(styles)
 
-function Spinner(): JSX.Element {
+function Spinner() {
   return (
     <>
       <FontAwesomeIcon className={cx('spinner')} icon={faSpinner} />

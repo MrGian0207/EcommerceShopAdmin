@@ -1,21 +1,17 @@
-import React, {
-  createContext,
-  memo,
-  ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import process from 'process'
+
+import React, { createContext, memo, ReactNode, useContext, useEffect, useState } from 'react'
+
+import { useLocation, useNavigate } from 'react-router-dom'
+
 import * as Toastify from '~/services/Toastify'
 import { AuthContextType } from '~/types/ContextType'
-import { useLocation, useNavigate } from 'react-router-dom'
 
 // Create the AuthContext with a default value
 const AuthContext = createContext<AuthContextType>({
   accessToken: '',
-  login: () => {},
-  logout: () => {},
+  setAccessToken: () => {},
+  logout: async () => {},
 })
 
 // Custom hook to access the AuthContext
@@ -24,7 +20,7 @@ export const useAuth = () => {
 }
 
 // AuthProvider component
-export const AuthProvider: React.FC<{ children: ReactNode }> = memo(({ children }) => {
+export const AuthProvider = memo(({ children }: { children: ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string>(localStorage.getItem('access_token') || '')
 
   const navigate = useNavigate()
@@ -45,10 +41,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = memo(({ children 
       }
     }
   }, [accessToken, navigate, path])
-
-  const login = useCallback((accessToken: string) => {
-    setAccessToken(accessToken)
-  }, [])
 
   const logout = async () => {
     Toastify.showToastMessagePending()
@@ -82,7 +74,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = memo(({ children 
     <AuthContext.Provider
       value={{
         accessToken,
-        login,
+        setAccessToken,
         logout,
       }}
     >
@@ -90,3 +82,5 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = memo(({ children 
     </AuthContext.Provider>
   )
 })
+
+AuthProvider.displayName = 'AuthProvider'

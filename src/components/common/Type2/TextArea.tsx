@@ -1,11 +1,13 @@
 import React from 'react'
+
 import { ErrorMessage } from '@hookform/error-message'
-import { TextAreaProps } from '~/types/FormElementType'
-import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { useFormContext } from 'react-hook-form'
 
 import styles from './common.module.scss'
+
+import { TextAreaProps } from '~/types/FormElementType'
+import { IFormValues } from '~/types/FormValuesType'
 
 const cx = classNames.bind(styles)
 

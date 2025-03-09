@@ -1,10 +1,13 @@
-import React, { memo, useRef, useState } from 'react'
+import process from 'process'
+
+import { memo, useRef, useState } from 'react'
+
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { DefaultLayoutType } from '~/types/LayoutType'
 import classNames from 'classnames/bind'
 
 import SideBar from '../../components/SideBar'
+
 import Language from './DefaultComponent/Language'
 import Navigator from './DefaultComponent/Navigator'
 import Notification from './DefaultComponent/Notification'
@@ -12,6 +15,8 @@ import SearchEngine from './DefaultComponent/SearchEngine'
 import ThemeMode from './DefaultComponent/ThemeMode'
 import UserMenu from './DefaultComponent/UserMenu'
 import styles from './DefaultLayout.module.scss'
+
+import { DefaultLayoutType } from '~/types/LayoutType'
 
 const cx = classNames.bind(styles)
 
@@ -21,7 +26,7 @@ function DefaultLayout({
   children,
   searchEngine = false,
   buttons,
-}: DefaultLayoutType): JSX.Element {
+}: DefaultLayoutType) {
   const [sideBarModalToggle, setSideBarModalToggle] = useState(false)
   const sideBarRef = useRef<HTMLDivElement>(null)
   const sideBarModalRef = useRef<HTMLDivElement>(null)

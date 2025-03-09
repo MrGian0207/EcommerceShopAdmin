@@ -1,15 +1,16 @@
-import styles from './ColumnChart.module.scss'
-
 import './ColumnChart.css'
 
 import { useEffect, useRef } from 'react'
+
 import ApexCharts from 'apexcharts'
 import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 
+import styles from './ColumnChart.module.scss'
+
 const cx = classNames.bind(styles)
 
-function ColumnChart(): JSX.Element {
+function ColumnChart() {
   const { t } = useTranslation('dashboard')
   const chartRef = useRef<HTMLDivElement>(null)
 

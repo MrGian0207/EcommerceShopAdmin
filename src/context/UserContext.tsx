@@ -1,3 +1,5 @@
+import process from 'process'
+
 import React, {
   createContext,
   ReactNode,
@@ -6,10 +8,11 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { UserContextType } from '~/types/ContextType'
-import { emptyDataUser, User } from '~/types/UserType'
 
 import { useAuth } from './AuthContext'
+
+import { UserContextType } from '~/types/ContextType'
+import { emptyDataUser, User } from '~/types/UserType'
 
 const UserContext = createContext<UserContextType>({
   loadingUser: false,

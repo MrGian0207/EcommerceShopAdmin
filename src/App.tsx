@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { publicRoutes } from '~/routes/routes'
+
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
@@ -10,6 +10,10 @@ import { PathContextProvider } from './context/PathContext'
 import { ProductContextProvider } from './context/ProductContext'
 import { TableContextProvider } from './context/TableContext'
 import { UserContextProvider } from './context/UserContext'
+
+import { publicRoutes } from '~/routes/routes'
+
+import 'swiper/css'
 
 import 'react-toastify/dist/ReactToastify.css'
 

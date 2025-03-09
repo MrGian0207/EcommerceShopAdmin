@@ -1,10 +1,13 @@
 import React from 'react'
-import VariantItems from '~/components/VariantItems'
-import { VariantType } from '~/types/DataType'
+
 import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 
+import VariantItems from '~/components/VariantItems'
+
 import styles from '../../ProductAdd/ProductAdd.module.scss'
+
+import { VariantType } from '~/types/DataType'
 
 const cx = classNames.bind(styles)
 

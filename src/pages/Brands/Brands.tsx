@@ -1,10 +1,18 @@
 import { useEffect } from 'react'
+
 import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import images from '~/assets/Image'
+import classNames from 'classnames/bind'
+import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
+
 import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import CustomTooltip from '~/components/Tooltip/CustomTooltip'
+
+import styles from './Brands.module.scss'
+
+import images from '~/assets/Image'
 import { BrandRoute } from '~/constant/PageRoute'
 import { BrandTableHeader } from '~/constant/Table'
 import { useDeleteData } from '~/context/DeleteDataContext'
@@ -20,11 +28,6 @@ import TableLayout, {
   TableHeaderCell,
   TableRow,
 } from '~/layouts/TableLayout'
-import classNames from 'classnames/bind'
-import { format } from 'date-fns'
-import { useTranslation } from 'react-i18next'
-
-import styles from './Brands.module.scss'
 
 const cx = classNames.bind(styles)
 
@@ -46,7 +49,7 @@ function Brands() {
         page={BrandRoute.BrandPage}
         searchEngine={true}
         buttons={[
-          <Button to={'/brands/add'} className="button-add">
+          <Button key={0} to={'/brands/add'} className="button-add">
             <FontAwesomeIcon icon={faPlus} />
             {t('actions.add_brands')}
           </Button>,

@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
+
 import { faHome, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import images from '~/assets/Image'
-import { useAuth } from '~/context/AuthContext'
-import { useUser } from '~/context/UserContext'
 import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 
 import styles from '../DefaultLayout.module.scss'
+
+import images from '~/assets/Image'
+import { useAuth } from '~/context/AuthContext'
+import { useUser } from '~/context/UserContext'
 
 const cx = classNames.bind(styles)
 

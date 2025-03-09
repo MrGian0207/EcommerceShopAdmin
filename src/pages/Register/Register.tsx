@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import process from 'process'
+
+import { useEffect, useState } from 'react'
+
 import {
   faEnvelope,
   faEye,
@@ -7,22 +10,24 @@ import {
   faUser,
   faVenus,
 } from '@fortawesome/free-solid-svg-icons'
-import api from '~/api/api'
+import classNames from 'classnames'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+
 import AuthHeader from '~/components/AuthHeader'
 import { Input, Select } from '~/components/common/Type2'
 import FormAuth from '~/components/FormAuth'
 import Spinner from '~/components/Spinner'
-import * as Toastify from '~/services/Toastify'
-import { IFormValues } from '~/types/FormValuesType'
-import classNames from 'classnames/bind'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import styles from './Register.module.scss'
 import { RegisterRules } from './RegisterRules'
 
+import api from '~/api/api'
+import * as Toastify from '~/services/Toastify'
+import { IFormValues } from '~/types/FormValuesType'
+
 const cx = classNames.bind(styles)
 
-function Register(): JSX.Element {
+function Register() {
   const methods = useForm<IFormValues>()
   const [loading, setLoading] = useState<boolean>(false)
 

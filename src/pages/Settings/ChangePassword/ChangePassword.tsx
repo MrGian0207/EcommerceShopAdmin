@@ -1,17 +1,23 @@
+import process from 'process'
+
 import { useEffect, useRef, useState } from 'react'
+
 import { faEye } from '@fortawesome/free-solid-svg-icons'
+import classNames from 'classnames'
+import { SubmitHandler, useForm, FormProvider } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+
 import { Input } from '~/components/common/Type2'
 import Spinner from '~/components/Spinner'
+
+import { SettingRules } from '../SettingsRules'
+
+import styles from './ChangePassword.module.scss'
+
 import { useAuth } from '~/context/AuthContext'
 import { useUser } from '~/context/UserContext'
 import * as Toastify from '~/services/Toastify'
 import { IFormValues } from '~/types/FormValuesType'
-import classNames from 'classnames/bind'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
-
-import { SettingRules } from '../SettingsRules'
-import styles from './ChangePassword.module.scss'
 
 const cx = classNames.bind(styles)
 

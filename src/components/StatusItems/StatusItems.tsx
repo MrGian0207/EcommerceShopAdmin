@@ -1,11 +1,12 @@
-import { StatusItemsType } from '~/types/StatusItemsType'
 import classNames from 'classnames/bind'
 
 import styles from './StatusItems.module.scss'
 
+import { StatusItemsType } from '~/types/StatusItemsType'
+
 const cx = classNames.bind(styles)
 
-function StatusItems({ quantity, statusDelivery, statusUser }: StatusItemsType): JSX.Element {
+function StatusItems({ quantity, statusDelivery, statusUser }: StatusItemsType) {
   let status: string = ''
   let style: string = ''
 

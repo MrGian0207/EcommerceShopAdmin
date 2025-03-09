@@ -8,7 +8,7 @@ export type SideBarType = {
 
 export type SideBarItemsType = {
   iconLeft: IconDefinition
-  children: string[]
+  labels: string[]
   iconRight?: boolean
   active?: boolean
   route?: string

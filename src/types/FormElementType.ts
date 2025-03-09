@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { RegisterOptions } from 'react-hook-form'
 

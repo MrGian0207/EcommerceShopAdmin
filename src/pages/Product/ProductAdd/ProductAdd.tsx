@@ -1,8 +1,23 @@
+import process from 'process'
+
 import React, { memo, useEffect, useState } from 'react'
+
+import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
+import ReactModal from 'react-modal'
+
 import OptionSelect from '~/components/common/OptionSelect'
 import Toggle from '~/components/common/ToggleButton'
 import { Input } from '~/components/common/Type1'
 import VariantForm from '~/components/VariantForm'
+
+import ProductSkeleton from '../ProductComponent/ProductSkeleton/ProductSkeleton'
+import Tag from '../ProductComponent/Tag'
+import VariantBox from '../ProductComponent/VariantBox'
+import { ProductRules } from '../ProductRules'
+
+import styles from './ProductAdd.module.scss'
+
 import { ProductRoute } from '~/constant/PageRoute'
 import { genderOptionsConstant, statusOptionsConstant } from '~/constant/SelectOptions'
 import { useAuth } from '~/context/AuthContext'
@@ -12,19 +27,10 @@ import ActionLayout from '~/layouts/ActionLayout'
 import DefaultLayout from '~/layouts/DefaultLayout'
 import { OptionType } from '~/types/DataType'
 import { handleSetDataOptions } from '~/utils/HandleSetDataOptions'
-import classNames from 'classnames/bind'
-import { useTranslation } from 'react-i18next'
-import ReactModal from 'react-modal'
-
-import ProductSkeleton from '../ProductComponent/ProductSkeleton/ProductSkeleton'
-import Tag from '../ProductComponent/Tag'
-import VariantBox from '../ProductComponent/VariantBox'
-import { ProductRules } from '../ProductRules'
-import styles from './ProductAdd.module.scss'
 
 const cx = classNames.bind(styles)
 
-function ProductAdd(): JSX.Element {
+function ProductAdd() {
   const { t } = useTranslation('product')
 
   const { accessToken } = useAuth()

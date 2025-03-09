@@ -1,11 +1,13 @@
 import { useRef } from 'react'
+
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useSearch } from '~/context/SearchContext'
 import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
 
 import styles from '../DefaultLayout.module.scss'
+
+import { useSearch } from '~/context/SearchContext'
 
 const cx = classNames.bind(styles)
 export default function SearchEngine() {

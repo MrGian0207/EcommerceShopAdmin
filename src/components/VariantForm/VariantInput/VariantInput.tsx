@@ -1,10 +1,11 @@
 import { ErrorMessage } from '@hookform/error-message'
-import { VariantInputProp } from '~/types/FormElementType'
-import { IFormValues } from '~/types/FormValuesType'
 import classNames from 'classnames/bind'
 import { useFormContext } from 'react-hook-form'
 
 import styles from '../VariantForm.module.scss'
+
+import { VariantInputProp } from '~/types/FormElementType'
+import { IFormValues } from '~/types/FormValuesType'
 
 const cx = classNames.bind(styles)
 

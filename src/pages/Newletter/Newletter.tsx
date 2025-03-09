@@ -1,9 +1,17 @@
 import { useEffect } from 'react'
+
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classNames from 'classnames'
+import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
+
 import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import CustomTooltip from '~/components/Tooltip'
+
+import styles from './Newletter.module.scss'
+
 import { NewletterRoute } from '~/constant/PageRoute'
 import { NewletterTableHeader } from '~/constant/Table'
 import { useTable } from '~/context/TableContext'
@@ -17,11 +25,6 @@ import TableLayout, {
   TableRow,
 } from '~/layouts/TableLayout'
 import * as Toastify from '~/services/Toastify'
-import classNames from 'classnames/bind'
-import { format } from 'date-fns'
-import { useTranslation } from 'react-i18next'
-
-import styles from './Newletter.module.scss'
 
 const cx = classNames.bind(styles)
 

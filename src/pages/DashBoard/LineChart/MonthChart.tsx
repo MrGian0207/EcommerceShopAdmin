@@ -1,16 +1,16 @@
-import classNames from 'classnames/bind'
-
-import styles from './LineChart.module.scss'
-
 import './LineChart.css'
 
 import { useEffect, useRef } from 'react'
+
 import ApexCharts from 'apexcharts'
+import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next'
+
+import styles from './LineChart.module.scss'
 
 const cx = classNames.bind(styles)
 
-function MonthChart(): JSX.Element {
+function MonthChart() {
   const { t } = useTranslation('dashboard')
   const chartRef = useRef<HTMLDivElement>(null)
 

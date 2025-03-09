@@ -1,11 +1,19 @@
 import { useEffect } from 'react'
+
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import images from '~/assets/Image'
+import classNames from 'classnames/bind'
+import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
+
 import Button from '~/components/common/Button'
 import RowTableSkeleton from '~/components/RowTableSkeleton'
 import StatusItems from '~/components/StatusItems'
 import CustomTooltip from '~/components/Tooltip/CustomTooltip'
+
+import styles from './Orders.module.scss'
+
+import images from '~/assets/Image'
 import { OrdersRoute } from '~/constant/PageRoute'
 import { OrdersTableHeader } from '~/constant/Table'
 import { usePath } from '~/context/PathContext'
@@ -20,15 +28,10 @@ import TableLayout, {
   TableHeaderCell,
   TableRow,
 } from '~/layouts/TableLayout'
-import classNames from 'classnames/bind'
-import { format } from 'date-fns'
-import { useTranslation } from 'react-i18next'
-
-import styles from './Orders.module.scss'
 
 const cx = classNames.bind(styles)
 
-function Orders(): JSX.Element {
+function Orders() {
   const { t } = useTranslation('orders')
   const { path } = usePath()
   const { loading, dataTable } = useTable()

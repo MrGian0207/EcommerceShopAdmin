@@ -1,19 +1,24 @@
+import process from 'process'
+
 import React, { useEffect, useState } from 'react'
-import { Input, TextArea } from '~/components/common/Type1'
-import { SlidesRoute } from '~/constant/PageRoute'
-import { useAuth } from '~/context/AuthContext'
-import { usePath } from '~/context/PathContext'
-import ActionLayout from '~/layouts/ActionLayout'
-import DefaultLayout from '~/layouts/DefaultLayout'
-import { emptySlide, SlideType } from '~/types/DataType'
-import classNames from 'classnames/bind'
+
+import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
+
+import { Input, TextArea } from '~/components/common/Type1'
 
 import styles from '../Slides.module.scss'
 import DisplaySlide from '../SlidesComponent/DisplaySlide'
 import SlideImage from '../SlidesComponent/SlideImage'
 import SlideSkeleton from '../SlideSkeleton/SlideSkeleton'
 import { SlidesRules } from '../SlidesRule'
+
+import { SlidesRoute } from '~/constant/PageRoute'
+import { useAuth } from '~/context/AuthContext'
+import { usePath } from '~/context/PathContext'
+import ActionLayout from '~/layouts/ActionLayout'
+import DefaultLayout from '~/layouts/DefaultLayout'
+import { emptySlide, SlideType } from '~/types/DataType'
 
 const cx = classNames.bind(styles)
 

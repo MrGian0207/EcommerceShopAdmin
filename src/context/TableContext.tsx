@@ -1,11 +1,15 @@
+import process from 'process'
+
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { DataTableType } from '~/types/TableType'
+
 import { SetURLSearchParams, useSearchParams } from 'react-router-dom'
 
 import { useAuth } from './AuthContext'
 import { usePath } from './PathContext'
 import { useSearch } from './SearchContext'
 import { useUpdateLayout } from './UpdateLayoutContext'
+
+import { DataTableType } from '~/types/TableType'
 
 interface TableContextType {
   loading: boolean
