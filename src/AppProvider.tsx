@@ -19,7 +19,13 @@ const providers = [
 ]
 
 export default function AppProviders({ children }: { children: React.ReactNode }) {
-  return providers.reduceRight((acc, Provider) => {
-    return <Provider>{acc}</Provider>
-  }, children)
+  return (
+    <>
+      {providers.length > 0 ? (
+        providers.reduceRight((acc, Provider) => <Provider>{acc}</Provider>, children)
+      ) : (
+        <>{children}</>
+      )}
+    </>
+  )
 }
